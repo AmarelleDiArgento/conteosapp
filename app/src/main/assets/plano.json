@@ -1,0 +1,38 @@
+[
+  {
+    "idSiembra": 1,
+    "idFinca": 1,
+    "finca": "Carnation",
+    "idBloque": 1,
+    "bloque": "BL 01",
+    "idVariedad": 1,
+    "variedad": "null"
+  },
+  {
+    "idSiembra": 2,
+    "idFinca": 1,
+    "finca": "Carnation",
+    "idBloque": 1,
+    "bloque": "BL 02",
+    "idVariedad": 1,
+    "variedad": "null"
+  },
+  {
+    "idSiembra": 3,
+    "idFinca": 1,
+    "finca": "Carnation",
+    "idBloque": 1,
+    "bloque": "BL 03",
+    "idVariedad": 1,
+    "variedad": "null"
+  },
+  {
+    "idSiembra": 4,
+    "idFinca": 1,
+    "finca": "Carnation",
+    "idBloque": 1,
+    "bloque": "BL 01",
+    "idVariedad": 1,
+    "variedad": "null"
+  }
+]
