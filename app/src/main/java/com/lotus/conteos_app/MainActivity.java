@@ -238,6 +238,7 @@ public class MainActivity extends AppCompatActivity {
     public void sumFen1(View v) {
         int n = valnum(c1);
         c1.setText(String.valueOf(n + 1));
+        Toast.makeText(this,"hola tu",Toast.LENGTH_SHORT).show();
     }
 
     // Disminuir conteo de semana 1
