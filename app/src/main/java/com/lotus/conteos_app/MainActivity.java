@@ -1,7 +1,5 @@
-package com.example.conteos_app;
+package com.lotus.conteos_app;
 
-import android.content.Context;
-import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -20,24 +18,17 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.ObjectOutputStream;
-import java.io.OutputStream;
-import java.io.StringReader;
-import java.nio.Buffer;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import com.example.conteos_app.Model.iPlano;
-import com.example.conteos_app.Model.tab.conteoTab;
+import com.lotus.conteos_app.Model.iPlano;
+import com.lotus.conteos_app.Model.tab.conteoTab;
 
-import com.example.conteos_app.Model.iConteo;
-import com.example.conteos_app.Model.tab.planoTab;
+import com.lotus.conteos_app.Model.iConteo;
+import com.lotus.conteos_app.Model.tab.planoTab;
 
 import com.google.gson.reflect.TypeToken;
 
@@ -92,9 +83,9 @@ public class MainActivity extends AppCompatActivity {
         cuadro.setAdapter(cuadroArray);
 
         // iniciar listas
-         actualizarPlano();
-         cargarPlanoLocal();
-         listFiles();
+        actualizarPlano();
+        cargarPlanoLocal();
+        listFiles();
     }
 
     private void listFiles() {
@@ -146,8 +137,9 @@ public class MainActivity extends AppCompatActivity {
             }.getType());
 
         } catch (Exception e) {
-            //data.setText(e.toString());
+            data.setText(e.toString());
             Toast.makeText(this, "Error: " + e.toString(), Toast.LENGTH_LONG).show();
+
         }
     }
 
@@ -178,14 +170,18 @@ public class MainActivity extends AppCompatActivity {
 
     // registra conteos en arreglo local (REQUIERE UNA LISTA GLOBAL)
     public void registrarConteo(View v) {
+        Date hoy = new Date();
+
         try {
-
-
             conteoTab c = new conteoTab();
             c.setIdSiembra(Long.parseLong(siembra.getText().toString()));
+            c.setFecha(hoy);
             c.setCuadro(Integer.parseInt(cuadro.getSelectedItem().toString()));
-            c.setC1(Integer.parseInt(c1.getText().toString()));
-            c.setC4(Integer.parseInt(c4.getText().toString()));
+            c.setConteo1(Integer.parseInt(c1.getText().toString()));
+            c.setConteo2(0);
+            c.setConteo3(0);
+            c.setConteo4(Integer.parseInt(c4.getText().toString()));
+            c.setIdUsuario(123);
             cl.add(c);
             data.setText(cl.toString());
             String nombre = hoy();
@@ -193,6 +189,16 @@ public class MainActivity extends AppCompatActivity {
             CrearArchivo(nombre, nombre + ": " + cl.toString());
             listFiles();
 
+        } catch (Exception e) {
+
+            Toast.makeText(this, e.toString(), Toast.LENGTH_LONG).show();
+        }
+    }
+
+    public void btnReg(View v) {
+        try {
+            String nombre = files.getSelectedItem().toString();
+            registarBdConteos(nombre);
 
         } catch (Exception e) {
 
@@ -208,6 +214,8 @@ public class MainActivity extends AppCompatActivity {
             Gson gson = new Gson();
             cl = gson.fromJson(ObtenerLista(fecha), new TypeToken<List<planoTab>>() {
             }.getType());
+
+            Toast.makeText(this, cl.size(), Toast.LENGTH_LONG);
 
             for (conteoTab c : cl) {
                 msj = msj + iC.insert(c);
@@ -255,7 +263,6 @@ public class MainActivity extends AppCompatActivity {
             c4.setText(String.valueOf(n - 1));
         }
     }
-
 
     /*
      *  ----------------------------------------------------------------------------------

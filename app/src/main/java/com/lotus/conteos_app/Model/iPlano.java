@@ -1,9 +1,9 @@
-package com.example.conteos_app.Model;
+package com.lotus.conteos_app.Model;
 
-import com.example.conteos_app.Model.interfaz.plano;
-import com.example.conteos_app.Model.tab.planoTab;
+import com.lotus.conteos_app.Model.interfaz.plano;
+import com.lotus.conteos_app.Model.tab.planoTab;
 
-import com.example.conteos_app.Config.sqlConect;
+import com.lotus.conteos_app.Config.sqlConect;
 
 
 import java.sql.Connection;
@@ -15,21 +15,21 @@ import java.util.List;
 public class iPlano extends sqlConect implements plano {
     Connection cn = null;
 
-    final String ins = "INSERT INTO plano\n" +
-            "(idSiembra, idFinca, finca, idBloque, bloque, idVariedad, variedad)\n" +
-            "VALUES(?, ?, ?, ?, ?, ?, ?);\n";
+    final String ins = "INSERT INTO Plano_Siembra\n" +
+            "(idSiembra, idFinca, finca, idBloque, bloque, idVariedad, variedad, cama, sufijo)\n" +
+            "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?);\n";
     final String upd = "UPDATE plano SET\\n\" +\n" +
-            "idSiembra=?, idFinca=?, finca=?, idBloque=?, bloque=?, idVariedad=?, variedad=?;";
-    final String del = "DELETE FROM plano\n" +
+            "idSiembra=?, idFinca=?, finca=?, idBloque=?, bloque=?, idVariedad=?, variedad=?, cama=?, sufijo=?;";
+    final String del = "DELETE FROM Plano_Siembra\n" +
             "WHERE idSiembra=?";
-    final String one = "SELECT idSiembra, idFinca, finca, idBloque, bloque, idVariedad, variedad \n" +
-            "FROM plano;\n" +
+    final String one = "SELECT idSiembra, idFinca, finca, idBloque, bloque, idVariedad, variedad, cama, sufijo \n" +
+            "FROM Plano_Siembra;\n" +
             "WHERE idSiembra=?";
-    final String nam = "SELECT idSiembra, idFinca, finca, idBloque, bloque, idVariedad, variedad \n" +
-            "FROM plano;\n" +
+    final String nam = "SELECT idSiembra, idFinca, finca, idBloque, bloque, idVariedad, variedad, cama, sufijo \n" +
+            "FROM Plano_Siembra;\n" +
             "WHERE finca=?";
-    final String all = "SELECT idSiembra, idFinca, finca, idBloque, bloque, idVariedad, variedad \n" +
-            "FROM plano;\n";
+    final String all = "SELECT idSiembra, idFinca, finca, idBloque, bloque, idVariedad, variedad, cama, sufijo \n" +
+            "FROM Plano_Siembra;\n";
 
 
     public iPlano() throws Exception {
@@ -46,8 +46,10 @@ public class iPlano extends sqlConect implements plano {
             ps.setString(3, o.getFinca());
             ps.setInt(4, o.getIdBloque());
             ps.setString(5, o.getBloque());
-            ps.setInt(6, o.getidVariedad());
+            ps.setInt(6, o.getIdVariedad());
             ps.setString(7, o.getVariedad());
+            ps.setInt(8, o.getCama());
+            ps.setString(9, o.getSufijo());
             if (ps.executeUpdate() == 0) {
                 msj = "Ups, algo salio mal. No se registro la siembra #" + o.getIdSiembra();
             } else {
@@ -71,8 +73,10 @@ public class iPlano extends sqlConect implements plano {
             ps.setString(3, o.getFinca());
             ps.setInt(4, o.getIdBloque());
             ps.setString(5, o.getBloque());
-            ps.setInt(6, o.getidVariedad());
+            ps.setInt(6, o.getIdVariedad());
             ps.setString(7, o.getVariedad());
+            ps.setInt(8, o.getCama());
+            ps.setString(9, o.getSufijo());
             if (ps.executeUpdate() == 0) {
                 msj = "Ups, algo salio mal. No se actualizo la siembra #" + o.getIdSiembra();
             } else {
@@ -112,8 +116,10 @@ public class iPlano extends sqlConect implements plano {
         p.setFinca(rs.getString("finca"));
         p.setIdBloque(rs.getInt("idbloque"));
         p.setBloque(rs.getString("bloque"));
-        p.setidVariedad(rs.getInt("idVariedad"));
+        p.setIdVariedad(rs.getInt("idVariedad"));
         p.setVariedad(rs.getString("variedad"));
+        p.setCama(rs.getInt("cama"));
+        p.setSufijo(rs.getString("sufijo"));
         return p;
     }
 

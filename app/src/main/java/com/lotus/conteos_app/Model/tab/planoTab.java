@@ -1,4 +1,4 @@
-package com.example.conteos_app.Model.tab;
+package com.lotus.conteos_app.Model.tab;
 
 public class planoTab {
     private Long idSiembra;
@@ -8,25 +8,29 @@ public class planoTab {
     private String bloque;
     private int idVariedad;
     private String variedad;
+    private int cama;
+    private String sufijo;
 
     public planoTab() {
     }
 
-    public planoTab(long idSiembra, int idFinca, String finca, int idBloque, String bloque, int idVariedad, String variedad) {
-        this.idSiembra = idSiembra;
-        this.idFinca = idFinca;
-        this.finca = finca;
-        this.idBloque = idBloque;
-        this.bloque = bloque;
-        this.idVariedad = idVariedad;
-        this.variedad = variedad;
+    public planoTab(Long idSiembra, int idFinca, String finca, int idBloque, String bloque, int idVariedad, String variedad, int cama, String sufijo) {
+        this.setIdSiembra(idSiembra);
+        this.setIdFinca(idFinca);
+        this.setFinca(finca);
+        this.setIdBloque(idBloque);
+        this.setBloque(bloque);
+        this.setIdVariedad(idVariedad);
+        this.setVariedad(variedad);
+        this.setCama(cama);
+        this.setSufijo(sufijo);
     }
 
-    public long getIdSiembra() {
+    public Long getIdSiembra() {
         return idSiembra;
     }
 
-    public void setIdSiembra(long idSiembra) {
+    public void setIdSiembra(Long idSiembra) {
         this.idSiembra = idSiembra;
     }
 
@@ -62,11 +66,11 @@ public class planoTab {
         this.bloque = bloque;
     }
 
-    public int getidVariedad() {
+    public int getIdVariedad() {
         return idVariedad;
     }
 
-    public void setidVariedad(int idVariedad) {
+    public void setIdVariedad(int idVariedad) {
         this.idVariedad = idVariedad;
     }
 
@@ -75,11 +79,30 @@ public class planoTab {
     }
 
     public void setVariedad(String variedad) {
-        variedad = variedad;
+        this.variedad = variedad;
+    }
+
+    public int getCama() {
+        return cama;
+    }
+
+    public void setCama(int cama) {
+        this.cama = cama;
+    }
+
+    public String getSufijo() {
+        return sufijo;
+    }
+
+    public void setSufijo(String sufijo) {
+        this.sufijo = sufijo;
     }
 
     @Override
     public String toString() {
+        if(sufijo.length()>0){
+
+        }
         return "{" +
                 "\"idSiembra\":" + idSiembra + ",\n" +
                 "\"idFinca\":" + idFinca + ",\n" +
@@ -87,11 +110,11 @@ public class planoTab {
                 "\"idBloque\":" + idBloque + ",\n" +
                 "\"bloque\": \"" + bloque + "\",\n" +
                 "\"idVariedad\": " + idVariedad + ",\n" +
-                "\"variedad\": \"" + variedad + "\"\n" +
+                "\"variedad\": \"" + variedad + "\",\n" +
+                "\"cama\": " + cama + ",\n" +
+                "\"sufijo\": \"" + sufijo + "\"\n" +
                 "}";
     }
-
-    /* public String message;*/
 
 
 }
