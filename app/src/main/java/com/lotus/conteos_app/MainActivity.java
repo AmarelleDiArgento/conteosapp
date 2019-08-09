@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.lotus.conteos_app.Config.jsonAdmin;
 import com.lotus.conteos_app.Model.iPlano;
 import com.lotus.conteos_app.Model.tab.conteoTab;
 
@@ -54,6 +55,12 @@ public class MainActivity extends AppCompatActivity {
     List<conteoTab> cl = new ArrayList<>();
     List<planoTab> pl = new ArrayList<>();
 
+    /*
+
+     */
+    jsonAdmin ja = null;
+    String path = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,43 +89,37 @@ public class MainActivity extends AppCompatActivity {
         ArrayAdapter<String> cuadroArray = new ArrayAdapter<>(this, R.layout.spinner_item_personal, cuadros);
         cuadro.setAdapter(cuadroArray);
 
+
+        //obtiene ruta donde se encuentran los archivos.
+        path = getExternalFilesDir(null) + File.separator;
+        ja = new jsonAdmin(path);
+
         // iniciar listas
         actualizarPlano();
         cargarPlanoLocal();
         listFiles();
+        /* */
     }
 
     private void listFiles() {
-        List<String> list = new ArrayList<String>();
-        //obtiene ruta donde se encuentran los archivos.
-        String path = getExternalFilesDir(null) + File.separator;
-        File f = new File(path);
-        //obtiene nombres de archivos dentro del directorio.
-        File file[] = f.listFiles();
-        for (int i = 0; i < file.length; i++) {
-            Log.d("Files", "Archivo : " + file[i].getName());
-            //Agrega nombres de archivos a List para ser agregado a adapter.
-            if (!file[i].getName().equalsIgnoreCase("plano.json")) {
-
-                list.add(file[i].getName());
-            }
+        try {
+            List<String> list = ja.listFiles();
+            // asociar arreglo cuadros al desplegable cuadro
+            ArrayAdapter<String> fl = new ArrayAdapter<>(this, R.layout.spinner_item_personal, list);
+            files.setAdapter(fl);
+            // data.setText(list.toString());
+        } catch (Exception e) {
+            Toast.makeText(this, e.toString(), Toast.LENGTH_LONG).show();
         }
-
-
-        // asociar arreglo cuadros al desplegable cuadro
-        ArrayAdapter<String> fl = new ArrayAdapter<>(this, R.layout.spinner_item_personal, list);
-        files.setAdapter(fl);
-        // data.setText(list.toString());
     }
 
-    // lectura de codigo de barras
     // descarga el plano de la basde datos y lo alamcena en plano.json (Archivo local)
     public void actualizarPlano() {
         try {
             iPlano iP = new iPlano();
             String nombre = "plano";
             String contenido = iP.all().toString();
-            if (CrearArchivo(nombre, contenido)) {
+            if (ja.CrearArchivo(nombre, contenido)) {
                 Toast.makeText(this, "Plano generado exitosamente", Toast.LENGTH_LONG).show();
             } else {
                 Toast.makeText(this, "Error al generar el plano", Toast.LENGTH_LONG).show();
@@ -131,15 +132,13 @@ public class MainActivity extends AppCompatActivity {
     // convierte el contenido del archivo plano.json en un arreglo (REQUIERE UNA LISTA GLOBAL)
     public void cargarPlanoLocal() {
         try {
-
             Gson gson = new Gson();
-            pl = gson.fromJson(ObtenerLista("plano.json"), new TypeToken<List<planoTab>>() {
+            pl = gson.fromJson(ja.ObtenerLista("plano.json"), new TypeToken<List<planoTab>>() {
             }.getType());
 
         } catch (Exception e) {
             data.setText(e.toString());
             Toast.makeText(this, "Error: " + e.toString(), Toast.LENGTH_LONG).show();
-
         }
     }
 
@@ -151,7 +150,7 @@ public class MainActivity extends AppCompatActivity {
         if (pl != null || bs != 0) {
             for (planoTab p : pl) {
                 if (p.getIdSiembra() == bs) {
-                    infoS = "Finca: " + p.getFinca() + " Bloque: " + p.getBloque() + "  Variedad: " + p.getVariedad();
+                    infoS = "Finca: " + p.getFinca() + " Bloque: " + p.getBloque() + "  Variedad: " + p.getVariedad() + " Cama: " + p.getCama() + p.getSufijo();
                 }
             }
 
@@ -166,7 +165,6 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, "Informacion invalida", Toast.LENGTH_LONG).show();
         }
     }
-
 
     // registra conteos en arreglo local (REQUIERE UNA LISTA GLOBAL)
     public void registrarConteo(View v) {
@@ -186,7 +184,7 @@ public class MainActivity extends AppCompatActivity {
             data.setText(cl.toString());
             String nombre = hoy();
 
-            CrearArchivo(nombre, nombre + ": " + cl.toString());
+            ja.CrearArchivo(nombre, cl.toString());
             listFiles();
 
         } catch (Exception e) {
@@ -212,17 +210,19 @@ public class MainActivity extends AppCompatActivity {
             String msj = "";
 
             Gson gson = new Gson();
-            cl = gson.fromJson(ObtenerLista(fecha), new TypeToken<List<planoTab>>() {
+            cl = gson.fromJson(ja.ObtenerLista(fecha), new TypeToken<List<planoTab>>() {
             }.getType());
 
-            Toast.makeText(this, cl.size(), Toast.LENGTH_LONG);
+            Toast.makeText(this, cl.size(), Toast.LENGTH_LONG).show();
 
             for (conteoTab c : cl) {
                 msj = msj + iC.insert(c);
             }
-            Toast.makeText(this, msj, Toast.LENGTH_LONG);
+            Toast.makeText(this, msj, Toast.LENGTH_LONG).show();
+            ;
         } catch (Exception e) {
-            Toast.makeText(this, e.toString(), Toast.LENGTH_LONG);
+            Toast.makeText(this, e.toString(), Toast.LENGTH_LONG).show();
+            ;
 
         }
 
@@ -290,47 +290,6 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         return n;
-    }
-
-    // generador de archivos, requiere dos cadenas de texto nombre de archivo y contenido del mismo
-    public boolean CrearArchivo(String nombre, String contenido) {
-        boolean ok = false;
-        try {
-            FileOutputStream fos = null;
-            File f = new File(getExternalFilesDir(null), nombre + ".json");
-            fos = new FileOutputStream(f);
-            fos.write(contenido.getBytes());
-            fos.close();
-
-            ok = true;
-        } catch (Exception e) {
-            data.setText(e.toString());
-            ok = false;
-        }
-        return ok;
-    }
-
-    public String ObtenerLista(String nombre) {
-        String jsonString = "";
-        try {
-
-            String path = getExternalFilesDir(null) + File.separator + nombre;
-            File file = new File(path);
-            FileInputStream fis = new FileInputStream(file);
-            InputStreamReader isr = new InputStreamReader(fis, "UTF-8");
-            BufferedReader br = new BufferedReader(isr);
-            StringBuilder sb = new StringBuilder();
-            String line;
-            while ((line = br.readLine()) != null) {
-                sb.append(line).append("\n");
-            }
-            jsonString = sb.toString();
-
-        } catch (Exception e) {
-            //data.setText(e.toString());
-            Toast.makeText(this, "Error: " + e.toString(), Toast.LENGTH_LONG).show();
-        }
-        return jsonString;
     }
 
 
