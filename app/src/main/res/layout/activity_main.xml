@@ -6,236 +6,492 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <TableLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="8dp"
+    <Button
+        android:id="@+id/button1"
+        android:layout_width="152dp"
+        android:layout_height="71dp"
+        android:layout_marginStart="184dp"
+        android:layout_marginTop="652dp"
+        android:onClick="registrarConteo"
+        android:text="Conteo"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="160dp"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="8dp"
-        tools:ignore="MissingConstraints">
+        app:srcCompat="@drawable/plantillagrande" />
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="117dp"
+        android:layout_height="70dp"
+        android:layout_marginStart="240dp"
+        android:layout_marginTop="900dp"
+        android:text="Button"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-            <EditText
-                android:id="@+id/grados-et"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_span="4"
-                android:ems="10"
-                android:inputType="number"
-                android:textAlignment="center"
-                android:textSize="24sp" />
+    <Button
+        android:id="@+id/button3"
+        android:layout_width="146dp"
+        android:layout_height="76dp"
+        android:layout_marginStart="140dp"
+        android:layout_marginTop="900dp"
+        android:onClick="btnReg"
+        android:text="Button"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        </TableRow>
+    <Button
+        android:id="@+id/button4"
+        android:layout_width="163dp"
+        android:layout_height="63dp"
+        android:layout_marginTop="900dp"
+        android:text="Button"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+    <EditText
+        android:id="@+id/data-tvm"
+        android:layout_width="146dp"
+        android:layout_height="41dp"
+        android:layout_marginStart="208dp"
+        android:layout_marginTop="744dp"
+        android:layout_span="4"
+        android:ems="10"
+        android:gravity="start|top"
+        android:inputType="textMultiLine"
+        android:textAlignment="center"
+        android:textSize="10sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-            <EditText
-                android:id="@+id/siembra-et"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_span="2"
-                android:ems="10"
-                android:inputType="number"
-                android:textAlignment="center"
-                android:textSize="24sp" />
+    <Spinner
+        android:id="@+id/file-sp"
+        android:layout_width="148dp"
+        android:layout_height="36dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="752dp"
+        android:layout_span="3"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-            <Button
-                android:id="@+id/scanner-bt"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_span="1"
-                android:onClick="barcode"
-                android:text="leer" />
+    <Button
+        android:id="@+id/button"
+        android:layout_width="168dp"
+        android:layout_height="71dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="824dp"
+        android:layout_span="1"
+        android:onClick="btnReg"
+        android:text="Subir"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-            <Button
-                android:id="@+id/buscar-bt"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_span="1"
-                android:onClick="buscarSiembra"
-                android:text="buscar" />
-        </TableRow>
+    <EditText
+        android:id="@+id/siembra-et"
+        android:layout_width="146dp"
+        android:layout_height="41dp"
+        android:layout_marginStart="388dp"
+        android:layout_marginTop="744dp"
+        android:layout_span="2"
+        android:ems="10"
+        android:inputType="number"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+    <EditText
+        android:id="@+id/grados-et"
+        android:layout_width="146dp"
+        android:layout_height="42dp"
+        android:layout_marginStart="388dp"
+        android:layout_marginTop="680dp"
+        android:layout_span="4"
+        android:ems="10"
+        android:inputType="number"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/info-tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_span="4"
-                android:textAlignment="center"
-                android:textSize="16sp" />
-        </TableRow>
+    <Button
+        android:id="@+id/scanner-bt"
+        android:layout_width="187dp"
+        android:layout_height="49dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="92dp"
+        android:layout_span="1"
+        android:drawableRight="@drawable/scann"
+        android:onClick="barcode"
+        android:text="ESCANEAR CODIGO"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+    <Button
+        android:id="@+id/buscar-bt"
+        android:layout_width="181dp"
+        android:layout_height="73dp"
+        android:layout_marginTop="652dp"
+        android:layout_span="1"
+        android:onClick="buscarSiembra"
+        android:text="buscar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-            <Spinner
-                android:id="@+id/cuadro-sp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_span="4"
-                android:textAlignment="center" />
-        </TableRow>
+    <TextView
+        android:id="@+id/info-tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_span="4"
+        android:textAlignment="center"
+        android:textSize="16sp"
+        tools:layout_editor_absoluteY="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+    <Spinner
+        android:id="@+id/cuadro-sp"
+        android:layout_width="93dp"
+        android:layout_height="39dp"
+        android:layout_marginStart="180dp"
+        android:layout_marginTop="272dp"
+        android:layout_span="4"
+        android:textAlignment="center"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-            <EditText
-                android:id="@+id/c1-et"
-                android:layout_width="99dp"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="number"
-                android:textAlignment="center"
-                android:textSize="24sp" />
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="354dp"
+        android:layout_height="97dp"
+        android:layout_marginStart="240dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/logoheader" />
 
-            <EditText
-                android:id="@+id/c2-et"
-                android:layout_width="98dp"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="number"
-                android:textAlignment="center"
-                android:textSize="24sp" />
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="16dp"
+        android:text="Fecha:"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-            <EditText
-                android:id="@+id/c3-et"
-                android:layout_width="98dp"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="number"
-                android:textAlignment="center"
-                android:textSize="24sp" />
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="52dp"
+        android:text="Monitor:"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-            <EditText
-                android:id="@+id/c4-et"
-                android:layout_width="99dp"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="number"
-                android:textAlignment="center"
-                android:textSize="24sp" />
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="152dp"
+        android:text="CONTEO"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        </TableRow>
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="609dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="160dp"
+        android:text="------------------------------------------------------------------------------------------------------------------------------------------------"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+    <ImageButton
+        android:id="@+id/feno1-ib"
+        android:layout_width="88dp"
+        android:layout_height="114dp"
+        android:layout_marginStart="56dp"
+        android:layout_marginTop="472dp"
+        android:layout_span="2"
+        android:onClick="sumFen1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@mipmap/ic_launcher_round" />
 
-            <ImageButton
-                android:id="@+id/feno1-ib"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_span="2"
-                android:onClick="sumFen1"
-                app:srcCompat="@mipmap/ic_launcher_round" />
+    <ImageButton
+        android:id="@+id/feno2-ib"
+        android:layout_width="103dp"
+        android:layout_height="114dp"
+        android:layout_marginStart="448dp"
+        android:layout_marginTop="464dp"
+        android:layout_span="2"
+        android:onClick="sumFen2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@mipmap/ic_launcher_round" />
 
-            <ImageButton
-                android:id="@+id/feno2-ib"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_span="2"
-                android:onClick="sumFen2"
-                app:srcCompat="@mipmap/ic_launcher_round" />
-        </TableRow>
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="184dp"
+        android:text="Tipo"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="204dp"
+        android:layout_marginTop="184dp"
+        android:text="Finca"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-            <Button
-                android:id="@+id/resFen1-bt"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_span="2"
-                android:onClick="resFen1"
-                android:text="restar" />
+    <TextView
+        android:id="@+id/textView7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="368dp"
+        android:layout_marginTop="184dp"
+        android:text="Variedad"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-            <Button
-                android:id="@+id/resFen2-bt"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_span="2"
-                android:onClick="resFen2"
-                android:text="restar" />
-        </TableRow>
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="224dp"
+        android:text="Bloque"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+    <TextView
+        android:id="@+id/textView9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="204dp"
+        android:layout_marginTop="224dp"
+        android:text="Linea"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-            <Button
-                android:id="@+id/button1"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:onClick="registrarConteo"
-                android:text="Conteo" />
+    <TextView
+        android:id="@+id/textView13"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="368dp"
+        android:layout_marginTop="224dp"
+        android:text="Punto de corte"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-            <Button
-                android:id="@+id/button2"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="Button" />
+    <TextView
+        android:id="@+id/textView14"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="256dp"
+        android:text="Grados dia"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-            <Button
-                android:id="@+id/button3"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:onClick="btnReg"
-                android:text="Button" />
+    <EditText
+        android:id="@+id/c1-et"
+        android:layout_width="99dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="56dp"
+        android:layout_marginTop="368dp"
+        android:ems="10"
+        android:inputType="number"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-            <Button
-                android:id="@+id/button4"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="Button" />
-        </TableRow>
+    <EditText
+        android:id="@+id/c2-et"
+        android:layout_width="98dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="188dp"
+        android:layout_marginTop="368dp"
+        android:ems="10"
+        android:inputType="number"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+    <EditText
+        android:id="@+id/c3-et"
+        android:layout_width="98dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="324dp"
+        android:layout_marginTop="368dp"
+        android:ems="10"
+        android:inputType="number"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-            <EditText
-                android:id="@+id/data-tvm"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_span="4"
-                android:ems="10"
-                android:gravity="start|top"
-                android:inputType="textMultiLine"
-                android:textAlignment="center"
-                android:textSize="10sp" />
+    <EditText
+        android:id="@+id/c4-et"
+        android:layout_width="99dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="448dp"
+        android:layout_marginTop="368dp"
+        android:ems="10"
+        android:inputType="number"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        </TableRow>
+    <Button
+        android:id="@+id/resFen1-bt"
+        android:layout_width="105dp"
+        android:layout_height="106dp"
+        android:layout_marginStart="188dp"
+        android:layout_marginTop="472dp"
+        android:layout_span="2"
+        android:onClick="resFen1"
+        android:text="restar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <TableRow
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" >
+    <Button
+        android:id="@+id/resFen2-bt"
+        android:layout_width="104dp"
+        android:layout_height="104dp"
+        android:layout_marginStart="324dp"
+        android:layout_marginTop="472dp"
+        android:layout_span="2"
+        android:onClick="resFen2"
+        android:text="restar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-            <Spinner
-                android:id="@+id/file-sp"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_span="3" />
+    <TextView
+        android:id="@+id/textView15"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="336dp"
+        android:layout_marginTop="328dp"
+        android:text="Conteo1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-            <Button
-                android:id="@+id/button"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_span="1"
-                android:onClick="btnReg"
-                android:text="Subir" />
-        </TableRow>
-    </TableLayout>
+    <TextView
+        android:id="@+id/textView16"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="468dp"
+        android:layout_marginTop="328dp"
+        android:text="Conteo1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView17"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="72dp"
+        android:layout_marginTop="328dp"
+        android:text="Conteo1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView18"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="204dp"
+        android:layout_marginTop="328dp"
+        android:text="Conteo1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView19"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="424dp"
+        android:text="Cantidades"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView20"
+        android:layout_width="613dp"
+        android:layout_height="22dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="444dp"
+        android:text="------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView21"
+        android:layout_width="133dp"
+        android:layout_height="27dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="284dp"
+        android:text="Selecciona el cuadro"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="114dp"
+        android:layout_height="95dp"
+        android:layout_marginStart="448dp"
+        android:layout_marginTop="344dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/verdeplantilla" />
+
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="114dp"
+        android:layout_height="95dp"
+        android:layout_marginStart="180dp"
+        android:layout_marginTop="348dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/verdeplantilla" />
+
+    <ImageView
+        android:id="@+id/imageView5"
+        android:layout_width="114dp"
+        android:layout_height="95dp"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="348dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/verdeplantilla" />
+
+    <ImageView
+        android:id="@+id/imageView6"
+        android:layout_width="114dp"
+        android:layout_height="95dp"
+        app:srcCompat="@drawable/verdeplantilla"
+        tools:layout_editor_absoluteX="314dp"
+        tools:layout_editor_absoluteY="347dp" />
 
 </android.support.constraint.ConstraintLayout>
