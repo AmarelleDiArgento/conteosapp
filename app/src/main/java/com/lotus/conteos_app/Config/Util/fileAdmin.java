@@ -9,29 +9,32 @@ import android.widget.Toast;
 
 import java.io.File;
 
-public abstract class FileAdmin {
+public abstract class fileAdmin {
 
 
-    private ImageView img_cambia;
+    public String sdPath = null;
+
+    public fileAdmin() {
+        this.sdPath = Environment.getExternalStorageDirectory() + File.separator;
+    }
 
     //METODO PARA CAMBIAR LA IMAGEN SEGUN LO TIPEADO EN EL TEXTPLAIN
-    public void btn_consulta (View view){
+    public void btn_consulta(ImageView imageView, String file_name) throws Exception{
 
-        String SD_CARD_PATH = Environment.getExternalStorageDirectory().toString();
-        File file = new File(SD_CARD_PATH + "/"+"prueba.jpg");
-        if(file.exists()){
+        File file = new File(sdPath + file_name);
+        if (file.exists()) {
 
-            try{
+            try {
                 //Toast.makeText(this,""+file,Toast.LENGTH_LONG).show();
-                Bitmap mybit= BitmapFactory.decodeFile(SD_CARD_PATH + "/"+"prueba.jpg");
-                img_cambia.setImageBitmap(mybit);
-            }catch (Exception ex){
+                Bitmap mybit = BitmapFactory.decodeFile(file.getAbsolutePath());
+                imageView.setImageBitmap(mybit);
+            } catch (Exception ex) {
 
                 //Toast.makeText(this,"se efectuo un error---->" +ex.toString(),Toast.LENGTH_LONG).show();
 
             }
 
-        }else{
+        } else {
             //Toast.makeText(this,"xxxxxxxx"+file,Toast.LENGTH_LONG).show();
         }
     }

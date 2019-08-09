@@ -1,4 +1,4 @@
-package com.lotus.conteos_app.Config;
+package com.lotus.conteos_app.Config.Util;
 
 import android.app.Activity;
 import android.os.Bundle;

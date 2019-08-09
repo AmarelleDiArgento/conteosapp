@@ -1,8 +1,4 @@
-package com.lotus.conteos_app.Config;
-
-import android.nfc.Tag;
-import android.util.Log;
-import android.widget.Toast;
+package com.lotus.conteos_app.Config.Util;
 
 import java.io.BufferedReader;
 import java.io.File;
