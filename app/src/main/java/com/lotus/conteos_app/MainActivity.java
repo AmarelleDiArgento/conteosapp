@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
     Spinner cuadro, files;
     ImageButton fen1, fen2;
     Button bt1, bt2, bt3, bt4;
-    TextView info, data;
+    TextView info, data, resulcode;
 
     // Arreglo, desplegable (Spinner) cuadros
     String[] cuadros = {"1", "2", "3", "4", "5", "6", "7", "8"};
@@ -77,6 +77,7 @@ public class MainActivity extends AppCompatActivity {
 
         info = (TextView) findViewById(R.id.info_tv);
         data = (TextView) findViewById(R.id.data_tvm);
+        resulcode = (TextView) findViewById(R.id.resulcode);
 
         // asociar arreglo cuadros al desplegable cuadro
         ArrayAdapter<String> cuadroArray = new ArrayAdapter<>(this, R.layout.spinner_item_personal, cuadros);
@@ -349,11 +350,27 @@ public class MainActivity extends AppCompatActivity {
             try {
                 String bc = result.getContents();
                 setContentView(R.layout.activity_main);
-                vbc.stopCamera();
                 siembra.setText(bc);
+                resulcode = (TextView) findViewById(R.id.resulcode);
+                resulcode.setText(bc);//se plasma el resultado de la lectura en el campo (diseño)
+
+
+                if(bc!=null){
+                    Toast toast=Toast.makeText(getApplicationContext(),"si hay resultado "+ bc,Toast.LENGTH_SHORT);
+                    toast.show();
+                }else{
+                    Toast toast=Toast.makeText(getApplicationContext(),"no hay resultado",Toast.LENGTH_SHORT);
+                    toast.show();
+                }
+
+                vbc.stopCamera();//aqui apaga la camara
+
+
             } catch (Exception e) {
                 Log.d("ERROR: ", e.toString());
             }
+
+
         }
     }
 }
