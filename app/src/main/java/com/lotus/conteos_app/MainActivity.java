@@ -1,5 +1,7 @@
 package com.lotus.conteos_app;
 
+import android.content.Intent;
+import android.media.Image;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -7,7 +9,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -40,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
     Spinner sp1, sp2, sp3;
     EditText siembra, grados, c1, c2, c3, c4;
     Spinner cuadro, files;
-    ImageButton fen1, fen2;
+    ImageView fen1, fen2;
     Button bt1, bt2, bt3, bt4;
     TextView info, data, resulcode;
 
@@ -71,8 +73,8 @@ public class MainActivity extends AppCompatActivity {
         c2 = (EditText) findViewById(R.id.c2_et);
         c3 = (EditText) findViewById(R.id.c3_et);
         c4 = (EditText) findViewById(R.id.c4_et);
-        fen1 = (ImageButton) findViewById(R.id.feno1_ib);
-        fen2 = (ImageButton) findViewById(R.id.feno2_ib);
+        fen1 = (ImageView) findViewById(R.id.feno1_ib);
+        fen2 = (ImageView) findViewById(R.id.feno2_ib);
         bt1 = (Button) findViewById(R.id.button1);
         bt2 = (Button) findViewById(R.id.button2);
         bt3 = (Button) findViewById(R.id.button3);
@@ -235,7 +237,7 @@ public class MainActivity extends AppCompatActivity {
     public void sumFen1(View v) {
         int n = valnum(c1);
         c1.setText(String.valueOf(n + 1));
-        Toast.makeText(this,"hola tu",Toast.LENGTH_SHORT).show();
+        Toast.makeText(this,"hola btn1",Toast.LENGTH_SHORT).show();
     }
 
     // Disminuir conteo de semana 1
@@ -244,6 +246,7 @@ public class MainActivity extends AppCompatActivity {
         int n = valnum(c1);
         if (n > 0) {
             c1.setText(String.valueOf(n - 1));
+            Toast.makeText(this,"hola btn2",Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -251,7 +254,7 @@ public class MainActivity extends AppCompatActivity {
     public void sumFen2(View v) {
         int n = valnum(c4);
         c4.setText(String.valueOf(n + 1));
-
+        Toast.makeText(this,"hola btn3",Toast.LENGTH_SHORT).show();
     }
 
     // Disminuir conteo de semana 4
@@ -259,6 +262,7 @@ public class MainActivity extends AppCompatActivity {
         int n = valnum(c4);
         if (n > 0) {
             c4.setText(String.valueOf(n - 1));
+            Toast.makeText(this,"hola btn4",Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -313,13 +317,13 @@ public class MainActivity extends AppCompatActivity {
                 if(bc!=null){
                     Toast toast=Toast.makeText(getApplicationContext(),"si hay resultado "+ bc,Toast.LENGTH_SHORT);
                     toast.show();
+
                 }else{
                     Toast toast=Toast.makeText(getApplicationContext(),"no hay resultado",Toast.LENGTH_SHORT);
                     toast.show();
                 }
 
                 vbc.stopCamera();//aqui apaga la camara
-
 
             } catch (Exception e) {
                 Log.d("ERROR: ", e.toString());
