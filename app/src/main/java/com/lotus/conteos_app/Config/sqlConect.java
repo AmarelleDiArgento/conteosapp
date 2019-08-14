@@ -10,9 +10,9 @@ import java.sql.ResultSet;
 public abstract class sqlConect {
     Connection con = null;
 
-    String url = "jdbc:jtds:sqlserver://10.50.1.145;instance=Mercedes;databaseName=Proyecciones";
+    String url = "jdbc:jtds:sqlserver://10.50.1.123;instance=Mercedes;databaseName=Proyecciones";
     String user = "Inventarios";
-    String pass = "Inventarios2019*";
+    String pass = "Inventarios2016*";
 
     public Connection getConexion() throws Exception {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();

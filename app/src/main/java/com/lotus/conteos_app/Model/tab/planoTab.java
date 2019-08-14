@@ -100,9 +100,6 @@ public class planoTab {
 
     @Override
     public String toString() {
-        if(sufijo.length()>0){
-
-        }
         return "{" +
                 "\"idSiembra\":" + idSiembra + ",\n" +
                 "\"idFinca\":" + idFinca + ",\n" +
