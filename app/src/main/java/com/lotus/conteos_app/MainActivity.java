@@ -33,7 +33,6 @@ import com.google.gson.reflect.TypeToken;
 
 import me.dm7.barcodescanner.zbar.Result;
 import me.dm7.barcodescanner.zbar.ZBarScannerView;
-import me.dm7.barcodescanner.zbar.ZBarScannerView.ResultHandler;
 
 public class MainActivity extends AppCompatActivity {
     // Variable general para captura de codigos de barras
@@ -311,15 +310,13 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void barcode(View v) {
-
         vbc = new ZBarScannerView(this);
         vbc.setResultHandler(new barcodeimp());
-        vbc.startCamera();
         setContentView(vbc);
+        vbc.startCamera();
     }
 
-
-    class barcodeimp implements ResultHandler {
+    class barcodeimp implements ZBarScannerView.ResultHandler {
 
         @Override
         public void handleResult(Result result) {
@@ -328,9 +325,13 @@ public class MainActivity extends AppCompatActivity {
                 setContentView(R.layout.activity_main);
                 siembra.setText(" " + bc);
                 resulcode = (TextView) findViewById(R.id.resulcode);
+                resulcode.setText(bc);//se plasma el resultado de la lectura en el campo (diseño)
                 resulcode.setText("Resultado escaneo ---->   " + bc);//se plasma el resultado de la lectura en el campo (diseño)
                 vbc.stopCamera();//aqui apaga la camara
 
+
+                if(bc!=null){
+                    Toast toast=Toast.makeText(getApplicationContext(),"si hay resultado "+ bc,Toast.LENGTH_SHORT);
                 if (bc != null) {
                     Toast toast = Toast.makeText(getApplicationContext(), "si hay resultado " + bc, Toast.LENGTH_SHORT);
                     toast.show();
@@ -342,11 +343,14 @@ public class MainActivity extends AppCompatActivity {
                     vbc.stopCamera();//aqui apaga la camara
                 }
 
+                vbc.stopCamera();//aqui apaga la camara
 
             } catch (Exception e) {
                 Log.d("ERROR: ", e.toString());
                 vbc.stopCamera();//aqui apaga la camara
             }
+
+
         }
     }
 

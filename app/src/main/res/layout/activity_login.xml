@@ -60,14 +60,14 @@
 
     <ImageView
         android:id="@+id/btn_login"
-        android:layout_width="454dp"
-        android:layout_height="102dp"
-        android:layout_marginStart="104dp"
-        android:layout_marginTop="592dp"
+        android:layout_width="326dp"
+        android:layout_height="98dp"
+        android:layout_marginStart="160dp"
+        android:layout_marginTop="548dp"
         android:onClick="btn_login"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ingresar" />
+        app:srcCompat="@drawable/bottonlogin" />
 
     <ImageView
         android:id="@+id/imageView8"
