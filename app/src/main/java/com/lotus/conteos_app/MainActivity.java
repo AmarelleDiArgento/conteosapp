@@ -5,6 +5,7 @@ import android.media.Image;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -33,6 +34,7 @@ import com.google.gson.reflect.TypeToken;
 
 import me.dm7.barcodescanner.zbar.Result;
 import me.dm7.barcodescanner.zbar.ZBarScannerView;
+import me.dm7.barcodescanner.zbar.ZBarScannerView.ResultHandler;
 
 public class MainActivity extends AppCompatActivity {
     // Variable general para captura de codigos de barras
@@ -296,13 +298,15 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void barcode(View v) {
+
         vbc = new ZBarScannerView(this);
         vbc.setResultHandler(new barcodeimp());
-        setContentView(vbc);
         vbc.startCamera();
+        setContentView(vbc);
     }
 
-    class barcodeimp implements ZBarScannerView.ResultHandler {
+
+    class barcodeimp implements ResultHandler {
 
         @Override
         public void handleResult(Result result) {
@@ -312,7 +316,7 @@ public class MainActivity extends AppCompatActivity {
                 siembra.setText(bc);
                 resulcode = (TextView) findViewById(R.id.resulcode);
                 resulcode.setText(bc);//se plasma el resultado de la lectura en el campo (diseño)
-
+                vbc.stopCamera();//aqui apaga la camara
 
                 if(bc!=null){
                     Toast toast=Toast.makeText(getApplicationContext(),"si hay resultado "+ bc,Toast.LENGTH_SHORT);
@@ -323,13 +327,18 @@ public class MainActivity extends AppCompatActivity {
                     toast.show();
                 }
 
-                vbc.stopCamera();//aqui apaga la camara
+
 
             } catch (Exception e) {
                 Log.d("ERROR: ", e.toString());
             }
-
-
         }
+    }
+
+    //PARA VOLVER A LA ACTIVIDAD ANTERIOR(CAMARA)
+    public void onBackPressed() {
+        //Toast.makeText(this,"se retrocedio",Toast.LENGTH_LONG).show();
+        Intent i = new Intent(MainActivity.this,MainActivity.class);
+        startActivity(i);
     }
 }
