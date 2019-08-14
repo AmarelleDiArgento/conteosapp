@@ -1,11 +1,9 @@
 package com.lotus.conteos_app;
 
 import android.content.Intent;
-import android.media.Image;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -24,6 +22,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.lotus.conteos_app.Config.Util.jsonAdmin;
+import com.lotus.conteos_app.Config.Util.imageAdmin;
 import com.lotus.conteos_app.Model.iPlano;
 import com.lotus.conteos_app.Model.tab.conteoTab;
 
@@ -42,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
 
     // declaracion de variables campos
     Spinner sp1, sp2, sp3;
-    EditText siembra, grados, c1, c2, c3, c4;
+    EditText siembra, grados, c1, c2, c3, c4, err;
     Spinner cuadro, files;
     ImageView fen1, fen2;
     Button bt1, bt2, bt3, bt4;
@@ -59,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
 
      */
     jsonAdmin ja = null;
+    imageAdmin ia = null;
     String path = null;
 
     @Override
@@ -81,6 +81,7 @@ public class MainActivity extends AppCompatActivity {
         bt2 = (Button) findViewById(R.id.button2);
         bt3 = (Button) findViewById(R.id.button3);
         bt4 = (Button) findViewById(R.id.button4);
+        err = (EditText) findViewById(R.id.errores_et);
 
         info = (TextView) findViewById(R.id.info_tv);
         data = (TextView) findViewById(R.id.data_tvm);
@@ -93,7 +94,8 @@ public class MainActivity extends AppCompatActivity {
 
         //obtiene ruta donde se encuentran los archivos.
         path = getExternalFilesDir(null) + File.separator;
-        ja = new jsonAdmin(path);
+         ja = new jsonAdmin(path);
+        // ia = new imageAdmin();
 
         // iniciar listas
         actualizarPlano();
@@ -120,13 +122,18 @@ public class MainActivity extends AppCompatActivity {
             iPlano iP = new iPlano();
             String nombre = "plano";
             String contenido = iP.all().toString();
+
+
             if (ja.CrearArchivo(nombre, contenido)) {
                 Toast.makeText(this, "Plano generado exitosamente", Toast.LENGTH_LONG).show();
             } else {
                 Toast.makeText(this, "Error al generar el plano", Toast.LENGTH_LONG).show();
             }
+
         } catch (Exception e) {
             Toast.makeText(this, "Plano local, no hay conexion a la base de datos", Toast.LENGTH_LONG).show();
+            err.setText(e.toString());
+
         }
     }
 
@@ -313,24 +320,27 @@ public class MainActivity extends AppCompatActivity {
             try {
                 String bc = result.getContents();
                 setContentView(R.layout.activity_main);
-                siembra.setText(bc);
+                siembra.setText(" "+bc);
                 resulcode = (TextView) findViewById(R.id.resulcode);
-                resulcode.setText(bc);//se plasma el resultado de la lectura en el campo (diseño)
+                resulcode.setText("Resultado escaneo ---->   "+bc);//se plasma el resultado de la lectura en el campo (diseño)
                 vbc.stopCamera();//aqui apaga la camara
 
                 if(bc!=null){
                     Toast toast=Toast.makeText(getApplicationContext(),"si hay resultado "+ bc,Toast.LENGTH_SHORT);
                     toast.show();
+                    vbc.stopCamera();//aqui apaga la camara
 
                 }else{
                     Toast toast=Toast.makeText(getApplicationContext(),"no hay resultado",Toast.LENGTH_SHORT);
                     toast.show();
+                    vbc.stopCamera();//aqui apaga la camara
                 }
 
 
 
             } catch (Exception e) {
                 Log.d("ERROR: ", e.toString());
+                vbc.stopCamera();//aqui apaga la camara
             }
         }
     }
@@ -340,5 +350,6 @@ public class MainActivity extends AppCompatActivity {
         //Toast.makeText(this,"se retrocedio",Toast.LENGTH_LONG).show();
         Intent i = new Intent(MainActivity.this,MainActivity.class);
         startActivity(i);
+        vbc.stopCamera();//aqui apaga la camara
     }
 }
