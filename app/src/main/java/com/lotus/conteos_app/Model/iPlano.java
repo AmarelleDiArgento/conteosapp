@@ -28,8 +28,16 @@ public class iPlano extends sqlConect implements plano {
     final String nam = "SELECT idSiembra, idFinca, finca, idBloque, bloque, idVariedad, variedad, cama, sufijo \n" +
             "FROM Plano_Siembra;\n" +
             "WHERE finca=?";
-    final String all = "SELECT idSiembra, idFinca, finca, idBloque, bloque, idVariedad, variedad, cama, sufijo \n" +
-            "FROM Plano_Siembra;\n";
+    final String all = "SELECT [idSiembra]\n" +
+            "      ,[idFinca]\n" +
+            "      ,[finca]\n" +
+            "      ,[idBloque]\n" +
+            "      ,[bloque]\n" +
+            "      ,[idVariedad]\n" +
+            "      ,[variedad]\n" +
+            "      ,[cama]\n" +
+            "      ,[sufijo]\n" +
+            "  FROM [Plano_Siembra]";
 
 
     public iPlano() throws Exception {
