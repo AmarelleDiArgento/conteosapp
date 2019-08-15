@@ -117,7 +117,6 @@
         android:layout_marginStart="400dp"
         android:layout_marginTop="956dp"
         android:layout_span="1"
-        android:onClick="buscarSiembra"
         android:text="buscar"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -423,15 +422,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/resulcode"
-        android:layout_width="292dp"
-        android:layout_height="20dp"
-        android:layout_marginStart="188dp"
-        android:layout_marginTop="120dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <ImageView
         android:id="@+id/feno1-ib"
         android:layout_width="120dp"
@@ -600,6 +590,18 @@
         android:layout_marginTop="296dp"
         android:ems="10"
         android:inputType="textPersonName"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/resulcode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="300dp"
+        android:layout_marginTop="120dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text=""
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

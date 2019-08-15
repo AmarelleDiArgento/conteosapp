@@ -40,11 +40,11 @@ public class MainActivity extends AppCompatActivity {
 
     // declaracion de variables campos
     Spinner sp1, sp2, sp3;
-    EditText siembra, grados, c1, c2, c3, c4, err;
+    EditText siembra, grados, c1, c2, c3, c4, err, resulcode;
     Spinner cuadro, files;
     ImageView fen1, fen2;
     Button bt1, bt2, bt3, bt4;
-    TextView info, data, resulcode, tipo, finca, variedad, bloque, cama;
+    TextView info, data, tipo, finca, variedad, bloque, cama;
 
     // Arreglo, desplegable (Spinner) cuadros
     String[] cuadros = {"1", "2", "3", "4", "5", "6", "7", "8"};
@@ -80,21 +80,22 @@ public class MainActivity extends AppCompatActivity {
         bt2 = (Button) findViewById(R.id.button2);
         bt3 = (Button) findViewById(R.id.button3);
         bt4 = (Button) findViewById(R.id.button4);
-        err = (EditText) findViewById(R.id.errores_et);
 
         info = (TextView) findViewById(R.id.info_tv);
         data = (TextView) findViewById(R.id.data_tvm);
-        resulcode = (TextView) findViewById(R.id.resulcode);
+        resulcode = (EditText) findViewById(R.id.resulcode);
 
-        tipo = (TextView) findViewById(R.id.info_tv);
-        finca = (TextView) findViewById(R.id.info_tv);
-        variedad = (TextView) findViewById(R.id.info_tv);
-        bloque = (TextView) findViewById(R.id.info_tv);
-        cama = (TextView) findViewById(R.id.info_tv);
+        tipo = (TextView) findViewById(R.id.cam_tipo);
+        finca = (TextView) findViewById(R.id.cam_finca);
+        variedad = (TextView) findViewById(R.id.cam_variedad);
+        bloque = (TextView) findViewById(R.id.cam_bloque);
+        cama = (TextView) findViewById(R.id.cam_cama);
 
         // asociar arreglo cuadros al desplegable cuadro
         ArrayAdapter<String> cuadroArray = new ArrayAdapter<>(this, R.layout.spinner_item_personal, cuadros);
         cuadro.setAdapter(cuadroArray);
+
+
 
 
         //obtiene ruta donde se encuentran los archivos.
@@ -105,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
         // iniciar listas
         actualizarPlano();
         cargarPlanoLocal();
-        listFiles();
+        // listFiles();
         /* */
     }
 
@@ -128,7 +129,8 @@ public class MainActivity extends AppCompatActivity {
             String nombre = "plano";
             String contenido = iP.all().toString();
 
-            data.setText(contenido);
+            resulcode.setText(contenido);
+
             if (ja.CrearArchivo(nombre, contenido)) {
                 Toast.makeText(this, "Plano generado exitosamente", Toast.LENGTH_LONG).show();
             } else {
@@ -156,15 +158,35 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // busca el id de la siembra en el arreglo global y retorna la informacion en el text view info
-    public void buscarSiembra(View v) {
-        int bs = valnum(siembra);
-        String infoS = "";
+    public void buscarSiembra() {
 
+        Toast.makeText(this, "LLegamos", Toast.LENGTH_SHORT).show();
+
+        setContentView(R.layout.activity_main);
+
+
+        tipo = (TextView) findViewById(R.id.cam_tipo);
+        finca = (TextView) findViewById(R.id.cam_finca);
+        variedad = (TextView) findViewById(R.id.cam_variedad);
+        bloque = (TextView) findViewById(R.id.cam_bloque);
+        cama = (TextView) findViewById(R.id.cam_cama);
+
+
+
+        int bs = valnum(resulcode);
+        String infoS = "";
         if (pl != null || bs != 0) {
             for (planoTab p : pl) {
+
                 if (p.getIdSiembra() == bs) {
                     infoS = "Finca: " + p.getFinca() + " Bloque: " + p.getBloque() + "  Variedad: " + p.getVariedad() + " Cama: " + p.getCama() + p.getSufijo();
+
+                    finca.setText(p.getFinca());
+                    bloque.setText(p.getBloque());
+                    variedad.setText(p.getVariedad());
+                    cama.setText(p.getCama());
                 }
+
             }
 
             if (!infoS.equalsIgnoreCase("")) {
@@ -320,37 +342,35 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void handleResult(Result result) {
+
             try {
-                String bc = result.getContents();
                 setContentView(R.layout.activity_main);
-                siembra.setText(" " + bc);
-                resulcode = (TextView) findViewById(R.id.resulcode);
-                resulcode.setText(bc);//se plasma el resultado de la lectura en el campo (diseño)
-                resulcode.setText("Resultado escaneo ---->   " + bc);//se plasma el resultado de la lectura en el campo (diseño)
-                vbc.stopCamera();//aqui apaga la camara
+                resulcode = (EditText) findViewById(R.id.resulcode);
+
+                int bc = Integer.parseInt(result.getContents());
+
+                resulcode.setText(result.getContents().toString());
+
+                Toast toast = Toast.makeText(getApplicationContext(), String.valueOf(bc), Toast.LENGTH_SHORT);
+                toast.show();
 
 
-                if(bc!=null){
-                    Toast toast=Toast.makeText(getApplicationContext(),"si hay resultado "+ bc,Toast.LENGTH_SHORT);
-                if (bc != null) {
-                    Toast toast = Toast.makeText(getApplicationContext(), "si hay resultado " + bc, Toast.LENGTH_SHORT);
+
+                if (bc != 0) {
+                    toast = Toast.makeText(getApplicationContext(), "si hay resultado " + bc, Toast.LENGTH_SHORT);
                     toast.show();
-                    vbc.stopCamera();//aqui apaga la camara
-
+                    buscarSiembra();
                 } else {
-                    Toast toast = Toast.makeText(getApplicationContext(), "no hay resultado", Toast.LENGTH_SHORT);
+                    toast = Toast.makeText(getApplicationContext(), "no hay resultado", Toast.LENGTH_SHORT);
                     toast.show();
-                    vbc.stopCamera();//aqui apaga la camara
                 }
 
-                vbc.stopCamera();//aqui apaga la camara
 
             } catch (Exception e) {
                 Log.d("ERROR: ", e.toString());
-                vbc.stopCamera();//aqui apaga la camara
             }
 
-
+            vbc.stopCamera();//aqui apaga la camara
         }
     }
 
