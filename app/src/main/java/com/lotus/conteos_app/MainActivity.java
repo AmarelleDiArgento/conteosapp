@@ -82,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
         bt4 = (Button) findViewById(R.id.button4);
 
         info = (TextView) findViewById(R.id.info_tv);
-        data = (TextView) findViewById(R.id.data_tvm);
+        data = (TextView) findViewById(R.id.data_tbl);
         resulcode = (EditText) findViewById(R.id.resulcode);
 
         tipo = (TextView) findViewById(R.id.cam_tipo);
@@ -179,6 +179,9 @@ public class MainActivity extends AppCompatActivity {
             for (planoTab p : pl) {
 
                 if (p.getIdSiembra() == bs) {
+
+                    Toast.makeText(this,"se listan ",Toast.LENGTH_LONG).show();
+
                     infoS = "Finca: " + p.getFinca() + " Bloque: " + p.getBloque() + "  Variedad: " + p.getVariedad() + " Cama: " + p.getCama() + p.getSufijo();
 
                     finca.setText(p.getFinca());
