@@ -84,8 +84,8 @@
 
     <EditText
         android:id="@+id/siembra-et"
-        android:layout_width="146dp"
-        android:layout_height="41dp"
+        android:layout_width="154dp"
+        android:layout_height="50dp"
         android:layout_marginStart="628dp"
         android:layout_marginTop="844dp"
         android:layout_span="2"
@@ -168,6 +168,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="204dp"
+        android:textStyle="bold"
         android:text="CONTEO"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -177,17 +178,9 @@
         android:layout_width="682dp"
         android:layout_height="21dp"
         android:layout_marginTop="212dp"
+        android:textStyle="bold"
+        android:textColor="#404040"
         android:text="------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------v"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/textView5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="236dp"
-        android:text="Tipo"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -195,9 +188,11 @@
         android:id="@+id/textView6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="196dp"
-        android:layout_marginTop="236dp"
-        android:text="Finca"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="252dp"
+        android:text="Finca :"
+        android:textColor="#FF82B1FF"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -205,9 +200,11 @@
         android:id="@+id/textView7"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="356dp"
-        android:layout_marginTop="236dp"
-        android:text="Variedad"
+        android:layout_marginStart="280dp"
+        android:layout_marginTop="252dp"
+        android:text="Variedad :"
+        android:textColor="#FF82B1FF"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -216,8 +213,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
-        android:layout_marginTop="272dp"
-        android:text="Bloque"
+        android:layout_marginTop="292dp"
+        android:text="Bloque :"
+        android:textColor="#FF82B1FF"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -225,29 +224,11 @@
         android:id="@+id/textView9"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="196dp"
-        android:layout_marginTop="272dp"
-        android:text="Cama"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/textView13"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="364dp"
-        android:layout_marginTop="272dp"
-        android:text="Punto de corte"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/textView14"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="308dp"
-        android:text="Grados dia"
+        android:layout_marginStart="280dp"
+        android:layout_marginTop="292dp"
+        android:text="Cama :"
+        android:textColor="#FF82B1FF"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -267,6 +248,8 @@
         android:layout_marginStart="348dp"
         android:layout_marginTop="444dp"
         android:text="Conteo3"
+        android:textColor="#FC7064"
+        android:backgroundTint="@android:color/transparent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -277,6 +260,8 @@
         android:layout_marginStart="484dp"
         android:layout_marginTop="444dp"
         android:text="Conteo4"
+        android:backgroundTint="@android:color/transparent"
+        android:textColor="#FC7064"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -287,6 +272,8 @@
         android:layout_marginStart="80dp"
         android:layout_marginTop="444dp"
         android:text="Conteo1"
+        android:textColor="#FC7064"
+        android:backgroundTint="@android:color/transparent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -297,6 +284,8 @@
         android:layout_marginStart="212dp"
         android:layout_marginTop="444dp"
         android:text="Conteo2"
+        android:textColor="#FC7064"
+        android:backgroundTint="@android:color/transparent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -304,9 +293,10 @@
         android:id="@+id/textView19"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="584dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="596dp"
         android:text="Cantidades"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -316,6 +306,7 @@
         android:layout_height="22dp"
         android:layout_marginStart="4dp"
         android:layout_marginTop="608dp"
+        android:textStyle="bold"
         android:text="------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -376,6 +367,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="60dp"
         android:layout_marginTop="492dp"
+        android:background="#00FFFFFF"
         android:ems="10"
         android:inputType="number"
         android:textAlignment="center"
@@ -389,6 +381,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="196dp"
         android:layout_marginTop="492dp"
+        android:background="#00FFFFFF"
         android:ems="10"
         android:inputType="number"
         android:textAlignment="center"
@@ -402,6 +395,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="460dp"
         android:layout_marginTop="492dp"
+        android:background="#00FFFFFF"
         android:ems="10"
         android:inputType="number"
         android:textAlignment="center"
@@ -415,6 +409,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="328dp"
         android:layout_marginTop="492dp"
+        android:background="#00FFFFFF"
         android:ems="10"
         android:inputType="number"
         android:textAlignment="center"
@@ -529,80 +524,59 @@
         app:srcCompat="@drawable/subir" />
 
     <TextView
-        android:id="@+id/cam_tipo"
-        android:layout_width="123dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="44dp"
-        android:layout_marginTop="236dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
         android:id="@+id/cam_finca"
-        android:layout_width="114dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="232dp"
-        android:layout_marginTop="236dp"
+        android:layout_width="153dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="80dp"
+        android:layout_marginTop="256dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/cam_variedad"
-        android:layout_width="143dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="420dp"
-        android:layout_marginTop="236dp"
+        android:layout_width="172dp"
+        android:layout_height="18dp"
+        android:layout_marginStart="364dp"
+        android:layout_marginTop="256dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/cam_bloque"
-        android:layout_width="125dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="60dp"
-        android:layout_marginTop="272dp"
+        android:layout_width="151dp"
+        android:layout_height="18dp"
+        android:layout_marginStart="80dp"
+        android:layout_marginTop="292dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/cam_cama"
-        android:layout_width="111dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="236dp"
-        android:layout_marginTop="272dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/cam_puntoCorte"
-        android:layout_width="116dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="464dp"
-        android:layout_marginTop="272dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <EditText
-        android:id="@+id/cam_grados"
-        android:layout_width="105dp"
-        android:layout_height="43dp"
-        android:layout_marginStart="88dp"
-        android:layout_marginTop="296dp"
-        android:ems="10"
-        android:inputType="textPersonName"
+        android:layout_width="170dp"
+        android:layout_height="17dp"
+        android:layout_marginStart="364dp"
+        android:layout_marginTop="292dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/resulcode"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="300dp"
+        android:layout_width="311dp"
+        android:layout_height="74dp"
+        android:layout_marginStart="180dp"
         android:layout_marginTop="120dp"
         android:ems="10"
         android:inputType="textPersonName"
         android:text=""
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="132dp"
+        android:layout_height="26dp"
+        android:text="TextView"
+        tools:layout_editor_absoluteX="61dp"
+        tools:layout_editor_absoluteY="16dp" />
 
 </android.support.constraint.ConstraintLayout>
