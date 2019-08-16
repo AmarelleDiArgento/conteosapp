@@ -18,6 +18,7 @@ import com.google.gson.Gson;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -65,6 +66,15 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Calendar c = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        final String strDate = sdf.format(c.getTime());
+        Toast.makeText(this,strDate,Toast.LENGTH_SHORT).show();
+
+
+        //se rellena el campo con la fecha actual
+        //et1.setText(strDate);
+
         // Asociacion de campos y botones
         siembra = (EditText) findViewById(R.id.siembra_et);
         grados = (EditText) findViewById(R.id.grados_et);
@@ -85,7 +95,6 @@ public class MainActivity extends AppCompatActivity {
         data = (TextView) findViewById(R.id.data_tbl);
         resulcode = (EditText) findViewById(R.id.resulcode);
 
-        tipo = (TextView) findViewById(R.id.cam_tipo);
         finca = (TextView) findViewById(R.id.cam_finca);
         variedad = (TextView) findViewById(R.id.cam_variedad);
         bloque = (TextView) findViewById(R.id.cam_bloque);
@@ -95,22 +104,52 @@ public class MainActivity extends AppCompatActivity {
         ArrayAdapter<String> cuadroArray = new ArrayAdapter<>(this, R.layout.spinner_item_personal, cuadros);
         cuadro.setAdapter(cuadroArray);
 
-
-
-
         //obtiene ruta donde se encuentran los archivos.
         path = getExternalFilesDir(null) + File.separator;
         ja = new jsonAdmin(path);
         // ia = new imageAdmin();
 
         // iniciar listas
-        actualizarPlano();
         cargarPlanoLocal();
-        // listFiles();
-        /* */
+        actualizarPlano();
+
+        //listFiles();
+
+    }
+    protected void onStart(){
+        super.onStart();
+        setContentView(R.layout.activity_main);
+        Toast.makeText(this, "OnStart", Toast.LENGTH_SHORT).show();
+        // La actividad está a punto de hacerse visible.
+    }
+    // La actividad se ha vuelto visible (ahora se "reanuda").
+    protected void onResume(){
+        super.onResume();
+        setContentView(R.layout.activity_main);
+        Toast.makeText(this, "OnResume", Toast.LENGTH_SHORT).show();
+        // La actividad se ha vuelto visible (ahora se "reanuda").
+    }
+    protected void onPause(){
+        super.onPause();
+        setContentView(R.layout.activity_main);
+        Toast.makeText(this, "OnPause", Toast.LENGTH_SHORT).show();
+        // Enfocarse en otra actividad  (esta actividad está a punto de ser "detenida").
+    }
+    protected void onStop(){
+        super.onStop();
+        setContentView(R.layout.activity_main);
+        Toast.makeText(this, "OnStop", Toast.LENGTH_SHORT).show();
+        // La actividad ya no es visible (ahora está "detenida")
+    }
+    protected void onDestroy(){
+        super.onDestroy();
+        setContentView(R.layout.activity_main);
+        Toast.makeText(this, "OnDestroy", Toast.LENGTH_SHORT).show();
+        // La actividad está a punto de ser destruida.
     }
 
-    private void listFiles() {
+
+    /*private void listFiles() {
         try {
             List<String> list = ja.listFiles();
             // asociar arreglo cuadros al desplegable cuadro
@@ -120,16 +159,17 @@ public class MainActivity extends AppCompatActivity {
         } catch (Exception e) {
             Toast.makeText(this, e.toString(), Toast.LENGTH_LONG).show();
         }
-    }
+    }*/
 
     // descarga el plano de la basde datos y lo alamcena en plano.json (Archivo local)
     public void actualizarPlano() {
+
         try {
             iPlano iP = new iPlano();
             String nombre = "plano";
             String contenido = iP.all().toString();
-
             resulcode.setText(contenido);
+            Toast.makeText(this,"xcv----  " +contenido,Toast.LENGTH_LONG).show();
 
             if (ja.CrearArchivo(nombre, contenido)) {
                 Toast.makeText(this, "Plano generado exitosamente", Toast.LENGTH_LONG).show();
@@ -138,8 +178,8 @@ public class MainActivity extends AppCompatActivity {
             }
 
         } catch (Exception e) {
-            Toast.makeText(this, "Plano local, no hay conexion a la base de datos", Toast.LENGTH_LONG).show();
-            err.setText(e.toString());
+            Toast.makeText(this, "Plano local, no hay conexion a la base de datos"+e.toString(), Toast.LENGTH_LONG).show();
+            //err.setText(e.toString());
 
         }
     }
@@ -165,7 +205,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
-        tipo = (TextView) findViewById(R.id.cam_tipo);
+
         finca = (TextView) findViewById(R.id.cam_finca);
         variedad = (TextView) findViewById(R.id.cam_variedad);
         bloque = (TextView) findViewById(R.id.cam_bloque);
@@ -180,13 +220,14 @@ public class MainActivity extends AppCompatActivity {
 
                 if (p.getIdSiembra() == bs) {
 
-                    Toast.makeText(this,"se listan ",Toast.LENGTH_LONG).show();
+                    //Toast.makeText(this,"se listan ",Toast.LENGTH_LONG).show();
 
                     infoS = "Finca: " + p.getFinca() + " Bloque: " + p.getBloque() + "  Variedad: " + p.getVariedad() + " Cama: " + p.getCama() + p.getSufijo();
 
                     finca.setText(p.getFinca());
                     bloque.setText(p.getBloque());
                     variedad.setText(p.getVariedad());
+                    cama.setText(p.getSufijo());
                     cama.setText(p.getCama());
                 }
 
@@ -223,7 +264,7 @@ public class MainActivity extends AppCompatActivity {
             String nombre = hoy();
 
             ja.CrearArchivo(nombre, cl.toString());
-            listFiles();
+            //listFiles();
 
         } catch (Exception e) {
 
@@ -352,7 +393,7 @@ public class MainActivity extends AppCompatActivity {
 
                 int bc = Integer.parseInt(result.getContents());
 
-                resulcode.setText(result.getContents().toString());
+                resulcode.setText(result.getContents());
 
                 Toast toast = Toast.makeText(getApplicationContext(), String.valueOf(bc), Toast.LENGTH_SHORT);
                 toast.show();
@@ -363,6 +404,7 @@ public class MainActivity extends AppCompatActivity {
                     toast = Toast.makeText(getApplicationContext(), "si hay resultado " + bc, Toast.LENGTH_SHORT);
                     toast.show();
                     buscarSiembra();
+
                 } else {
                     toast = Toast.makeText(getApplicationContext(), "no hay resultado", Toast.LENGTH_SHORT);
                     toast.show();
