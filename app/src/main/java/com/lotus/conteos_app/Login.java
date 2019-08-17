@@ -32,7 +32,7 @@ public class Login extends AppCompatActivity {
         String txt_pass=txtp.getText().toString();
 
             if(txt_user.equals("123") && txt_pass.equals("123")){
-                        Toast.makeText(this,"ingreso",Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(this,"ingreso",Toast.LENGTH_SHORT).show();
                         Intent intent=new Intent(v.getContext(),MainActivity.class);
                         startActivityForResult(intent, 0);
             }else{

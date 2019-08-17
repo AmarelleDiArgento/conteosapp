@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
     Spinner cuadro, files;
     ImageView fen1, fen2;
     Button bt1, bt2, bt3, bt4;
-    TextView info, data, tipo, finca, variedad, bloque, cama;
+    TextView info, data, tipo, finca, variedad, bloque, cama, fechaAct;
 
     // Arreglo, desplegable (Spinner) cuadros
     String[] cuadros = {"1", "2", "3", "4", "5", "6", "7", "8"};
@@ -58,22 +58,24 @@ public class MainActivity extends AppCompatActivity {
 
      */
     jsonAdmin ja = null;
-    imageAdmin ia = null;
+    //imageAdmin ia = null;
     String path = null;
+
+    String fec=null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        fechaAct=(TextView) findViewById(R.id.fechaAct);
+
         Calendar c = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         final String strDate = sdf.format(c.getTime());
-        Toast.makeText(this,strDate,Toast.LENGTH_SHORT).show();
+        String fecha=strDate;
+        fechaAct.setText(String.valueOf(fecha));
 
-
-        //se rellena el campo con la fecha actual
-        //et1.setText(strDate);
 
         // Asociacion de campos y botones
         siembra = (EditText) findViewById(R.id.siembra_et);
@@ -99,6 +101,7 @@ public class MainActivity extends AppCompatActivity {
         variedad = (TextView) findViewById(R.id.cam_variedad);
         bloque = (TextView) findViewById(R.id.cam_bloque);
         cama = (TextView) findViewById(R.id.cam_cama);
+        fechaAct=(TextView) findViewById(R.id.fechaAct);
 
         // asociar arreglo cuadros al desplegable cuadro
         ArrayAdapter<String> cuadroArray = new ArrayAdapter<>(this, R.layout.spinner_item_personal, cuadros);
@@ -110,46 +113,67 @@ public class MainActivity extends AppCompatActivity {
         // ia = new imageAdmin();
 
         // iniciar listas
-        cargarPlanoLocal();
-        actualizarPlano();
+        //cargarPlanoLocal();
+        //actualizarPlano();
 
-        //listFiles();
+        listFiles();
 
     }
-    protected void onStart(){
+
+    @Override
+    protected void onStart() {
         super.onStart();
-        setContentView(R.layout.activity_main);
         Toast.makeText(this, "OnStart", Toast.LENGTH_SHORT).show();
         // La actividad está a punto de hacerse visible.
     }
-    // La actividad se ha vuelto visible (ahora se "reanuda").
-    protected void onResume(){
+    @Override
+    protected void onResume() {
         super.onResume();
-        setContentView(R.layout.activity_main);
         Toast.makeText(this, "OnResume", Toast.LENGTH_SHORT).show();
         // La actividad se ha vuelto visible (ahora se "reanuda").
     }
-    protected void onPause(){
+    @Override
+    protected void onPause() {
         super.onPause();
-        setContentView(R.layout.activity_main);
         Toast.makeText(this, "OnPause", Toast.LENGTH_SHORT).show();
         // Enfocarse en otra actividad  (esta actividad está a punto de ser "detenida").
     }
-    protected void onStop(){
+    @Override
+    protected void onStop() {
         super.onStop();
-        setContentView(R.layout.activity_main);
         Toast.makeText(this, "OnStop", Toast.LENGTH_SHORT).show();
         // La actividad ya no es visible (ahora está "detenida")
     }
-    protected void onDestroy(){
+    @Override
+    protected void onDestroy() {
         super.onDestroy();
-        setContentView(R.layout.activity_main);
         Toast.makeText(this, "OnDestroy", Toast.LENGTH_SHORT).show();
         // La actividad está a punto de ser destruida.
     }
 
+    //GUARDAMOS INSTANCIA PARA LOS DATOS DE LOS CAMPOS
 
-    /*private void listFiles() {
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+            final TextView fecha=(TextView)findViewById(R.id.fechaAct);
+            CharSequence datfec = fecha.getText();
+        Toast.makeText(this,"save   "+datfec,Toast.LENGTH_SHORT).show();
+        outState.putCharSequence ("hola", datfec);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+
+            final TextView fecha=(TextView)findViewById(R.id.fechaAct);
+            CharSequence userText = savedInstanceState.getString ("hola");
+        Toast.makeText(this,"restore",Toast.LENGTH_SHORT).show();
+        fecha.setText(userText);
+    }
+
+    private void listFiles() {
         try {
             List<String> list = ja.listFiles();
             // asociar arreglo cuadros al desplegable cuadro
@@ -157,9 +181,9 @@ public class MainActivity extends AppCompatActivity {
             files.setAdapter(fl);
             // data.setText(list.toString());
         } catch (Exception e) {
-            Toast.makeText(this, e.toString(), Toast.LENGTH_LONG).show();
+            Toast.makeText(this,"LISTFILES()--->  " +e.toString(), Toast.LENGTH_LONG).show();
         }
-    }*/
+    }
 
     // descarga el plano de la basde datos y lo alamcena en plano.json (Archivo local)
     public void actualizarPlano() {
@@ -200,18 +224,12 @@ public class MainActivity extends AppCompatActivity {
     // busca el id de la siembra en el arreglo global y retorna la informacion en el text view info
     public void buscarSiembra() {
 
-        Toast.makeText(this, "LLegamos", Toast.LENGTH_SHORT).show();
-
         setContentView(R.layout.activity_main);
-
-
 
         finca = (TextView) findViewById(R.id.cam_finca);
         variedad = (TextView) findViewById(R.id.cam_variedad);
         bloque = (TextView) findViewById(R.id.cam_bloque);
         cama = (TextView) findViewById(R.id.cam_cama);
-
-
 
         int bs = valnum(resulcode);
         String infoS = "";
@@ -220,7 +238,7 @@ public class MainActivity extends AppCompatActivity {
 
                 if (p.getIdSiembra() == bs) {
 
-                    //Toast.makeText(this,"se listan ",Toast.LENGTH_LONG).show();
+                    Toast.makeText(this,"se listan ",Toast.LENGTH_LONG).show();
 
                     infoS = "Finca: " + p.getFinca() + " Bloque: " + p.getBloque() + "  Variedad: " + p.getVariedad() + " Cama: " + p.getCama() + p.getSufijo();
 
@@ -228,7 +246,8 @@ public class MainActivity extends AppCompatActivity {
                     bloque.setText(p.getBloque());
                     variedad.setText(p.getVariedad());
                     cama.setText(p.getSufijo());
-                    cama.setText(p.getCama());
+
+                    Toast.makeText(this,"consulta"+variedad,Toast.LENGTH_LONG).show();
                 }
 
             }
@@ -317,7 +336,7 @@ public class MainActivity extends AppCompatActivity {
     public void sumFen1(View v) {
         int n = valnum(c1);
         c1.setText(String.valueOf(n + 1));
-        Toast.makeText(this, "hola btn1", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "hola btn1", Toast.LENGTH_SHORT).show();
     }
 
     // Disminuir conteo de semana 1
@@ -326,7 +345,7 @@ public class MainActivity extends AppCompatActivity {
         int n = valnum(c1);
         if (n > 0) {
             c1.setText(String.valueOf(n - 1));
-            Toast.makeText(this, "hola btn2", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, "hola btn2", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -334,7 +353,7 @@ public class MainActivity extends AppCompatActivity {
     public void sumFen2(View v) {
         int n = valnum(c4);
         c4.setText(String.valueOf(n + 1));
-        Toast.makeText(this, "hola btn3", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "hola btn3", Toast.LENGTH_SHORT).show();
     }
 
     // Disminuir conteo de semana 4
@@ -342,7 +361,7 @@ public class MainActivity extends AppCompatActivity {
         int n = valnum(c4);
         if (n > 0) {
             c4.setText(String.valueOf(n - 1));
-            Toast.makeText(this, "hola btn4", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, "hola btn4", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -376,48 +395,10 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void barcode(View v) {
-        vbc = new ZBarScannerView(this);
-        vbc.setResultHandler(new barcodeimp());
-        setContentView(vbc);
-        vbc.startCamera();
+        Intent intent=new Intent(v.getContext(),Camera.class);
+        startActivityForResult(intent,0);
     }
 
-    class barcodeimp implements ZBarScannerView.ResultHandler {
-
-        @Override
-        public void handleResult(Result result) {
-
-            try {
-                setContentView(R.layout.activity_main);
-                resulcode = (EditText) findViewById(R.id.resulcode);
-
-                int bc = Integer.parseInt(result.getContents());
-
-                resulcode.setText(result.getContents());
-
-                Toast toast = Toast.makeText(getApplicationContext(), String.valueOf(bc), Toast.LENGTH_SHORT);
-                toast.show();
-
-
-
-                if (bc != 0) {
-                    toast = Toast.makeText(getApplicationContext(), "si hay resultado " + bc, Toast.LENGTH_SHORT);
-                    toast.show();
-                    buscarSiembra();
-
-                } else {
-                    toast = Toast.makeText(getApplicationContext(), "no hay resultado", Toast.LENGTH_SHORT);
-                    toast.show();
-                }
-
-
-            } catch (Exception e) {
-                Log.d("ERROR: ", e.toString());
-            }
-
-            vbc.stopCamera();//aqui apaga la camara
-        }
-    }
 
     //PARA VOLVER A LA ACTIVIDAD ANTERIOR(CAMARA)
     public void onBackPressed() {

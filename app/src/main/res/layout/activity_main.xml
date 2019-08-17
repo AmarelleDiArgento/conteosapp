@@ -372,6 +372,7 @@
         android:inputType="number"
         android:textAlignment="center"
         android:textSize="24sp"
+        android:text="0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -386,6 +387,7 @@
         android:inputType="number"
         android:textAlignment="center"
         android:textSize="24sp"
+        android:text="0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -400,6 +402,7 @@
         android:inputType="number"
         android:textAlignment="center"
         android:textSize="24sp"
+        android:text="0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -414,6 +417,7 @@
         android:inputType="number"
         android:textAlignment="center"
         android:textSize="24sp"
+        android:text="0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -440,17 +444,6 @@
         app:srcCompat="@drawable/flor2" />
 
     <ImageView
-        android:id="@+id/resFen2-bt"
-        android:layout_width="122dp"
-        android:layout_height="129dp"
-        android:layout_marginStart="320dp"
-        android:layout_marginTop="660dp"
-        android:onClick="resFen2"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/flor3" />
-
-    <ImageView
         android:id="@+id/feno2-ib"
         android:layout_width="123dp"
         android:layout_height="127dp"
@@ -460,6 +453,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/flor4" />
+
+    <ImageView
+        android:id="@+id/resFen2-bt"
+        android:layout_width="122dp"
+        android:layout_height="129dp"
+        android:layout_marginStart="320dp"
+        android:layout_marginTop="660dp"
+        android:onClick="resFen2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/flor3" />
 
     <TextView
         android:id="@+id/textView10"
@@ -572,11 +576,13 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView5"
+        android:id="@+id/fechaAct"
         android:layout_width="132dp"
         android:layout_height="26dp"
+        android:layout_marginStart="72dp"
+        android:layout_marginTop="16dp"
         android:text="TextView"
-        tools:layout_editor_absoluteX="61dp"
-        tools:layout_editor_absoluteY="16dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </android.support.constraint.ConstraintLayout>
