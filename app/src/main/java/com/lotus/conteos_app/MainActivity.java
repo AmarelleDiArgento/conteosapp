@@ -1,6 +1,9 @@
 package com.lotus.conteos_app;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -32,7 +35,6 @@ import com.lotus.conteos_app.Model.tab.planoTab;
 
 import com.google.gson.reflect.TypeToken;
 
-import me.dm7.barcodescanner.zbar.Result;
 import me.dm7.barcodescanner.zbar.ZBarScannerView;
 
 public class MainActivity extends AppCompatActivity {
@@ -46,6 +48,8 @@ public class MainActivity extends AppCompatActivity {
     ImageView fen1, fen2;
     Button bt1, bt2, bt3, bt4;
     TextView info, data, tipo, finca, variedad, bloque, cama, fechaAct;
+
+    EditText gdia;
 
     // Arreglo, desplegable (Spinner) cuadros
     String[] cuadros = {"1", "2", "3", "4", "5", "6", "7", "8"};
@@ -102,6 +106,9 @@ public class MainActivity extends AppCompatActivity {
         bloque = (TextView) findViewById(R.id.cam_bloque);
         cama = (TextView) findViewById(R.id.cam_cama);
         fechaAct=(TextView) findViewById(R.id.fechaAct);
+
+
+
 
         // asociar arreglo cuadros al desplegable cuadro
         ArrayAdapter<String> cuadroArray = new ArrayAdapter<>(this, R.layout.spinner_item_personal, cuadros);
@@ -406,5 +413,47 @@ public class MainActivity extends AppCompatActivity {
         Intent i = new Intent(MainActivity.this, MainActivity.class);
         startActivity(i);
         vbc.stopCamera();//aqui apaga la camara
+    }
+
+
+
+
+
+    //CARGAR LA IMAGEN
+
+    public void img_cargar(View v){
+        Toast.makeText(this,"btn carga",Toast.LENGTH_SHORT).show();
+        this.getStoragePath();
+    }
+
+    File getStoragePath() {
+        gdia = (EditText) findViewById(R.id.dato_dia);
+        ImageView jpgView1 = (ImageView)findViewById(R.id.feno1_ib);
+        ImageView jpgView2 = (ImageView)findViewById(R.id.feno2_ib);
+        ImageView jpgView3 = (ImageView)findViewById(R.id.resFen1_bt);
+        ImageView jpgView4 = (ImageView)findViewById(R.id.resFen2_bt);
+
+        try {
+            String dia = gdia.getText().toString();//OBTENIENDO NOMBRE DE LA FOTO
+            File file = new File("/storage/extSdCard/LOST.DIR/"+dia+".JPG");
+            if (file.exists()) {
+
+                Bitmap mybit = BitmapFactory.decodeFile(file.getPath());
+                jpgView1.setImageBitmap(mybit);
+                jpgView2.setImageBitmap(mybit);
+                jpgView3.setImageBitmap(mybit);
+                jpgView4.setImageBitmap(mybit);
+                if (!file.getAbsolutePath().equalsIgnoreCase(Environment.getExternalStorageDirectory().getAbsolutePath()) && file.isDirectory() && file.canRead()) {
+                    return file;
+                }
+            }else{
+                Toast.makeText(this,"no obtuvo la imagen",Toast.LENGTH_LONG).show();
+            }
+            return Environment.getExternalStorageDirectory();
+        }catch (Exception ex){
+            Toast.makeText(this,"error"+ex,Toast.LENGTH_LONG).show();
+        }
+
+        return null;
     }
 }

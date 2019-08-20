@@ -18,18 +18,6 @@ public class imageAdmin {
         this.sdPath = Environment.getExternalStorageDirectory() + File.separator;
     }
 
-    //METODO PARA CAMBIAR LA IMAGEN SEGUN LO TIPEADO EN EL TEXTPLAIN
-    public boolean getImage(ImageView imageView, String file_name) throws Exception {
-        File file = new File(sdPath + file_name);
-        if (file.exists()) {
-            //Toast.makeText(this,""+file,Toast.LENGTH_LONG).show();
-            Bitmap mybit = BitmapFactory.decodeFile(file.getAbsolutePath());
-            imageView.setImageBitmap(mybit);
-            return true;
-        } else {
-            return false;
-        }
-    }
 
 
 }

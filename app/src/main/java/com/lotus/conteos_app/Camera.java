@@ -38,11 +38,7 @@ public class Camera extends AppCompatActivity {
 
             try {
                 setContentView(R.layout.activity_main);
-                resulcode = (EditText) findViewById(R.id.resulcode);
-
                 int bc = Integer.parseInt(result.getContents());
-
-                resulcode.setText(result.getContents());
 
                 Toast toast = Toast.makeText(getApplicationContext(), String.valueOf(bc), Toast.LENGTH_SHORT);
                 toast.show();
@@ -51,8 +47,14 @@ public class Camera extends AppCompatActivity {
                     toast = Toast.makeText(getApplicationContext(), "si hay resultado " + bc, Toast.LENGTH_SHORT);
                     toast.show();
 
-                    Intent i = new Intent(Camera.this, MainActivity.class);
-                    startActivity(i);
+                    /*MainActivity ma= new MainActivity();
+                    ma.buscarSiembra();*/
+
+                    vbc.stopCamera();//aqui apaga la camara
+
+                    resulcode = (EditText) findViewById(R.id.resulcode);
+                    resulcode.setText(result.getContents());
+
 
                 } else {
                     toast = Toast.makeText(getApplicationContext(), "no hay resultado", Toast.LENGTH_SHORT);
@@ -64,7 +66,6 @@ public class Camera extends AppCompatActivity {
                 Log.d("ERROR: ", e.toString());
             }
 
-            vbc.stopCamera();//aqui apaga la camara
 
         }
     }
