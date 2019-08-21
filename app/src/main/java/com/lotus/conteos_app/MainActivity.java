@@ -130,31 +130,34 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        Toast.makeText(this, "OnStart", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "OnStart AM", Toast.LENGTH_SHORT).show();
         // La actividad está a punto de hacerse visible.
     }
     @Override
     protected void onResume() {
         super.onResume();
-        Toast.makeText(this, "OnResume", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "OnResume AM", Toast.LENGTH_SHORT).show();
+        int datobar = getIntent().getIntExtra();
+        Toast.makeText(this, "datobar" +datobar, Toast.LENGTH_SHORT).show();
         // La actividad se ha vuelto visible (ahora se "reanuda").
     }
     @Override
     protected void onPause() {
         super.onPause();
-        Toast.makeText(this, "OnPause", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "OnResume AM", Toast.LENGTH_SHORT).show();
         // Enfocarse en otra actividad  (esta actividad está a punto de ser "detenida").
     }
     @Override
     protected void onStop() {
         super.onStop();
-        Toast.makeText(this, "OnStop", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "OnStop AM", Toast.LENGTH_SHORT).show();
         // La actividad ya no es visible (ahora está "detenida")
+        onResume();
     }
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Toast.makeText(this, "OnDestroy", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "OnDestroy AM", Toast.LENGTH_SHORT).show();
         // La actividad está a punto de ser destruida.
     }
 
