@@ -3,9 +3,9 @@ package com.lotus.conteos_app;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -16,6 +16,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.lotus.conteos_app.Config.Util.jsonAdmin;
+import com.lotus.conteos_app.Model.iConteo;
+import com.lotus.conteos_app.Model.iPlano;
+import com.lotus.conteos_app.Model.tab.conteoTab;
+import com.lotus.conteos_app.Model.tab.planoTab;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -23,15 +29,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-
-import com.lotus.conteos_app.Config.Util.jsonAdmin;
-import com.lotus.conteos_app.Model.iPlano;
-import com.lotus.conteos_app.Model.tab.conteoTab;
-
-import com.lotus.conteos_app.Model.iConteo;
-import com.lotus.conteos_app.Model.tab.planoTab;
-
-import com.google.gson.reflect.TypeToken;
 
 import me.dm7.barcodescanner.zbar.ZBarScannerView;
 
@@ -43,13 +40,9 @@ public class MainActivity extends AppCompatActivity {
 
     EditText siembra;
     EditText grados;
-    EditText c1;
-    EditText c2;
-    EditText c3;
-    EditText c4;
-    EditText resulcode;
+    EditText c1, c2, c3, c4, resulcode, dato_dia;
     Spinner cuadro, files;
-    ImageView fen1, fen2;
+    ImageView jpgView1, jpgView2, jpgView3, jpgView4;
     Button bt1, bt2, bt3, bt4;
     TextView info, data, tipo, finca, variedad, bloque, cama, fechaAct;
 
@@ -76,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        fechaAct = (TextView) findViewById(R.id.fechaAct);
+        fechaAct = findViewById(R.id.fechaAct);
 
         Calendar c = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
@@ -93,29 +86,35 @@ public class MainActivity extends AppCompatActivity {
         Toast.makeText(this, "Dia: " + dia, Toast.LENGTH_LONG).show();
 
         // Asociacion de campos y botones
-        siembra = (EditText) findViewById(R.id.siembra_et);
-        grados = (EditText) findViewById(R.id.grados_et);
-        cuadro = (Spinner) findViewById(R.id.cuadro_sp);
-        c1 = (EditText) findViewById(R.id.c1_et);
-        c2 = (EditText) findViewById(R.id.c2_et);
-        c3 = (EditText) findViewById(R.id.c3_et);
-        c4 = (EditText) findViewById(R.id.c4_et);
-        fen1 = (ImageView) findViewById(R.id.feno1_ib);
-        fen2 = (ImageView) findViewById(R.id.feno2_ib);
-        bt1 = (Button) findViewById(R.id.button1);
-        bt2 = (Button) findViewById(R.id.button2);
-        bt3 = (Button) findViewById(R.id.button3);
-        bt4 = (Button) findViewById(R.id.button4);
+        siembra = findViewById(R.id.siembra_et);
+        grados = findViewById(R.id.grados_et);
+        cuadro = findViewById(R.id.cuadro_sp);
+        c1 = findViewById(R.id.c1_et);
+        c2 = findViewById(R.id.c2_et);
+        c3 = findViewById(R.id.c3_et);
+        c4 = findViewById(R.id.c4_et);
 
-        info = (TextView) findViewById(R.id.info_tv);
-        data = (TextView) findViewById(R.id.data_tbl);
-        resulcode = (EditText) findViewById(R.id.resulcode);
 
-        finca = (TextView) findViewById(R.id.cam_finca);
-        variedad = (TextView) findViewById(R.id.cam_variedad);
-        bloque = (TextView) findViewById(R.id.cam_bloque);
-        cama = (TextView) findViewById(R.id.cam_cama);
-        fechaAct = (TextView) findViewById(R.id.fechaAct);
+        jpgView1 = findViewById(R.id.feno1_ib);
+        jpgView2 = findViewById(R.id.feno2_ib);
+        jpgView3 = findViewById(R.id.resFen1_bt);
+        jpgView4 = findViewById(R.id.resFen2_bt);
+
+        bt1 = findViewById(R.id.button1);
+        bt2 = findViewById(R.id.button2);
+        bt3 = findViewById(R.id.button3);
+        bt4 = findViewById(R.id.button4);
+
+        info = findViewById(R.id.info_tv);
+        data = findViewById(R.id.data_tbl);
+        resulcode = findViewById(R.id.resulcode);
+        dato_dia = findViewById(R.id.dato_dia);
+
+        finca = findViewById(R.id.cam_finca);
+        variedad = findViewById(R.id.cam_variedad);
+        bloque = findViewById(R.id.cam_bloque);
+        cama = findViewById(R.id.cam_cama);
+        fechaAct = findViewById(R.id.fechaAct);
 
 
         // asociar arreglo cuadros al desplegable cuadro
@@ -179,10 +178,10 @@ public class MainActivity extends AppCompatActivity {
     // busca el id de la siembra en el arreglo global y retorna la informacion en el text view info
     public void buscarSiembra() {
 
-        finca = (TextView) findViewById(R.id.cam_finca);
-        variedad = (TextView) findViewById(R.id.cam_variedad);
-        bloque = (TextView) findViewById(R.id.cam_bloque);
-        cama = (TextView) findViewById(R.id.cam_cama);
+        finca = findViewById(R.id.cam_finca);
+        variedad = findViewById(R.id.cam_variedad);
+        bloque = findViewById(R.id.cam_bloque);
+        cama = findViewById(R.id.cam_cama);
 
         int bs = valnum(resulcode);
 
@@ -262,10 +261,8 @@ public class MainActivity extends AppCompatActivity {
                 msj = msj + iC.insert(c);
             }
             Toast.makeText(this, msj, Toast.LENGTH_LONG).show();
-            ;
         } catch (Exception e) {
             Toast.makeText(this, e.toString(), Toast.LENGTH_LONG).show();
-            ;
 
         }
 
@@ -364,68 +361,24 @@ public class MainActivity extends AppCompatActivity {
 
     public void img_cargar(View v) {
         Toast.makeText(this, "btn carga", Toast.LENGTH_SHORT).show();
-        this.getStoragePath();
+        this.getStoragePath(jpgView1,"Vendela", "flor" + dato_dia.getText());
+
     }
 
-    File getStoragePath() {
-        gdia = (EditText) findViewById(R.id.dato_dia);
-        ImageView jpgView1 = (ImageView) findViewById(R.id.feno1_ib);
-        ImageView jpgView2 = (ImageView) findViewById(R.id.feno2_ib);
-        ImageView jpgView3 = (ImageView) findViewById(R.id.resFen1_bt);
-        ImageView jpgView4 = (ImageView) findViewById(R.id.resFen2_bt);
+    public File getStoragePath(ImageView iv, String Variedad, String imagen) {
+        gdia = findViewById(R.id.dato_dia);
 
         try {
-            String dia = gdia.getText().toString();//OBTENIENDO NOMBRE DE LA FOTO
 
-            if (dia == "9.94") {
+            File f = new File("/storage/extSdCard/" + Variedad + "/" + imagen + ".JPG");
 
-            } else if (dia == "19.66") {
-
-
-                File file1a = new File("/storage/extSdCard/LOST.DIR/flor1.JPG");
-                File file1b = new File("/storage/extSdCard/LOST.DIR/flor2.JPG");
-                File file1c = new File("/storage/extSdCard/LOST.DIR/flor3.JPG");
-                File file1d = new File("/storage/extSdCard/LOST.DIR/flor4.JPG");
-
-                if (file1a.exists() && file1b.exists() && file1c.exists() && file1d.exists()) {
-
-                    Bitmap mybit1 = BitmapFactory.decodeFile(file1a.getPath());
-                    jpgView1.setImageBitmap(mybit1);
-
-
-                    Bitmap mybit2 = BitmapFactory.decodeFile(file1b.getPath());
-                    jpgView2.setImageBitmap(mybit2);
-
-
-                    Bitmap mybit3 = BitmapFactory.decodeFile(file1c.getPath());
-                    jpgView3.setImageBitmap(mybit3);
-
-
-                    Bitmap mybit4 = BitmapFactory.decodeFile(file1d.getPath());
-                    jpgView4.setImageBitmap(mybit4);
-
-
-                    if (!file1a.getAbsolutePath().equalsIgnoreCase(Environment.getExternalStorageDirectory().getAbsolutePath()) && file1a.isDirectory() && file1a.canRead()) {
-                        return file1a;
-                    }
-
-                    if (!file1b.getAbsolutePath().equalsIgnoreCase(Environment.getExternalStorageDirectory().getAbsolutePath()) && file1b.isDirectory() && file1b.canRead()) {
-                        return file1b;
-                    }
-
-                    if (!file1c.getAbsolutePath().equalsIgnoreCase(Environment.getExternalStorageDirectory().getAbsolutePath()) && file1c.isDirectory() && file1c.canRead()) {
-                        return file1c;
-                    }
-
-                    if (!file1d.getAbsolutePath().equalsIgnoreCase(Environment.getExternalStorageDirectory().getAbsolutePath()) && file1d.isDirectory() && file1d.canRead()) {
-                        return file1d;
-                    }
-                } else {
-                    Toast.makeText(this, "no obtuvo la imagen", Toast.LENGTH_LONG).show();
-                }
+            if (f.exists()) {
+                Bitmap bitmap = BitmapFactory.decodeFile(f.getPath());
+                jpgView2.setImageBitmap(bitmap);
+            } else {
+                Toast.makeText(this, "no obtuvo la imagen", Toast.LENGTH_LONG).show();
             }
 
-            File file = new File("/storage/extSdCard/LOST.DIR/" + dia + ".JPG");
 
             return Environment.getExternalStorageDirectory();
         } catch (Exception ex) {
@@ -434,4 +387,28 @@ public class MainActivity extends AppCompatActivity {
 
         return null;
     }
+
+
+/*
+    public void img_cargar(View v) {
+        Toast.makeText(this, "btn carga", Toast.LENGTH_SHORT).show();
+        this.getStoragePath(jpgView1,"Vendela", "flor" + dato_dia.getText());
+    }
+
+    File getStoragePath(ImageView iv, String Variedad, String imagen) {
+
+        try {
+
+
+            Bitmap bitmap = BitmapFactory.decodeFile("/storage/extSdCard/" + Variedad + "/" + imagen + ".JPG");
+            iv.setImageBitmap(bitmap);
+
+        } catch (Exception ex) {
+            Toast.makeText(this, "error" + ex, Toast.LENGTH_LONG).show();
+        }
+
+        return null;
+    }
+    */
+
 }
