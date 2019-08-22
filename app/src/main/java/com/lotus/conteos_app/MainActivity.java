@@ -84,6 +84,14 @@ public class MainActivity extends AppCompatActivity {
         String fecha = strDate;
         fechaAct.setText(String.valueOf(fecha));
 
+        int dia = c.get(Calendar.DAY_OF_WEEK) - 1;
+        int hora = c.get(Calendar.HOUR_OF_DAY);
+        if (hora >= 12) {
+            dia++;
+        }
+
+        Toast.makeText(this, "Dia: " + dia, Toast.LENGTH_LONG).show();
+
         // Asociacion de campos y botones
         siembra = (EditText) findViewById(R.id.siembra_et);
         grados = (EditText) findViewById(R.id.grados_et);
@@ -125,9 +133,6 @@ public class MainActivity extends AppCompatActivity {
         //listFiles();
     }
 
-
-    //GUARDAMOS INSTANCIA PARA LOS DATOS DE LOS CAMPOS
-
     private void listFiles() {
         try {
             List<String> list = ja.listFiles();
@@ -147,9 +152,6 @@ public class MainActivity extends AppCompatActivity {
             iPlano iP = new iPlano();
             String nombre = "plano";
             String contenido = iP.all().toString();
-            // resulcode.setText(contenido);
-
-            // Toast.makeText(this, "xcv----  " + contenido, Toast.LENGTH_LONG).show();
 
             if (ja.CrearArchivo(nombre, contenido)) {
                 Toast.makeText(this, "Plano generado exitosamente", Toast.LENGTH_LONG).show();
@@ -159,8 +161,6 @@ public class MainActivity extends AppCompatActivity {
 
         } catch (Exception e) {
             Toast.makeText(this, "Plano local, error  " + e.toString(), Toast.LENGTH_LONG).show();
-            //err.setText(e.toString());
-
         }
     }
 
@@ -170,7 +170,6 @@ public class MainActivity extends AppCompatActivity {
             Gson gson = new Gson();
             pl = gson.fromJson(ja.ObtenerLista("plano.json"), new TypeToken<List<planoTab>>() {
             }.getType());
-
         } catch (Exception e) {
             //data.setText(e.toString());
             Toast.makeText(this, "Error: " + e.toString(), Toast.LENGTH_LONG).show();
@@ -180,8 +179,6 @@ public class MainActivity extends AppCompatActivity {
     // busca el id de la siembra en el arreglo global y retorna la informacion en el text view info
     public void buscarSiembra() {
 
-        // setContentView(R.layout.activity_main);
-
         finca = (TextView) findViewById(R.id.cam_finca);
         variedad = (TextView) findViewById(R.id.cam_variedad);
         bloque = (TextView) findViewById(R.id.cam_bloque);
@@ -189,35 +186,23 @@ public class MainActivity extends AppCompatActivity {
 
         int bs = valnum(resulcode);
 
-//        Toast.makeText(this, "entro a la siembra" + bs, Toast.LENGTH_SHORT).show();
-
         boolean infoS = false;
 
         if (pl != null || bs != 0) {
-//            Toast.makeText(this, "se listan " + bs, Toast.LENGTH_LONG).show();
-//            Toast.makeText(this, "se listan " + pl, Toast.LENGTH_LONG).show();
             for (planoTab p : pl) {
-
                 if (p.getIdSiembra() == bs) {
-//                    Toast.makeText(this, "se listan " + p.getIdFinca(), Toast.LENGTH_LONG).show();
-//                    Toast.makeText(this, "se listan " + p.getSufijo(), Toast.LENGTH_LONG).show();
-
                     infoS = true;
                     finca.setText(p.getFinca());
                     bloque.setText(p.getBloque());
                     variedad.setText(p.getVariedad());
                     cama.setText(p.getCama() + p.getSufijo());
-
-//                    Toast.makeText(this, "consulta" + variedad, Toast.LENGTH_LONG).show();
                 }
             }
-
             if (!infoS) {
                 Toast.makeText(this, "Siembra no encontrada", Toast.LENGTH_LONG).show();
             }
 
         } else {
-            //info.setText("");
             Toast.makeText(this, "Informacion invalida", Toast.LENGTH_LONG).show();
         }
 
@@ -418,7 +403,6 @@ public class MainActivity extends AppCompatActivity {
 
                     Bitmap mybit4 = BitmapFactory.decodeFile(file1d.getPath());
                     jpgView4.setImageBitmap(mybit4);
-
 
 
                     if (!file1a.getAbsolutePath().equalsIgnoreCase(Environment.getExternalStorageDirectory().getAbsolutePath()) && file1a.isDirectory() && file1a.canRead()) {
