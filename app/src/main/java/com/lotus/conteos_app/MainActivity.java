@@ -6,7 +6,6 @@ import android.graphics.BitmapFactory;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -26,7 +25,6 @@ import java.util.Date;
 import java.util.List;
 
 import com.lotus.conteos_app.Config.Util.jsonAdmin;
-import com.lotus.conteos_app.Config.Util.imageAdmin;
 import com.lotus.conteos_app.Model.iPlano;
 import com.lotus.conteos_app.Model.tab.conteoTab;
 
@@ -42,14 +40,13 @@ public class MainActivity extends AppCompatActivity {
     private ZBarScannerView vbc;
 
     // declaracion de variables campos
-    Spinner sp1, sp2, sp3;
+
     EditText siembra;
     EditText grados;
     EditText c1;
     EditText c2;
     EditText c3;
     EditText c4;
-    EditText err;
     EditText resulcode;
     Spinner cuadro, files;
     ImageView fen1, fen2;
@@ -87,19 +84,10 @@ public class MainActivity extends AppCompatActivity {
         String fecha = strDate;
         fechaAct.setText(String.valueOf(fecha));
 
-        int dia = c.get(Calendar.DAY_OF_WEEK) -1;
-        int hora = c.get(Calendar.HOUR_OF_DAY);
-        if (hora >= 12) {
-            dia++;
-        }
-
-        Toast.makeText(this, "Dia: " + dia, Toast.LENGTH_LONG).show();
-
         // Asociacion de campos y botones
         siembra = (EditText) findViewById(R.id.siembra_et);
         grados = (EditText) findViewById(R.id.grados_et);
         cuadro = (Spinner) findViewById(R.id.cuadro_sp);
-        files = (Spinner) findViewById(R.id.file_sp);
         c1 = (EditText) findViewById(R.id.c1_et);
         c2 = (EditText) findViewById(R.id.c2_et);
         c3 = (EditText) findViewById(R.id.c3_et);
@@ -132,62 +120,13 @@ public class MainActivity extends AppCompatActivity {
         // ia = new imageAdmin();
 
         // iniciar listas
-        actualizarPlano();
-        cargarPlanoLocal();
+        //actualizarPlano();
+        //cargarPlanoLocal();
         //listFiles();
-
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        //Toast.makeText(this, "OnResume AM", Toast.LENGTH_SHORT).show();
-        // La actividad se ha vuelto visible (ahora se "reanuda").
-        //resibir_dato();
-    }
-
-
-    public void resibir_dato() {
-        Toast.makeText(this, "entro al metodo recibir", Toast.LENGTH_LONG).show();
-
-        try {
-            Intent intentReceived = getIntent();
-            Bundle data = intentReceived.getExtras();
-            Toast.makeText(this, "VALOR " + data, Toast.LENGTH_LONG).show();
-            if (data != null) {
-                String res = data.getString("dato01");
-                Toast.makeText(this, " el valor es " + res, Toast.LENGTH_LONG).show();
-                resulcode.setText(res);
-            } else {
-                Toast.makeText(this, " el valor esta vacio ", Toast.LENGTH_LONG).show();
-            }
-        } catch (Exception ex) {
-            Toast.makeText(this, " problema " + ex, Toast.LENGTH_LONG).show();
-            resulcode.setText(ex.toString());
-        }
-    }
 
     //GUARDAMOS INSTANCIA PARA LOS DATOS DE LOS CAMPOS
-
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-
-        final TextView fecha = (TextView) findViewById(R.id.fechaAct);
-        CharSequence datfec = fecha.getText();
-        Toast.makeText(this, "save   " + datfec, Toast.LENGTH_SHORT).show();
-        outState.putCharSequence("hola", datfec);
-    }
-
-    @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-
-        final TextView fecha = (TextView) findViewById(R.id.fechaAct);
-        CharSequence userText = savedInstanceState.getString("hola");
-        Toast.makeText(this, "restore", Toast.LENGTH_SHORT).show();
-        fecha.setText(userText);
-    }
 
     private void listFiles() {
         try {
