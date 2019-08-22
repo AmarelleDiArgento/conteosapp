@@ -37,7 +37,7 @@ public class iPlano extends sqlConect implements plano {
             "      ,[variedad]\n" +
             "      ,[cama]\n" +
             "      ,[sufijo]\n" +
-            "  FROM [Plano_Siembra]";
+            "  FROM [dbo].[Plano_Siembra]";
 
 
     public iPlano() throws Exception {

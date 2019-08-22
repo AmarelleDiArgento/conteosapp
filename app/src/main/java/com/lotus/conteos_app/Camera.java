@@ -37,18 +37,19 @@ public class Camera extends AppCompatActivity {
         public void handleResult(Result result) {
 
             try {
-                setContentView(R.layout.activity_main);
+                //setContentView(R.layout.activity_main);
                 int bc = Integer.parseInt(result.getContents());
 
                     if (bc != 0) {
                             Toast toast = Toast.makeText(getApplicationContext(), "si hay resultado " + bc, Toast.LENGTH_SHORT);
                             toast.show();
                         vbc.stopCamera();//aqui apaga la camara
-                        int resulcode=bc;
-                        Intent intent= new Intent(Camera.this,MainActivity.class);
-                        intent.putExtra(null,resulcode);
-                        startActivity(intent);
-
+                        Intent intent1 = new Intent (Camera.this, MainActivity.class);
+                        Bundle data1 = new Bundle();
+                        data1.putString("dato01", String.valueOf(bc));
+                        intent1.putExtras(data1);
+                        startActivity(intent1);
+                        finish();
                         vbc.stopCamera();//aqui apaga la camara
 
                     } else {
@@ -71,43 +72,5 @@ public class Camera extends AppCompatActivity {
         vbc.stopCamera();//aqui apaga la camara
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        Toast.makeText(this, "OnStart camara", Toast.LENGTH_SHORT).show();
-        // La actividad está a punto de hacerse visible.
-    }
-    @Override
-    protected void onResume() {
-        super.onResume();
-        Toast.makeText(this, "OnResume camara", Toast.LENGTH_SHORT).show();
-        // La actividad se ha vuelto visible (ahora se "reanuda").
-    }
-    @Override
-    protected void onPause() {
-        super.onPause();
-        Toast.makeText(this, "OnResume camara", Toast.LENGTH_SHORT).show();
-        // Enfocarse en otra actividad  (esta actividad está a punto de ser "detenida").
-        Intent i = new Intent(Camera.this, MainActivity.class);
-        startActivity(i);
-        vbc.stopCamera();//aqui apaga la camara
-    }
-    @Override
-    protected void onStop() {
-        super.onStop();
-        Toast.makeText(this, "OnStop camara", Toast.LENGTH_SHORT).show();
-        // La actividad ya no es visible (ahora está "detenida")
-        Intent i = new Intent(Camera.this, MainActivity.class);
-        startActivity(i);
-        vbc.stopCamera();//aqui apaga la camara
-    }
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        Toast.makeText(this, "OnDestroy camara", Toast.LENGTH_SHORT).show();
-        // La actividad está a punto de ser destruida.
-        Intent i = new Intent(Camera.this, MainActivity.class);
-        startActivity(i);
-        vbc.stopCamera();//aqui apaga la camara
-    }
+
 }

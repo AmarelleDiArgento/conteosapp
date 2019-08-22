@@ -43,7 +43,14 @@ public class MainActivity extends AppCompatActivity {
 
     // declaracion de variables campos
     Spinner sp1, sp2, sp3;
-    EditText siembra, grados, c1, c2, c3, c4, err, resulcode;
+    EditText siembra;
+    EditText grados;
+    EditText c1;
+    EditText c2;
+    EditText c3;
+    EditText c4;
+    EditText err;
+    EditText resulcode;
     Spinner cuadro, files;
     ImageView fen1, fen2;
     Button bt1, bt2, bt3, bt4;
@@ -65,21 +72,28 @@ public class MainActivity extends AppCompatActivity {
     //imageAdmin ia = null;
     String path = null;
 
-    String fec=null;
+    String fec = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        fechaAct=(TextView) findViewById(R.id.fechaAct);
+        fechaAct = (TextView) findViewById(R.id.fechaAct);
 
         Calendar c = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         final String strDate = sdf.format(c.getTime());
-        String fecha=strDate;
+        String fecha = strDate;
         fechaAct.setText(String.valueOf(fecha));
 
+        int dia = c.get(Calendar.DAY_OF_WEEK) -1;
+        int hora = c.get(Calendar.HOUR_OF_DAY);
+        if (hora >= 12) {
+            dia++;
+        }
+
+        Toast.makeText(this, "Dia: " + dia, Toast.LENGTH_LONG).show();
 
         // Asociacion de campos y botones
         siembra = (EditText) findViewById(R.id.siembra_et);
@@ -105,9 +119,7 @@ public class MainActivity extends AppCompatActivity {
         variedad = (TextView) findViewById(R.id.cam_variedad);
         bloque = (TextView) findViewById(R.id.cam_bloque);
         cama = (TextView) findViewById(R.id.cam_cama);
-        fechaAct=(TextView) findViewById(R.id.fechaAct);
-
-
+        fechaAct = (TextView) findViewById(R.id.fechaAct);
 
 
         // asociar arreglo cuadros al desplegable cuadro
@@ -120,45 +132,39 @@ public class MainActivity extends AppCompatActivity {
         // ia = new imageAdmin();
 
         // iniciar listas
-        //cargarPlanoLocal();
-        //actualizarPlano();
-
-        listFiles();
+        actualizarPlano();
+        cargarPlanoLocal();
+        //listFiles();
 
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        Toast.makeText(this, "OnStart AM", Toast.LENGTH_SHORT).show();
-        // La actividad está a punto de hacerse visible.
-    }
     @Override
     protected void onResume() {
         super.onResume();
-        Toast.makeText(this, "OnResume AM", Toast.LENGTH_SHORT).show();
-        int datobar = getIntent().getIntExtra();
-        Toast.makeText(this, "datobar" +datobar, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "OnResume AM", Toast.LENGTH_SHORT).show();
         // La actividad se ha vuelto visible (ahora se "reanuda").
+        //resibir_dato();
     }
-    @Override
-    protected void onPause() {
-        super.onPause();
-        Toast.makeText(this, "OnResume AM", Toast.LENGTH_SHORT).show();
-        // Enfocarse en otra actividad  (esta actividad está a punto de ser "detenida").
-    }
-    @Override
-    protected void onStop() {
-        super.onStop();
-        Toast.makeText(this, "OnStop AM", Toast.LENGTH_SHORT).show();
-        // La actividad ya no es visible (ahora está "detenida")
-        onResume();
-    }
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        Toast.makeText(this, "OnDestroy AM", Toast.LENGTH_SHORT).show();
-        // La actividad está a punto de ser destruida.
+
+
+    public void resibir_dato() {
+        Toast.makeText(this, "entro al metodo recibir", Toast.LENGTH_LONG).show();
+
+        try {
+            Intent intentReceived = getIntent();
+            Bundle data = intentReceived.getExtras();
+            Toast.makeText(this, "VALOR " + data, Toast.LENGTH_LONG).show();
+            if (data != null) {
+                String res = data.getString("dato01");
+                Toast.makeText(this, " el valor es " + res, Toast.LENGTH_LONG).show();
+                resulcode.setText(res);
+            } else {
+                Toast.makeText(this, " el valor esta vacio ", Toast.LENGTH_LONG).show();
+            }
+        } catch (Exception ex) {
+            Toast.makeText(this, " problema " + ex, Toast.LENGTH_LONG).show();
+            resulcode.setText(ex.toString());
+        }
     }
 
     //GUARDAMOS INSTANCIA PARA LOS DATOS DE LOS CAMPOS
@@ -167,19 +173,19 @@ public class MainActivity extends AppCompatActivity {
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
 
-            final TextView fecha=(TextView)findViewById(R.id.fechaAct);
-            CharSequence datfec = fecha.getText();
-        Toast.makeText(this,"save   "+datfec,Toast.LENGTH_SHORT).show();
-        outState.putCharSequence ("hola", datfec);
+        final TextView fecha = (TextView) findViewById(R.id.fechaAct);
+        CharSequence datfec = fecha.getText();
+        Toast.makeText(this, "save   " + datfec, Toast.LENGTH_SHORT).show();
+        outState.putCharSequence("hola", datfec);
     }
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
 
-            final TextView fecha=(TextView)findViewById(R.id.fechaAct);
-            CharSequence userText = savedInstanceState.getString ("hola");
-        Toast.makeText(this,"restore",Toast.LENGTH_SHORT).show();
+        final TextView fecha = (TextView) findViewById(R.id.fechaAct);
+        CharSequence userText = savedInstanceState.getString("hola");
+        Toast.makeText(this, "restore", Toast.LENGTH_SHORT).show();
         fecha.setText(userText);
     }
 
@@ -191,7 +197,7 @@ public class MainActivity extends AppCompatActivity {
             files.setAdapter(fl);
             // data.setText(list.toString());
         } catch (Exception e) {
-            Toast.makeText(this,"LISTFILES()--->  " +e.toString(), Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "LISTFILES()--->  " + e.toString(), Toast.LENGTH_LONG).show();
         }
     }
 
@@ -202,8 +208,9 @@ public class MainActivity extends AppCompatActivity {
             iPlano iP = new iPlano();
             String nombre = "plano";
             String contenido = iP.all().toString();
-            resulcode.setText(contenido);
-            Toast.makeText(this,"xcv----  " +contenido,Toast.LENGTH_LONG).show();
+            // resulcode.setText(contenido);
+
+            // Toast.makeText(this, "xcv----  " + contenido, Toast.LENGTH_LONG).show();
 
             if (ja.CrearArchivo(nombre, contenido)) {
                 Toast.makeText(this, "Plano generado exitosamente", Toast.LENGTH_LONG).show();
@@ -212,7 +219,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
         } catch (Exception e) {
-            Toast.makeText(this, "Plano local, no hay conexion a la base de datos"+e.toString(), Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Plano local, error  " + e.toString(), Toast.LENGTH_LONG).show();
             //err.setText(e.toString());
 
         }
@@ -226,7 +233,7 @@ public class MainActivity extends AppCompatActivity {
             }.getType());
 
         } catch (Exception e) {
-            data.setText(e.toString());
+            //data.setText(e.toString());
             Toast.makeText(this, "Error: " + e.toString(), Toast.LENGTH_LONG).show();
         }
     }
@@ -234,7 +241,7 @@ public class MainActivity extends AppCompatActivity {
     // busca el id de la siembra en el arreglo global y retorna la informacion en el text view info
     public void buscarSiembra() {
 
-        setContentView(R.layout.activity_main);
+        // setContentView(R.layout.activity_main);
 
         finca = (TextView) findViewById(R.id.cam_finca);
         variedad = (TextView) findViewById(R.id.cam_variedad);
@@ -242,36 +249,40 @@ public class MainActivity extends AppCompatActivity {
         cama = (TextView) findViewById(R.id.cam_cama);
 
         int bs = valnum(resulcode);
-        String infoS = "";
+
+//        Toast.makeText(this, "entro a la siembra" + bs, Toast.LENGTH_SHORT).show();
+
+        boolean infoS = false;
+
         if (pl != null || bs != 0) {
+//            Toast.makeText(this, "se listan " + bs, Toast.LENGTH_LONG).show();
+//            Toast.makeText(this, "se listan " + pl, Toast.LENGTH_LONG).show();
             for (planoTab p : pl) {
 
                 if (p.getIdSiembra() == bs) {
+//                    Toast.makeText(this, "se listan " + p.getIdFinca(), Toast.LENGTH_LONG).show();
+//                    Toast.makeText(this, "se listan " + p.getSufijo(), Toast.LENGTH_LONG).show();
 
-                    Toast.makeText(this,"se listan ",Toast.LENGTH_LONG).show();
-
-                    infoS = "Finca: " + p.getFinca() + " Bloque: " + p.getBloque() + "  Variedad: " + p.getVariedad() + " Cama: " + p.getCama() + p.getSufijo();
-
+                    infoS = true;
                     finca.setText(p.getFinca());
                     bloque.setText(p.getBloque());
                     variedad.setText(p.getVariedad());
-                    cama.setText(p.getSufijo());
+                    cama.setText(p.getCama() + p.getSufijo());
 
-                    Toast.makeText(this,"consulta"+variedad,Toast.LENGTH_LONG).show();
+//                    Toast.makeText(this, "consulta" + variedad, Toast.LENGTH_LONG).show();
                 }
-
             }
 
-            if (!infoS.equalsIgnoreCase("")) {
-                info.setText(infoS);
-            } else {
-                info.setText("");
+            if (!infoS) {
                 Toast.makeText(this, "Siembra no encontrada", Toast.LENGTH_LONG).show();
             }
+
         } else {
-            info.setText("");
+            //info.setText("");
             Toast.makeText(this, "Informacion invalida", Toast.LENGTH_LONG).show();
         }
+
+
     }
 
     // registra conteos en arreglo local (REQUIERE UNA LISTA GLOBAL)
@@ -381,6 +392,12 @@ public class MainActivity extends AppCompatActivity {
      *  ----------------------------------------------------------------------------------
      */
 
+    //btn buscar siembra
+    public void btn_buscar(View v) {
+        buscarSiembra();
+    }
+
+
     // generar nombre de archivo json segun fecha de registro AAAA-MM-DD
     public String hoy() throws Exception {
         Date hoy = new Date();
@@ -405,8 +422,8 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void barcode(View v) {
-        Intent intent=new Intent(v.getContext(),Camera.class);
-        startActivityForResult(intent,0);
+        Intent intent = new Intent(v.getContext(), Camera.class);
+        startActivityForResult(intent, 0);
     }
 
 
@@ -419,42 +436,77 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
-
-
     //CARGAR LA IMAGEN
 
-    public void img_cargar(View v){
-        Toast.makeText(this,"btn carga",Toast.LENGTH_SHORT).show();
+    public void img_cargar(View v) {
+        Toast.makeText(this, "btn carga", Toast.LENGTH_SHORT).show();
         this.getStoragePath();
     }
 
     File getStoragePath() {
         gdia = (EditText) findViewById(R.id.dato_dia);
-        ImageView jpgView1 = (ImageView)findViewById(R.id.feno1_ib);
-        ImageView jpgView2 = (ImageView)findViewById(R.id.feno2_ib);
-        ImageView jpgView3 = (ImageView)findViewById(R.id.resFen1_bt);
-        ImageView jpgView4 = (ImageView)findViewById(R.id.resFen2_bt);
+        ImageView jpgView1 = (ImageView) findViewById(R.id.feno1_ib);
+        ImageView jpgView2 = (ImageView) findViewById(R.id.feno2_ib);
+        ImageView jpgView3 = (ImageView) findViewById(R.id.resFen1_bt);
+        ImageView jpgView4 = (ImageView) findViewById(R.id.resFen2_bt);
 
         try {
             String dia = gdia.getText().toString();//OBTENIENDO NOMBRE DE LA FOTO
-            File file = new File("/storage/extSdCard/LOST.DIR/"+dia+".JPG");
-            if (file.exists()) {
 
-                Bitmap mybit = BitmapFactory.decodeFile(file.getPath());
-                jpgView1.setImageBitmap(mybit);
-                jpgView2.setImageBitmap(mybit);
-                jpgView3.setImageBitmap(mybit);
-                jpgView4.setImageBitmap(mybit);
-                if (!file.getAbsolutePath().equalsIgnoreCase(Environment.getExternalStorageDirectory().getAbsolutePath()) && file.isDirectory() && file.canRead()) {
-                    return file;
+            if (dia == "9.94") {
+
+            } else if (dia == "19.66") {
+
+
+                File file1a = new File("/storage/extSdCard/LOST.DIR/flor1.JPG");
+                File file1b = new File("/storage/extSdCard/LOST.DIR/flor2.JPG");
+                File file1c = new File("/storage/extSdCard/LOST.DIR/flor3.JPG");
+                File file1d = new File("/storage/extSdCard/LOST.DIR/flor4.JPG");
+
+                if (file1a.exists() && file1b.exists() && file1c.exists() && file1d.exists()) {
+
+                    Bitmap mybit1 = BitmapFactory.decodeFile(file1a.getPath());
+                    jpgView1.setImageBitmap(mybit1);
+
+
+                    Bitmap mybit2 = BitmapFactory.decodeFile(file1b.getPath());
+                    jpgView2.setImageBitmap(mybit2);
+
+
+                    Bitmap mybit3 = BitmapFactory.decodeFile(file1c.getPath());
+                    jpgView3.setImageBitmap(mybit3);
+
+
+                    Bitmap mybit4 = BitmapFactory.decodeFile(file1d.getPath());
+                    jpgView4.setImageBitmap(mybit4);
+
+
+
+                    if (!file1a.getAbsolutePath().equalsIgnoreCase(Environment.getExternalStorageDirectory().getAbsolutePath()) && file1a.isDirectory() && file1a.canRead()) {
+                        return file1a;
+                    }
+
+                    if (!file1b.getAbsolutePath().equalsIgnoreCase(Environment.getExternalStorageDirectory().getAbsolutePath()) && file1b.isDirectory() && file1b.canRead()) {
+                        return file1b;
+                    }
+
+                    if (!file1c.getAbsolutePath().equalsIgnoreCase(Environment.getExternalStorageDirectory().getAbsolutePath()) && file1c.isDirectory() && file1c.canRead()) {
+                        return file1c;
+                    }
+
+                    if (!file1d.getAbsolutePath().equalsIgnoreCase(Environment.getExternalStorageDirectory().getAbsolutePath()) && file1d.isDirectory() && file1d.canRead()) {
+                        return file1d;
+                    }
+                } else {
+                    Toast.makeText(this, "no obtuvo la imagen", Toast.LENGTH_LONG).show();
                 }
-            }else{
-                Toast.makeText(this,"no obtuvo la imagen",Toast.LENGTH_LONG).show();
             }
+
+            File file = new File("/storage/extSdCard/LOST.DIR/" + dia + ".JPG");
+
             return Environment.getExternalStorageDirectory();
-        }catch (Exception ex){
-            Toast.makeText(this,"error"+ex,Toast.LENGTH_LONG).show();
+        } catch (Exception ex) {
+            Toast.makeText(this, "error" + ex, Toast.LENGTH_LONG).show();
         }
 
         return null;
