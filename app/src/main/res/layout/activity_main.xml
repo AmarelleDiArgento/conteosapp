@@ -73,10 +73,10 @@
 
     <Button
         android:id="@+id/button5"
-        android:layout_width="58dp"
-        android:layout_height="46dp"
-        android:layout_marginStart="304dp"
-        android:layout_marginTop="116dp"
+        android:layout_width="188dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="236dp"
+        android:layout_marginTop="108dp"
         android:onClick="btn_buscar"
         android:text="consultar"
         app:layout_constraintStart_toStartOf="parent"
@@ -188,22 +188,11 @@
         android:id="@+id/resulcode"
         android:layout_width="204dp"
         android:layout_height="62dp"
-        android:layout_marginStart="92dp"
-        android:layout_marginTop="116dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="112dp"
         android:ems="10"
         android:inputType="number"
         android:text=""
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <EditText
-        android:id="@+id/dato_dia"
-        android:layout_width="98dp"
-        android:layout_height="43dp"
-        android:layout_marginStart="384dp"
-        android:layout_marginTop="356dp"
-        android:ems="10"
-        android:inputType="number"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -298,10 +287,10 @@
 
     <ImageView
         android:id="@+id/scanner-bt"
-        android:layout_width="50dp"
-        android:layout_height="58dp"
-        android:layout_marginStart="376dp"
-        android:layout_marginTop="116dp"
+        android:layout_width="172dp"
+        android:layout_height="52dp"
+        android:layout_marginStart="432dp"
+        android:layout_marginTop="112dp"
         android:onClick="barcode"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -340,6 +329,15 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
+        android:id="@+id/textView13"
+        android:layout_width="596dp"
+        android:layout_height="178dp"
+        android:layout_marginTop="244dp"
+        android:background="@color/ColorSecondaryText"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
         android:id="@+id/info-tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -350,12 +348,14 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:layout_editor_absoluteY="8dp" />
 
-    <TextView
-        android:id="@+id/textView13"
-        android:layout_width="596dp"
-        android:layout_height="178dp"
-        android:layout_marginTop="228dp"
-        android:background="@color/ColorSecondaryText"
+    <EditText
+        android:id="@+id/dato_dia"
+        android:layout_width="98dp"
+        android:layout_height="43dp"
+        android:layout_marginStart="384dp"
+        android:layout_marginTop="356dp"
+        android:ems="10"
+        android:inputType="number"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
