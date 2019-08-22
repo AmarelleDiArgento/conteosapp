@@ -71,14 +71,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
+    <ImageView
         android:id="@+id/button5"
-        android:layout_width="188dp"
-        android:layout_height="60dp"
-        android:layout_marginStart="236dp"
+        android:layout_width="102dp"
+        android:layout_height="94dp"
+        android:layout_marginStart="280dp"
         android:layout_marginTop="108dp"
+        android:background="@drawable/lupa"
         android:onClick="btn_buscar"
-        android:text="consultar"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -186,8 +186,8 @@
 
     <EditText
         android:id="@+id/resulcode"
-        android:layout_width="204dp"
-        android:layout_height="62dp"
+        android:layout_width="239dp"
+        android:layout_height="81dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="112dp"
         android:ems="10"
@@ -287,14 +287,14 @@
 
     <ImageView
         android:id="@+id/scanner-bt"
-        android:layout_width="172dp"
-        android:layout_height="52dp"
-        android:layout_marginStart="432dp"
-        android:layout_marginTop="112dp"
+        android:layout_width="199dp"
+        android:layout_height="97dp"
+        android:layout_marginStart="360dp"
+        android:layout_marginTop="104dp"
         android:onClick="barcode"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/leercodigo" />
+        app:srcCompat="@drawable/barcode" />
 
     <ImageView
         android:id="@+id/button_reg"
@@ -332,7 +332,7 @@
         android:id="@+id/textView13"
         android:layout_width="596dp"
         android:layout_height="178dp"
-        android:layout_marginTop="244dp"
+        android:layout_marginTop="220dp"
         android:background="@color/ColorSecondaryText"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
