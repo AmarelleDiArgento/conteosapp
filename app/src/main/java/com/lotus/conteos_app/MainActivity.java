@@ -362,7 +362,10 @@ public class MainActivity extends AppCompatActivity {
 
     public void img_cargar(View v) {
         Toast.makeText(this, "btn carga", Toast.LENGTH_SHORT).show();
-        this.getStoragePath(jpgView1, "Vendela", "flor" + dato_dia.getText());
+        this.getStoragePath(jpgView1, "Vendela", "flor" + 1);
+        this.getStoragePath(jpgView2, "Vendela", "flor" + 2);
+        this.getStoragePath(jpgView3, "Vendela", "flor" + 3);
+        this.getStoragePath(jpgView4, "Vendela", "flor" + 4);
         imagenes(Integer.parseInt(dato_dia.getText().toString()));
 
     }
@@ -405,7 +408,7 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, String.valueOf(i), Toast.LENGTH_LONG).show();
         }
 
-*/
+
         int[] pack = new int[100];
         for (int a = 0; a <= 100; a++) {
             pack[a] = a * 5;
@@ -427,7 +430,7 @@ public class MainActivity extends AppCompatActivity {
         for (int c = 0; c <= 3; c++) {
             Toast.makeText(this, img[c] + ",  " + im[c], Toast.LENGTH_LONG).show();
         }
-
+*/
 
     }
 
