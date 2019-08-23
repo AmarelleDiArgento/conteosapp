@@ -150,7 +150,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
         } catch (Exception e) {
-            Toast.makeText(this, "Plano local, error  " + e.toString(), Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Sin conexión\n trabajando con plano local. \n Code: " + e.hashCode(), Toast.LENGTH_LONG).show();
         }
     }
 
