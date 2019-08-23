@@ -70,7 +70,30 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Asociacion de campos y botones
+
+        cuadro = findViewById(R.id.cuadro_sp);
+
+        c1 = findViewById(R.id.c1_et);
+        c2 = findViewById(R.id.c2_et);
+        c3 = findViewById(R.id.c3_et);
+        c4 = findViewById(R.id.c4_et);
+
+        jpgView1 = findViewById(R.id.feno1);
+        jpgView2 = findViewById(R.id.feno2);
+        jpgView3 = findViewById(R.id.feno3);
+        jpgView4 = findViewById(R.id.feno4);
+
+        dato_dia = findViewById(R.id.dato_dia);
+
+        finca = findViewById(R.id.cam_finca);
+        variedad = findViewById(R.id.cam_variedad);
+        bloque = findViewById(R.id.cam_bloque);
+        cama = findViewById(R.id.cam_cama);
+
         fechaAct = findViewById(R.id.fechaAct);
+
+        resulcode = (EditText) findViewById(R.id.resulcode);
 
         Calendar c = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
@@ -83,62 +106,6 @@ public class MainActivity extends AppCompatActivity {
         if (hora >= 12) {
             dia++;
         }
-
-        Toast.makeText(this, "Dia: " + dia, Toast.LENGTH_LONG).show();
-
-        // Asociacion de campos y botones
-
-        //siembra = findViewById(R.id.siembra_et);
-        //grados = findViewById(R.id.grados_et);
-        //cuadro = findViewById(R.id.cuadro_sp);
-        //c1 = findViewById(R.id.c1_et);
-        //c2 = findViewById(R.id.c2_et);
-        //c3 = findViewById(R.id.c3_et);
-        //c4 = findViewById(R.id.c4_et);
-
-
-        //jpgView1 = findViewById(R.id.feno1_ib);
-        //jpgView2 = findViewById(R.id.feno2_ib);
-        //jpgView3 = findViewById(R.id.resFen1_bt);
-        //jpgView4 = findViewById(R.id.resFen2_bt);
-
-        //bt1 = findViewById(R.id.button1);
-        //bt2 = findViewById(R.id.button2);
-        //bt3 = findViewById(R.id.button3);
-        //bt4 = findViewById(R.id.button4);
-
-        //info = findViewById(R.id.info_tv);
-        data = findViewById(R.id.data_tbl);
-        resulcode = findViewById(R.id.resulcode);
-        dato_dia = findViewById(R.id.dato_dia);
-
-        finca = findViewById(R.id.cam_finca);
-        variedad = findViewById(R.id.cam_variedad);
-        bloque = findViewById(R.id.cam_bloque);
-        cama = findViewById(R.id.cam_cama);
-        fechaAct = findViewById(R.id.fechaAct);
-
-        //siembra = (EditText) findViewById(R.id.siembra_et);
-        //grados = (EditText) findViewById(R.id.grados_et);
-        //cuadro = (Spinner) findViewById(R.id.cuadro_sp);
-        //c1 = (EditText) findViewById(R.id.c1_et);
-        //c2 = (EditText) findViewById(R.id.c2_et);
-        //c3 = (EditText) findViewById(R.id.c3_et);
-        //c4 = (EditText) findViewById(R.id.c4_et);
-        //fen1 = (ImageView) findViewById(R.id.feno1_ib);
-        //fen2 = (ImageView) findViewById(R.id.feno2_ib);
-
-
-        //info = (TextView) findViewById(R.id.info_tv);
-        data = (TextView) findViewById(R.id.data_tbl);
-        resulcode = (EditText) findViewById(R.id.resulcode);
-
-        finca = (TextView) findViewById(R.id.cam_finca);
-        variedad = (TextView) findViewById(R.id.cam_variedad);
-        bloque = (TextView) findViewById(R.id.cam_bloque);
-        cama = (TextView) findViewById(R.id.cam_cama);
-        fechaAct = (TextView) findViewById(R.id.fechaAct);
-
 
 
         // asociar arreglo cuadros al desplegable cuadro
@@ -202,7 +169,7 @@ public class MainActivity extends AppCompatActivity {
     // busca el id de la siembra en el arreglo global y retorna la informacion en el text view info
     public void buscarSiembra(int bc) {
 
-        Toast.makeText(this,"el dato llego"+bc,Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "el dato llego" + bc, Toast.LENGTH_SHORT).show();
 
         finca = findViewById(R.id.cam_finca);
         variedad = findViewById(R.id.cam_variedad);
@@ -302,34 +269,36 @@ public class MainActivity extends AppCompatActivity {
 
     // Aumentar conteo de semana 1
     public void sumFen1(View v) {
+
+        // Toast.makeText(this, "hola btn1", Toast.LENGTH_SHORT).show();
         int n = valnum(c1);
         c1.setText(String.valueOf(n + 1));
-        //Toast.makeText(this, "hola btn1", Toast.LENGTH_SHORT).show();
     }
 
     // Disminuir conteo de semana 1
     public void resFen1(View v) {
-
+        // Toast.makeText(this, "hola btn2", Toast.LENGTH_SHORT).show();
         int n = valnum(c1);
         if (n > 0) {
             c1.setText(String.valueOf(n - 1));
-            //Toast.makeText(this, "hola btn2", Toast.LENGTH_SHORT).show();
+
         }
     }
 
     // Aumentar conteo de semana 4
     public void sumFen2(View v) {
+        // Toast.makeText(this, "hola btn3", Toast.LENGTH_SHORT).show();
         int n = valnum(c4);
         c4.setText(String.valueOf(n + 1));
-        //Toast.makeText(this, "hola btn3", Toast.LENGTH_SHORT).show();
     }
 
     // Disminuir conteo de semana 4
     public void resFen2(View v) {
+        // Toast.makeText(this, "hola btn4", Toast.LENGTH_SHORT).show();
         int n = valnum(c4);
         if (n > 0) {
             c4.setText(String.valueOf(n - 1));
-            //Toast.makeText(this, "hola btn4", Toast.LENGTH_SHORT).show();
+
         }
     }
 
@@ -341,7 +310,7 @@ public class MainActivity extends AppCompatActivity {
 
     //btn buscar siembra
     public void btn_buscar(View v) {
-        int bc=0;
+        int bc = 0;
         buscarSiembra(bc);
     }
 
@@ -387,81 +356,57 @@ public class MainActivity extends AppCompatActivity {
     //CARGAR LA IMAGEN
 
     public void img_cargar(View v) {
-        Toast.makeText(this, "btn carga", Toast.LENGTH_SHORT).show();
-        this.getStoragePath(jpgView1, "Vendela", "flor" + 1);
-        this.getStoragePath(jpgView2, "Vendela", "flor" + 2);
-        this.getStoragePath(jpgView3, "Vendela", "flor" + 3);
-        this.getStoragePath(jpgView4, "Vendela", "flor" + 4);
-        imagenes(Integer.parseInt(dato_dia.getText().toString()));
+        // Toast.makeText(this, "btn carga", Toast.LENGTH_SHORT).show();
+        this.getStoragePath(jpgView1, "vendela", "flor" + 1);
+        this.getStoragePath(jpgView2, "vendela", "flor" + 2);
+        this.getStoragePath(jpgView3, "vendela", "flor" + 3);
+        this.getStoragePath(jpgView4, "vendela", "flor" + 4);
 
     }
 
     public File getStoragePath(ImageView iv, String Variedad, String imagen) {
-        gdia = findViewById(R.id.dato_dia);
+        // gdia = findViewById(R.id.dato_dia);
 
-        //File getStoragePath () {
-            gdia = (EditText) findViewById(R.id.dato_dia);
-            //ImageView jpgView1 = (ImageView) findViewById(R.id.feno1_ib);
-            //ImageView jpgView2 = (ImageView) findViewById(R.id.feno2_ib);
-            //ImageView jpgView3 = (ImageView) findViewById(R.id.resFen1_bt);
-            //ImageView jpgView4 = (ImageView) findViewById(R.id.resFen2_bt);
+        try {
+
+            File f = new File("/storage/extSdCard/" + Variedad + "/" + imagen + ".JPG");
+
+            if (f.exists()) {
+
+                Bitmap bitmap = BitmapFactory.decodeFile(f.getPath());
+                Toast.makeText(this, bitmap.toString() , Toast.LENGTH_LONG).show();
+
+                iv.setImageBitmap(bitmap);
 
 
-            try {
-
-                File f = new File("/storage/extSdCard/" + Variedad + "/" + imagen + ".JPG");
-
-
-                if (f.exists()) {
-                    Bitmap bitmap = BitmapFactory.decodeFile(f.getPath());
-                    jpgView2.setImageBitmap(bitmap);
-                } else {
-                    Toast.makeText(this, "no obtuvo la imagen", Toast.LENGTH_LONG).show();
+                if (!f.getAbsolutePath().equalsIgnoreCase(Environment.getExternalStorageDirectory().getAbsolutePath()) && f.isDirectory() && f.canRead()) {
+                    return f;
                 }
-
-
-                return Environment.getExternalStorageDirectory();
-            } catch (Exception ex) {
-                Toast.makeText(this, "error" + ex, Toast.LENGTH_LONG).show();
-            }
-
-            File file1a = new File("/storage/extSdCard/LOST.DIR/flor1.JPG");
-            File file1b = new File("/storage/extSdCard/LOST.DIR/flor2.JPG");
-            File file1c = new File("/storage/extSdCard/LOST.DIR/flor3.JPG");
-            File file1d = new File("/storage/extSdCard/LOST.DIR/flor4.JPG");
-
-            if (file1a.exists() && file1b.exists() && file1c.exists() && file1d.exists()) {
-
-                Bitmap mybit1 = BitmapFactory.decodeFile(file1a.getPath());
-                //jpgView1.setImageBitmap(mybit1);
-
-
-                Bitmap mybit2 = BitmapFactory.decodeFile(file1b.getPath());
-                //jpgView2.setImageBitmap(mybit2);
-
-
-                Bitmap mybit3 = BitmapFactory.decodeFile(file1c.getPath());
-                //jpgView3.setImageBitmap(mybit3);
-
-
-                Bitmap mybit4 = BitmapFactory.decodeFile(file1d.getPath());
-                //jpgView4.setImageBitmap(mybit4);
-
-
-                return null;
+            } else {
+                Toast.makeText(this, "No obtuvo la imagen", Toast.LENGTH_LONG).show();
             }
 
 
-            /*public void imagenes ( int g){
-                int d = 7 - dia;
+            return Environment.getExternalStorageDirectory();
+        } catch (Exception ex) {
+            Toast.makeText(this, "error" + ex.toString(), Toast.LENGTH_LONG).show();
+        }
 
-                int[] img = new int[4];
-                img[0] = (d) * g;
-                img[1] = (d + 7) * g;
-                img[2] = (d + 21) * g;
-                img[3] = (d + 28) * g;
+        return null;
+    }
 
 
+    public void imagenes(int g) {
+        int d = 7 - dia;
+
+        int[] img = new int[4];
+        img[0] = (d) * g;
+        img[1] = (d + 7) * g;
+        img[2] = (d + 21) * g;
+        img[3] = (d + 28) * g;
+
+
+/*
         for (int i : img) {
             Toast.makeText(this, String.valueOf(i), Toast.LENGTH_LONG).show();
         }
@@ -487,3 +432,4 @@ public class MainActivity extends AppCompatActivity {
 */
 
     }
+}
