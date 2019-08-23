@@ -110,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
 
         // asociar arreglo cuadros al desplegable cuadro
         ArrayAdapter<String> cuadroArray = new ArrayAdapter<>(this, R.layout.spinner_item_personal, cuadros);
-//        cuadro.setAdapter(cuadroArray);
+        cuadro.setAdapter(cuadroArray);
 
         //obtiene ruta donde se encuentran los archivos.
         path = getExternalFilesDir(null) + File.separator;
@@ -169,7 +169,7 @@ public class MainActivity extends AppCompatActivity {
     // busca el id de la siembra en el arreglo global y retorna la informacion en el text view info
     public void buscarSiembra(int bc) {
 
-        Toast.makeText(this, "el dato llego" + bc, Toast.LENGTH_SHORT).show();
+        // Toast.makeText(this, "el dato llego" + bc, Toast.LENGTH_SHORT).show();
 
         finca = findViewById(R.id.cam_finca);
         variedad = findViewById(R.id.cam_variedad);
@@ -188,6 +188,12 @@ public class MainActivity extends AppCompatActivity {
                     bloque.setText(p.getBloque());
                     variedad.setText(p.getVariedad());
                     cama.setText(p.getCama() + p.getSufijo());
+
+                    // Toast.makeText(this, "btn carga", Toast.LENGTH_SHORT).show();
+                    this.getStoragePath(jpgView1, p.getVariedad(), "flor" + 1);
+                    this.getStoragePath(jpgView2, p.getVariedad(), "flor" + 2);
+                    this.getStoragePath(jpgView3, p.getVariedad(), "flor" + 3);
+                    this.getStoragePath(jpgView4, p.getVariedad(), "flor" + 4);
                 }
             }
             if (!infoS) {
@@ -357,10 +363,10 @@ public class MainActivity extends AppCompatActivity {
 
     public void img_cargar(View v) {
         // Toast.makeText(this, "btn carga", Toast.LENGTH_SHORT).show();
-        this.getStoragePath(jpgView1, "vendela", "flor" + 1);
-        this.getStoragePath(jpgView2, "vendela", "flor" + 2);
-        this.getStoragePath(jpgView3, "vendela", "flor" + 3);
-        this.getStoragePath(jpgView4, "vendela", "flor" + 4);
+        this.getStoragePath(jpgView1, "Vendela", "flor" + 1);
+        this.getStoragePath(jpgView2, "Vendela", "flor" + 2);
+        this.getStoragePath(jpgView3, "Vendela", "flor" + 3);
+        this.getStoragePath(jpgView4, "Vendela", "flor" + 4);
 
     }
 
@@ -374,7 +380,7 @@ public class MainActivity extends AppCompatActivity {
             if (f.exists()) {
 
                 Bitmap bitmap = BitmapFactory.decodeFile(f.getPath());
-                Toast.makeText(this, bitmap.toString() , Toast.LENGTH_LONG).show();
+                // Toast.makeText(this, bitmap.toString() , Toast.LENGTH_LONG).show();
 
                 iv.setImageBitmap(bitmap);
 

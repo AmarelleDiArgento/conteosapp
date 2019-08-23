@@ -17,6 +17,7 @@
         android:onClick="img_cargar"
         android:text="CARGAR"
         android:textColor="@color/ColorPrimaryText"
+        android:visibility="invisible"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -27,11 +28,12 @@
         android:layout_marginStart="60dp"
         android:layout_marginTop="492dp"
         android:background="@android:color/holo_green_light"
-        android:padding="5dip"
         android:ems="10"
         android:inputType="number"
+        android:padding="5dip"
         android:text="0"
         android:textAlignment="center"
+        android:textColor="@color/ColorPrimaryText"
         android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -43,11 +45,12 @@
         android:layout_marginStart="196dp"
         android:layout_marginTop="492dp"
         android:background="@android:color/holo_green_light"
-        android:padding="5dip"
         android:ems="10"
         android:inputType="number"
+        android:padding="5dip"
         android:text="0"
         android:textAlignment="center"
+        android:textColor="@color/ColorPrimaryText"
         android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -59,11 +62,12 @@
         android:layout_marginStart="460dp"
         android:layout_marginTop="492dp"
         android:background="@android:color/holo_green_light"
-        android:padding="5dip"
         android:ems="10"
         android:inputType="number"
+        android:padding="5dip"
         android:text="0"
         android:textAlignment="center"
+        android:textColor="@color/ColorPrimaryText"
         android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -75,11 +79,12 @@
         android:layout_marginStart="328dp"
         android:layout_marginTop="492dp"
         android:background="@android:color/holo_green_light"
-        android:padding="5dip"
         android:ems="10"
         android:inputType="number"
+        android:padding="5dip"
         android:text="0"
         android:textAlignment="center"
+        android:textColor="@color/ColorPrimaryText"
         android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -175,6 +180,7 @@
         android:layout_height="178dp"
         android:layout_marginTop="220dp"
         android:background="@color/ColorSecondaryText"
+        android:visibility="invisible"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -206,8 +212,12 @@
         android:layout_height="43dp"
         android:layout_marginStart="384dp"
         android:layout_marginTop="356dp"
+        android:editable="false"
         android:ems="10"
-        android:inputType="number"
+        android:inputType="numberDecimal"
+        android:text="9,8"
+        android:textAlignment="center"
+        android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -491,6 +501,8 @@
         android:textColor="@color/ColorPrimaryText"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+
 
 
 </android.support.constraint.ConstraintLayout>
