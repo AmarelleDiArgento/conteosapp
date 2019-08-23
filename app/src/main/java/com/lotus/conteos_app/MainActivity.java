@@ -45,7 +45,6 @@ public class MainActivity extends AppCompatActivity {
     ImageView jpgView1, jpgView2, jpgView3, jpgView4;
     Button bt1, bt2, bt3, bt4;
     TextView info, data, tipo, finca, variedad, bloque, cama, fechaAct;
-
     EditText gdia;
 
     // Arreglo, desplegable (Spinner) cuadros
@@ -64,6 +63,8 @@ public class MainActivity extends AppCompatActivity {
 
     String fec = null;
 
+    int dia, hora;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,8 +78,8 @@ public class MainActivity extends AppCompatActivity {
         String fecha = strDate;
         fechaAct.setText(String.valueOf(fecha));
 
-        int dia = c.get(Calendar.DAY_OF_WEEK) - 1;
-        int hora = c.get(Calendar.HOUR_OF_DAY);
+        dia = c.get(Calendar.DAY_OF_WEEK) - 1;
+        hora = c.get(Calendar.HOUR_OF_DAY);
         if (hora >= 12) {
             dia++;
         }
@@ -361,7 +362,8 @@ public class MainActivity extends AppCompatActivity {
 
     public void img_cargar(View v) {
         Toast.makeText(this, "btn carga", Toast.LENGTH_SHORT).show();
-        this.getStoragePath(jpgView1,"Vendela", "flor" + dato_dia.getText());
+        this.getStoragePath(jpgView1, "Vendela", "flor" + dato_dia.getText());
+        imagenes(Integer.parseInt(dato_dia.getText().toString()));
 
     }
 
@@ -389,26 +391,44 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    public void imagenes(int g) {
+        int d = 7 - dia;
+
+        int[] img = new int[4];
+        img[0] = (d) * g;
+        img[1] = (d + 7) * g;
+        img[2] = (d + 21) * g;
+        img[3] = (d + 28) * g;
+
 /*
-    public void img_cargar(View v) {
-        Toast.makeText(this, "btn carga", Toast.LENGTH_SHORT).show();
-        this.getStoragePath(jpgView1,"Vendela", "flor" + dato_dia.getText());
-    }
-
-    File getStoragePath(ImageView iv, String Variedad, String imagen) {
-
-        try {
-
-
-            Bitmap bitmap = BitmapFactory.decodeFile("/storage/extSdCard/" + Variedad + "/" + imagen + ".JPG");
-            iv.setImageBitmap(bitmap);
-
-        } catch (Exception ex) {
-            Toast.makeText(this, "error" + ex, Toast.LENGTH_LONG).show();
+        for (int i : img) {
+            Toast.makeText(this, String.valueOf(i), Toast.LENGTH_LONG).show();
         }
 
-        return null;
+*/
+        int[] pack = new int[100];
+        for (int a = 0; a <= 100; a++) {
+            pack[a] = a * 5;
+        }
+
+        String t = "";
+
+        int b = 0;
+
+        int[] im = new int[4];
+        for (int p = 0; p <= 100; p++) {
+            if (pack[p] >= img[b] && b<= im.length) {
+                Toast.makeText(this, pack[p] + ",  " + img[b], Toast.LENGTH_SHORT).show();
+                im[b] = pack[b - 1];
+                b++;
+            }
+        }
+
+        for (int c = 0; c <= 3; c++) {
+            Toast.makeText(this, img[c] + ",  " + im[c], Toast.LENGTH_LONG).show();
+        }
+
+
     }
-    */
 
 }
