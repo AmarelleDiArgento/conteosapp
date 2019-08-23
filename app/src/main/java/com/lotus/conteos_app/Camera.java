@@ -43,12 +43,13 @@ public class Camera extends AppCompatActivity {
                     if (bc != 0) {
                             Toast toast = Toast.makeText(getApplicationContext(), "si hay resultado " + bc, Toast.LENGTH_SHORT);
                             toast.show();
-                        vbc.stopCamera();//aqui apaga la camara
-                        Intent intent1 = new Intent (Camera.this, MainActivity.class);
-                        Bundle data1 = new Bundle();
-                        data1.putString("dato01", String.valueOf(bc));
-                        intent1.putExtras(data1);
-                        startActivity(intent1);
+
+                            MainActivity ma = new MainActivity();
+                            ma.buscarSiembra(bc);
+
+                            Intent intent = new Intent(Camera.this, MainActivity.class);
+                            startActivity(intent);
+
                         finish();
                         vbc.stopCamera();//aqui apaga la camara
 
