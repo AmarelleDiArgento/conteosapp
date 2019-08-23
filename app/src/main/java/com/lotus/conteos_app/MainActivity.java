@@ -87,26 +87,27 @@ public class MainActivity extends AppCompatActivity {
         Toast.makeText(this, "Dia: " + dia, Toast.LENGTH_LONG).show();
 
         // Asociacion de campos y botones
-        siembra = findViewById(R.id.siembra_et);
-        grados = findViewById(R.id.grados_et);
-        cuadro = findViewById(R.id.cuadro_sp);
-        c1 = findViewById(R.id.c1_et);
-        c2 = findViewById(R.id.c2_et);
-        c3 = findViewById(R.id.c3_et);
-        c4 = findViewById(R.id.c4_et);
+
+        //siembra = findViewById(R.id.siembra_et);
+        //grados = findViewById(R.id.grados_et);
+        //cuadro = findViewById(R.id.cuadro_sp);
+        //c1 = findViewById(R.id.c1_et);
+        //c2 = findViewById(R.id.c2_et);
+        //c3 = findViewById(R.id.c3_et);
+        //c4 = findViewById(R.id.c4_et);
 
 
-        jpgView1 = findViewById(R.id.feno1_ib);
-        jpgView2 = findViewById(R.id.feno2_ib);
-        jpgView3 = findViewById(R.id.resFen1_bt);
-        jpgView4 = findViewById(R.id.resFen2_bt);
+        //jpgView1 = findViewById(R.id.feno1_ib);
+        //jpgView2 = findViewById(R.id.feno2_ib);
+        //jpgView3 = findViewById(R.id.resFen1_bt);
+        //jpgView4 = findViewById(R.id.resFen2_bt);
 
-        bt1 = findViewById(R.id.button1);
-        bt2 = findViewById(R.id.button2);
-        bt3 = findViewById(R.id.button3);
-        bt4 = findViewById(R.id.button4);
+        //bt1 = findViewById(R.id.button1);
+        //bt2 = findViewById(R.id.button2);
+        //bt3 = findViewById(R.id.button3);
+        //bt4 = findViewById(R.id.button4);
 
-        info = findViewById(R.id.info_tv);
+        //info = findViewById(R.id.info_tv);
         data = findViewById(R.id.data_tbl);
         resulcode = findViewById(R.id.resulcode);
         dato_dia = findViewById(R.id.dato_dia);
@@ -117,10 +118,32 @@ public class MainActivity extends AppCompatActivity {
         cama = findViewById(R.id.cam_cama);
         fechaAct = findViewById(R.id.fechaAct);
 
+        //siembra = (EditText) findViewById(R.id.siembra_et);
+        //grados = (EditText) findViewById(R.id.grados_et);
+        //cuadro = (Spinner) findViewById(R.id.cuadro_sp);
+        //c1 = (EditText) findViewById(R.id.c1_et);
+        //c2 = (EditText) findViewById(R.id.c2_et);
+        //c3 = (EditText) findViewById(R.id.c3_et);
+        //c4 = (EditText) findViewById(R.id.c4_et);
+        //fen1 = (ImageView) findViewById(R.id.feno1_ib);
+        //fen2 = (ImageView) findViewById(R.id.feno2_ib);
+
+
+        //info = (TextView) findViewById(R.id.info_tv);
+        data = (TextView) findViewById(R.id.data_tbl);
+        resulcode = (EditText) findViewById(R.id.resulcode);
+
+        finca = (TextView) findViewById(R.id.cam_finca);
+        variedad = (TextView) findViewById(R.id.cam_variedad);
+        bloque = (TextView) findViewById(R.id.cam_bloque);
+        cama = (TextView) findViewById(R.id.cam_cama);
+        fechaAct = (TextView) findViewById(R.id.fechaAct);
+
+
 
         // asociar arreglo cuadros al desplegable cuadro
         ArrayAdapter<String> cuadroArray = new ArrayAdapter<>(this, R.layout.spinner_item_personal, cuadros);
-        cuadro.setAdapter(cuadroArray);
+//        cuadro.setAdapter(cuadroArray);
 
         //obtiene ruta donde se encuentran los archivos.
         path = getExternalFilesDir(null) + File.separator;
@@ -128,8 +151,8 @@ public class MainActivity extends AppCompatActivity {
         // ia = new imageAdmin();
 
         // iniciar listas
-        //actualizarPlano();
-        //cargarPlanoLocal();
+        actualizarPlano();
+        cargarPlanoLocal();
         //listFiles();
     }
 
@@ -177,7 +200,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // busca el id de la siembra en el arreglo global y retorna la informacion en el text view info
-    public void buscarSiembra() {
+    public void buscarSiembra(int bc) {
+
+        Toast.makeText(this,"el dato llego"+bc,Toast.LENGTH_SHORT).show();
 
         finca = findViewById(R.id.cam_finca);
         variedad = findViewById(R.id.cam_variedad);
@@ -316,7 +341,8 @@ public class MainActivity extends AppCompatActivity {
 
     //btn buscar siembra
     public void btn_buscar(View v) {
-        buscarSiembra();
+        int bc=0;
+        buscarSiembra(bc);
     }
 
 
@@ -373,37 +399,69 @@ public class MainActivity extends AppCompatActivity {
     public File getStoragePath(ImageView iv, String Variedad, String imagen) {
         gdia = findViewById(R.id.dato_dia);
 
-        try {
+        //File getStoragePath () {
+            gdia = (EditText) findViewById(R.id.dato_dia);
+            //ImageView jpgView1 = (ImageView) findViewById(R.id.feno1_ib);
+            //ImageView jpgView2 = (ImageView) findViewById(R.id.feno2_ib);
+            //ImageView jpgView3 = (ImageView) findViewById(R.id.resFen1_bt);
+            //ImageView jpgView4 = (ImageView) findViewById(R.id.resFen2_bt);
 
-            File f = new File("/storage/extSdCard/" + Variedad + "/" + imagen + ".JPG");
 
-            if (f.exists()) {
-                Bitmap bitmap = BitmapFactory.decodeFile(f.getPath());
-                jpgView2.setImageBitmap(bitmap);
-            } else {
-                Toast.makeText(this, "no obtuvo la imagen", Toast.LENGTH_LONG).show();
+            try {
+
+                File f = new File("/storage/extSdCard/" + Variedad + "/" + imagen + ".JPG");
+
+
+                if (f.exists()) {
+                    Bitmap bitmap = BitmapFactory.decodeFile(f.getPath());
+                    jpgView2.setImageBitmap(bitmap);
+                } else {
+                    Toast.makeText(this, "no obtuvo la imagen", Toast.LENGTH_LONG).show();
+                }
+
+
+                return Environment.getExternalStorageDirectory();
+            } catch (Exception ex) {
+                Toast.makeText(this, "error" + ex, Toast.LENGTH_LONG).show();
+            }
+
+            File file1a = new File("/storage/extSdCard/LOST.DIR/flor1.JPG");
+            File file1b = new File("/storage/extSdCard/LOST.DIR/flor2.JPG");
+            File file1c = new File("/storage/extSdCard/LOST.DIR/flor3.JPG");
+            File file1d = new File("/storage/extSdCard/LOST.DIR/flor4.JPG");
+
+            if (file1a.exists() && file1b.exists() && file1c.exists() && file1d.exists()) {
+
+                Bitmap mybit1 = BitmapFactory.decodeFile(file1a.getPath());
+                //jpgView1.setImageBitmap(mybit1);
+
+
+                Bitmap mybit2 = BitmapFactory.decodeFile(file1b.getPath());
+                //jpgView2.setImageBitmap(mybit2);
+
+
+                Bitmap mybit3 = BitmapFactory.decodeFile(file1c.getPath());
+                //jpgView3.setImageBitmap(mybit3);
+
+
+                Bitmap mybit4 = BitmapFactory.decodeFile(file1d.getPath());
+                //jpgView4.setImageBitmap(mybit4);
+
+
+                return null;
             }
 
 
-            return Environment.getExternalStorageDirectory();
-        } catch (Exception ex) {
-            Toast.makeText(this, "error" + ex, Toast.LENGTH_LONG).show();
-        }
+            /*public void imagenes ( int g){
+                int d = 7 - dia;
 
-        return null;
-    }
+                int[] img = new int[4];
+                img[0] = (d) * g;
+                img[1] = (d + 7) * g;
+                img[2] = (d + 21) * g;
+                img[3] = (d + 28) * g;
 
 
-    public void imagenes(int g) {
-        int d = 7 - dia;
-
-        int[] img = new int[4];
-        img[0] = (d) * g;
-        img[1] = (d + 7) * g;
-        img[2] = (d + 21) * g;
-        img[3] = (d + 28) * g;
-
-/*
         for (int i : img) {
             Toast.makeText(this, String.valueOf(i), Toast.LENGTH_LONG).show();
         }
@@ -414,18 +472,14 @@ public class MainActivity extends AppCompatActivity {
             pack[a] = a * 5;
         }
 
-        String t = "";
+                int[] pack = new int[100];
+                for (int a = 0; a <= 100; a++) {
+                    pack[a] = a * 5;
+                }
 
-        int b = 0;
+                String t = "";
 
-        int[] im = new int[4];
-        for (int p = 0; p <= 100; p++) {
-            if (pack[p] >= img[b] && b<= im.length) {
-                Toast.makeText(this, pack[p] + ",  " + img[b], Toast.LENGTH_SHORT).show();
-                im[b] = pack[b - 1];
-                b++;
-            }
-        }
+                int b = 0;
 
         for (int c = 0; c <= 3; c++) {
             Toast.makeText(this, img[c] + ",  " + im[c], Toast.LENGTH_LONG).show();
@@ -433,5 +487,3 @@ public class MainActivity extends AppCompatActivity {
 */
 
     }
-
-}
