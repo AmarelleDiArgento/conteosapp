@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.ActionMenuView;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -12,8 +13,6 @@ import me.dm7.barcodescanner.zbar.ZBarScannerView;
 
 public class Camera extends AppCompatActivity {
     private ZBarScannerView vbc;
-
-    EditText resulcode;
 
 
     @Override
@@ -28,31 +27,20 @@ public class Camera extends AppCompatActivity {
         vbc.startCamera();
     }
 
-
-
-
-    class barcodeimp implements ZBarScannerView.ResultHandler {
-
+    public class barcodeimp implements ZBarScannerView.ResultHandler {
         @Override
         public void handleResult(Result result) {
-
             try {
-                //setContentView(R.layout.activity_main);
                 int bc = Integer.parseInt(result.getContents());
 
                     if (bc != 0) {
-                            Toast toast = Toast.makeText(getApplicationContext(), "si hay resultado " + bc, Toast.LENGTH_SHORT);
-                            toast.show();
+                                //Toast toast = Toast.makeText(getApplicationContext(), "si hay resultado " + bc, Toast.LENGTH_SHORT);
+                                //toast.show();
 
-                            MainActivity ma = new MainActivity();
-                            ma.buscarSiembra(bc);
-
-                            Intent intent = new Intent(Camera.this, MainActivity.class);
-                            startActivity(intent);
-
-                        finish();
-                        vbc.stopCamera();//aqui apaga la camara
-
+                            Intent intent = new Intent (Camera.this,MainActivity.class);
+                            //Exportar parametro
+                            intent.putExtra("codigo", bc);
+                            startActivityForResult(intent, 0);
                     } else {
                             Toast toast = Toast.makeText(getApplicationContext(), "no hay resultado", Toast.LENGTH_SHORT);
                             toast.show();
@@ -64,14 +52,10 @@ public class Camera extends AppCompatActivity {
         }
     }
 
-
     //PARA VOLVER A LA ACTIVIDAD ANTERIOR(CAMARA)
     public void onBackPressed() {
-        //Toast.makeText(this,"se retrocedio",Toast.LENGTH_LONG).show();
         Intent i = new Intent(Camera.this, MainActivity.class);
         startActivity(i);
         vbc.stopCamera();//aqui apaga la camara
     }
-
-
 }

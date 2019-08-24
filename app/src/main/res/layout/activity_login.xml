@@ -4,23 +4,79 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/ColorSecondaryText"
     tools:context=".Login">
 
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="482dp"
+        android:layout_height="415dp"
+        android:layout_marginStart="68dp"
+        android:layout_marginTop="252dp"
+        android:background="@color/ColorPrimaryText"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btn_login"
+        android:layout_width="370dp"
+        android:layout_height="73dp"
+        android:layout_marginStart="128dp"
+        android:layout_marginTop="560dp"
+        android:background="@color/colorPrimary"
+        android:onClick="btn_login"
+        android:text="Ingresar"
+        android:textColor="@color/ColorPrimaryText"
+        android:textSize="30sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/txt_pass"
+        android:layout_width="288dp"
+        android:layout_height="51dp"
+        android:layout_marginStart="196dp"
+        android:layout_marginTop="472dp"
+        android:ems="10"
+        android:inputType="numberPassword"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <ImageView
-        android:id="@+id/imageView10"
-        android:layout_width="471dp"
-        android:layout_height="568dp"
-        android:layout_marginStart="88dp"
-        android:layout_marginTop="180dp"
+        android:id="@+id/imageView8"
+        android:layout_width="77dp"
+        android:layout_height="58dp"
+        android:layout_marginStart="116dp"
+        android:layout_marginTop="384dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/plantilla" />
+        app:srcCompat="@drawable/user" />
+
+    <ImageView
+        android:id="@+id/imageView9"
+        android:layout_width="78dp"
+        android:layout_height="53dp"
+        android:layout_marginStart="116dp"
+        android:layout_marginTop="464dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/pass" />
+
+    <EditText
+        android:id="@+id/txt_user"
+        android:layout_width="291dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="196dp"
+        android:layout_marginTop="388dp"
+        android:ems="10"
+        android:inputType="number"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="606dp"
-        android:layout_height="185dp"
-        android:layout_marginTop="4dp"
+        android:layout_width="598dp"
+        android:layout_height="147dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/logoheader" />
@@ -29,64 +85,12 @@
         android:id="@+id/textView24"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="240dp"
-        android:layout_marginTop="228dp"
+        android:layout_marginStart="224dp"
+        android:layout_marginTop="264dp"
         android:text="Login"
+        android:textColor="@color/colorPrimary"
         android:textSize="56sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <EditText
-        android:id="@+id/txt_user"
-        android:layout_width="291dp"
-        android:layout_height="60dp"
-        android:layout_marginStart="224dp"
-        android:layout_marginTop="384dp"
-        android:ems="10"
-        android:inputType="number"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <EditText
-        android:id="@+id/txt_pass"
-        android:layout_width="288dp"
-        android:layout_height="51dp"
-        android:layout_marginStart="224dp"
-        android:layout_marginTop="468dp"
-        android:ems="10"
-        android:inputType="numberPassword"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageView
-        android:id="@+id/btn_login"
-        android:layout_width="326dp"
-        android:layout_height="98dp"
-        android:layout_marginStart="160dp"
-        android:layout_marginTop="548dp"
-        android:onClick="btn_login"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/bottonlogin" />
-
-    <ImageView
-        android:id="@+id/imageView8"
-        android:layout_width="77dp"
-        android:layout_height="58dp"
-        android:layout_marginStart="120dp"
-        android:layout_marginTop="384dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/user" />
-
-    <ImageView
-        android:id="@+id/imageView9"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="132dp"
-        android:layout_marginTop="468dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/pass" />
 
 </android.support.constraint.ConstraintLayout>
