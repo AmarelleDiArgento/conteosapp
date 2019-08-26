@@ -1,6 +1,7 @@
 package com.lotus.conteos_app.Config;
 
 import android.os.StrictMode;
+import android.widget.Toast;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -20,6 +21,8 @@ public abstract class sqlConect {
         DriverManager.registerDriver(new net.sourceforge.jtds.jdbc.Driver());
         //Class.forName("net.sourceforge.jtds.jdbc.Driver");
         return DriverManager.getConnection(url, user, pass);
+
+
     }
 
     public void closeConexion(Connection con) throws Exception {
@@ -35,5 +38,8 @@ public abstract class sqlConect {
         if (rs != null) {
             rs.close();
         }
+
+
+
     }
 }

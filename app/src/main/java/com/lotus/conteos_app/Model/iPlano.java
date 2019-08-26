@@ -39,7 +39,6 @@ public class iPlano extends sqlConect implements plano {
             "      ,[sufijo]\n" +
             "  FROM [dbo].[Plano_Siembra]";
 
-
     public iPlano() throws Exception {
         this.cn = getConexion();
     }
@@ -164,4 +163,5 @@ public class iPlano extends sqlConect implements plano {
         closeConexion(cn, rs);
         return pl;
     }
+
 }

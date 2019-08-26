@@ -138,7 +138,7 @@ public class MainActivity extends AppCompatActivity {
             // asociar arreglo cuadros al desplegable cuadro
             ArrayAdapter<String> fl = new ArrayAdapter<>(this, R.layout.spinner_item_personal, list);
             files.setAdapter(fl);
-            // data.setText(list.toString());
+            //data.setText(list.toString());
         } catch (Exception e) {
             Toast.makeText(this, "LISTFILES()--->  " + e.toString(), Toast.LENGTH_LONG).show();
         }
@@ -196,7 +196,7 @@ public class MainActivity extends AppCompatActivity {
                     variedad.setText(p.getVariedad());
                     cama.setText(p.getCama() + p.getSufijo());
 
-                    // Toast.makeText(this, "btn carga", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "btn carga"+pl.size(), Toast.LENGTH_SHORT).show();
                     this.getStoragePath(jpgView1, p.getVariedad(), "flor" + 1);
                     this.getStoragePath(jpgView2, p.getVariedad(), "flor" + 2);
                     this.getStoragePath(jpgView3, p.getVariedad(), "flor" + 3);
