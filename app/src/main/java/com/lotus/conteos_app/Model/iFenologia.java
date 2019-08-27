@@ -10,7 +10,7 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-class iFenologia extends sqlConect implements fenologia {
+public class iFenologia extends sqlConect implements fenologia {
     Connection cn = null;
 
 

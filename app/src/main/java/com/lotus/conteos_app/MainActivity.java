@@ -21,6 +21,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.lotus.conteos_app.Config.Util.jsonAdmin;
 import com.lotus.conteos_app.Model.iConteo;
+import com.lotus.conteos_app.Model.iFenologia;
 import com.lotus.conteos_app.Model.iPlano;
 import com.lotus.conteos_app.Model.tab.conteoTab;
 import com.lotus.conteos_app.Model.tab.planoTab;
@@ -123,13 +124,12 @@ public class MainActivity extends AppCompatActivity {
         ArrayAdapter<String> cuadroArray = new ArrayAdapter<>(this, R.layout.spinner_item_personal, cuadros);
         cuadro.setAdapter(cuadroArray);
 
-        //obtiene ruta donde se encuentran los archivos.
-        path = getExternalFilesDir(null) + File.separator;
         ja = new jsonAdmin(path);
         // ia = new imageAdmin();
 
         // INICIAR LISTAS
         actualizarPlano();
+        actualizarFenologias();
         cargarPlanoLocal();
         //listFiles();
     }
@@ -162,6 +162,24 @@ public class MainActivity extends AppCompatActivity {
 
         } catch (Exception e) {
             Toast.makeText(this, "Sin conexión\n trabajando con plano local. \n Code: " + e.hashCode(), Toast.LENGTH_LONG).show();
+        }
+    }
+
+    public void actualizarFenologias() {
+
+        try {
+            iFenologia iF = new iFenologia();
+            String nombre = "fenologias";
+            String contenido = iF.all().toString();
+
+            if (ja.CrearArchivo(nombre, contenido)) {
+                Toast.makeText(this, "Fenologias actualizadas exitosamente", Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(this, "Error al actualizar las fenologias", Toast.LENGTH_LONG).show();
+            }
+
+        } catch (Exception e) {
+            Toast.makeText(this, "Sin conexión\n trabajando con fenologias locales. \n Code: " + e.hashCode(), Toast.LENGTH_LONG).show();
         }
     }
 
