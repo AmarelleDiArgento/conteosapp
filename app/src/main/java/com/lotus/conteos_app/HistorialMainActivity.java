@@ -48,7 +48,7 @@ public class HistorialMainActivity extends AppCompatActivity {
         btn_show_picker=(ImageButton) findViewById(R.id.btn_datapicker);
         fech =(TextView)findViewById(R.id.txt_fecha);
 
-        ja = new jsonAdmin(path);
+        ja = new jsonAdmin();
 
         //INICIALIZAMOS PLANOS
         cargarHistorial();

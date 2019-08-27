@@ -1,7 +1,5 @@
 package com.lotus.conteos_app.Config.Util;
 
-import android.widget.Toast;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -11,13 +9,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class jsonAdmin {
-    String path = null;
-
-    public jsonAdmin(String path) {
-        this.path = path;
+    public jsonAdmin() {
     }
 
-    public String ObtenerLista(String nombre) throws Exception {
+    public String ObtenerLista(String path, String nombre) throws Exception {
         String jsonString = "";
         path = path + nombre;
         File file = new File(path);
@@ -34,7 +29,7 @@ public class jsonAdmin {
         return jsonString;
     }
 
-    public List<String> listFiles() {
+    public List<String> listFiles(String path) {
         List<String> list = new ArrayList<String>();
         File f = new File(path);
 
@@ -50,7 +45,7 @@ public class jsonAdmin {
     }
 
     // generador de archivos, requiere dos cadenas de texto nombre de archivo y contenido del mismo
-    public boolean CrearArchivo(String nombre, String contenido) {
+    public boolean CrearArchivo(String path, String nombre, String contenido) {
         boolean ok = false;
         try {
             FileOutputStream fos = null;
