@@ -1,5 +1,6 @@
 package com.lotus.conteos_app;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -108,6 +109,11 @@ public class HistorialMainActivity extends AppCompatActivity {
         } catch (Exception e) {
             Toast.makeText(this, "Error exception" + e.toString(), Toast.LENGTH_LONG).show();
         }
+    }
+
+    public void intent_home(View v){
+        Intent i = new Intent(HistorialMainActivity.this,MainActivity.class);
+        startActivity(i);
     }
 
 }

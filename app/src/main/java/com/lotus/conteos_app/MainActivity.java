@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -97,6 +98,7 @@ public class MainActivity extends AppCompatActivity {
                     int dato = bundle.getInt("codigo");
                     //Toast.makeText(this, "llego el dato bundle   " + dato, Toast.LENGTH_SHORT).show();
                     resulcode.setText(dato+"");
+                    buscarSiembra();
                 }else{
                     resulcode.setText("");
                 }
@@ -183,9 +185,12 @@ public class MainActivity extends AppCompatActivity {
         bloque = findViewById(R.id.cam_bloque);
         cama = findViewById(R.id.cam_cama);
 
-        int bs = valnum(resulcode);
+        int bs = Integer.parseInt(resulcode.getText().toString());
+
+        Toast.makeText(this,"valor de codigo  "+bs,Toast.LENGTH_LONG).show();
 
         boolean infoS = false;
+
 
         if (pl != null || bs != 0) {
             for (planoTab p : pl) {
@@ -196,11 +201,10 @@ public class MainActivity extends AppCompatActivity {
                     variedad.setText(p.getVariedad());
                     cama.setText(p.getCama() + p.getSufijo());
 
-                    Toast.makeText(this, "btn carga"+pl.size(), Toast.LENGTH_SHORT).show();
-                    this.getStoragePath(jpgView1, p.getVariedad(), "flor" + 1);
-                    this.getStoragePath(jpgView2, p.getVariedad(), "flor" + 2);
-                    this.getStoragePath(jpgView3, p.getVariedad(), "flor" + 3);
-                    this.getStoragePath(jpgView4, p.getVariedad(), "flor" + 4);
+                    this.getStoragePath(jpgView1, p.getVariedad(), "GDA 9-94");
+                    this.getStoragePath(jpgView2, p.getVariedad(), "GDA 68-66");
+                    this.getStoragePath(jpgView3, p.getVariedad(), "GDA 182-49");
+                    this.getStoragePath(jpgView4, p.getVariedad(), "GDA 127-50");
                 }
             }
             if (!infoS) {
@@ -210,6 +214,32 @@ public class MainActivity extends AppCompatActivity {
         } else {
             Toast.makeText(this, "Informacion invalida", Toast.LENGTH_LONG).show();
         }
+    }
+
+    //CARGAR LA IMAGEN
+
+    public File getStoragePath(ImageView iv, String Variedad, String imagen) {
+        try {
+
+            File f = new File("/storage/extSdCard/" + Variedad + "/" + imagen + ".JPG");
+
+            if (f.exists()) {
+                Bitmap bitmap = BitmapFactory.decodeFile(f.getPath());
+
+                iv.setImageBitmap(bitmap);
+
+                if (!f.getAbsolutePath().equalsIgnoreCase(Environment.getExternalStorageDirectory().getAbsolutePath()) && f.isDirectory() && f.canRead()) {
+                    return f;
+                }
+            } else {
+                Toast.makeText(this, "No obtuvo la imagen", Toast.LENGTH_LONG).show();
+            }
+            return Environment.getExternalStorageDirectory();
+        } catch (Exception ex) {
+            Toast.makeText(this, "error" + ex.toString(), Toast.LENGTH_LONG).show();
+        }
+
+        return null;
     }
 
     // registra conteos en arreglo local (REQUIERE UNA LISTA GLOBAL)
@@ -319,7 +349,6 @@ public class MainActivity extends AppCompatActivity {
 
     //btn buscar siembra
     public void btn_buscar(View v) {
-        //int bc = 0;
         buscarSiembra();
     }
 
@@ -361,43 +390,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    //CARGAR LA IMAGEN
 
-    public void img_cargar(View v) {
-        // Toast.makeText(this, "btn carga", Toast.LENGTH_SHORT).show();
-        this.getStoragePath(jpgView1, "Vendela", "flor" + 1);
-        this.getStoragePath(jpgView2, "Vendela", "flor" + 2);
-        this.getStoragePath(jpgView3, "Vendela", "flor" + 3);
-        this.getStoragePath(jpgView4, "Vendela", "flor" + 4);
-
-    }
-
-    public File getStoragePath(ImageView iv, String Variedad, String imagen) {
-        // gdia = findViewById(R.id.dato_dia);
-
-        try {
-
-            File f = new File("/storage/extSdCard/" + Variedad + "/" + imagen + ".JPG");
-
-            if (f.exists()) {
-                Bitmap bitmap = BitmapFactory.decodeFile(f.getPath());
-                // Toast.makeText(this, bitmap.toString() , Toast.LENGTH_LONG).show();
-
-                iv.setImageBitmap(bitmap);
-
-                if (!f.getAbsolutePath().equalsIgnoreCase(Environment.getExternalStorageDirectory().getAbsolutePath()) && f.isDirectory() && f.canRead()) {
-                    return f;
-                }
-            } else {
-                Toast.makeText(this, "No obtuvo la imagen", Toast.LENGTH_LONG).show();
-            }
-            return Environment.getExternalStorageDirectory();
-        } catch (Exception ex) {
-            Toast.makeText(this, "error" + ex.toString(), Toast.LENGTH_LONG).show();
-        }
-
-        return null;
-    }
 
 
     public void imagenes(int g) {

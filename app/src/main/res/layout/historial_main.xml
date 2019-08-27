@@ -125,6 +125,7 @@
         android:layout_marginStart="188dp"
         android:layout_marginTop="792dp"
         android:background="@color/colorPrimary"
+        android:onClick="intent_home"
         android:text="nuevo"
         android:textColor="@color/ColorPrimaryText"
         android:textSize="24sp"
