@@ -24,6 +24,7 @@ import com.lotus.conteos_app.Model.iConteo;
 import com.lotus.conteos_app.Model.iFenologia;
 import com.lotus.conteos_app.Model.iPlano;
 import com.lotus.conteos_app.Model.tab.conteoTab;
+import com.lotus.conteos_app.Model.tab.fenologiaTab;
 import com.lotus.conteos_app.Model.tab.planoTab;
 
 import java.io.File;
@@ -56,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
     // Arreglos globales Conteo y Plano
     List<conteoTab> cl = new ArrayList<>();
     List<planoTab> pl = new ArrayList<>();
+    List<fenologiaTab> fl = new ArrayList<>();
 
     jsonAdmin ja = null;
     //imageAdmin ia = null;
@@ -95,15 +97,15 @@ public class MainActivity extends AppCompatActivity {
         resulcode = (EditText) findViewById(R.id.resulcode);
         try {
             Bundle bundle = getIntent().getExtras();
-                if(bundle!=null){
-                    int dato = bundle.getInt("codigo");
-                    //Toast.makeText(this, "llego el dato bundle   " + dato, Toast.LENGTH_SHORT).show();
-                    resulcode.setText(dato+"");
-                    buscarSiembra();
-                }else{
-                    resulcode.setText("");
-                }
-        }catch (Exception EX){
+            if (bundle != null) {
+                int dato = bundle.getInt("codigo");
+                //Toast.makeText(this, "llego el dato bundle   " + dato, Toast.LENGTH_SHORT).show();
+                resulcode.setText(dato + "");
+                buscarSiembra();
+            } else {
+                resulcode.setText("");
+            }
+        } catch (Exception EX) {
             Toast.makeText(this, "EXCEPTION " + EX, Toast.LENGTH_LONG).show();
         }
 
@@ -124,6 +126,8 @@ public class MainActivity extends AppCompatActivity {
         ArrayAdapter<String> cuadroArray = new ArrayAdapter<>(this, R.layout.spinner_item_personal, cuadros);
         cuadro.setAdapter(cuadroArray);
 
+        //obtiene ruta donde se encuentran los archivos.
+        path = getExternalFilesDir(null) + File.separator;
         ja = new jsonAdmin(path);
         // ia = new imageAdmin();
 
@@ -153,11 +157,12 @@ public class MainActivity extends AppCompatActivity {
             iPlano iP = new iPlano();
             String nombre = "plano";
             String contenido = iP.all().toString();
+            // Toast.makeText(this, contenido, Toast.LENGTH_LONG).show();
 
             if (ja.CrearArchivo(nombre, contenido)) {
-                Toast.makeText(this, "Plano generado exitosamente", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Plano actualizado exitosamente", Toast.LENGTH_LONG).show();
             } else {
-                Toast.makeText(this, "Error al generar el plano", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Error al actualizar el plano", Toast.LENGTH_LONG).show();
             }
 
         } catch (Exception e) {
@@ -171,6 +176,7 @@ public class MainActivity extends AppCompatActivity {
             iFenologia iF = new iFenologia();
             String nombre = "fenologias";
             String contenido = iF.all().toString();
+            // Toast.makeText(this, contenido, Toast.LENGTH_LONG).show();
 
             if (ja.CrearArchivo(nombre, contenido)) {
                 Toast.makeText(this, "Fenologias actualizadas exitosamente", Toast.LENGTH_LONG).show();
@@ -195,6 +201,17 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public void cargarFenologiaLocal() {
+        try {
+            Gson gson = new Gson();
+            fl = gson.fromJson(ja.ObtenerLista("fenologias.json"), new TypeToken<List<planoTab>>() {
+            }.getType());
+        } catch (Exception e) {
+            //data.setText(e.toString());
+            Toast.makeText(this, "Error: " + e.toString(), Toast.LENGTH_LONG).show();
+        }
+    }
+
     // busca el id de la siembra en el arreglo global y retorna la informacion en el text view info
     public void buscarSiembra() {
 
@@ -205,7 +222,7 @@ public class MainActivity extends AppCompatActivity {
 
         int bs = Integer.parseInt(resulcode.getText().toString());
 
-        Toast.makeText(this,"valor de codigo  "+bs,Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "valor de codigo  " + bs, Toast.LENGTH_LONG).show();
 
         boolean infoS = false;
 
@@ -401,14 +418,11 @@ public class MainActivity extends AppCompatActivity {
 
     //PARA VOLVER A LA ACTIVIDAD ANTERIOR(CAMARA)
     public void onBackPressed() {
-        Toast.makeText(this,"se retrocedio",Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "se retrocedio", Toast.LENGTH_LONG).show();
         Intent i = new Intent(MainActivity.this, MainActivity.class);
         startActivity(i);
         vbc.stopCamera();//aqui apaga la camara
     }
-
-
-
 
 
     public void imagenes(int g) {

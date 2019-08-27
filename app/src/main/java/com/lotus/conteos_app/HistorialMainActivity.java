@@ -83,7 +83,7 @@ public class HistorialMainActivity extends AppCompatActivity {
         strBuffer.append(this.day);
         //Toast.makeText(this,strBuffer.toString(),Toast.LENGTH_SHORT).show();
         fech.setText(strBuffer.toString());
-        fech.setTextSize(20);
+        fech.setTextSize(40);
     }
 
     public void showpicker(View v){
