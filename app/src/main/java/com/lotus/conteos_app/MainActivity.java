@@ -1,5 +1,6 @@
 package com.lotus.conteos_app;
 
+
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -54,14 +55,9 @@ public class MainActivity extends AppCompatActivity {
     List<conteoTab> cl = new ArrayList<>();
     List<planoTab> pl = new ArrayList<>();
 
-    /*
-
-     */
     jsonAdmin ja = null;
     //imageAdmin ia = null;
     String path = null;
-
-    String fec = null;
 
     int dia, hora;
 
@@ -93,8 +89,22 @@ public class MainActivity extends AppCompatActivity {
 
         fechaAct = findViewById(R.id.fechaAct);
 
+        //ADQUIRIENDO EL DATO OBTENIDO DEL C. BARRAS Y ALMACENANDOLO EN EL CAMPO DE BUSQUEDA
         resulcode = (EditText) findViewById(R.id.resulcode);
+        try {
+            Bundle bundle = getIntent().getExtras();
+                if(bundle!=null){
+                    int dato = bundle.getInt("codigo");
+                    //Toast.makeText(this, "llego el dato bundle   " + dato, Toast.LENGTH_SHORT).show();
+                    resulcode.setText(dato+"");
+                }else{
+                    resulcode.setText("");
+                }
+        }catch (Exception EX){
+            Toast.makeText(this, "EXCEPTION " + EX, Toast.LENGTH_LONG).show();
+        }
 
+        //OBTENIENDO LA FECHA ACTUAL
         Calendar c = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         final String strDate = sdf.format(c.getTime());
@@ -107,7 +117,6 @@ public class MainActivity extends AppCompatActivity {
             dia++;
         }
 
-
         // asociar arreglo cuadros al desplegable cuadro
         ArrayAdapter<String> cuadroArray = new ArrayAdapter<>(this, R.layout.spinner_item_personal, cuadros);
         cuadro.setAdapter(cuadroArray);
@@ -117,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
         ja = new jsonAdmin(path);
         // ia = new imageAdmin();
 
-        // iniciar listas
+        // INICIAR LISTAS
         actualizarPlano();
         cargarPlanoLocal();
         //listFiles();
@@ -167,9 +176,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // busca el id de la siembra en el arreglo global y retorna la informacion en el text view info
-    public void buscarSiembra(int bc) {
-
-        // Toast.makeText(this, "el dato llego" + bc, Toast.LENGTH_SHORT).show();
+    public void buscarSiembra() {
 
         finca = findViewById(R.id.cam_finca);
         variedad = findViewById(R.id.cam_variedad);
@@ -203,8 +210,6 @@ public class MainActivity extends AppCompatActivity {
         } else {
             Toast.makeText(this, "Informacion invalida", Toast.LENGTH_LONG).show();
         }
-
-
     }
 
     // registra conteos en arreglo local (REQUIERE UNA LISTA GLOBAL)
@@ -262,9 +267,7 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, msj, Toast.LENGTH_LONG).show();
         } catch (Exception e) {
             Toast.makeText(this, e.toString(), Toast.LENGTH_LONG).show();
-
         }
-
     }
 
     /*
@@ -316,10 +319,9 @@ public class MainActivity extends AppCompatActivity {
 
     //btn buscar siembra
     public void btn_buscar(View v) {
-        int bc = 0;
-        buscarSiembra(bc);
+        //int bc = 0;
+        buscarSiembra();
     }
-
 
     // generar nombre de archivo json segun fecha de registro AAAA-MM-DD
     public String hoy() throws Exception {
@@ -343,7 +345,7 @@ public class MainActivity extends AppCompatActivity {
         return n;
     }
 
-
+    //INSTANCIAMOS LA CAMARA Y LA ACTIVA
     public void barcode(View v) {
         Intent intent = new Intent(v.getContext(), Camera.class);
         startActivityForResult(intent, 0);
@@ -352,7 +354,7 @@ public class MainActivity extends AppCompatActivity {
 
     //PARA VOLVER A LA ACTIVIDAD ANTERIOR(CAMARA)
     public void onBackPressed() {
-        //Toast.makeText(this,"se retrocedio",Toast.LENGTH_LONG).show();
+        Toast.makeText(this,"se retrocedio",Toast.LENGTH_LONG).show();
         Intent i = new Intent(MainActivity.this, MainActivity.class);
         startActivity(i);
         vbc.stopCamera();//aqui apaga la camara
@@ -378,12 +380,10 @@ public class MainActivity extends AppCompatActivity {
             File f = new File("/storage/extSdCard/" + Variedad + "/" + imagen + ".JPG");
 
             if (f.exists()) {
-
                 Bitmap bitmap = BitmapFactory.decodeFile(f.getPath());
                 // Toast.makeText(this, bitmap.toString() , Toast.LENGTH_LONG).show();
 
                 iv.setImageBitmap(bitmap);
-
 
                 if (!f.getAbsolutePath().equalsIgnoreCase(Environment.getExternalStorageDirectory().getAbsolutePath()) && f.isDirectory() && f.canRead()) {
                     return f;
@@ -391,8 +391,6 @@ public class MainActivity extends AppCompatActivity {
             } else {
                 Toast.makeText(this, "No obtuvo la imagen", Toast.LENGTH_LONG).show();
             }
-
-
             return Environment.getExternalStorageDirectory();
         } catch (Exception ex) {
             Toast.makeText(this, "error" + ex.toString(), Toast.LENGTH_LONG).show();
@@ -436,6 +434,5 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, img[c] + ",  " + im[c], Toast.LENGTH_LONG).show();
         }
 */
-
     }
 }

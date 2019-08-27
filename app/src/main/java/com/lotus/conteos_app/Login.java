@@ -12,7 +12,7 @@ import android.widget.Toast;
 public class Login extends AppCompatActivity {
 
     //DECLARACION DE VARIABLES
-    ImageView btn_login;
+    Button btn_login;
     EditText txtu,txtp;
 
     @Override
@@ -23,7 +23,7 @@ public class Login extends AppCompatActivity {
         //ASOCIACION DE LOS CAMPOS Y BOTONES
         txtu=(EditText)findViewById(R.id.txt_user);
         txtp=(EditText)findViewById(R.id.txt_pass);
-        btn_login=(ImageView) findViewById(R.id.btn_login);
+        btn_login=(Button) findViewById(R.id.btn_login);
     }
 
     //METODO PARA VALIDAR EL LOGIN
@@ -32,7 +32,7 @@ public class Login extends AppCompatActivity {
         String txt_pass=txtp.getText().toString();
 
             if(txt_user.equals("123") && txt_pass.equals("123")){
-                        //Toast.makeText(this,"ingreso",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this,"Bienvenido",Toast.LENGTH_LONG).show();
                         Intent intent=new Intent(v.getContext(),MainActivity.class);
                         startActivityForResult(intent, 0);
             }else{

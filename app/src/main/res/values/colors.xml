@@ -7,6 +7,6 @@
     <color name="colorSecondaryLight">#ffe54c</color>
     <color name="colorSecondaryDark">#FF5722</color>
     <color name="ColorPrimaryText">#FFFFFF</color>
-    <color name="ColorSecondaryText">#F6F6F6</color>
+    <color name="ColorSecondaryText">#E5DBDBDB</color>
     <color name="colorAccent">#D81B60</color>
 </resources>
