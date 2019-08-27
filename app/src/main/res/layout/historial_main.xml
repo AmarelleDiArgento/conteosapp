@@ -19,8 +19,8 @@
 
     <TextView
         android:id="@+id/plantilla_busqueda"
-        android:layout_width="555dp"
-        android:layout_height="103dp"
+        android:layout_width="548dp"
+        android:layout_height="123dp"
         android:layout_marginStart="28dp"
         android:layout_marginTop="208dp"
         android:background="@color/ColorSecondaryText"
@@ -43,8 +43,8 @@
         android:id='@+id/msm_selecciona_fecha'
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="80dp"
-        android:layout_marginTop="220dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="208dp"
         android:text="Selecciona la fecha"
         android:textSize="18sp"
         android:textStyle="bold"
@@ -55,8 +55,8 @@
         android:id="@+id/btn_datapicker"
         android:layout_width="47dp"
         android:layout_height="49dp"
-        android:layout_marginStart="396dp"
-        android:layout_marginTop="244dp"
+        android:layout_marginStart="332dp"
+        android:layout_marginTop="228dp"
         android:background="#00C853"
         android:backgroundTint="#00C853"
         android:onClick="showpicker"
@@ -70,8 +70,8 @@
         android:id="@+id/txt_fecha"
         android:layout_width="268dp"
         android:layout_height="45dp"
-        android:layout_marginStart="80dp"
-        android:layout_marginTop="252dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="236dp"
         android:background="@color/ColorPrimaryText"
         android:textAlignment="center"
         android:textColor="@color/colorPrimaryDark"
@@ -94,8 +94,8 @@
         android:id="@+id/date_picker"
         android:layout_width="235dp"
         android:layout_height="205dp"
-        android:layout_marginStart="228dp"
-        android:layout_marginTop="312dp"
+        android:layout_marginStart="144dp"
+        android:layout_marginTop="280dp"
         android:background="@color/ColorPrimaryText"
         android:calendarViewShown="false"
         android:datePickerMode="spinner"
@@ -146,12 +146,33 @@
         android:id="@+id/imageView6"
         android:layout_width="48dp"
         android:layout_height="46dp"
-        android:layout_marginStart="460dp"
-        android:layout_marginTop="244dp"
+        android:layout_marginStart="388dp"
+        android:layout_marginTop="232dp"
         android:background="@color/colorPrimary"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/search" />
 
+    <TextView
+        android:id="@+id/textView20"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="208dp"
+        android:layout_marginTop="300dp"
+        android:text="Digita los grados dia"
+        android:textColor="@android:color/holo_red_light"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/gradosDia"
+        android:layout_width="153dp"
+        android:layout_height="43dp"
+        android:layout_marginStart="332dp"
+        android:layout_marginTop="288dp"
+        android:ems="10"
+        android:textAlignment="center"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

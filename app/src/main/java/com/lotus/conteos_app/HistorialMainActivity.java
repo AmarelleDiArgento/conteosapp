@@ -30,7 +30,7 @@ public class HistorialMainActivity extends AppCompatActivity {
 
     jsonAdmin ja = null;
     String path = null;
-    EditText data_tbl;
+    EditText data_tbl,gradosDiaTxt;
     DatePicker date;
     ImageView btn_show_picker;
     TextView fech;
@@ -41,6 +41,7 @@ public class HistorialMainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.historial_main);
+
 
         //data_tbl =(EditText) findViewById(R.id.data_tbl);
         data_tbl =(EditText) findViewById(R.id.data_tbl);
@@ -83,7 +84,7 @@ public class HistorialMainActivity extends AppCompatActivity {
         strBuffer.append(this.day);
         //Toast.makeText(this,strBuffer.toString(),Toast.LENGTH_SHORT).show();
         fech.setText(strBuffer.toString());
-        fech.setTextSize(40);
+        fech.setTextSize(30);
     }
 
     public void showpicker(View v){
@@ -112,8 +113,17 @@ public class HistorialMainActivity extends AppCompatActivity {
     }
 
     public void intent_home(View v){
-        Intent i = new Intent(HistorialMainActivity.this,MainActivity.class);
-        startActivity(i);
+
+        gradosDiaTxt=(EditText)findViewById(R.id.gradosDia);
+
+        String dato =gradosDiaTxt.getText().toString();
+
+        Toast.makeText(this,"se pasa el grado"+dato,Toast.LENGTH_LONG).show();
+
+        Intent intent = new Intent (HistorialMainActivity.this,MainActivity.class);
+        //Exportar parametro
+        intent.putExtra("grados", dato);
+        startActivityForResult(intent, 0);
     }
 
 }
