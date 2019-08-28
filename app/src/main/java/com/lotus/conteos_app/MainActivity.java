@@ -50,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
     Button bt1, bt2, bt3, bt4;
     TextView info, data, tipo, finca, variedad, bloque, cama, fechaAct;
     EditText gdia;
+    int gradosDia;
 
     // Arreglo, desplegable (Spinner) cuadros
     String[] cuadros = {"1", "2", "3", "4", "5", "6", "7", "8"};
@@ -98,9 +99,11 @@ public class MainActivity extends AppCompatActivity {
         try {
             Bundle bundle = getIntent().getExtras();
             if (bundle != null) {
+                String gradosDia= bundle.getString("grados");
                 int dato = bundle.getInt("codigo");
-                //Toast.makeText(this, "llego el dato bundle   " + dato, Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "llego el dato bundle   " + gradosDia, Toast.LENGTH_SHORT).show();
                 resulcode.setText(dato + "");
+                dato_dia.setText(gradosDia);
                 buscarSiembra();
             } else {
                 resulcode.setText("");
@@ -140,6 +143,7 @@ public class MainActivity extends AppCompatActivity {
         //listFiles();
     }
 
+    
     private void listFiles() {
         try {
             List<String> list = ja.listFiles(path);
@@ -224,7 +228,7 @@ public class MainActivity extends AppCompatActivity {
 
         int bs = Integer.parseInt(resulcode.getText().toString());
 
-        Toast.makeText(this, "valor de codigo  " + bs, Toast.LENGTH_LONG).show();
+        //Toast.makeText(this, "valor de codigo  " + bs, Toast.LENGTH_LONG).show();
 
         boolean infoS = false;
 
@@ -418,16 +422,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    //PARA VOLVER A LA ACTIVIDAD ANTERIOR(CAMARA)
-    public void onBackPressed() {
-        Toast.makeText(this, "se retrocedio", Toast.LENGTH_LONG).show();
-        Intent i = new Intent(MainActivity.this, MainActivity.class);
-        startActivity(i);
-        vbc.stopCamera();//aqui apaga la camara
-    }
-
-
-    public void imagenes(int g, int v) {
+    public void imagenes(int g) {
         int d = 7 - dia;
 
         int[] img = new int[4];
