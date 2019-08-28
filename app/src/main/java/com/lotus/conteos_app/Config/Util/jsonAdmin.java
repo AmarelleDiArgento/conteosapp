@@ -5,10 +5,12 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
 public class jsonAdmin {
+
     public jsonAdmin() {
     }
 
@@ -17,7 +19,7 @@ public class jsonAdmin {
         path = path + nombre;
         File file = new File(path);
         FileInputStream fis = new FileInputStream(file);
-        InputStreamReader isr = new InputStreamReader(fis, "UTF-8");
+        InputStreamReader isr = new InputStreamReader(fis, StandardCharsets.UTF_8);
         BufferedReader br = new BufferedReader(isr);
         StringBuilder sb = new StringBuilder();
         String line;
@@ -34,7 +36,7 @@ public class jsonAdmin {
         File f = new File(path);
 
         //obtiene nombres de archivos dentro del directorio.
-        File file[] = f.listFiles();
+        File[] file = f.listFiles();
         for (int i = 0; i < file.length; i++) {
             //Agrega nombres de archivos a List para ser agregado a adapter.
             if (!file[i].getName().equalsIgnoreCase("plano.json")) {

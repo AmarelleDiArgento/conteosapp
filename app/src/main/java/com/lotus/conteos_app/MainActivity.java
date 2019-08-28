@@ -37,12 +37,9 @@ import java.util.List;
 import me.dm7.barcodescanner.zbar.ZBarScannerView;
 
 public class MainActivity extends AppCompatActivity {
-    // Variable general para captura de codigos de barras
-    private ZBarScannerView vbc;
+    EditText siembra;
 
     // declaracion de variables campos
-
-    EditText siembra;
     EditText grados;
     EditText c1, c2, c3, c4, resulcode, dato_dia;
     Spinner cuadro, files;
@@ -53,7 +50,6 @@ public class MainActivity extends AppCompatActivity {
 
     // Arreglo, desplegable (Spinner) cuadros
     String[] cuadros = {"1", "2", "3", "4", "5", "6", "7", "8"};
-
     // Arreglos globales Conteo y Plano
     ArrayList<conteoTab> cl = new ArrayList<>();
     ArrayList<planoTab> pl = new ArrayList<>();
@@ -94,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
         fechaAct = findViewById(R.id.fechaAct);
 
         //ADQUIRIENDO EL DATO OBTENIDO DEL C. BARRAS Y ALMACENANDOLO EN EL CAMPO DE BUSQUEDA
-        resulcode = (EditText) findViewById(R.id.resulcode);
+        resulcode = findViewById(R.id.resulcode);
         try {
             Bundle bundle = getIntent().getExtras();
             if (bundle != null) {
