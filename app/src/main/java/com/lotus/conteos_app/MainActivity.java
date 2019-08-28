@@ -50,7 +50,6 @@ public class MainActivity extends AppCompatActivity {
     Button bt1, bt2, bt3, bt4;
     TextView info, data, tipo, finca, variedad, bloque, cama, fechaAct;
     EditText gdia;
-    int gradosDia;
 
     // Arreglo, desplegable (Spinner) cuadros
     String[] cuadros = {"1", "2", "3", "4", "5", "6", "7", "8"};
@@ -99,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
         try {
             Bundle bundle = getIntent().getExtras();
             if (bundle != null) {
-                String gradosDia= bundle.getString("grados");
+                String gradosDia = bundle.getString("grados");
                 int dato = bundle.getInt("codigo");
                 Toast.makeText(this, "llego el dato bundle   " + gradosDia, Toast.LENGTH_SHORT).show();
                 resulcode.setText(dato + "");
@@ -143,7 +142,7 @@ public class MainActivity extends AppCompatActivity {
         //listFiles();
     }
 
-    
+
     private void listFiles() {
         try {
             List<String> list = ja.listFiles(path);
@@ -422,7 +421,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public void imagenes(int g) {
+    public void imagenes(int g, int v) {
         int d = 7 - dia;
 
         int[] img = new int[4];
@@ -435,7 +434,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Toast.makeText(this, img[0] + " " +img[1] + " " + img[2] + " " +img[3] + " " , Toast.LENGTH_LONG).show();
 
-        /*
+        /*s
                 if(img[c] <= fl.get(i).getGrados_dia()){
                     Toast.makeText(this, fl.get(i-1).getImagen() + " " + fl.get(i).getGrados_dia(), Toast.LENGTH_LONG).show();
                     c++;
@@ -457,7 +456,6 @@ public class MainActivity extends AppCompatActivity {
             }
 
         }
-         */
 
 
         fenologiaTab f;
