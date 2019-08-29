@@ -37,8 +37,9 @@ public class iPlano extends sqlConect implements plano {
             "      ,[variedad]\n" +
             "      ,[cama]\n" +
             "      ,[sufijo]\n" +
-            "  FROM [dbo].[Plano_Siembra]";
-
+            "  FROM [dbo].[Plano_Siembra]\n" +
+            "  where finca = 'SAN MATEO'" +
+            "  and idVariedad in(1358,1101,870,284,115)";
     public iPlano() throws Exception {
         this.cn = getConexion();
     }

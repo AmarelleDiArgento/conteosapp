@@ -20,8 +20,6 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.lotus.conteos_app.Config.Util.jsonAdmin;
 import com.lotus.conteos_app.Model.iConteo;
-import com.lotus.conteos_app.Model.iFenologia;
-import com.lotus.conteos_app.Model.iPlano;
 import com.lotus.conteos_app.Model.tab.conteoTab;
 import com.lotus.conteos_app.Model.tab.fenologiaTab;
 import com.lotus.conteos_app.Model.tab.planoTab;
@@ -33,8 +31,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
-
-import me.dm7.barcodescanner.zbar.ZBarScannerView;
 
 public class MainActivity extends AppCompatActivity {
     EditText siembra;
@@ -51,9 +47,9 @@ public class MainActivity extends AppCompatActivity {
     // Arreglo, desplegable (Spinner) cuadros
     String[] cuadros = {"1", "2", "3", "4", "5", "6", "7", "8"};
     // Arreglos globales Conteo y Plano
-    ArrayList<conteoTab> cl = new ArrayList<>();
-    ArrayList<planoTab> pl = new ArrayList<>();
-    ArrayList<fenologiaTab> fl = new ArrayList<>();
+    List<conteoTab> cl = new ArrayList<>();
+    List<planoTab> pl = new ArrayList<>();
+    List<fenologiaTab> fl = new ArrayList<>();
 
     jsonAdmin ja = null;
     //imageAdmin ia = null;
@@ -91,20 +87,31 @@ public class MainActivity extends AppCompatActivity {
 
         //ADQUIRIENDO EL DATO OBTENIDO DEL C. BARRAS Y ALMACENANDOLO EN EL CAMPO DE BUSQUEDA
         resulcode = findViewById(R.id.resulcode);
+
         try {
             Bundle bundle = getIntent().getExtras();
+
             if (bundle != null) {
-                String gradosDia = bundle.getString("grados");
+
+                gradosDia = bundle.getInt("grados");
+
+                if (gradosDia > 0) {
+                    dato_dia.setText(String.valueOf(gradosDia));
+                }
+
                 int dato = bundle.getInt("codigo");
-                Toast.makeText(this, "llego el dato bundle   " + gradosDia, Toast.LENGTH_SHORT).show();
-                resulcode.setText(dato + "");
-                dato_dia.setText(gradosDia);
-                buscarSiembra();
+
+                if (dato > 0) {
+                    resulcode.setText(String.valueOf(dato));
+                    buscarSiembra();
+                }
+
             } else {
                 resulcode.setText("");
             }
+
         } catch (Exception EX) {
-            Toast.makeText(this, "EXCEPTION " + EX, Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "EXCEPTION: " + EX.toString(), Toast.LENGTH_LONG).show();
         }
 
         //OBTENIENDO LA FECHA ACTUAL
@@ -130,64 +137,11 @@ public class MainActivity extends AppCompatActivity {
         // ia = new imageAdmin();
 
         // INICIAR LISTAS
-        actualizarPlano();
-        actualizarFenologias();
         cargarPlanoLocal();
         cargarFenologiaLocal();
-        imagenes(12, 1);
+        // imagenes(12, 1);
+
         //listFiles();
-    }
-
-
-    private void listFiles() {
-        try {
-            List<String> list = ja.listFiles(path);
-            // asociar arreglo cuadros al desplegable cuadro
-            ArrayAdapter<String> fl = new ArrayAdapter<>(this, R.layout.spinner_item_personal, list);
-            files.setAdapter(fl);
-            //data.setText(list.toString());
-        } catch (Exception e) {
-            Toast.makeText(this, "LISTFILES()--->  " + e.toString(), Toast.LENGTH_LONG).show();
-        }
-    }
-
-    // descarga el plano de la basde datos y lo alamcena en plano.json (Archivo local)
-    public void actualizarPlano() {
-
-        try {
-            iPlano iP = new iPlano();
-            String nombre = "plano";
-            String contenido = iP.all().toString();
-            // Toast.makeText(this, contenido, Toast.LENGTH_LONG).show();
-
-            if (ja.CrearArchivo(path, nombre, contenido)) {
-                Toast.makeText(this, "Plano actualizado exitosamente", Toast.LENGTH_LONG).show();
-            } else {
-                Toast.makeText(this, "Error al actualizar el plano", Toast.LENGTH_LONG).show();
-            }
-
-        } catch (Exception e) {
-            Toast.makeText(this, "Sin conexión\n trabajando con plano local. \n Code: " + e.hashCode(), Toast.LENGTH_LONG).show();
-        }
-    }
-
-    public void actualizarFenologias() {
-
-        try {
-            iFenologia iF = new iFenologia();
-            String nombre = "fenologias";
-            String contenido = iF.all().toString();
-            // Toast.makeText(this, contenido, Toast.LENGTH_LONG).show();
-
-            if (ja.CrearArchivo(path, nombre, contenido)) {
-                Toast.makeText(this, "Fenologias actualizadas exitosamente", Toast.LENGTH_LONG).show();
-            } else {
-                Toast.makeText(this, "Error al actualizar las fenologias", Toast.LENGTH_LONG).show();
-            }
-
-        } catch (Exception e) {
-            Toast.makeText(this, "Sin conexión\n trabajando con fenologias locales. \n Code: " + e.hashCode(), Toast.LENGTH_LONG).show();
-        }
     }
 
     // convierte el contenido del archivo plano.json en un arreglo (REQUIERE UNA LISTA GLOBAL)
@@ -207,8 +161,9 @@ public class MainActivity extends AppCompatActivity {
             Gson gson = new Gson();
             fl = gson.fromJson(ja.ObtenerLista(path, "fenologias.json"), new TypeToken<List<fenologiaTab>>() {
             }.getType());
+
         } catch (Exception e) {
-            //data.setText(e.toString());
+            // data.setText(e.toString());
             Toast.makeText(this, "Error: " + e.toString(), Toast.LENGTH_LONG).show();
         }
     }
@@ -221,7 +176,7 @@ public class MainActivity extends AppCompatActivity {
         bloque = findViewById(R.id.cam_bloque);
         cama = findViewById(R.id.cam_cama);
 
-        int bs = Integer.parseInt(resulcode.getText().toString());
+        int bs = valnum(resulcode);
 
         //Toast.makeText(this, "valor de codigo  " + bs, Toast.LENGTH_LONG).show();
 
@@ -236,11 +191,9 @@ public class MainActivity extends AppCompatActivity {
                     bloque.setText(p.getBloque());
                     variedad.setText(p.getVariedad());
                     cama.setText(p.getCama() + p.getSufijo());
+                    Toast.makeText(this, p.getVariedad(), Toast.LENGTH_LONG).show();
 
-                    this.getStoragePath(jpgView1, p.getVariedad(), "GDA 9-94");
-                    this.getStoragePath(jpgView2, p.getVariedad(), "GDA 68-66");
-                    this.getStoragePath(jpgView3, p.getVariedad(), "GDA 182-49");
-                    this.getStoragePath(jpgView4, p.getVariedad(), "GDA 127-50");
+                    imagenes(gradosDia, p.getIdVariedad());
                 }
             }
             if (!infoS) {
@@ -257,7 +210,7 @@ public class MainActivity extends AppCompatActivity {
     public File getStoragePath(ImageView iv, String Variedad, String imagen) {
         try {
 
-            File f = new File("/storage/extSdCard/" + Variedad + "/" + imagen + ".JPG");
+            File f = new File("/storage/extSdCard/" + Variedad + "/" + imagen);
 
             if (f.exists()) {
                 Bitmap bitmap = BitmapFactory.decodeFile(f.getPath());
@@ -418,81 +371,57 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void imagenes(int g, int v) {
-        int d = 7 - dia;
+        try {
+            int d = 7 - dia;
 
-        int[] img = new int[4];
-        img[0] = (d) * g;
-        img[1] = (d + 7) * g;
-        img[2] = (d + 21) * g;
-        img[3] = (d + 28) * g;
-        int c = 0;
-        int max = 0;
+            int[] img = new int[4];
+            img[0] = (d) * g;
+            img[1] = (d + 7) * g;
+            img[2] = (d + 21) * g;
+            img[3] = (d + 28) * g;
+            int c = 0;
+            int max = 0;
 
-        // Toast.makeText(this, img[0] + " " +img[1] + " " + img[2] + " " +img[3] + " " , Toast.LENGTH_LONG).show();
+            Toast.makeText(this, img[0] + " " + img[1] + " " + img[2] + " " + img[3], Toast.LENGTH_LONG).show();
 
-        /*s
-                if(img[c] <= fl.get(i).getGrados_dia()){
-                    Toast.makeText(this, fl.get(i-1).getImagen() + " " + fl.get(i).getGrados_dia(), Toast.LENGTH_LONG).show();
-                    c++;
-                }
-            }
             Iterator<fenologiaTab> i = fl.iterator();
-        String data = "";
-        ArrayList<>
+            String data = "";
+            List<fenologiaTab> fi = new ArrayList<>();
+            fenologiaTab fu = new fenologiaTab();
 
-        while(i.hasNext()) {
-            fenologiaTab f = i.next();
-            if(f.getIdVariedad() == v ){
-                if(img[c] <= f.getGrados_dia()){
-                    data = data + (f.getIdFenologia() - 1) + " " + img[c] + " \n";
-                    c++;
+            // Toast.makeText(this, "Imagenes", Toast.LENGTH_LONG).show();
+            // Toast.makeText(this, "Data: " + fl.size(), Toast.LENGTH_LONG).show();
+
+            while (i.hasNext()) {
+                fenologiaTab f = i.next();
+                if (f.getIdVariedad() == v) {
+                    if (img[c] <= f.getGrados_dia()) {
+                        fi.add(fu);
+                        // Toast.makeText(this, "Data: " + f.toString(), Toast.LENGTH_LONG).show();
+
+                        c++;
+                        if (c >= 4) {
+                            break;
+                        }
+                    }
+                    fu = f;
                 }
-
-
             }
 
-        }
-
-
-        fenologiaTab f;
-        ArrayList<fenologiaTab> fm = new ArrayList<>();
-        for (int i = 0; i <= fl.size(); i++) {
-            f = fl.get(i);
-
-            if (f.getIdVariedad() == v) {
-                if (img[c] <= f.getGrados_dia()) {
-                    fm.add(fl.get(i - 1));
-                    c++;
-                }
-                max = (int) f.getIdFenologia();
+            if (c < 4) {
+                fi.add(fu);
             }
+
+            this.getStoragePath(jpgView1, fi.get(0).getVariedad(), fi.get(0).getImagen());
+            this.getStoragePath(jpgView2, fi.get(1).getVariedad(), fi.get(1).getImagen());
+            this.getStoragePath(jpgView3, fi.get(2).getVariedad(), fi.get(2).getImagen());
+            this.getStoragePath(jpgView4, fi.get(3).getVariedad(), fi.get(3).getImagen());
+
+
+        } catch (Exception e) {
+            Toast.makeText(this, e.toString(), Toast.LENGTH_LONG).show();
+
         }
 
-        if(fm.size()<4){
-            fm.add(fl.get(max));
-        }
-
-        Toast.makeText(this, fm.toString(), Toast.LENGTH_LONG).show();
-
-/*
-
-        int[] pack = new int[100];
-        for (int a = 0; a <= 100; a++) {
-            pack[a] = a * 5;
-        }
-
-                int[] pack = new int[100];
-                for (int a = 0; a <= 100; a++) {
-                    pack[a] = a * 5;
-                }
-
-                String t = "";
-
-                int b = 0;
-
-        for (int c = 0; c <= 3; c++) {
-            Toast.makeText(this, img[c] + ",  " + im[c], Toast.LENGTH_LONG).show();
-        }
-*/
     }
 }

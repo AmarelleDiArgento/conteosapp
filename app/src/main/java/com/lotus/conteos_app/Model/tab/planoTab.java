@@ -10,11 +10,14 @@ public class planoTab {
     private String variedad;
     private int cama;
     private String sufijo;
+    private int plantas;
+    private double area;
+    private int cuadros;
 
     public planoTab() {
     }
 
-    public planoTab(Long idSiembra, int idFinca, String finca, int idBloque, String bloque, int idVariedad, String variedad, int cama, String sufijo) {
+    public planoTab(Long idSiembra, int idFinca, String finca, int idBloque, String bloque, int idVariedad, String variedad, int cama, String sufijo, int plantas, double area, int cuadros) {
         this.setIdSiembra(idSiembra);
         this.setIdFinca(idFinca);
         this.setFinca(finca);
@@ -24,7 +27,11 @@ public class planoTab {
         this.setVariedad(variedad);
         this.setCama(cama);
         this.setSufijo(sufijo);
+        this.setPlantas(plantas);
+        this.setArea(area);
+        this.setCuadros(cuadros);
     }
+
 
     public Long getIdSiembra() {
         return idSiembra;
@@ -98,20 +105,49 @@ public class planoTab {
         this.sufijo = sufijo;
     }
 
+    public int getPlantas() {
+        return plantas;
+    }
+
+    public void setPlantas(int plantas) {
+        this.plantas = plantas;
+    }
+
+    public double getArea() {
+        return area;
+    }
+
+    public void setArea(double area) {
+        this.area = area;
+    }
+
+    public int getCuadros() {
+        return cuadros;
+    }
+
+    public void setCuadros(int cuadros) {
+        this.cuadros = cuadros;
+    }
+
+
     @Override
     public String toString() {
+        String s;
+        if (sufijo != null) {
+            s = sufijo;
+        } else {
+            s = "";
+        }
         return "{" +
                 "\"idSiembra\":" + idSiembra + ",\n" +
                 "\"idFinca\":" + idFinca + ",\n" +
                 "\"finca\": \"" + finca + "\",\n" +
-                "\"idBloque\":" + idBloque + ",\n" +
+                "\"idBloque\": " + idBloque + ",\n" +
                 "\"bloque\": \"" + bloque + "\",\n" +
                 "\"idVariedad\": " + idVariedad + ",\n" +
                 "\"variedad\": \"" + variedad + "\",\n" +
                 "\"cama\": " + cama + ",\n" +
-                "\"sufijo\": \"" + sufijo + "\"\n" +
+                "\"sufijo\": \"" + s + "\"\n" +
                 "}";
     }
-
-
 }

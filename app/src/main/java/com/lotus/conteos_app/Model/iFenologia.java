@@ -20,7 +20,7 @@ public class iFenologia extends sqlConect implements fenologia {
             "     VALUES\n" +
             "           ( ?, ?, ?, ?, ?, ?, ?);";
     final String upd = "UPDATE [dbo].[Fenologia]\n" +
-            "   SET [idVariedad] = ?, [variedad] = ?, ,[grados_dia] = ?, ,[diametro_boton] = ?, ,[largo_boton] = ?, ,[imagen] = ?\n" +
+            "   SET [idVariedad] = ?, [variedad] = ?, ,[grados_dia] = ?, [diametro_boton] = ?, [largo_boton] = ?, [imagen] = ?\n" +
             "  WHERE  [idFenologia] = ?;";
     final String del = "DELETE FROM [dbo].[Fenologia]\n" +
             "  WHERE  [idFenologia] = ?;";

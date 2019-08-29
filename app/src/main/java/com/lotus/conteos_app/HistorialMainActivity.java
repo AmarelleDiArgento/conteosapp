@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -12,9 +13,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.lotus.conteos_app.Config.Util.jsonAdmin;
+import com.lotus.conteos_app.Model.iFenologia;
 import com.lotus.conteos_app.Model.iPlano;
 import com.lotus.conteos_app.Model.tab.planoTab;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -41,6 +44,10 @@ public class HistorialMainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.historial_main);
+        // INICIAR LISTAS
+
+        // actualizarPlano();
+        // actualizarFenologias();
 
 
         //data_tbl =(EditText) findViewById(R.id.data_tbl);
@@ -53,6 +60,8 @@ public class HistorialMainActivity extends AppCompatActivity {
 
         //INICIALIZAMOS PLANOS
         cargarHistorial();
+        //obtiene ruta donde se encuentran los archivos.
+        path = getExternalFilesDir(null) + File.separator;
 
         date.setVisibility(View.INVISIBLE);
 
@@ -73,6 +82,46 @@ public class HistorialMainActivity extends AppCompatActivity {
                 cargadefecha(year,month,day);
             }
         });
+    }
+
+
+    // descarga el plano de la basde datos y lo alamcena en plano.json (Archivo local)
+    public void actualizarPlano() {
+
+        try {
+            iPlano iP = new iPlano();
+            String nombre = "plano";
+            String contenido = iP.all().toString();
+            // Toast.makeText(this, contenido, Toast.LENGTH_LONG).show();
+
+            if (ja.CrearArchivo(path, nombre, contenido)) {
+                Toast.makeText(this, "Plano actualizado exitosamente", Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(this, "Error al actualizar el plano", Toast.LENGTH_LONG).show();
+            }
+
+        } catch (Exception e) {
+            Toast.makeText(this, "Sin conexión\n trabajando con plano local. \n Code: " + e.hashCode(), Toast.LENGTH_LONG).show();
+        }
+    }
+
+    public void actualizarFenologias() {
+
+        try {
+            iFenologia iF = new iFenologia();
+            String nombre = "fenologias";
+            String contenido = iF.all().toString();
+            // Toast.makeText(this, contenido, Toast.LENGTH_LONG).show();
+
+            if (ja.CrearArchivo(path, nombre, contenido)) {
+                Toast.makeText(this, "Fenologias actualizadas exitosamente", Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(this, "Error al actualizar las fenologias", Toast.LENGTH_LONG).show();
+            }
+
+        } catch (Exception e) {
+            Toast.makeText(this, "Sin conexión\n trabajando con fenologias locales. \n Code: " + e.hashCode(), Toast.LENGTH_LONG).show();
+        }
     }
 
     public void cargadefecha(int year, int month, int day) {
@@ -116,9 +165,9 @@ public class HistorialMainActivity extends AppCompatActivity {
 
         gradosDiaTxt=(EditText)findViewById(R.id.gradosDia);
 
-        String dato =gradosDiaTxt.getText().toString();
+        int dato = Integer.parseInt(gradosDiaTxt.getText().toString()) ;
 
-        Toast.makeText(this,"se pasa el grado"+dato,Toast.LENGTH_LONG).show();
+        // Toast.makeText(this,"se pasa el grado: "+dato,Toast.LENGTH_LONG).show();
 
         Intent intent = new Intent (HistorialMainActivity.this,MainActivity.class);
         //Exportar parametro
@@ -126,4 +175,26 @@ public class HistorialMainActivity extends AppCompatActivity {
         startActivityForResult(intent, 0);
     }
 
+
+    private void listFiles() {
+        try {
+            List<String> list = ja.listFiles(path);
+            // asociar arreglo cuadros al desplegable cuadro
+            ArrayAdapter<String> fl = new ArrayAdapter<>(this, R.layout.spinner_item_personal, list);
+            // files.setAdapter(fl);
+            //data.setText(list.toString());
+        } catch (Exception e) {
+            Toast.makeText(this, "LISTFILES()--->  " + e.toString(), Toast.LENGTH_LONG).show();
+        }
+    }
+
+
+
+    public void actualizarBases(View v){
+        // INICIAR LISTAS
+
+        actualizarPlano();
+        actualizarFenologias();
+
+    }
 }

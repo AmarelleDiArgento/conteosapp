@@ -41,6 +41,7 @@ public class Camera extends AppCompatActivity {
                             //Exportar parametro
                             intent.putExtra("codigo", bc);
                             startActivityForResult(intent, 0);
+                            finish();
                     } else {
                             Toast toast = Toast.makeText(getApplicationContext(), "no hay resultado", Toast.LENGTH_SHORT);
                             toast.show();
