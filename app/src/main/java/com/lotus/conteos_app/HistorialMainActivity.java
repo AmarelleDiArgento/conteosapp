@@ -1,6 +1,7 @@
 package com.lotus.conteos_app;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -164,15 +165,16 @@ public class HistorialMainActivity extends AppCompatActivity {
     public void intent_home(View v){
 
         gradosDiaTxt=(EditText)findViewById(R.id.gradosDia);
-
-        int dato = Integer.parseInt(gradosDiaTxt.getText().toString()) ;
-
-        // Toast.makeText(this,"se pasa el grado: "+dato,Toast.LENGTH_LONG).show();
+        String datodia=gradosDiaTxt.getText().toString();
+        //Toast.makeText(this,"se pasa el grado: "+datodia,Toast.LENGTH_LONG).show();
+        SharedPreferences guardarRut = getBaseContext().getSharedPreferences("guardarRut", MODE_PRIVATE);
+        SharedPreferences.Editor edit = guardarRut.edit();
+        edit.putString("rut", datodia);
+        edit.commit();
+        edit.apply();
 
         Intent intent = new Intent (HistorialMainActivity.this,MainActivity.class);
-        //Exportar parametro
-        intent.putExtra("grados", dato);
-        startActivityForResult(intent, 0);
+        startActivity(intent);
     }
 
 

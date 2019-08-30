@@ -2,6 +2,7 @@ package com.lotus.conteos_app;
 
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -85,6 +86,11 @@ public class MainActivity extends AppCompatActivity {
 
         fechaAct = findViewById(R.id.fechaAct);
 
+        //ADQUIRIENDO POR MEDIO DEL SHARED PREFERENCES LOS GRADOS DIA
+        SharedPreferences guardardia = getBaseContext().getSharedPreferences("guardarRut", MODE_PRIVATE);
+        String gDia = guardardia.getString("rut", "");
+        dato_dia.setText(gDia);
+
         //ADQUIRIENDO EL DATO OBTENIDO DEL C. BARRAS Y ALMACENANDOLO EN EL CAMPO DE BUSQUEDA
         resulcode = findViewById(R.id.resulcode);
 
@@ -92,13 +98,13 @@ public class MainActivity extends AppCompatActivity {
             Bundle bundle = getIntent().getExtras();
 
             if (bundle != null) {
-
+                /*
                 gradosDia = bundle.getInt("grados");
 
                 if (gradosDia > 0) {
-                    dato_dia.setText(String.valueOf(gradosDia));
+                    //dato_dia.setText(String.valueOf(gradosDia));
                 }
-
+                */
                 int dato = bundle.getInt("codigo");
 
                 if (dato > 0) {

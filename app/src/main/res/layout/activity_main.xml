@@ -8,20 +8,6 @@
     tools:context=".MainActivity">
 
     <Button
-        android:id="@+id/button"
-        android:layout_width="91dp"
-        android:layout_height="42dp"
-        android:layout_marginStart="492dp"
-        android:layout_marginTop="356dp"
-        android:background="@android:color/holo_red_light"
-        android:onClick="img_cargar"
-        android:text="CARGAR"
-        android:textColor="@color/ColorPrimaryText"
-        android:visibility="invisible"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
         android:id="@+id/button6"
         android:layout_width="227dp"
         android:layout_height="61dp"
@@ -257,9 +243,8 @@
         android:editable="false"
         android:ems="10"
         android:inputType="numberDecimal"
-        android:text="9,8"
-        android:textColor="#000000"
         android:textAlignment="center"
+        android:textColor="#000000"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
