@@ -16,16 +16,21 @@ public class Camera extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Toast.makeText(this,"llegamos a la camara",Toast.LENGTH_LONG).show();
-        try{
             vbc = new ZBarScannerView(this);
             vbc.setResultHandler(new Camera.barcodeimp());
             setContentView(vbc);
-            vbc.startCamera();
-        }catch (Exception ex){
-            Toast.makeText(this,"problemas en oncreate  "+ex,Toast.LENGTH_LONG).show();
-        }
+    }
 
+    @Override
+    public void onResume(){
+        super.onResume();
+        vbc.startCamera();
+    }
+
+    @Override
+    public void onPause(){
+        super.onPause();
+        vbc.stopCamera();
     }
 
 
@@ -46,7 +51,6 @@ public class Camera extends AppCompatActivity {
                             //Exportar parametro
                             intent.putExtra("codigo", bc);
                             startActivityForResult(intent, 0);
-                            finish();
                             vbc.stopCamera();
 
                     } else {
