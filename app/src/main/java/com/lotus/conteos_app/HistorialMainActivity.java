@@ -27,7 +27,6 @@ public class HistorialMainActivity extends AppCompatActivity {
 
     List<planoTab> pl1 = new ArrayList<>();
 
-
     private int year;
     private int month;
     private int day;
@@ -39,7 +38,6 @@ public class HistorialMainActivity extends AppCompatActivity {
     ImageView btn_show_picker;
     TextView fech;
     //RecyclerView data_tbl;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,7 +82,6 @@ public class HistorialMainActivity extends AppCompatActivity {
             }
         });
     }
-
 
     // descarga el plano de la basde datos y lo alamcena en plano.json (Archivo local)
     public void actualizarPlano() {
@@ -148,7 +145,6 @@ public class HistorialMainActivity extends AppCompatActivity {
         }
     }
 
-
     // descarga el plano de la basde datos y lo alamcena en plano.json (Archivo local)
     public void cargarHistorial() {
 
@@ -177,7 +173,6 @@ public class HistorialMainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-
     private void listFiles() {
         try {
             List<String> list = ja.listFiles(path);
@@ -190,11 +185,8 @@ public class HistorialMainActivity extends AppCompatActivity {
         }
     }
 
-
-
     public void actualizarBases(View v){
         // INICIAR LISTAS
-
         actualizarPlano();
         actualizarFenologias();
 

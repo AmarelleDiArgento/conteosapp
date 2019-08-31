@@ -1,6 +1,5 @@
 package com.lotus.conteos_app;
 
-
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -58,6 +57,8 @@ public class MainActivity extends AppCompatActivity {
 
     int dia, hora, gradosDia;
 
+
+    //CICLO VIDA ACTIVIDAD
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,30 +91,25 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences guardardia = getBaseContext().getSharedPreferences("guardarRut", MODE_PRIVATE);
         String gDia = guardardia.getString("rut", "");
         dato_dia.setText(gDia);
+        gradosDia = Integer.parseInt(gDia);
 
         //ADQUIRIENDO EL DATO OBTENIDO DEL C. BARRAS Y ALMACENANDOLO EN EL CAMPO DE BUSQUEDA
         resulcode = findViewById(R.id.resulcode);
 
         try {
             Bundle bundle = getIntent().getExtras();
-
+            Toast.makeText(this, "llega al try", Toast.LENGTH_SHORT).show();
             if (bundle != null) {
-                /*
-                gradosDia = bundle.getInt("grados");
 
-                if (gradosDia > 0) {
-                    //dato_dia.setText(String.valueOf(gradosDia));
-                }
-                */
                 int dato = bundle.getInt("codigo");
 
                 if (dato > 0) {
                     resulcode.setText(String.valueOf(dato));
-                    buscarSiembra();
+                    //buscarSiembra();
                 }
 
             } else {
-                resulcode.setText("");
+                Toast.makeText(this, "no hay dato para consultar", Toast.LENGTH_SHORT).show();
             }
 
         } catch (Exception EX) {
@@ -150,6 +146,27 @@ public class MainActivity extends AppCompatActivity {
         //listFiles();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Toast.makeText(this,"onresume",Toast.LENGTH_SHORT).show();
+        /*try {
+            //Toast.makeText(this,"dato resul   "+Integer.parseInt(resulcode.getText().toString()),Toast.LENGTH_SHORT).show();
+            int campo_code = Integer.parseInt(resulcode.getText().toString());
+            if (campo_code > 0) {
+                buscarSiembra(campo_code);
+            }
+        } catch (Exception ex) {
+            Toast.makeText(this, "Exception 0:     " + ex.toString(), Toast.LENGTH_LONG).show();
+        }*/
+    }
+    
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Toast.makeText(this, "onRestart", Toast.LENGTH_SHORT).show();
+    }
+
     // convierte el contenido del archivo plano.json en un arreglo (REQUIERE UNA LISTA GLOBAL)
     public void cargarPlanoLocal() {
         try {
@@ -175,40 +192,49 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // busca el id de la siembra en el arreglo global y retorna la informacion en el text view info
-    public void buscarSiembra() {
+    public void buscarSiembra(int bs) {
+        Toast.makeText(this,"llega el dato bs:  "+bs,Toast.LENGTH_SHORT).show();
+        /*
+        resulcode = findViewById(R.id.resulcode);
 
         finca = findViewById(R.id.cam_finca);
         variedad = findViewById(R.id.cam_variedad);
         bloque = findViewById(R.id.cam_bloque);
         cama = findViewById(R.id.cam_cama);
+*/
+        if (bs != 0) {
+            Toast.makeText(this,"si hay algo  "+bs,Toast.LENGTH_SHORT).show();
+            boolean infoS = false;
 
-        int bs = valnum(resulcode);
+            if (pl != null || bs != 0) {
+                for (planoTab p : pl) {
+                    if (p.getIdSiembra() == bs) {
+                        infoS = true;
+                        finca.setText(p.getFinca());
+                        bloque.setText(p.getBloque());
+                        variedad.setText(p.getVariedad());
+                        cama.setText(p.getCama() + p.getSufijo());
+                        Toast.makeText(this, p.getIdVariedad(), Toast.LENGTH_LONG).show();
+                        int id = p.getIdVariedad();
+
+                        imagenes(gradosDia, id);
+                    }
+                }
+                if (!infoS) {
+                    Toast.makeText(this, "Siembra no encontrada", Toast.LENGTH_LONG).show();
+                }
+
+            } else {
+                Toast.makeText(this, "Informacion invalida", Toast.LENGTH_LONG).show();
+            }
+
+        } else if (bs <= 0 || bs == 0) {
+            Toast.makeText(this, "en el campo no hay nada", Toast.LENGTH_SHORT).show();
+        }
 
         //Toast.makeText(this, "valor de codigo  " + bs, Toast.LENGTH_LONG).show();
 
-        boolean infoS = false;
 
-
-        if (pl != null || bs != 0) {
-            for (planoTab p : pl) {
-                if (p.getIdSiembra() == bs) {
-                    infoS = true;
-                    finca.setText(p.getFinca());
-                    bloque.setText(p.getBloque());
-                    variedad.setText(p.getVariedad());
-                    cama.setText(p.getCama() + p.getSufijo());
-                    Toast.makeText(this, p.getVariedad(), Toast.LENGTH_LONG).show();
-
-                    imagenes(gradosDia, p.getIdVariedad());
-                }
-            }
-            if (!infoS) {
-                Toast.makeText(this, "Siembra no encontrada", Toast.LENGTH_LONG).show();
-            }
-
-        } else {
-            Toast.makeText(this, "Informacion invalida", Toast.LENGTH_LONG).show();
-        }
     }
 
     //CARGAR LA IMAGEN
@@ -344,7 +370,7 @@ public class MainActivity extends AppCompatActivity {
 
     //btn buscar siembra
     public void btn_buscar(View v) {
-        buscarSiembra();
+        buscarSiembra(valnum(resulcode));
     }
 
     // generar nombre de archivo json segun fecha de registro AAAA-MM-DD
@@ -388,14 +414,13 @@ public class MainActivity extends AppCompatActivity {
             int c = 0;
             int max = 0;
 
-            Toast.makeText(this, img[0] + " " + img[1] + " " + img[2] + " " + img[3], Toast.LENGTH_LONG).show();
+            // Toast.makeText(this, img[0] + " " + img[1] + " " + img[2] + " " + img[3], Toast.LENGTH_LONG).show();
 
             Iterator<fenologiaTab> i = fl.iterator();
-            String data = "";
             List<fenologiaTab> fi = new ArrayList<>();
             fenologiaTab fu = new fenologiaTab();
 
-            // Toast.makeText(this, "Imagenes", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, String.valueOf(v), Toast.LENGTH_LONG).show();
             // Toast.makeText(this, "Data: " + fl.size(), Toast.LENGTH_LONG).show();
 
             while (i.hasNext()) {
@@ -403,7 +428,7 @@ public class MainActivity extends AppCompatActivity {
                 if (f.getIdVariedad() == v) {
                     if (img[c] <= f.getGrados_dia()) {
                         fi.add(fu);
-                        // Toast.makeText(this, "Data: " + f.toString(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(this, "Data: " + f.toString(), Toast.LENGTH_LONG).show();
 
                         c++;
                         if (c >= 4) {
@@ -429,5 +454,16 @@ public class MainActivity extends AppCompatActivity {
 
         }
 
+    }
+
+    /*
+     *  ----------------------------------------------------------------------------------
+     *   BTN_ATRAS (PARA EL HISTORIAL)
+     *  ----------------------------------------------------------------------------------
+     */
+
+    public void onBackPressed() {
+        Intent i = new Intent(MainActivity.this, HistorialMainActivity.class);
+        startActivity(i);
     }
 }

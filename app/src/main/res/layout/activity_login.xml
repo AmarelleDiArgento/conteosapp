@@ -7,6 +7,7 @@
     android:background="@color/ColorSecondaryText"
     tools:context=".Login">
 
+
     <TextView
         android:id="@+id/textView4"
         android:layout_width="482dp"
@@ -14,6 +15,8 @@
         android:layout_marginStart="68dp"
         android:layout_marginTop="252dp"
         android:background="@color/ColorPrimaryText"
+        android:outlineProvider="none"
+        android:shadowColor="@color/colorPrimaryDark"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -34,10 +37,12 @@
         android:layout_height="51dp"
         android:layout_marginStart="196dp"
         android:layout_marginTop="472dp"
+        android:imeOptions="actionSearch"
         android:ems="10"
         android:inputType="numberPassword"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
 
     <Button
         android:id="@+id/btn_login"
@@ -52,6 +57,7 @@
         android:textSize="30sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
 
     <ImageView
         android:id="@+id/imageView8"
