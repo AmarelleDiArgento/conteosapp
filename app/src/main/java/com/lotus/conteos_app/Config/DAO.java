@@ -7,7 +7,6 @@ public interface DAO <K,O,S>{
     String update(O o) throws Exception;
     String delete(K id) throws Exception;
     O oneId(K id)throws Exception;
-    List<O> all()throws Exception;
-
-
+    boolean local()throws Exception;
+    List<O> all() throws Exception;
 }

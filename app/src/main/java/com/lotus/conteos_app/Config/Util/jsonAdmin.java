@@ -16,7 +16,7 @@ public class jsonAdmin {
 
     public String ObtenerLista(String path, String nombre) throws Exception {
         String jsonString = "";
-        path = path + nombre;
+        path = path + nombre + ".json";
         File file = new File(path);
         FileInputStream fis = new FileInputStream(file);
         InputStreamReader isr = new InputStreamReader(fis, StandardCharsets.UTF_8);

@@ -1,6 +1,7 @@
 package com.lotus.conteos_app.Config.Util;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.Gravity;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -42,6 +43,7 @@ public class TableDinamic {
     private void newCell() {
         txtCell = new TextView(context);
         txtCell.setGravity(Gravity.CENTER);
+        txtCell.setTextColor(Color.BLACK);
         txtCell.setTextSize(16);
     }
 

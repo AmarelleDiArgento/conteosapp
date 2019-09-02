@@ -1,8 +1,10 @@
 package com.lotus.conteos_app.Model.tab;
 
 import java.util.Date;
+import java.util.Objects;
 
 public class conteoTab {
+    private long idConteo;
     private Date fecha;
     private long idSiembra;
     private int cuadro;
@@ -15,7 +17,8 @@ public class conteoTab {
     public conteoTab() {
     }
 
-    public conteoTab(Date fecha, long idSiembra, int cuadro, int conteo1, int conteo2, int conteo3, int conteo4, int IdUsuario) {
+    public conteoTab(long idConteo, Date fecha, long idSiembra, int cuadro, int conteo1, int conteo2, int conteo3, int conteo4, int idUsuario) {
+        this.idConteo = idConteo;
         this.fecha = fecha;
         this.idSiembra = idSiembra;
         this.cuadro = cuadro;
@@ -23,7 +26,15 @@ public class conteoTab {
         this.conteo2 = conteo2;
         this.conteo3 = conteo3;
         this.conteo4 = conteo4;
-        this.IdUsuario = IdUsuario;
+        IdUsuario = idUsuario;
+    }
+
+    public long getIdConteo() {
+        return idConteo;
+    }
+
+    public void setIdConteo(long idConteo) {
+        this.idConteo = idConteo;
     }
 
     public Date getFecha() {
@@ -66,12 +77,13 @@ public class conteoTab {
         this.conteo2 = conteo2;
     }
 
+
     public int getConteo3() {
         return conteo3;
     }
 
-    public void setConteo3(int conteo3) {
-        this.conteo3 = conteo3;
+    public void setConteo3(int conteo2) {
+        this.conteo3 = conteo2;
     }
 
     public int getConteo4() {
@@ -86,13 +98,17 @@ public class conteoTab {
         return IdUsuario;
     }
 
-    public void setIdUsuario(int IdUsuario) {
-        this.IdUsuario = IdUsuario;
+    public void setIdUsuario(int idUsuario) {
+        IdUsuario = idUsuario;
     }
+
+
+
 
     @Override
     public String toString() {
         return "{" +
+                "\"id\":" + idConteo + ",\n" +
                 "\"fecha\":" + fecha + ",\n" +
                 "\"idSiembra\":" + idSiembra + ",\n" +
                 "\"cuadro\":" + cuadro + ",\n" +

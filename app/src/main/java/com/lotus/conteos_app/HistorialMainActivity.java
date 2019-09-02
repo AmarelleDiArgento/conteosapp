@@ -30,50 +30,32 @@ import java.util.List;
 
 public class HistorialMainActivity extends AppCompatActivity {
 
-    List<planoTab> pl1 = new ArrayList<>();
     jsonAdmin ja = null;
-    String path = null;
-    EditText data_tbl, gradosDiaTxt;
+    EditText gradosDiaTxt;
     DatePicker date;
     ImageView btn_show_picker;
     TextView fech;
-    private TableLayout tableLayout;
+    String path = null;
+
     private int year;
     private int month;
     private int day;
+
+
+    private TableLayout tableLayout;
+    // Encabezados de la tabla
     private String[] header = {"ID", "Variedad", "Grados Dia", "Diametro", "Largo", "Imagen"};
+    // Datos de la tabla
     private ArrayList<String[]> rows = new ArrayList<>();
+
     //RecyclerView data_tbl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.historial_main);
-        // INICIAR LISTAS
 
-        // actualizarPlano();
-        // actualizarFenologias();
-
-
-        //data_tbl =(EditText) findViewById(R.id.data_tbl);
-        // data_tbl =(EditText) findViewById(R.id.data_tbl);
-        try {
-            tableLayout = findViewById(R.id.tabla);
-            TableDinamic tb = new TableDinamic(tableLayout, getApplicationContext());
-            tb.addHeader(header);
-            tb.addData(cargarFenologias());
-            tb.backgroundHeader(
-                    Color.parseColor("#20C0FF")
-            );
-            tb.backgroundData(
-                    Color.parseColor("#FFFFFF"),
-                    Color.parseColor("#E5DBDBDB")
-            );
-
-        } catch (Exception e) {
-
-            Toast.makeText(this, "Error table: " + e.toString(), Toast.LENGTH_LONG).show();
-        }
+        path = getExternalFilesDir(null) + File.separator;
 
         date = findViewById(R.id.date_picker);
         btn_show_picker = (ImageButton) findViewById(R.id.btn_datapicker);
@@ -83,8 +65,6 @@ public class HistorialMainActivity extends AppCompatActivity {
 
         //INICIALIZAMOS PLANOS
 
-        //obtiene ruta donde se encuentran los archivos.
-        path = getExternalFilesDir(null) + File.separator;
 
         date.setVisibility(View.INVISIBLE);
 
@@ -93,7 +73,6 @@ public class HistorialMainActivity extends AppCompatActivity {
         year = currCalendar.get(Calendar.YEAR);
         month = currCalendar.get(Calendar.MONTH);
         day = currCalendar.get(Calendar.DAY_OF_MONTH);
-
 
         date.init(year - 1, month + 1, day + 5, new DatePicker.OnDateChangedListener() {
             @Override
@@ -105,45 +84,24 @@ public class HistorialMainActivity extends AppCompatActivity {
                 cargadefecha(year, month, day);
             }
         });
+
+        createTable();
     }
 
-    // descarga el plano de la basde datos y lo alamcena en plano.json (Archivo local)
-    public void actualizarPlano() {
+    // revisar
+    public void intent_home(View v) {
 
-        try {
-            iPlano iP = new iPlano();
-            String nombre = "plano";
-            String contenido = iP.all().toString();
-            // Toast.makeText(this, contenido, Toast.LENGTH_LONG).show();
+        gradosDiaTxt = findViewById(R.id.gradosDia);
+        String datodia = gradosDiaTxt.getText().toString();
+        //Toast.makeText(this,"se pasa el grado: "+datodia,Toast.LENGTH_LONG).show();
+        SharedPreferences guardarRut = getBaseContext().getSharedPreferences("guardarRut", MODE_PRIVATE);
+        SharedPreferences.Editor edit = guardarRut.edit();
+        edit.putString("rut", datodia);
+        edit.commit();
+        edit.apply();
 
-            if (ja.CrearArchivo(path, nombre, contenido)) {
-                Toast.makeText(this, "Plano actualizado exitosamente", Toast.LENGTH_LONG).show();
-            } else {
-                Toast.makeText(this, "Error al actualizar el plano", Toast.LENGTH_LONG).show();
-            }
-
-        } catch (Exception e) {
-            Toast.makeText(this, "Sin conexión\n trabajando con plano local. \n Code: " + e.hashCode(), Toast.LENGTH_LONG).show();
-        }
-    }
-
-    public void actualizarFenologias() {
-
-        try {
-            iFenologia iF = new iFenologia();
-            String nombre = "fenologias";
-            String contenido = iF.all().toString();
-            // Toast.makeText(this, contenido, Toast.LENGTH_LONG).show();
-
-            if (ja.CrearArchivo(path, nombre, contenido)) {
-                Toast.makeText(this, "Fenologias actualizadas exitosamente", Toast.LENGTH_LONG).show();
-            } else {
-                Toast.makeText(this, "Error al actualizar las fenologias", Toast.LENGTH_LONG).show();
-            }
-
-        } catch (Exception e) {
-            Toast.makeText(this, "Sin conexión\n trabajando con fenologias locales. \n Code: " + e.hashCode(), Toast.LENGTH_LONG).show();
-        }
+        Intent intent = new Intent(HistorialMainActivity.this, MainActivity.class);
+        startActivity(intent);
     }
 
     public void cargadefecha(int year, int month, int day) {
@@ -173,8 +131,8 @@ public class HistorialMainActivity extends AppCompatActivity {
     public ArrayList<String[]> cargarFenologias() {
         DecimalFormat frt = new DecimalFormat("#,###.00");
         try {
-
-            iFenologia iF = new iFenologia();
+            rows.clear();
+            iFenologia iF = new iFenologia(path);
             List<fenologiaTab> fl = iF.all();
 
             Toast.makeText(this, "" + fl.size(), Toast.LENGTH_LONG).show();
@@ -195,37 +153,37 @@ public class HistorialMainActivity extends AppCompatActivity {
         return rows;
     }
 
-    public void intent_home(View v) {
-
-        gradosDiaTxt = findViewById(R.id.gradosDia);
-        String datodia = gradosDiaTxt.getText().toString();
-        //Toast.makeText(this,"se pasa el grado: "+datodia,Toast.LENGTH_LONG).show();
-        SharedPreferences guardarRut = getBaseContext().getSharedPreferences("guardarRut", MODE_PRIVATE);
-        SharedPreferences.Editor edit = guardarRut.edit();
-        edit.putString("rut", datodia);
-        edit.commit();
-        edit.apply();
-
-        Intent intent = new Intent(HistorialMainActivity.this, MainActivity.class);
-        startActivity(intent);
-    }
-
-    private void listFiles() {
+    public void createTable() {
         try {
-            List<String> list = ja.listFiles(path);
-            // asociar arreglo cuadros al desplegable cuadro
-            ArrayAdapter<String> fl = new ArrayAdapter<>(this, R.layout.spinner_item_personal, list);
-            // files.setAdapter(fl);
-            //data.setText(list.toString());
+            tableLayout = findViewById(R.id.tabla);
+            TableDinamic tb = new TableDinamic(tableLayout, getApplicationContext());
+            tb.addHeader(header);
+            tb.addData(cargarFenologias());
+            tb.backgroundHeader(
+                    Color.parseColor("#20C0FF")
+            );
+            tb.backgroundData(
+                    Color.parseColor("#FFFFFF"),
+                    Color.parseColor("#E5DBDBDB")
+            );
+
         } catch (Exception e) {
-            Toast.makeText(this, "LISTFILES()--->  " + e.toString(), Toast.LENGTH_LONG).show();
+
+            Toast.makeText(this, "Error table: " + e.toString(), Toast.LENGTH_LONG).show();
         }
     }
 
     public void actualizarBases(View v) {
-        // INICIAR LISTAS
-        actualizarPlano();
-        actualizarFenologias();
+        try {
+            iFenologia iF = new iFenologia(path);
+            iPlano iP = new iPlano(path);
 
+            if (iP.local() && iF.local()) {
+                Toast.makeText(this, "Local actualizado exitosamente", Toast.LENGTH_LONG).show();
+            }
+
+        } catch (Exception e) {
+            Toast.makeText(this, "Error al actualizar: \n" + e.toString(), Toast.LENGTH_LONG).show();
+        }
     }
 }

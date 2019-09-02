@@ -3,21 +3,24 @@ package com.lotus.conteos_app.Config.Util;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Environment;
-import android.view.View;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import java.io.File;
 
 public class imageAdmin {
 
 
-    public String sdPath = null;
+    final String path = Environment.getExternalStorageDirectory().getParent() + File.separator + "/extSdCard/";
 
-    public imageAdmin() {
-        this.sdPath = Environment.getExternalStorageDirectory() + File.separator;
+
+    public void getImage(ImageView iv, String Variedad, String imagen) throws Exception {
+
+        File f = new File(path + Variedad + "/" + imagen);
+
+        if (f.exists() && f.canRead()) {
+            Bitmap myBitmap = BitmapFactory.decodeFile(f.getAbsolutePath());
+            iv.setImageBitmap(myBitmap);
+        }
     }
-
-
 
 }

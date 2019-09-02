@@ -79,24 +79,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <DatePicker
-        android:id="@+id/date_picker"
-        android:layout_width="235dp"
-        android:layout_height="205dp"
-        android:layout_marginStart="144dp"
-        android:layout_marginTop="280dp"
-        android:background="@color/ColorPrimaryText"
-        android:calendarViewShown="false"
-        android:datePickerMode="spinner"
-        android:endYear="2100"
-        android:maxDate="12/31/2100"
-        android:minDate="01/01/2000"
-        android:spinnersShown="true"
-        android:startYear="2000"
-        android:visibility="invisible"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <ImageView
         android:id="@+id/imageView3"
         android:layout_width="89dp"
@@ -186,6 +168,24 @@
                 android:layout_height="match_parent" />
         </HorizontalScrollView>
     </ScrollView>
+
+    <DatePicker
+        android:id="@+id/date_picker"
+        android:layout_width="235dp"
+        android:layout_height="205dp"
+        android:layout_marginStart="144dp"
+        android:layout_marginTop="280dp"
+        android:background="@color/ColorPrimaryText"
+        android:calendarViewShown="false"
+        android:datePickerMode="spinner"
+        android:endYear="2100"
+        android:maxDate="12/31/2100"
+        android:minDate="01/01/2000"
+        android:spinnersShown="true"
+        android:startYear="2000"
+        android:visibility="invisible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </android.support.constraint.ConstraintLayout>

@@ -1,10 +1,11 @@
 package com.lotus.conteos_app.Model;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.lotus.conteos_app.Config.Util.jsonAdmin;
+import com.lotus.conteos_app.Config.sqlConect;
 import com.lotus.conteos_app.Model.interfaz.plano;
 import com.lotus.conteos_app.Model.tab.planoTab;
-
-import com.lotus.conteos_app.Config.sqlConect;
-
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -13,7 +14,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class iPlano extends sqlConect implements plano {
+
+    public List<planoTab> pl = new ArrayList<>();
     Connection cn = null;
+    String path = null;
+    jsonAdmin ja = null;
+
+    String nombre;
 
     final String ins = "INSERT INTO Plano_Siembra\n" +
             "(idSiembra, idFinca, finca, idBloque, bloque, idVariedad, variedad, cama, sufijo)\n" +
@@ -40,8 +47,19 @@ public class iPlano extends sqlConect implements plano {
             "  FROM [dbo].[Plano_Siembra]\n" +
             "  where finca = 'SAN MATEO'" +
             "  and idVariedad in(1358,1101,870,284,115)";
-    public iPlano() throws Exception {
+
+    public iPlano(String path) throws Exception {
         this.cn = getConexion();
+        getPath(path);
+    }
+
+    public void getPath(String path) {
+        ja = new jsonAdmin();
+        this.path = path;
+    }
+
+    public void getDate(String fecha){
+        this.nombre = fecha;
     }
 
     @Override
@@ -151,18 +169,47 @@ public class iPlano extends sqlConect implements plano {
     }
 
     @Override
-    public List<planoTab> all() throws Exception {
+    public boolean local() throws Exception {
 
-        List<planoTab> pl = new ArrayList<>();
+        List<planoTab> po = new ArrayList<>();
+
         ResultSet rs;
         PreparedStatement ps = cn.prepareStatement(all);
         rs = ps.executeQuery();
         while (rs.next()) {
-            pl.add(gift(rs));
+            po.add(gift(rs));
         }
 
         closeConexion(cn, rs);
+
+        String contenido = po.toString();
+
+        return ja.CrearArchivo(path, nombre, contenido);
+    }
+
+    @Override
+    public List<planoTab> all() throws Exception {
+
+        Gson gson = new Gson();
+        pl = gson.fromJson(ja.ObtenerLista(path, nombre), new TypeToken<List<planoTab>>() {
+        }.getType());
+
         return pl;
     }
 
+    @Override
+    public planoTab OneforIdSiembra(long idSiembra) throws Exception {
+        planoTab pr = new planoTab();
+
+        if (idSiembra != 0 && pl.size() > 0) {
+
+            for (planoTab p : pl) {
+                if (p.getIdSiembra() == idSiembra) {
+                    pr = p;
+                }
+            }
+
+        }
+        return pr;
+    }
 }
