@@ -241,6 +241,7 @@ public class MainActivity extends AppCompatActivity {
 
     public File getStoragePath(ImageView iv, String Variedad, String imagen) {
         try {
+            Toast.makeText(this, "/storage/extSdCard/" + Variedad + "/" + imagen, Toast.LENGTH_LONG).show();
 
             File f = new File("/storage/extSdCard/" + Variedad + "/" + imagen);
 
@@ -403,6 +404,8 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void imagenes(int g, int v) {
+        Toast.makeText(this, "" + v, Toast.LENGTH_LONG).show();
+
         try {
             int d = 7 - dia;
 
