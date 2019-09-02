@@ -79,17 +79,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/data_tbl"
-        android:layout_width="560dp"
-        android:layout_height="379dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="340dp"
-        android:background="#6AB6B2B2"
-        android:clickable="false"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <DatePicker
         android:id="@+id/date_picker"
         android:layout_width="235dp"
@@ -176,6 +165,27 @@
         android:inputType="numberDecimal"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ScrollView
+        android:layout_width="546dp"
+        android:layout_height="365dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="340dp"
+        android:textColor="@android:color/darker_gray"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fillViewport="true">
+
+            <TableLayout
+                android:id="@+id/tabla"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent" />
+        </HorizontalScrollView>
+    </ScrollView>
 
 
 </android.support.constraint.ConstraintLayout>

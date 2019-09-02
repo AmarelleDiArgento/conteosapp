@@ -149,7 +149,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        Toast.makeText(this,"onresume",Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "onresume", Toast.LENGTH_SHORT).show();
         /*try {
             //Toast.makeText(this,"dato resul   "+Integer.parseInt(resulcode.getText().toString()),Toast.LENGTH_SHORT).show();
             int campo_code = Integer.parseInt(resulcode.getText().toString());
@@ -160,7 +160,7 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, "Exception 0:     " + ex.toString(), Toast.LENGTH_LONG).show();
         }*/
     }
-    
+
     @Override
     protected void onRestart() {
         super.onRestart();
@@ -193,31 +193,21 @@ public class MainActivity extends AppCompatActivity {
 
     // busca el id de la siembra en el arreglo global y retorna la informacion en el text view info
     public void buscarSiembra(int bs) {
-        Toast.makeText(this,"llega el dato bs:  "+bs,Toast.LENGTH_SHORT).show();
-        /*
-        resulcode = findViewById(R.id.resulcode);
+        try {
 
-        finca = findViewById(R.id.cam_finca);
-        variedad = findViewById(R.id.cam_variedad);
-        bloque = findViewById(R.id.cam_bloque);
-        cama = findViewById(R.id.cam_cama);
-*/
-        if (bs != 0) {
-            Toast.makeText(this,"si hay algo  "+bs,Toast.LENGTH_SHORT).show();
-            boolean infoS = false;
+            if (bs != 0 && pl.size() > 0) {
+                boolean infoS = false;
 
-            if (pl != null || bs != 0) {
                 for (planoTab p : pl) {
+
                     if (p.getIdSiembra() == bs) {
+                        Toast.makeText(this, p.toString(), Toast.LENGTH_LONG).show();
                         infoS = true;
+
                         finca.setText(p.getFinca());
                         bloque.setText(p.getBloque());
                         variedad.setText(p.getVariedad());
-                        cama.setText(p.getCama() + p.getSufijo());
-                        Toast.makeText(this, p.getIdVariedad(), Toast.LENGTH_LONG).show();
-                        int id = p.getIdVariedad();
-
-                        imagenes(gradosDia, id);
+                        cama.setText(p.getCama());
                     }
                 }
                 if (!infoS) {
@@ -228,12 +218,11 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(this, "Informacion invalida", Toast.LENGTH_LONG).show();
             }
 
-        } else if (bs <= 0 || bs == 0) {
-            Toast.makeText(this, "en el campo no hay nada", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, "valor de codigo  " + bs, Toast.LENGTH_LONG).show();
+        } catch (Exception e) {
+            Toast.makeText(this, "Error busqueda: " + e.toString(), Toast.LENGTH_SHORT).show();
+
         }
-
-        //Toast.makeText(this, "valor de codigo  " + bs, Toast.LENGTH_LONG).show();
-
 
     }
 
@@ -241,7 +230,6 @@ public class MainActivity extends AppCompatActivity {
 
     public File getStoragePath(ImageView iv, String Variedad, String imagen) {
         try {
-            Toast.makeText(this, "/storage/extSdCard/" + Variedad + "/" + imagen, Toast.LENGTH_LONG).show();
 
             File f = new File("/storage/extSdCard/" + Variedad + "/" + imagen);
 
@@ -404,8 +392,6 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void imagenes(int g, int v) {
-        Toast.makeText(this, "" + v, Toast.LENGTH_LONG).show();
-
         try {
             int d = 7 - dia;
 
@@ -417,14 +403,14 @@ public class MainActivity extends AppCompatActivity {
             int c = 0;
             int max = 0;
 
-            // Toast.makeText(this, img[0] + " " + img[1] + " " + img[2] + " " + img[3], Toast.LENGTH_LONG).show();
+            Toast.makeText(this, img[0] + " " + img[1] + " " + img[2] + " " + img[3], Toast.LENGTH_LONG).show();
 
             Iterator<fenologiaTab> i = fl.iterator();
             List<fenologiaTab> fi = new ArrayList<>();
             fenologiaTab fu = new fenologiaTab();
 
             Toast.makeText(this, String.valueOf(v), Toast.LENGTH_LONG).show();
-            // Toast.makeText(this, "Data: " + fl.size(), Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Data: " + fl.size(), Toast.LENGTH_LONG).show();
 
             while (i.hasNext()) {
                 fenologiaTab f = i.next();

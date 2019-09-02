@@ -2,23 +2,28 @@ package com.lotus.conteos_app;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.support.v7.app.AppCompatActivity;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.lotus.conteos_app.Config.Util.TableDinamic;
 import com.lotus.conteos_app.Config.Util.jsonAdmin;
 import com.lotus.conteos_app.Model.iFenologia;
 import com.lotus.conteos_app.Model.iPlano;
+import com.lotus.conteos_app.Model.tab.fenologiaTab;
 import com.lotus.conteos_app.Model.tab.planoTab;
 
 import java.io.File;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -26,17 +31,18 @@ import java.util.List;
 public class HistorialMainActivity extends AppCompatActivity {
 
     List<planoTab> pl1 = new ArrayList<>();
-
-    private int year;
-    private int month;
-    private int day;
-
     jsonAdmin ja = null;
     String path = null;
-    EditText data_tbl,gradosDiaTxt;
+    EditText data_tbl, gradosDiaTxt;
     DatePicker date;
     ImageView btn_show_picker;
     TextView fech;
+    private TableLayout tableLayout;
+    private int year;
+    private int month;
+    private int day;
+    private String[] header = {"ID", "Variedad", "Grados Dia", "Diametro", "Largo", "Imagen"};
+    private ArrayList<String[]> rows = new ArrayList<>();
     //RecyclerView data_tbl;
 
     @Override
@@ -50,15 +56,33 @@ public class HistorialMainActivity extends AppCompatActivity {
 
 
         //data_tbl =(EditText) findViewById(R.id.data_tbl);
-        data_tbl =(EditText) findViewById(R.id.data_tbl);
-        date = (DatePicker) findViewById(R.id.date_picker);
-        btn_show_picker=(ImageButton) findViewById(R.id.btn_datapicker);
-        fech =(TextView)findViewById(R.id.txt_fecha);
+        // data_tbl =(EditText) findViewById(R.id.data_tbl);
+        try {
+            tableLayout = findViewById(R.id.tabla);
+            TableDinamic tb = new TableDinamic(tableLayout, getApplicationContext());
+            tb.addHeader(header);
+            tb.addData(cargarFenologias());
+            tb.backgroundHeader(
+                    Color.parseColor("#20C0FF")
+            );
+            tb.backgroundData(
+                    Color.parseColor("#FFFFFF"),
+                    Color.parseColor("#E5DBDBDB")
+            );
+
+        } catch (Exception e) {
+
+            Toast.makeText(this, "Error table: " + e.toString(), Toast.LENGTH_LONG).show();
+        }
+
+        date = findViewById(R.id.date_picker);
+        btn_show_picker = (ImageButton) findViewById(R.id.btn_datapicker);
+        fech = findViewById(R.id.txt_fecha);
 
         ja = new jsonAdmin();
 
         //INICIALIZAMOS PLANOS
-        cargarHistorial();
+
         //obtiene ruta donde se encuentran los archivos.
         path = getExternalFilesDir(null) + File.separator;
 
@@ -71,14 +95,14 @@ public class HistorialMainActivity extends AppCompatActivity {
         day = currCalendar.get(Calendar.DAY_OF_MONTH);
 
 
-        date.init(year - 1, month  + 1, day + 5, new DatePicker.OnDateChangedListener() {
+        date.init(year - 1, month + 1, day + 5, new DatePicker.OnDateChangedListener() {
             @Override
             public void onDateChanged(DatePicker datePicker, int year, int month, int day) {
                 HistorialMainActivity.this.year = year;
                 HistorialMainActivity.this.month = month;
                 HistorialMainActivity.this.day = day;
 
-                cargadefecha(year,month,day);
+                cargadefecha(year, month, day);
             }
         });
     }
@@ -126,7 +150,7 @@ public class HistorialMainActivity extends AppCompatActivity {
         StringBuffer strBuffer = new StringBuffer();
         strBuffer.append(this.year);
         strBuffer.append(" / ");
-        strBuffer.append(this.month+1);
+        strBuffer.append(this.month + 1);
         strBuffer.append(" / ");
         strBuffer.append(this.day);
         //Toast.makeText(this,strBuffer.toString(),Toast.LENGTH_SHORT).show();
@@ -134,34 +158,47 @@ public class HistorialMainActivity extends AppCompatActivity {
         fech.setTextSize(30);
     }
 
-    public void showpicker(View v){
+    public void showpicker(View v) {
 
-        if (btn_show_picker.isClickable() && date.getVisibility()==View.INVISIBLE){
+        if (btn_show_picker.isClickable() && date.getVisibility() == View.INVISIBLE) {
             date.setVisibility(View.VISIBLE);
-        }else if(btn_show_picker.isClickable() && date.getVisibility()==View.VISIBLE){
+        } else if (btn_show_picker.isClickable() && date.getVisibility() == View.VISIBLE) {
             date.setVisibility(View.INVISIBLE);
-        }else{
-            Toast.makeText(this,"pailas",Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "pailas", Toast.LENGTH_SHORT).show();
         }
     }
 
     // descarga el plano de la basde datos y lo alamcena en plano.json (Archivo local)
-    public void cargarHistorial() {
-
+    public ArrayList<String[]> cargarFenologias() {
+        DecimalFormat frt = new DecimalFormat("#,###.00");
         try {
-            iPlano iP = new iPlano();
-            String nombre = "plano";
-            String contenido = iP.all().toString();
-            data_tbl.setText(contenido);
+
+            iFenologia iF = new iFenologia();
+            List<fenologiaTab> fl = iF.all();
+
+            Toast.makeText(this, "" + fl.size(), Toast.LENGTH_LONG).show();
+            for (fenologiaTab f : fl) {
+                rows.add(new String[]{
+                                String.valueOf(f.getIdFenologia()),
+                                f.getVariedad(),
+                                String.valueOf(frt.format(f.getGrados_dia())),
+                                String.valueOf(frt.format(f.getDiametro_boton())),
+                                String.valueOf(frt.format(f.getLargo_boton())),
+                                f.getImagen()
+                        }
+                );
+            }
         } catch (Exception e) {
-            Toast.makeText(this, "Error exception" + e.toString(), Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Error exception: " + e.toString(), Toast.LENGTH_LONG).show();
         }
+        return rows;
     }
 
-    public void intent_home(View v){
+    public void intent_home(View v) {
 
-        gradosDiaTxt=(EditText)findViewById(R.id.gradosDia);
-        String datodia=gradosDiaTxt.getText().toString();
+        gradosDiaTxt = findViewById(R.id.gradosDia);
+        String datodia = gradosDiaTxt.getText().toString();
         //Toast.makeText(this,"se pasa el grado: "+datodia,Toast.LENGTH_LONG).show();
         SharedPreferences guardarRut = getBaseContext().getSharedPreferences("guardarRut", MODE_PRIVATE);
         SharedPreferences.Editor edit = guardarRut.edit();
@@ -169,7 +206,7 @@ public class HistorialMainActivity extends AppCompatActivity {
         edit.commit();
         edit.apply();
 
-        Intent intent = new Intent (HistorialMainActivity.this,MainActivity.class);
+        Intent intent = new Intent(HistorialMainActivity.this, MainActivity.class);
         startActivity(intent);
     }
 
@@ -185,7 +222,7 @@ public class HistorialMainActivity extends AppCompatActivity {
         }
     }
 
-    public void actualizarBases(View v){
+    public void actualizarBases(View v) {
         // INICIAR LISTAS
         actualizarPlano();
         actualizarFenologias();
