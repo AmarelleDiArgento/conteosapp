@@ -197,17 +197,33 @@ public class HistorialMainActivity extends AppCompatActivity {
 
     public void intent_home(View v) {
 
-        gradosDiaTxt = findViewById(R.id.gradosDia);
-        String datodia = gradosDiaTxt.getText().toString();
-        //Toast.makeText(this,"se pasa el grado: "+datodia,Toast.LENGTH_LONG).show();
-        SharedPreferences guardarRut = getBaseContext().getSharedPreferences("guardarRut", MODE_PRIVATE);
-        SharedPreferences.Editor edit = guardarRut.edit();
-        edit.putString("rut", datodia);
-        edit.commit();
-        edit.apply();
 
-        Intent intent = new Intent(HistorialMainActivity.this, MainActivity.class);
-        startActivity(intent);
+
+        gradosDiaTxt = findViewById(R.id.gradosDia);
+        int datodia1 = Integer.parseInt(gradosDiaTxt.getText().toString());
+        //Toast.makeText(this,"se pasa el grado: "+datodia1,Toast.LENGTH_LONG).show();
+
+        String datodia = gradosDiaTxt.getText().toString();
+
+        try {
+            if (datodia1 > 7) {
+                //Toast.makeText(this,"se pasa el grado: "+datodia,Toast.LENGTH_LONG).show();
+                SharedPreferences guardarRut = getBaseContext().getSharedPreferences("guardarRut", MODE_PRIVATE);
+                SharedPreferences.Editor edit = guardarRut.edit();
+                edit.putString("rut", datodia);
+                edit.commit();
+                edit.apply();
+
+                Intent intent = new Intent(HistorialMainActivity.this, MainActivity.class);
+                startActivity(intent);
+            } else {
+                Toast toast= Toast.makeText(getApplicationContext(), "Por favor verifique que tengas los grados dia menos de 7", Toast.LENGTH_LONG);
+                toast.setGravity(Gravity.CENTER|Gravity.CENTER_HORIZONTAL, 0, 0);
+                toast.show();
+            }
+        }catch (Exception ex){
+            Toast.makeText(this, ""+ex, Toast.LENGTH_LONG ).show();
+        }
     }
 
     private void listFiles() {
