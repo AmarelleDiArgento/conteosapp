@@ -182,7 +182,7 @@
         android:maxDate="12/31/2100"
         android:minDate="01/01/2000"
         android:spinnersShown="true"
-        android:startYear="2000"
+        android:startYear="2019"
         android:visibility="invisible"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

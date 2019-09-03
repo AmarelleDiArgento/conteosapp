@@ -168,7 +168,7 @@
         android:layout_height="80dp"
         android:layout_marginStart="320dp"
         android:layout_marginTop="108dp"
-        android:onClick="buscarSiembra"
+        android:onClick="btnBuscar"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/lupa" />

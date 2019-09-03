@@ -195,10 +195,16 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    //BOTON PARA ACTIVAR LA CAMARA CODEBAR
+    //BOTON (VERDE) PARA ACTIVAR LA CAMARA CODEBAR
     public void barcode(View v){
         Intent intent = new Intent(v.getContext(), Camera.class);
         startActivityForResult(intent, 0);
+    }
+
+    //BOTON (AZUL LUPA) BUSCAR SIEMBRA
+    public void btnBuscar(View v){
+        int bs = Integer.parseInt(codebar.getText().toString());
+        buscarSiembra(bs);
     }
 
     //REALIZA EL FILTRO DE BUSQUEDA SIEMBRAS
@@ -236,7 +242,7 @@ public class MainActivity extends AppCompatActivity {
             imageAdmin iA = new imageAdmin();
             List<fenologiaTab> fi = iF.forGrado(dia, gDia, idVariedad);
 
-            Toast.makeText(this, fi.size() + fi.toString(), Toast.LENGTH_LONG).show();
+            //Toast.makeText(this, fi.size() + fi.toString(), Toast.LENGTH_LONG).show();
 
             iA.getImage(jpgView1, fi.get(0).getVariedad(), fi.get(0).getImagen());
             iA.getImage(jpgView2, fi.get(1).getVariedad(), fi.get(1).getImagen());
@@ -290,6 +296,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    //BOTON PARA REALIZAR RESTRO DE LOS CONTEOS SEGUN ID SIEMBRA
     public void registrarConteo(View v) {
 
         try {

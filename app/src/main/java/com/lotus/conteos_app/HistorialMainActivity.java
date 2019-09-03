@@ -23,6 +23,7 @@ import com.lotus.conteos_app.Model.tab.fenologiaTab;
 
 import java.io.File;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -64,22 +65,25 @@ public class HistorialMainActivity extends AppCompatActivity {
 
             ja = new jsonAdmin();
 
+            getDate();
+
+            //PROCEDIMIENTO PICKER
             date.setVisibility(View.INVISIBLE);
 
             Calendar currCalendar = Calendar.getInstance();
 
-            year = currCalendar.get(Calendar.YEAR);
-            month = currCalendar.get(Calendar.MONTH);
             day = currCalendar.get(Calendar.DAY_OF_MONTH);
+            month = currCalendar.get(Calendar.MONTH);
+            year = currCalendar.get(Calendar.YEAR);
 
-            date.init(year - 1, month + 1, day + 5, new DatePicker.OnDateChangedListener() {
+            date.init(year , month + 1, day + 5 , new DatePicker.OnDateChangedListener() {
                 @Override
                 public void onDateChanged(DatePicker datePicker, int year, int month, int day) {
-                    HistorialMainActivity.this.year = year;
-                    HistorialMainActivity.this.month = month;
                     HistorialMainActivity.this.day = day;
+                    HistorialMainActivity.this.month = month;
+                    HistorialMainActivity.this.year = year;
 
-                    cargadefecha(year, month, day);
+                    cargadefecha(day, month, year);
                 }
             });
 
@@ -91,6 +95,24 @@ public class HistorialMainActivity extends AppCompatActivity {
             Toast.makeText(this, e.toString(), Toast.LENGTH_LONG).show();
 
         }
+    }
+
+    //OBTENER FECHA ACTUAL
+    public void getDate(){
+
+        String fecha = "";
+
+        Calendar calendarDate = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        fecha = sdf.format(calendarDate.getTime());
+
+        //desglosando fecha actual
+        int diahoy=calendarDate.get(Calendar.DAY_OF_MONTH);
+        int meshoy=calendarDate.get(Calendar.MONTH);
+        int añohoy=calendarDate.get(Calendar.YEAR);
+
+        fech.setText(diahoy+"/"+meshoy+"/"+añohoy);
+        fech.setTextSize(30);
     }
 
     //METODO PARA VALIDAR EL CAMPO DE LOS GRADOS DIA
@@ -152,11 +174,12 @@ public class HistorialMainActivity extends AppCompatActivity {
     //MUESTRA LA FECHA SELECCIONADA SEGUN LO QUE ELIGIO EN EL PICKER
     public void cargadefecha(int year, int month, int day) {
         StringBuffer strBuffer = new StringBuffer();
-        strBuffer.append(this.year);
+
+        strBuffer.append(this.day);
         strBuffer.append(" / ");
         strBuffer.append(this.month + 1);
         strBuffer.append(" / ");
-        strBuffer.append(this.day);
+        strBuffer.append(this.year);
         fech.setText(strBuffer.toString());
         fech.setTextSize(30);
     }
