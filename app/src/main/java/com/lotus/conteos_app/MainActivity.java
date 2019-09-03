@@ -1,5 +1,6 @@
 package com.lotus.conteos_app;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -29,10 +30,12 @@ import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
 
+import static java.lang.String.valueOf;
+
 
 public class MainActivity extends AppCompatActivity {
     float gDia;
-    EditText c1, c2, c3, c4, IdSiembra;
+    EditText c1, c2, c3, c4, IdSiembra, codebar;
     Spinner cuadro;
     ImageView jpgView1, jpgView2, jpgView3, jpgView4;
     TextView gradoDia, finca, variedad, bloque, cama, fechaAct, usuario;
@@ -58,9 +61,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         try {
+            codebar=(EditText) findViewById(R.id.resulcode);
 
             gradoDia = (TextView) findViewById(R.id.gradoDia);
-            gradoDia.setText(String.valueOf(recibirGradoDia()));
+            gradoDia.setText(valueOf(getGradoDia()));
 
             IdSiembra = (EditText) findViewById(R.id.resulcode);
             c1 = (EditText) findViewById(R.id.c1et);
@@ -93,11 +97,29 @@ public class MainActivity extends AppCompatActivity {
             getDate();
             cargarRecursos();
 
+            codebar.setText("0");
+
         } catch (Exception e) {
             Toast.makeText(this, e.toString(), Toast.LENGTH_LONG).show();
-
         }
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getCodeBar();
+        try {
+            int campo_code = Integer.parseInt(codebar.getText().toString());
+            if (campo_code > 0) {
+                buscarSiembra(campo_code);
+            }else if(campo_code<=0){
+                Toast.makeText(this,"no hay ID de la siembra para consultar \n"+
+                        "por favor realiza una busqueda...",Toast.LENGTH_LONG).show();
+            }
+        } catch (Exception ex) {
+            Toast.makeText(this, "Exception 0:     " + ex.toString(), Toast.LENGTH_LONG).show();
+        }
     }
 
     private void cargarRecursos() {
@@ -120,24 +142,19 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-    }
-
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-
-    }
-
     //OBTENIENDO LA FECHA ACTUAL
     public void getDate() {
 
         calendarDate = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         fecha = sdf.format(calendarDate.getTime());
+
+        //desglosando fecha actual
+        int diahoy=calendarDate.get(Calendar.DAY_OF_MONTH);
+        int meshoy=calendarDate.get(Calendar.MONTH);
+        int añohoy=calendarDate.get(Calendar.YEAR);
+
+        //Toast.makeText(this,"dia "+diahoy+"\nmes "+meshoy+"\naño "+añohoy,Toast.LENGTH_LONG).show();
 
         fechaAct.setText(fecha);
 
@@ -149,7 +166,8 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public float recibirGradoDia() {
+    //OBTENIENDO LOS GRADOS DIA CON SHARED PREFERENCES
+    public float getGradoDia() {
         SharedPreferences gradoDia = getBaseContext().getSharedPreferences("gradoDia", MODE_PRIVATE);
         if (gradoDia != null) {
             gDia = gradoDia.getFloat("gradoDia", 0);
@@ -159,7 +177,32 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void buscarSiembra(View view) {
+    //OBTENIENDO EL CODIGO DE BARRAS DESDE LA CAMARA
+    public void getCodeBar(){
+        try {
+            Bundle bundle = getIntent().getExtras();
+                if (bundle != null) {
+                        int dato = bundle.getInt("codigo");
+
+                        if (dato > 0) {
+                            codebar.setText(valueOf(dato));
+                        }
+                } else {
+                    //Toast.makeText(this, "no hay dato para consultar", Toast.LENGTH_SHORT).show();
+                }
+        } catch (Exception EX) {
+            Toast.makeText(this, "EXCEPTION: " + EX.toString(), Toast.LENGTH_LONG).show();
+        }
+    }
+
+    //BOTON PARA ACTIVAR LA CAMARA CODEBAR
+    public void barcode(View v){
+        Intent intent = new Intent(v.getContext(), Camera.class);
+        startActivityForResult(intent, 0);
+    }
+
+    //REALIZA EL FILTRO DE BUSQUEDA SIEMBRAS
+    public void buscarSiembra(int bs) {
         try {
             long id = Long.parseLong(IdSiembra.getText().toString());
             planoTab p = iP.OneforIdSiembra(id);
@@ -169,7 +212,7 @@ public class MainActivity extends AppCompatActivity {
                 if (p.getSufijo() != null) {
                     s = p.getCama() + p.getSufijo();
                 } else {
-                    s = String.valueOf(p.getCama());
+                    s = valueOf(p.getCama());
                 }
 
                 finca.setText(p.getFinca());
@@ -186,6 +229,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    //REALIZA LA CARGAS DE IMAGEN SEGUN FENOLOFIA
     public void cargarImagenes(int idVariedad) {
         try {
 
@@ -216,7 +260,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Toast.makeText(this, "hola btn1", Toast.LENGTH_SHORT).show();
         int n = valnum(c1);
-        c1.setText(String.valueOf(n + 1));
+        c1.setText(valueOf(n + 1));
     }
 
     // Disminuir conteo de semana 1
@@ -224,7 +268,7 @@ public class MainActivity extends AppCompatActivity {
         // Toast.makeText(this, "hola btn2", Toast.LENGTH_SHORT).show();
         int n = valnum(c1);
         if (n > 0) {
-            c1.setText(String.valueOf(n - 1));
+            c1.setText(valueOf(n - 1));
 
         }
     }
@@ -233,7 +277,7 @@ public class MainActivity extends AppCompatActivity {
     public void sumFen2(View v) {
         // Toast.makeText(this, "hola btn3", Toast.LENGTH_SHORT).show();
         int n = valnum(c4);
-        c4.setText(String.valueOf(n + 1));
+        c4.setText(valueOf(n + 1));
     }
 
     // Disminuir conteo de semana 4
@@ -241,11 +285,10 @@ public class MainActivity extends AppCompatActivity {
         // Toast.makeText(this, "hola btn4", Toast.LENGTH_SHORT).show();
         int n = valnum(c4);
         if (n > 0) {
-            c4.setText(String.valueOf(n - 1));
+            c4.setText(valueOf(n - 1));
 
         }
     }
-
 
     public void registrarConteo(View v) {
 

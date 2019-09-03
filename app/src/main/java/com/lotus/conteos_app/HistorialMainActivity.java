@@ -49,8 +49,6 @@ public class HistorialMainActivity extends AppCompatActivity {
     // Datos de la tabla
     private ArrayList<String[]> rows = new ArrayList<>();
 
-    //RecyclerView data_tbl;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,9 +63,6 @@ public class HistorialMainActivity extends AppCompatActivity {
             fech = findViewById(R.id.txt_fecha);
 
             ja = new jsonAdmin();
-
-            //INICIALIZAMOS PLANOS
-
 
             date.setVisibility(View.INVISIBLE);
 
@@ -98,33 +93,8 @@ public class HistorialMainActivity extends AppCompatActivity {
         }
     }
 
-    // revisar
-    public void sharedGradoDia(View view) {
-        SharedPreferences gradoDia = getBaseContext().getSharedPreferences("gradoDia", MODE_PRIVATE);
-        SharedPreferences.Editor edit = gradoDia.edit();
-        gDia = Float.valueOf(gradosDiaTxt.getText().toString());
-
-        if (gDia >= 7) {
-            edit.putFloat("gradoDia", gDia);
-            edit.commit();
-            edit.apply();
-        } else {
-            Toast.makeText(getApplicationContext(), "Por favor verifique que tengas los grados dia menos de 7", Toast.LENGTH_LONG).show();
-        }
-    }
-
-    public float recibirGradoDia() {
-        SharedPreferences gradoDia = getBaseContext().getSharedPreferences("gradoDia", MODE_PRIVATE);
-        if (gradoDia != null) {
-            gDia = (float) gradoDia.getFloat("gradoDia", 0);
-            return gDia;
-        } else {
-            return 0;
-        }
-    }
-
+    //METODO PARA VALIDAR EL CAMPO DE LOS GRADOS DIA
     public void goMain(View v) {
-
         try {
             if (gDia >= 7) {
                 //Toast.makeText(this,"se pasa el grado: "+datodia,Toast.LENGTH_LONG).show();
@@ -142,20 +112,34 @@ public class HistorialMainActivity extends AppCompatActivity {
         }
     }
 
-    public void cargadefecha(int year, int month, int day) {
-        StringBuffer strBuffer = new StringBuffer();
-        strBuffer.append(this.year);
-        strBuffer.append(" / ");
-        strBuffer.append(this.month + 1);
-        strBuffer.append(" / ");
-        strBuffer.append(this.day);
-        //Toast.makeText(this,strBuffer.toString(),Toast.LENGTH_SHORT).show();
-        fech.setText(strBuffer.toString());
-        fech.setTextSize(30);
+    //METODO PARA EL ENVIO DE LOS GRADOS DIA CON SHARED PREFERENCES
+    public void sharedGradoDia(View view) {
+        SharedPreferences gradoDia = getBaseContext().getSharedPreferences("gradoDia", MODE_PRIVATE);
+        SharedPreferences.Editor edit = gradoDia.edit();
+        gDia = Float.valueOf(gradosDiaTxt.getText().toString());
+
+        if (gDia >= 7) {
+            edit.putFloat("gradoDia", gDia);
+            edit.commit();
+            edit.apply();
+        } else {
+            Toast.makeText(getApplicationContext(), "Por favor verifique que tengas los grados dia menos de 7", Toast.LENGTH_LONG).show();
+        }
     }
 
-    public void showpicker(View v) {
+    //METODO PARA ALMACENAR LOS GRADOS DIA
+    public float recibirGradoDia() {
+        SharedPreferences gradoDia = getBaseContext().getSharedPreferences("gradoDia", MODE_PRIVATE);
+        if (gradoDia != null) {
+            gDia = (float) gradoDia.getFloat("gradoDia", 0);
+            return gDia;
+        } else {
+            return 0;
+        }
+    }
 
+    //OCULTA EL PICKER CUANDO COMIENZA LA ACTIVIDAD Y LO HACE VISIBLE POR MEDIO DEL BOTON
+    public void showpicker(View v) {
         if (btn_show_picker.isClickable() && date.getVisibility() == View.INVISIBLE) {
             date.setVisibility(View.VISIBLE);
         } else if (btn_show_picker.isClickable() && date.getVisibility() == View.VISIBLE) {
@@ -163,6 +147,18 @@ public class HistorialMainActivity extends AppCompatActivity {
         } else {
             Toast.makeText(this, "pailas", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    //MUESTRA LA FECHA SELECCIONADA SEGUN LO QUE ELIGIO EN EL PICKER
+    public void cargadefecha(int year, int month, int day) {
+        StringBuffer strBuffer = new StringBuffer();
+        strBuffer.append(this.year);
+        strBuffer.append(" / ");
+        strBuffer.append(this.month + 1);
+        strBuffer.append(" / ");
+        strBuffer.append(this.day);
+        fech.setText(strBuffer.toString());
+        fech.setTextSize(30);
     }
 
     // descarga el plano de la basde datos y lo alamcena en plano.json (Archivo local)
@@ -193,6 +189,7 @@ public class HistorialMainActivity extends AppCompatActivity {
         return rows;
     }
 
+    //CREACION DE LA TABLA
     public void createTable() {
         try {
             tableLayout = findViewById(R.id.tabla);
@@ -220,6 +217,7 @@ public class HistorialMainActivity extends AppCompatActivity {
         }
     }
 
+    //ACTUALIZA LOS PLANOS
     public void actualizarBases(View v) {
         try {
             iFenologia iF = new iFenologia(path);

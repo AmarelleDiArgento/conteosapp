@@ -12,7 +12,7 @@ import me.dm7.barcodescanner.zbar.ZBarScannerView;
 public class Camera extends AppCompatActivity {
     private ZBarScannerView vbc;
 
-    //CICLOS DE VIDA
+    //SE INICIALIZA LA CREACION DE LA ACTIVIDAD
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,19 +21,21 @@ public class Camera extends AppCompatActivity {
             setContentView(vbc);
     }
 
+    //VUELVE A LA ACTIVIDAD
     @Override
     public void onResume(){
         super.onResume();
         vbc.startCamera();
     }
 
+    //SE PAUSA PARA ENVIAR DATO
     @Override
     public void onPause(){
         super.onPause();
         vbc.stopCamera();
     }
 
-
+    //METODO PARA OBTENER EL RESULTADO DEL CODIGO DE BARRAS DESDE LA CAMARA
     public class barcodeimp implements ZBarScannerView.ResultHandler {
         @Override
         public void handleResult(Result result) {
@@ -44,15 +46,11 @@ public class Camera extends AppCompatActivity {
                 int bc = Integer.parseInt(result.getContents());
 
                     if (bc != 0) {
-                                //Toast toast = Toast.makeText(getApplicationContext(), "si hay resultado " + bc, Toast.LENGTH_SHORT);
-                                //toast.show();
-
                             Intent intent = new Intent (Camera.this,MainActivity.class);
                             //Exportar parametro
                             intent.putExtra("codigo", bc);
                             startActivityForResult(intent, 0);
                             vbc.stopCamera();
-
                     } else {
                             Toast toast = Toast.makeText(getApplicationContext(), "no hay resultado", Toast.LENGTH_SHORT);
                             toast.show();
