@@ -86,7 +86,7 @@
         android:layout_marginStart="460dp"
         android:layout_marginTop="748dp"
         android:background="#4CAF50"
-        android:onClick="intent_home"
+        android:onClick="goMain"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/plus" />
@@ -116,10 +116,10 @@
 
     <ImageView
         android:id="@+id/imageView6"
-        android:layout_width="48dp"
-        android:layout_height="46dp"
-        android:layout_marginStart="388dp"
-        android:layout_marginTop="232dp"
+        android:layout_width="54dp"
+        android:layout_height="49dp"
+        android:layout_marginStart="384dp"
+        android:layout_marginTop="228dp"
         android:background="@color/colorPrimary"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -129,22 +129,22 @@
         android:id="@+id/textView20"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="208dp"
-        android:layout_marginTop="300dp"
-        android:text="Digita los grados dia"
+        android:layout_marginStart="264dp"
+        android:layout_marginTop="288dp"
+        android:text="Grados dia:"
         android:textColor="@android:color/holo_red_light"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/gradosDia"
-        android:layout_width="153dp"
-        android:layout_height="43dp"
+        android:layout_width="89dp"
+        android:layout_height="44dp"
         android:layout_marginStart="332dp"
         android:layout_marginTop="288dp"
         android:ems="10"
-        android:textAlignment="center"
         android:inputType="numberDecimal"
+        android:textAlignment="center"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -184,6 +184,17 @@
         android:spinnersShown="true"
         android:startYear="2000"
         android:visibility="invisible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="428dp"
+        android:layout_marginTop="284dp"
+        android:onClick="sharedGradoDia"
+        android:text="Guardar"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

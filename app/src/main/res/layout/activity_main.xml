@@ -14,13 +14,14 @@
         android:layout_marginStart="192dp"
         android:layout_marginTop="796dp"
         android:background="@color/colorPrimary"
+        android:onClick="registrarConteo"
         android:text="Subir"
         android:textColor="@color/ColorPrimaryText"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/c1-et"
+        android:id="@+id/c1et"
         android:layout_width="99dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="60dp"
@@ -37,7 +38,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/c2-et"
+        android:id="@+id/c2et"
         android:layout_width="98dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="196dp"
@@ -54,7 +55,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/c4-et"
+        android:id="@+id/c4et"
         android:layout_width="99dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="460dp"
@@ -71,7 +72,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/c3-et"
+        android:id="@+id/c3et"
         android:layout_width="98dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="328dp"
@@ -167,7 +168,7 @@
         android:layout_height="80dp"
         android:layout_marginStart="320dp"
         android:layout_marginTop="108dp"
-        android:onClick="btn_buscar"
+        android:onClick="buscarSiembra"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/lupa" />
@@ -223,7 +224,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Spinner
-        android:id="@+id/cuadro-sp"
+        android:id="@+id/cuadrosp"
         android:layout_width="102dp"
         android:layout_height="48dp"
         android:layout_marginStart="152dp"
@@ -234,15 +235,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/dato_dia"
+    <TextView
+        android:id="@+id/gradoDia"
         android:layout_width="98dp"
         android:layout_height="43dp"
         android:layout_marginStart="384dp"
         android:layout_marginTop="356dp"
         android:editable="false"
         android:ems="10"
-        android:inputType="numberDecimal"
         android:textAlignment="center"
         android:textColor="#000000"
         android:textSize="20sp"
@@ -499,7 +499,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView11"
+        android:id="@+id/usuario"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="72dp"

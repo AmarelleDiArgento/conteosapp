@@ -15,12 +15,12 @@ import java.util.List;
 
 public class iPlano extends sqlConect implements plano {
 
-    public List<planoTab> pl = new ArrayList<>();
+    private List<planoTab> pl = new ArrayList<>();
     Connection cn = null;
     String path = null;
     jsonAdmin ja = null;
 
-    String nombre;
+    String nombre = "plano";
 
     final String ins = "INSERT INTO Plano_Siembra\n" +
             "(idSiembra, idFinca, finca, idBloque, bloque, idVariedad, variedad, cama, sufijo)\n" +

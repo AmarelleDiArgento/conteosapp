@@ -5,7 +5,7 @@ import com.lotus.conteos_app.Model.tab.fenologiaTab;
 
 import java.util.List;
 
-public interface fenologia extends DAO<Long, fenologiaTab,String> {
+public interface fenologia extends DAO<Long, fenologiaTab, String> {
 
-    List<fenologiaTab> forGrado(int dia, int grado, int variedad) throws Exception;
+    List<fenologiaTab> forGrado(int dia, float grado, int variedad) throws Exception;
 }

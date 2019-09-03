@@ -128,25 +128,28 @@ public class iFenologia extends sqlConect implements fenologia {
 
 
     @Override
-    public List<fenologiaTab> forGrado(int dia, int grado, int variedad) throws Exception {
+    public List<fenologiaTab> forGrado(int dia, float gDia, int idVariedad) throws Exception {
 
         int d = 7 - dia;
 
-        int[] img = new int[4];
-        img[0] = (d) * grado;
-        img[1] = (d + 7) * grado;
-        img[2] = (d + 21) * grado;
-        img[3] = (d + 28) * grado;
+        float[] img = new float[4];
+        img[0] = (d) * gDia;
+        img[1] = (d + 7) * gDia;
+        img[2] = (d + 21) * gDia;
+        img[3] = (d + 28) * gDia;
         int c = 0;
 
-        Iterator<fenologiaTab> i = fl.iterator();
+
+        Iterator<fenologiaTab> i = all().iterator();
         List<fenologiaTab> fi = new ArrayList<>();
         fenologiaTab fu = new fenologiaTab();
 
         while (i.hasNext()) {
             fenologiaTab f = i.next();
-            if (f.getIdVariedad() == variedad) {
+            if (f.getIdVariedad() == idVariedad) {
                 if (img[c] <= f.getGrados_dia()) {
+
+
                     fi.add(fu);
                     c++;
                     if (c >= 4) {
@@ -156,10 +159,10 @@ public class iFenologia extends sqlConect implements fenologia {
                 fu = f;
             }
         }
-
         if (c < 4) {
             fi.add(fu);
         }
+
         return fi;
     }
 }

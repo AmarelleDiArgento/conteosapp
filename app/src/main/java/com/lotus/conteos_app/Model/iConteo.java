@@ -10,13 +10,14 @@ import com.lotus.conteos_app.Model.tab.conteoTab;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 
 public class iConteo extends sqlConect implements conteo {
 
-    final String nombre = "fenologias";
+    String nombre;
     final String ins = "INSERT INTO Conteos (fecha, idSiembra, cuadro, conteo1, conteo2, conteo3, conteo4, idUsuario)\n" +
             "     VALUES (?,?,?,?,?,?,?,?)";
 
@@ -24,6 +25,8 @@ public class iConteo extends sqlConect implements conteo {
     String path = null;
     jsonAdmin ja = null;
     private List<conteoTab> cl = new ArrayList<>();
+
+    SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyy");
 
 
     public iConteo(String path) throws Exception {
@@ -40,8 +43,9 @@ public class iConteo extends sqlConect implements conteo {
     @Override
     public String insert(conteoTab c) {
         try {
-
+            c.setIdConteo(cl.size() + 1);
             cl.add(c);
+            nombre = sdf.format(c.getFecha());
             local();
 
             return "registrado conteo de la cama: " + c.getCuadro();
@@ -56,6 +60,7 @@ public class iConteo extends sqlConect implements conteo {
         try {
             int id = (int) c.getIdConteo();
             cl.set(id, c);
+            nombre = sdf.format(c.getFecha());
             local();
 
             return "actualizado conteo de la cama: " + c.getCuadro();
