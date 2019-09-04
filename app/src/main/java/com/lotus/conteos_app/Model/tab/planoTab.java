@@ -147,6 +147,9 @@ public class planoTab {
                 "\"idVariedad\": " + idVariedad + ",\n" +
                 "\"variedad\": \"" + variedad + "\",\n" +
                 "\"cama\": " + cama + ",\n" +
+                "\"plantas\": " + plantas + ",\n" +
+                "\"area\": " + area + ",\n" +
+                "\"cuadros\": " + cuadros + ",\n" +
                 "\"sufijo\": \"" + s + "\"\n" +
                 "}";
     }

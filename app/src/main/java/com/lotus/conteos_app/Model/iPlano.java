@@ -44,8 +44,11 @@ public class iPlano extends sqlConect implements plano {
             "      ,[variedad]\n" +
             "      ,[cama]\n" +
             "      ,[sufijo]\n" +
-            "  FROM [dbo].[Plano_Siembra]\n" +
-            "  where finca = 'SAN MATEO'" +
+            "      ,[plantas]\n" +
+            "      ,[area]\n" +
+            "      ,[cuadros]\n" +
+            "  FROM [Proyecciones].[dbo].[Plano_Siembra]" +
+            "  WHERE finca = 'SAN MATEO'" +
             "  and idVariedad in(1358,1101,870,284,115)";
 
     public iPlano(String path) throws Exception {
@@ -146,6 +149,9 @@ public class iPlano extends sqlConect implements plano {
         p.setVariedad(rs.getString("variedad"));
         p.setCama(rs.getInt("cama"));
         p.setSufijo(rs.getString("sufijo"));
+        p.setPlantas(rs.getInt("plantas"));
+        p.setArea(rs.getInt("area"));
+        p.setCuadros(rs.getInt("cuadros"));
         return p;
     }
 

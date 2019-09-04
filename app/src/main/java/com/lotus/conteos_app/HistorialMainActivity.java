@@ -17,9 +17,12 @@ import android.widget.Toast;
 
 import com.lotus.conteos_app.Config.Util.TableDinamic;
 import com.lotus.conteos_app.Config.Util.jsonAdmin;
+import com.lotus.conteos_app.Model.iConteo;
 import com.lotus.conteos_app.Model.iFenologia;
 import com.lotus.conteos_app.Model.iPlano;
+import com.lotus.conteos_app.Model.tab.conteoTab;
 import com.lotus.conteos_app.Model.tab.fenologiaTab;
+import com.lotus.conteos_app.Model.tab.planoTab;
 
 import java.io.File;
 import java.text.DecimalFormat;
@@ -46,7 +49,7 @@ public class HistorialMainActivity extends AppCompatActivity {
 
     private TableLayout tableLayout;
     // Encabezados de la tabla
-    private String[] header = {"ID", "Variedad", "iD", "Grados Dia", "Diametro", "Largo", "Imagen"};
+    private String[] header = {"ID", "idVariedad", "Variedad", "Cuadro", "Sem 1", "Sem 4"};
     // Datos de la tabla
     private ArrayList<String[]> rows = new ArrayList<>();
 
@@ -76,7 +79,7 @@ public class HistorialMainActivity extends AppCompatActivity {
             month = currCalendar.get(Calendar.MONTH);
             year = currCalendar.get(Calendar.YEAR);
 
-            date.init(year , month + 1, day + 5 , new DatePicker.OnDateChangedListener() {
+            date.init(year, month + 1, day + 5, new DatePicker.OnDateChangedListener() {
                 @Override
                 public void onDateChanged(DatePicker datePicker, int year, int month, int day) {
                     HistorialMainActivity.this.day = day;
@@ -98,7 +101,7 @@ public class HistorialMainActivity extends AppCompatActivity {
     }
 
     //OBTENER FECHA ACTUAL
-    public void getDate(){
+    public void getDate() {
 
         String fecha = "";
 
@@ -107,11 +110,11 @@ public class HistorialMainActivity extends AppCompatActivity {
         fecha = sdf.format(calendarDate.getTime());
 
         //desglosando fecha actual
-        int diahoy=calendarDate.get(Calendar.DAY_OF_MONTH);
-        int meshoy=calendarDate.get(Calendar.MONTH);
-        int añohoy=calendarDate.get(Calendar.YEAR);
+        int diahoy = calendarDate.get(Calendar.DAY_OF_MONTH);
+        int meshoy = calendarDate.get(Calendar.MONTH);
+        int añohoy = calendarDate.get(Calendar.YEAR);
 
-        fech.setText(diahoy+"/"+meshoy+"/"+añohoy);
+        fech.setText(diahoy + "/" + meshoy + "/" + añohoy);
         fech.setTextSize(30);
     }
 
@@ -185,24 +188,31 @@ public class HistorialMainActivity extends AppCompatActivity {
     }
 
     // descarga el plano de la basde datos y lo alamcena en plano.json (Archivo local)
-    public ArrayList<String[]> cargarFenologias() {
+    public ArrayList<String[]> cargarConteo() {
         DecimalFormat frt = new DecimalFormat("#,###.00");
+
         try {
             rows.clear();
-            iFenologia iF = new iFenologia(path);
-            List<fenologiaTab> fl = iF.all();
+            iConteo iC = new iConteo(path);
 
-            Toast.makeText(this, "" + fl.size(), Toast.LENGTH_LONG).show();
+            List<conteoTab> cl = iC.all();
 
-            for (fenologiaTab f : fl) {
+            Toast.makeText(this, "" + cl.size(), Toast.LENGTH_LONG).show();
+
+            iPlano iP = new iPlano(path);
+            planoTab p = null;
+
+            for (conteoTab c : cl) {
+                p = iP.OneforIdSiembra(c.getIdSiembra());
+
                 rows.add(new String[]{
-                                String.valueOf(f.getIdFenologia()),
-                                f.getVariedad(),
-                                String.valueOf(f.getIdVariedad()),
-                                String.valueOf(frt.format(f.getGrados_dia())),
-                                String.valueOf(frt.format(f.getDiametro_boton())),
-                                String.valueOf(frt.format(f.getLargo_boton())),
-                                f.getImagen()
+
+                                String.valueOf(c.getIdConteo()),
+                                String.valueOf(c.getIdSiembra()),
+                                p.getVariedad(),
+                                String.valueOf(c.getCuadro()),
+                                String.valueOf(c.getConteo1()),
+                                String.valueOf(c.getConteo4())
                         }
                 );
             }
@@ -218,7 +228,7 @@ public class HistorialMainActivity extends AppCompatActivity {
             tableLayout = findViewById(R.id.tabla);
             TableDinamic tb = new TableDinamic(tableLayout, getApplicationContext());
             tb.addHeader(header);
-            tb.addData(cargarFenologias());
+            tb.addData(cargarConteo());
             tb.backgroundHeader(
                     Color.parseColor("#20C0FF")
             );

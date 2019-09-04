@@ -7,6 +7,8 @@ public class conteoTab {
     private long idConteo;
     private Date fecha;
     private long idSiembra;
+    private int idVariedad;
+    private int variedad;
     private int cuadro;
     private int conteo1;
     private int conteo2;
@@ -17,10 +19,12 @@ public class conteoTab {
     public conteoTab() {
     }
 
-    public conteoTab(long idConteo, Date fecha, long idSiembra, int cuadro, int conteo1, int conteo2, int conteo3, int conteo4, int idUsuario) {
+    public conteoTab(long idConteo, Date fecha, long idSiembra, int idVariedad, int variedad, int cuadro, int conteo1, int conteo2, int conteo3, int conteo4, int idUsuario) {
         this.idConteo = idConteo;
         this.fecha = fecha;
         this.idSiembra = idSiembra;
+        this.idVariedad = idVariedad;
+        variedad = variedad;
         this.cuadro = cuadro;
         this.conteo1 = conteo1;
         this.conteo2 = conteo2;
@@ -53,6 +57,22 @@ public class conteoTab {
         this.idSiembra = idSiembra;
     }
 
+    public int getIdVariedad() {
+        return idVariedad;
+    }
+
+    public void setIdVariedad(int idVariedad) {
+        this.idVariedad = idVariedad;
+    }
+
+    public int getVariedad() {
+        return variedad;
+    }
+
+    public void setVariedad(int variedad) {
+        variedad = variedad;
+    }
+
     public int getCuadro() {
         return cuadro;
     }
@@ -77,13 +97,12 @@ public class conteoTab {
         this.conteo2 = conteo2;
     }
 
-
     public int getConteo3() {
         return conteo3;
     }
 
-    public void setConteo3(int conteo2) {
-        this.conteo3 = conteo2;
+    public void setConteo3(int conteo3) {
+        this.conteo3 = conteo3;
     }
 
     public int getConteo4() {
@@ -103,14 +122,14 @@ public class conteoTab {
     }
 
 
-
-
     @Override
     public String toString() {
         return "{" +
                 "\"id\":" + idConteo + ",\n" +
                 "\"fecha\":" + fecha + ",\n" +
                 "\"idSiembra\":" + idSiembra + ",\n" +
+                "\"idVariedad\":" + idVariedad + ",\n" +
+                "\"variedad\": \"" + variedad + "\",\n" +
                 "\"cuadro\":" + cuadro + ",\n" +
                 "\"conteo1\":" + conteo1 + ",\n" +
                 "\"conteo2\":" + conteo2 + "\n" +
@@ -119,5 +138,4 @@ public class conteoTab {
                 "\"IdUsuario\":" + IdUsuario + "\n" +
                 "}";
     }
-
 }

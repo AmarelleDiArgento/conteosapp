@@ -17,7 +17,7 @@ import java.util.List;
 
 public class iConteo extends sqlConect implements conteo {
 
-    String nombre;
+    public String nombre;
     final String ins = "INSERT INTO Conteos (fecha, idSiembra, cuadro, conteo1, conteo2, conteo3, conteo4, idUsuario)\n" +
             "     VALUES (?,?,?,?,?,?,?,?)";
 
