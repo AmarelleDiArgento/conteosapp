@@ -1,37 +1,26 @@
 package com.lotus.conteos_app.Model.tab;
 
-import java.util.Date;
-import java.util.Objects;
-
 public class conteoTab {
     private long idConteo;
-    private Date fecha;
+    private String fecha;
     private long idSiembra;
+    private int idBloque;
+    private String bloque;
     private int idVariedad;
-    private int variedad;
+    private String variedad;
     private int cuadro;
     private int conteo1;
     private int conteo2;
     private int conteo3;
     private int conteo4;
+    private int plantas;
+    private double area;
+    private int cuadros;
     private int IdUsuario;
 
     public conteoTab() {
     }
 
-    public conteoTab(long idConteo, Date fecha, long idSiembra, int idVariedad, int variedad, int cuadro, int conteo1, int conteo2, int conteo3, int conteo4, int idUsuario) {
-        this.idConteo = idConteo;
-        this.fecha = fecha;
-        this.idSiembra = idSiembra;
-        this.idVariedad = idVariedad;
-        variedad = variedad;
-        this.cuadro = cuadro;
-        this.conteo1 = conteo1;
-        this.conteo2 = conteo2;
-        this.conteo3 = conteo3;
-        this.conteo4 = conteo4;
-        IdUsuario = idUsuario;
-    }
 
     public long getIdConteo() {
         return idConteo;
@@ -41,11 +30,11 @@ public class conteoTab {
         this.idConteo = idConteo;
     }
 
-    public Date getFecha() {
+    public String getFecha() {
         return fecha;
     }
 
-    public void setFecha(Date fecha) {
+    public void setFecha(String fecha) {
         this.fecha = fecha;
     }
 
@@ -57,6 +46,22 @@ public class conteoTab {
         this.idSiembra = idSiembra;
     }
 
+    public int getIdBloque() {
+        return idBloque;
+    }
+
+    public void setIdBloque(int idBloque) {
+        this.idBloque = idBloque;
+    }
+
+    public String getBloque() {
+        return bloque;
+    }
+
+    public void setBloque(String bloque) {
+        this.bloque = bloque;
+    }
+
     public int getIdVariedad() {
         return idVariedad;
     }
@@ -65,12 +70,12 @@ public class conteoTab {
         this.idVariedad = idVariedad;
     }
 
-    public int getVariedad() {
+    public String getVariedad() {
         return variedad;
     }
 
-    public void setVariedad(int variedad) {
-        variedad = variedad;
+    public void setVariedad(String variedad) {
+        this.variedad = variedad;
     }
 
     public int getCuadro() {
@@ -113,6 +118,30 @@ public class conteoTab {
         this.conteo4 = conteo4;
     }
 
+    public int getPlantas() {
+        return plantas;
+    }
+
+    public void setPlantas(int plantas) {
+        this.plantas = plantas;
+    }
+
+    public double getArea() {
+        return area;
+    }
+
+    public void setArea(double area) {
+        this.area = area;
+    }
+
+    public int getCuadros() {
+        return cuadros;
+    }
+
+    public void setCuadros(int cuadros) {
+        this.cuadros = cuadros;
+    }
+
     public int getIdUsuario() {
         return IdUsuario;
     }
@@ -121,20 +150,24 @@ public class conteoTab {
         IdUsuario = idUsuario;
     }
 
-
     @Override
     public String toString() {
         return "{" +
                 "\"id\":" + idConteo + ",\n" +
-                "\"fecha\":" + fecha + ",\n" +
+                "\"fecha\": \"" + fecha + "\",\n" +
                 "\"idSiembra\":" + idSiembra + ",\n" +
+                "\"idBloque\": " + idBloque + ",\n" +
+                "\"bloque\": \"" + bloque + "\",\n" +
                 "\"idVariedad\":" + idVariedad + ",\n" +
                 "\"variedad\": \"" + variedad + "\",\n" +
                 "\"cuadro\":" + cuadro + ",\n" +
                 "\"conteo1\":" + conteo1 + ",\n" +
-                "\"conteo2\":" + conteo2 + "\n" +
+                "\"conteo2\":" + conteo2 + ",\n" +
                 "\"conteo3\":" + conteo3 + ",\n" +
-                "\"conteo4\":" + conteo4 + "\n" +
+                "\"conteo4\":" + conteo4 + ",\n" +
+                "\"plantas\": " + plantas + ",\n" +
+                "\"area\": " + area + ",\n" +
+                "\"cuadros\": " + cuadros + ",\n" +
                 "\"IdUsuario\":" + IdUsuario + "\n" +
                 "}";
     }

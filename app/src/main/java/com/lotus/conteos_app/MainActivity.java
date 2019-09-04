@@ -2,10 +2,7 @@ package com.lotus.conteos_app;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -27,18 +24,21 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Iterator;
+import java.util.Date;
 import java.util.List;
 
 import static java.lang.String.valueOf;
 
 
 public class MainActivity extends AppCompatActivity {
+
+    planoTab p = null;
+
     float gDia;
     EditText c1, c2, c3, c4, IdSiembra, codebar;
     Spinner cuadro;
     ImageView jpgView1, jpgView2, jpgView3, jpgView4;
-    TextView gradoDia, finca, variedad, bloque, cama, fechaAct, usuario;
+    TextView gradoDia, finca, variedad, bloque, cama, fechaAct, usuario, NoArea, NoPlantas, NoCuadros;
 
     List<planoTab> lp = new ArrayList<>();
     List<fenologiaTab> lf = new ArrayList<>();
@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         try {
-            codebar=(EditText) findViewById(R.id.resulcode);
+            codebar = (EditText) findViewById(R.id.resulcode);
 
             gradoDia = (TextView) findViewById(R.id.gradoDia);
             gradoDia.setText(valueOf(getGradoDia()));
@@ -91,6 +91,9 @@ public class MainActivity extends AppCompatActivity {
             variedad = (TextView) findViewById(R.id.cam_variedad);
             bloque = (TextView) findViewById(R.id.cam_bloque);
             cama = (TextView) findViewById(R.id.cam_cama);
+            NoArea = (TextView) findViewById(R.id.textViewArea);
+            NoCuadros = (TextView) findViewById(R.id.textViewNoTotalCuadros);
+            NoPlantas = (TextView) findViewById(R.id.textViewNoPlantas);
 
             fechaAct = (TextView) findViewById(R.id.fechaAct);
 
@@ -113,9 +116,9 @@ public class MainActivity extends AppCompatActivity {
             int campo_code = Integer.parseInt(codebar.getText().toString());
             if (campo_code > 0) {
                 buscarSiembra(campo_code);
-            }else if(campo_code<=0){
-                Toast.makeText(this,"no hay ID de la siembra para consultar \n"+
-                        "por favor realiza una busqueda...",Toast.LENGTH_LONG).show();
+            } else if (campo_code <= 0) {
+                Toast.makeText(this, "no hay ID de la siembra para consultar \n" +
+                        "por favor realiza una busqueda...", Toast.LENGTH_LONG).show();
             }
         } catch (Exception ex) {
             Toast.makeText(this, "Exception 0:     " + ex.toString(), Toast.LENGTH_LONG).show();
@@ -149,13 +152,6 @@ public class MainActivity extends AppCompatActivity {
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         fecha = sdf.format(calendarDate.getTime());
 
-        //desglosando fecha actual
-        int diahoy=calendarDate.get(Calendar.DAY_OF_MONTH);
-        int meshoy=calendarDate.get(Calendar.MONTH);
-        int añohoy=calendarDate.get(Calendar.YEAR);
-
-        //Toast.makeText(this,"dia "+diahoy+"\nmes "+meshoy+"\naño "+añohoy,Toast.LENGTH_LONG).show();
-
         fechaAct.setText(fecha);
 
         dia = calendarDate.get(Calendar.DAY_OF_WEEK) - 1;
@@ -178,31 +174,31 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //OBTENIENDO EL CODIGO DE BARRAS DESDE LA CAMARA
-    public void getCodeBar(){
+    public void getCodeBar() {
         try {
             Bundle bundle = getIntent().getExtras();
-                if (bundle != null) {
-                        int dato = bundle.getInt("codigo");
+            if (bundle != null) {
+                int dato = bundle.getInt("codigo");
 
-                        if (dato > 0) {
-                            codebar.setText(valueOf(dato));
-                        }
-                } else {
-                    //Toast.makeText(this, "no hay dato para consultar", Toast.LENGTH_SHORT).show();
+                if (dato > 0) {
+                    codebar.setText(valueOf(dato));
                 }
+            } else {
+                //Toast.makeText(this, "no hay dato para consultar", Toast.LENGTH_SHORT).show();
+            }
         } catch (Exception EX) {
             Toast.makeText(this, "EXCEPTION: " + EX.toString(), Toast.LENGTH_LONG).show();
         }
     }
 
     //BOTON (VERDE) PARA ACTIVAR LA CAMARA CODEBAR
-    public void barcode(View v){
+    public void barcode(View v) {
         Intent intent = new Intent(v.getContext(), Camera.class);
         startActivityForResult(intent, 0);
     }
 
     //BOTON (AZUL LUPA) BUSCAR SIEMBRA
-    public void btnBuscar(View v){
+    public void btnBuscar(View v) {
         int bs = Integer.parseInt(codebar.getText().toString());
         buscarSiembra(bs);
     }
@@ -211,7 +207,7 @@ public class MainActivity extends AppCompatActivity {
     public void buscarSiembra(int bs) {
         try {
             long id = Long.parseLong(IdSiembra.getText().toString());
-            planoTab p = iP.OneforIdSiembra(id);
+            p = iP.OneforIdSiembra(id);
 
             if (p != null) {
                 String s;
@@ -225,6 +221,9 @@ public class MainActivity extends AppCompatActivity {
                 variedad.setText(p.getVariedad());
                 bloque.setText(p.getBloque());
                 cama.setText(s);
+                NoArea.setText(String.valueOf(p.getArea()));
+                NoCuadros.setText(String.valueOf(p.getCuadros()));
+                NoPlantas.setText(String.valueOf(p.getPlantas()));
 
                 cargarImagenes(p.getIdVariedad());
             }
@@ -300,23 +299,79 @@ public class MainActivity extends AppCompatActivity {
     public void registrarConteo(View v) {
 
         try {
-            conteoTab c = new conteoTab();
-            c.setIdSiembra(Long.parseLong(IdSiembra.getText().toString()));
-            c.setFecha(calendarDate.getTime());
-            c.setCuadro(Integer.parseInt(cuadro.getSelectedItem().toString()));
-            c.setConteo1(Integer.parseInt(c1.getText().toString()));
-            c.setConteo2(0);
-            c.setConteo3(0);
-            c.setConteo4(Integer.parseInt(c4.getText().toString()));
-            c.setIdUsuario(123);
 
-            Toast.makeText(this, iC.insert(c), Toast.LENGTH_LONG).show();
+            if (codebar.getText().toString().isEmpty() || codebar.getText().toString().equalsIgnoreCase("0")) {
+                Toast.makeText(this, "el campo del ID de siembra es invalido", Toast.LENGTH_SHORT).show();
+            } else {
+                //Toast.makeText(this,"el campo esta lleno",Toast.LENGTH_SHORT).show();
+
+
+                int siembra = Integer.parseInt(IdSiembra.getText().toString());
+                if (siembra > 0) {
+
+                    conteoTab c = new conteoTab();
+                    SimpleDateFormat sdfn = new SimpleDateFormat("ddMMyyyy");
+                    String nombre = sdfn.format(calendarDate.getTime());
+
+
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
+                    iC.nombre = nombre;
+                    c.setIdSiembra(c.getIdSiembra());
+                    c.setFecha(sdf.format(calendarDate.getTime()));
+                    c.setIdBloque(p.getIdBloque());
+                    c.setBloque(p.getBloque());
+                    c.setIdVariedad(p.getIdVariedad());
+                    c.setVariedad(p.getVariedad());
+                    c.setCuadro(Integer.parseInt(cuadro.getSelectedItem().toString()));
+
+                    c.setConteo1(Integer.parseInt(c1.getText().toString()));
+                    c.setConteo2(0);
+                    c.setConteo3(0);
+                    c.setConteo4(Integer.parseInt(c4.getText().toString()));
+
+                    c.setPlantas(p.getPlantas());
+                    c.setArea(p.getArea());
+                    c.setCuadros(p.getCuadros());
+
+                    c.setIdUsuario(123);
+                    c.toString();
+
+                    Toast.makeText(this, iC.insert(c), Toast.LENGTH_LONG).show();
+
+                    //obteniendo posicion del spinner(Cuadro)
+                    int size = Integer.parseInt(cuadro.getSelectedItem().toString());
+
+                    //validacion de la posicion del cuadro
+                    if (size == 8) {
+                        cuadro.setSelection(0);
+                        cuadro.setEnabled(true);
+                        c1.setText(valueOf(0));
+                        c4.setText(valueOf(0));
+                    } else {
+                        int posNext = size++;
+                        Toast.makeText(this, "En este momento estas sobre el cuadro " + size, Toast.LENGTH_LONG).show();
+
+                        cuadro.setSelection(posNext);
+
+                        c1.setText(valueOf(0));
+                        c4.setText(valueOf(0));
+                    }
+
+                } else {
+                    Toast.makeText(this, "No se puede subir si no ID  de siembra", Toast.LENGTH_LONG).show();
+                }
+            }
 
         } catch (Exception e) {
 
             Toast.makeText(this, e.toString(), Toast.LENGTH_LONG).show();
         }
     }
+
+
+
+
 
     /*
      *  ----------------------------------------------------------------------------------

@@ -8,7 +8,6 @@ import com.lotus.conteos_app.Model.interfaz.conteo;
 import com.lotus.conteos_app.Model.tab.conteoTab;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -44,8 +43,8 @@ public class iConteo extends sqlConect implements conteo {
     public String insert(conteoTab c) {
         try {
             c.setIdConteo(cl.size() + 1);
+
             cl.add(c);
-            nombre = sdf.format(c.getFecha());
             local();
 
             return "registrado conteo de la cama: " + c.getCuadro();
@@ -118,7 +117,7 @@ public class iConteo extends sqlConect implements conteo {
         String msj = "";
         try {
             PreparedStatement ps = cn.prepareStatement(ins);
-            ps.setDate(1, (Date) o.getFecha());
+            ps.setString(1, o.getFecha());
             ps.setLong(2, o.getIdSiembra());
             ps.setInt(3, o.getCuadro());
             ps.setInt(4, o.getConteo1());

@@ -33,6 +33,8 @@ import java.util.List;
 
 public class HistorialMainActivity extends AppCompatActivity {
 
+    String fecha = "";
+
     jsonAdmin ja = null;
     EditText gradosDiaTxt;
     DatePicker date;
@@ -49,7 +51,7 @@ public class HistorialMainActivity extends AppCompatActivity {
 
     private TableLayout tableLayout;
     // Encabezados de la tabla
-    private String[] header = {"ID", "idVariedad", "Variedad", "Cuadro", "Sem 1", "Sem 4"};
+    private String[] header = {"Bloque", "Variedad", "CC", "CT", "S1C", "S1P", "S4C", "S4P"};
     // Datos de la tabla
     private ArrayList<String[]> rows = new ArrayList<>();
 
@@ -90,7 +92,7 @@ public class HistorialMainActivity extends AppCompatActivity {
                 }
             });
 
-            createTable();
+            // createTable();
             gradosDiaTxt.setText(String.valueOf(recibirGradoDia()));
 
 
@@ -100,13 +102,18 @@ public class HistorialMainActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        createTable();
+    }
+
     //OBTENER FECHA ACTUAL
     public void getDate() {
 
-        String fecha = "";
-
         Calendar calendarDate = Calendar.getInstance();
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+
+        SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyy");
         fecha = sdf.format(calendarDate.getTime());
 
         //desglosando fecha actual
@@ -114,7 +121,7 @@ public class HistorialMainActivity extends AppCompatActivity {
         int meshoy = calendarDate.get(Calendar.MONTH);
         int añohoy = calendarDate.get(Calendar.YEAR);
 
-        fech.setText(diahoy + "/" + meshoy + "/" + añohoy);
+        fech.setText(diahoy + "/" + (meshoy + 1) + "/" + añohoy);
         fech.setTextSize(30);
     }
 
@@ -194,25 +201,28 @@ public class HistorialMainActivity extends AppCompatActivity {
         try {
             rows.clear();
             iConteo iC = new iConteo(path);
+            iC.nombre = fecha;
+
+            Toast.makeText(this, path + fecha + ".json", Toast.LENGTH_LONG).show();
 
             List<conteoTab> cl = iC.all();
 
             Toast.makeText(this, "" + cl.size(), Toast.LENGTH_LONG).show();
 
             iPlano iP = new iPlano(path);
-            planoTab p = null;
 
             for (conteoTab c : cl) {
-                p = iP.OneforIdSiembra(c.getIdSiembra());
-
+                // {"Finca", "Bloque", "Variedad", "CC", "CT", "S1C", "S1P", "S4C", "S4P
                 rows.add(new String[]{
 
-                                String.valueOf(c.getIdConteo()),
-                                String.valueOf(c.getIdSiembra()),
-                                p.getVariedad(),
+                                c.getBloque(),
+                                c.getVariedad(),
                                 String.valueOf(c.getCuadro()),
+                                String.valueOf(c.getCuadros()),
                                 String.valueOf(c.getConteo1()),
-                                String.valueOf(c.getConteo4())
+                                String.valueOf(c.getConteo1()),
+                                String.valueOf(c.getConteo4()),
+                                String.valueOf(c.getConteo4()),
                         }
                 );
             }

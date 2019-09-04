@@ -223,15 +223,76 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+
+    <TextView
+        android:id="@+id/textViewPlantas"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="108dp"
+        android:layout_marginTop="332dp"
+        android:text="Plantas:"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textViewNoPlantas"
+        android:layout_width="54dp"
+        android:layout_height="17dp"
+        android:layout_marginStart="164dp"
+        android:layout_marginTop="332dp"
+        android:text="0.000,0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textViewArea"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="232dp"
+        android:layout_marginTop="332dp"
+        android:text="Area:"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textViewNoArea"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="272dp"
+        android:layout_marginTop="332dp"
+        android:text="0.000,0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textViewTotalCuadros"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="328dp"
+        android:layout_marginTop="332dp"
+        android:text="Cuadros variedad:"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textViewNoTotalCuadros"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="444dp"
+        android:layout_marginTop="332dp"
+        android:text="0.000,0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <Spinner
         android:id="@+id/cuadrosp"
-        android:layout_width="102dp"
-        android:layout_height="48dp"
+        android:layout_width="65dp"
+        android:layout_height="47dp"
         android:layout_marginStart="152dp"
         android:layout_marginTop="352dp"
         android:layout_span="4"
-        android:textColor="#000000"
         android:textAlignment="center"
+        android:textColor="#000000"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -239,8 +300,8 @@
         android:id="@+id/gradoDia"
         android:layout_width="98dp"
         android:layout_height="43dp"
-        android:layout_marginStart="384dp"
-        android:layout_marginTop="356dp"
+        android:layout_marginStart="404dp"
+        android:layout_marginTop="368dp"
         android:editable="false"
         android:ems="10"
         android:textAlignment="center"
@@ -385,7 +446,10 @@
         android:layout_height="27dp"
         android:layout_marginStart="20dp"
         android:layout_marginTop="368dp"
-        android:text="Selecciona el cuadro"
+        android:text="Cuadro"
+        android:textColor="#FF82B1FF"
+        android:textSize="20sp"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -493,8 +557,10 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="300dp"
         android:layout_marginTop="368dp"
-        android:text="Grados DIA"
-        android:textColor="#ffff4444"
+        android:text="Grados dia:"
+        android:textColor="#FF82B1FF"
+        android:textSize="20sp"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
