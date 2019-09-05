@@ -206,7 +206,9 @@ public class HistorialMainActivity extends AppCompatActivity {
             for (conteoTab c : cl) {
                 boolean val = true;
                 for (int i = 1; i <= clc.size(); i++) {
-                    if (c.getIdVariedad() == clc.get(i).getIdVariedad() || c.getIdBloque() == clc.get(i).getIdVariedad()) {
+                    if (c.getIdVariedad() == clc.get(i).getIdVariedad() || c.getIdBloque() == clc.get(i).getIdBloque()) {
+                        Toast.makeText(this, "Error exception: " + c.toString() + " " + clc.toString(), Toast.LENGTH_LONG).show();
+
                         int c1 = clc.get(i).getConteo1() + c.getConteo1();
                         int c4 = clc.get(i).getConteo4() + c.getConteo4();
                         clc.get(i).setConteo1(c1);

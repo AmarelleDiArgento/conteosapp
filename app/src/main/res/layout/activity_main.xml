@@ -284,18 +284,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Spinner
-        android:id="@+id/cuadrosp"
-        android:layout_width="65dp"
-        android:layout_height="47dp"
-        android:layout_marginStart="152dp"
-        android:layout_marginTop="352dp"
-        android:layout_span="4"
-        android:textAlignment="center"
-        android:textColor="#000000"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <TextView
         android:id="@+id/gradoDia"
         android:layout_width="98dp"
@@ -561,6 +549,18 @@
         android:textColor="#FF82B1FF"
         android:textSize="20sp"
         android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Spinner
+        android:id="@+id/cuadrosp"
+        android:layout_width="65dp"
+        android:layout_height="47dp"
+        android:layout_marginStart="152dp"
+        android:layout_marginTop="352dp"
+        android:layout_span="4"
+        android:textAlignment="center"
+        android:textColor="#000000"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
