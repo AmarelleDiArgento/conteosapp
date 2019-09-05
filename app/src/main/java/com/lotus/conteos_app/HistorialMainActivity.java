@@ -205,20 +205,28 @@ public class HistorialMainActivity extends AppCompatActivity {
             List<conteoTab> cl = iC.all();
             for (conteoTab c : cl) {
                 boolean val = true;
-                for (int i = 1; i <= clc.size(); i++) {
-                    if (c.getIdVariedad() == clc.get(i).getIdVariedad() || c.getIdBloque() == clc.get(i).getIdBloque()) {
-                        Toast.makeText(this, "Error exception: " + c.toString() + " " + clc.toString(), Toast.LENGTH_LONG).show();
+                for (int i = 0; i <= clc.size()-1; i++) {
 
+
+
+                    if (c.getIdVariedad() == clc.get(i).getIdVariedad() || c.getIdBloque() == clc.get(i).getIdBloque()) {
+
+                        int cu = clc.get(i).getCuadro() + 1;
                         int c1 = clc.get(i).getConteo1() + c.getConteo1();
                         int c4 = clc.get(i).getConteo4() + c.getConteo4();
+
+                        clc.get(i).setCuadro(cu);
                         clc.get(i).setConteo1(c1);
                         clc.get(i).setConteo4(c4);
                         val = false;
                     }
                 }
                 if (val) {
+                    c.setCuadro(1);
                     clc.add(c);
                 }
+
+                Toast.makeText(this, "Dato 1: " + c.toString() + "\n Dato 2: " + clc.toString(), Toast.LENGTH_LONG).show();
             }
 
 
@@ -255,9 +263,9 @@ public class HistorialMainActivity extends AppCompatActivity {
                                 String.valueOf(c.getCuadro()),
                                 String.valueOf(c.getCuadros()),
                                 String.valueOf(c.getConteo1()),
-                                String.valueOf(c.getConteo1()),
+                                String.valueOf(extrapolar(c.getCuadros(), c.getCuadro(), c.getConteo1())),
                                 String.valueOf(c.getConteo4()),
-                                String.valueOf(c.getConteo4()),
+                                String.valueOf(extrapolar(c.getCuadros(), c.getCuadro(), c.getConteo4())),
                         }
                 );
             }
@@ -265,6 +273,11 @@ public class HistorialMainActivity extends AppCompatActivity {
             Toast.makeText(this, "Error exception: " + e.toString(), Toast.LENGTH_LONG).show();
         }
         return rows;
+    }
+
+    public int extrapolar(int CT, int CC, int S) {
+        return (S * CT) / CC;
+
     }
 
     //CREACION DE LA TABLA

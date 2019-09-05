@@ -132,13 +132,19 @@ public class MainActivity extends AppCompatActivity {
 
         try {
 
+            SimpleDateFormat sdfn = new SimpleDateFormat("ddMMyyyy");
+
+
             iP = new iPlano(path);
             iF = new iFenologia(path);
             iC = new iConteo(path);
+            iC.nombre = sdfn.format(calendarDate.getTime());
 
             lp = iP.all();
             lf = iF.all();
             lc = iC.all();
+            Toast.makeText(this, "Tamano: " + lc.size(), Toast.LENGTH_LONG).show();
+
 
         } catch (Exception e) {
             Toast.makeText(this, "Error de recursos: \n" + e.toString(), Toast.LENGTH_LONG).show();
@@ -310,13 +316,10 @@ public class MainActivity extends AppCompatActivity {
                 if (siembra > 0) {
 
                     conteoTab c = new conteoTab();
-                    SimpleDateFormat sdfn = new SimpleDateFormat("ddMMyyyy");
-                    String nombre = sdfn.format(calendarDate.getTime());
-
 
                     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
-                    iC.nombre = nombre;
+
                     c.setIdSiembra(c.getIdSiembra());
                     c.setFecha(sdf.format(calendarDate.getTime()));
                     c.setIdBloque(p.getIdBloque());
@@ -338,6 +341,7 @@ public class MainActivity extends AppCompatActivity {
                     c.toString();
 
                     Toast.makeText(this, iC.insert(c), Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, iC.all().toString(),Toast.LENGTH_LONG).show();
 
                     //obteniendo posicion del spinner(Cuadro)
                     int size = Integer.parseInt(cuadro.getSelectedItem().toString());
