@@ -252,7 +252,7 @@ public class HistorialMainActivity extends AppCompatActivity {
 
     // Dibuja la tabla de calculos
     public ArrayList<String[]> cargarConteo() {
-        DecimalFormat frt = new DecimalFormat("#,###.00");
+        DecimalFormat frt = new DecimalFormat("#,###");
 
         ArrayList<String[]> rows = new ArrayList<>();
 
@@ -276,10 +276,10 @@ public class HistorialMainActivity extends AppCompatActivity {
                                 c.getVariedad(),
                                 String.valueOf(c.getCuadro()),
                                 String.valueOf(c.getCuadros()),
-                                String.valueOf(c.getConteo1()),
-                                String.valueOf(extrapolar(c.getCuadros(), c.getCuadro(), c.getConteo1())),
-                                String.valueOf(c.getConteo4()),
-                                String.valueOf(extrapolar(c.getCuadros(), c.getCuadro(), c.getConteo4())),
+                                String.valueOf(frt.format(c.getConteo1())),
+                                String.valueOf(frt.format(extrapolar(c.getCuadros(), c.getCuadro(), c.getConteo1()))),
+                                String.valueOf(frt.format(c.getConteo4())),
+                                String.valueOf(frt.format(extrapolar(c.getCuadros(), c.getCuadro(), c.getConteo4())))
                         }
                 );
             }

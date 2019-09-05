@@ -44,7 +44,7 @@ public class iConteo extends sqlConect implements conteo {
     public String insert(conteoTab c) {
         try {
             c.setIdConteo(cl.size() + 1);
-            all();
+            // all();
             cl.add(c);
             local();
 
@@ -60,7 +60,7 @@ public class iConteo extends sqlConect implements conteo {
         try {
             int id = (int) c.getIdConteo();
             cl.set(id, c);
-            nombre = sdf.format(c.getFecha());
+            // nombre = sdf.format(c.getFecha());
             local();
 
             return "actualizado conteo de la cama: " + c.getCuadro();
