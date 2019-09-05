@@ -90,8 +90,10 @@ public class HistorialMainActivity extends AppCompatActivity {
                     cargadefecha(day, month, year);
                 }
             });
+            //limpia los registros
 
             // createTable();
+            createTable();
             gradosDiaTxt.setText(String.valueOf(recibirGradoDia()));
 
 
@@ -104,7 +106,19 @@ public class HistorialMainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Toast.makeText(this,"se restaura",Toast.LENGTH_SHORT).show();
         createTable();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Toast.makeText(this,"se pausa",Toast.LENGTH_SHORT).show();
     }
 
     //OBTENER FECHA ACTUAL
@@ -243,7 +257,7 @@ public class HistorialMainActivity extends AppCompatActivity {
         ArrayList<String[]> rows = new ArrayList<>();
 
         try {
-            rows.clear();
+            //rows.clear();
             iConteo iC = new iConteo(path);
             iC.nombre = fecha;
 
@@ -285,6 +299,7 @@ public class HistorialMainActivity extends AppCompatActivity {
         try {
             tableLayout = findViewById(R.id.tabla);
             TableDinamic tb = new TableDinamic(tableLayout, getApplicationContext());
+            tableLayout.removeAllViews();
             tb.addHeader(header);
             tb.addData(cargarConteo());
             tb.backgroundHeader(

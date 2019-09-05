@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
             variedad = (TextView) findViewById(R.id.cam_variedad);
             bloque = (TextView) findViewById(R.id.cam_bloque);
             cama = (TextView) findViewById(R.id.cam_cama);
-            NoArea = (TextView) findViewById(R.id.textViewArea);
+            NoArea = (TextView) findViewById(R.id.textViewNoArea);
             NoCuadros = (TextView) findViewById(R.id.textViewNoTotalCuadros);
             NoPlantas = (TextView) findViewById(R.id.textViewNoPlantas);
 
@@ -374,10 +374,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
-
-
-
     /*
      *  ----------------------------------------------------------------------------------
      *   Funciones relacionadas
@@ -397,6 +393,12 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         return n;
+    }
+
+    //PARA VOLVER A LA ACTIVIDAD ANTERIOR(CAMARA)
+    public void onBackPressed() {
+        Intent i = new Intent(MainActivity.this, HistorialMainActivity.class);
+        startActivity(i);
     }
 
 }
