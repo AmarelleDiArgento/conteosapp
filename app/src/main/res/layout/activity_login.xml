@@ -10,8 +10,8 @@
 
     <TextView
         android:id="@+id/textView4"
-        android:layout_width="482dp"
-        android:layout_height="415dp"
+        android:layout_width="468dp"
+        android:layout_height="432dp"
         android:layout_marginStart="68dp"
         android:layout_marginTop="252dp"
         android:background="@color/ColorPrimaryText"
@@ -99,5 +99,16 @@
         android:textSize="56sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/imageButton"
+        android:layout_width="93dp"
+        android:layout_height="93dp"
+        android:layout_marginStart="488dp"
+        android:layout_marginTop="208dp"
+        android:onClick="quien"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/pregunta" />
 
 </android.support.constraint.ConstraintLayout>
