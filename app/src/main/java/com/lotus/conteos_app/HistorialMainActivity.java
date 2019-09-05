@@ -53,7 +53,6 @@ public class HistorialMainActivity extends AppCompatActivity {
     // Encabezados de la tabla
     private String[] header = {"Bloque", "Variedad", "CC", "CT", "S1C", "S1P", "S4C", "S4P"};
     // Datos de la tabla
-    private ArrayList<String[]> rows = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -194,22 +193,56 @@ public class HistorialMainActivity extends AppCompatActivity {
         fech.setTextSize(30);
     }
 
-    // descarga el plano de la basde datos y lo alamcena en plano.json (Archivo local)
+    public List<conteoTab> calcular() {
+        List<conteoTab> clc = new ArrayList<>();
+
+        try {
+            iConteo iC = new iConteo(path);
+            iC.nombre = fecha;
+
+            // Toast.makeText(this, path + fecha + ".json", Toast.LENGTH_LONG).show();
+
+            List<conteoTab> cl = iC.all();
+            for (conteoTab c : cl) {
+                boolean val = true;
+                for (int i = 1; i <= clc.size(); i++) {
+                    if (c.getIdVariedad() == clc.get(i).getIdVariedad() || c.getIdBloque() == clc.get(i).getIdVariedad()) {
+                        int c1 = clc.get(i).getConteo1() + c.getConteo1();
+                        int c4 = clc.get(i).getConteo4() + c.getConteo4();
+                        clc.get(i).setConteo1(c1);
+                        clc.get(i).setConteo4(c4);
+                        val = false;
+                    }
+                }
+                if (val) {
+                    clc.add(c);
+                }
+            }
+
+
+        } catch (Exception e) {
+            Toast.makeText(this, "Error exception: " + e.toString(), Toast.LENGTH_LONG).show();
+        }
+        return clc;
+    }
+
+    // Dibuja la tabla de calculos
     public ArrayList<String[]> cargarConteo() {
         DecimalFormat frt = new DecimalFormat("#,###.00");
+
+        ArrayList<String[]> rows = new ArrayList<>();
 
         try {
             rows.clear();
             iConteo iC = new iConteo(path);
             iC.nombre = fecha;
 
-            Toast.makeText(this, path + fecha + ".json", Toast.LENGTH_LONG).show();
+            // Toast.makeText(this, path + fecha + ".json", Toast.LENGTH_LONG).show();
 
-            List<conteoTab> cl = iC.all();
+            List<conteoTab> cl = calcular();
 
-            Toast.makeText(this, "" + cl.size(), Toast.LENGTH_LONG).show();
+            // Toast.makeText(this, "" + cl.size(), Toast.LENGTH_LONG).show();
 
-            iPlano iP = new iPlano(path);
 
             for (conteoTab c : cl) {
                 // {"Finca", "Bloque", "Variedad", "CC", "CT", "S1C", "S1P", "S4C", "S4P
