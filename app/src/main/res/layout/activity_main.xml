@@ -225,22 +225,23 @@
 
 
     <TextView
-        android:id="@+id/textViewPlantas"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="108dp"
+        android:id="@+id/textViewNoPlantas"
+        android:layout_width="54dp"
+        android:layout_height="17dp"
+        android:layout_marginStart="116dp"
         android:layout_marginTop="332dp"
-        android:text="Plantas:"
+        android:text="0.000,0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textViewNoPlantas"
-        android:layout_width="54dp"
-        android:layout_height="17dp"
-        android:layout_marginStart="164dp"
+        android:id="@+id/textViewPlantas"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="60dp"
         android:layout_marginTop="332dp"
-        android:text="0.000,0"
+        android:text="Plantas:"
+        android:textColor="@android:color/background_dark"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -251,6 +252,7 @@
         android:layout_marginStart="232dp"
         android:layout_marginTop="332dp"
         android:text="Area:"
+        android:textColor="@android:color/background_dark"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -268,9 +270,10 @@
         android:id="@+id/textViewTotalCuadros"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="328dp"
+        android:layout_marginStart="384dp"
         android:layout_marginTop="332dp"
         android:text="Cuadros variedad:"
+        android:textColor="@android:color/background_dark"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -278,7 +281,7 @@
         android:id="@+id/textViewNoTotalCuadros"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="444dp"
+        android:layout_marginStart="500dp"
         android:layout_marginTop="332dp"
         android:text="0.000,0"
         app:layout_constraintStart_toStartOf="parent"
