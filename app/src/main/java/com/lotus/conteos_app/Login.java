@@ -26,6 +26,12 @@ public class Login extends AppCompatActivity {
         btn_login=(Button) findViewById(R.id.btn_login);
     }
 
+    //REDIRECCIONAR A LA INFORMACION DE LA APP
+    public void quien(View v){
+        Intent i = new Intent(Login.this,quienesomos.class);
+        startActivity(i);
+    }
+
     //METODO PARA VALIDAR EL LOGIN
     public void btn_login(View v){
         String txt_user=txtu.getText().toString();
