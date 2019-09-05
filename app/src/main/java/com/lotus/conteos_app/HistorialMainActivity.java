@@ -226,7 +226,7 @@ public class HistorialMainActivity extends AppCompatActivity {
                     clc.add(c);
                 }
 
-                Toast.makeText(this, "Dato 1: " + c.toString() + "\n Dato 2: " + clc.toString(), Toast.LENGTH_LONG).show();
+                // Toast.makeText(this, "Dato 1: " + c.toString() + "\n Dato 2: " + clc.toString(), Toast.LENGTH_LONG).show();
             }
 
 

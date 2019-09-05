@@ -23,6 +23,7 @@ public class iConteo extends sqlConect implements conteo {
     Connection cn = null;
     String path = null;
     jsonAdmin ja = null;
+
     private List<conteoTab> cl = new ArrayList<>();
 
     SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyy");
@@ -43,7 +44,7 @@ public class iConteo extends sqlConect implements conteo {
     public String insert(conteoTab c) {
         try {
             c.setIdConteo(cl.size() + 1);
-
+            all();
             cl.add(c);
             local();
 
@@ -96,10 +97,10 @@ public class iConteo extends sqlConect implements conteo {
     public List<conteoTab> all() throws Exception {
 
         Gson gson = new Gson();
-        List<conteoTab> fl = gson.fromJson(ja.ObtenerLista(path, nombre), new TypeToken<List<conteoTab>>() {
+        cl = gson.fromJson(ja.ObtenerLista(path, nombre), new TypeToken<List<conteoTab>>() {
         }.getType());
 
-        return fl;
+        return cl;
     }
 
 

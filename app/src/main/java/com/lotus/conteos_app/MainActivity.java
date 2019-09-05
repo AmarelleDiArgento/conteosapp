@@ -145,6 +145,8 @@ public class MainActivity extends AppCompatActivity {
             lc = iC.all();
             Toast.makeText(this, "Tamano: " + lc.size(), Toast.LENGTH_LONG).show();
 
+            Toast.makeText(this, iC.all().toString(),Toast.LENGTH_LONG).show();
+
 
         } catch (Exception e) {
             Toast.makeText(this, "Error de recursos: \n" + e.toString(), Toast.LENGTH_LONG).show();
@@ -338,7 +340,6 @@ public class MainActivity extends AppCompatActivity {
                     c.setCuadros(p.getCuadros());
 
                     c.setIdUsuario(123);
-                    c.toString();
 
                     Toast.makeText(this, iC.insert(c), Toast.LENGTH_LONG).show();
                     Toast.makeText(this, iC.all().toString(),Toast.LENGTH_LONG).show();
