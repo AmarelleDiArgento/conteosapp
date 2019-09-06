@@ -7,22 +7,74 @@
     android:background="#FFFFFF"
     tools:context=".HistorialMainActivity">
 
+    <TextView
+        android:id="@+id/textView33"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="64dp"
+        android:text="Fecha:"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/fechita"
+        android:layout_width="132dp"
+        android:layout_height="26dp"
+        android:layout_marginStart="88dp"
+        android:layout_marginTop="64dp"
+        android:text="TextView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/usuario2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="96dp"
+        android:layout_marginTop="88dp"
+        android:text="Leider  Sarmiento"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView34"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="88dp"
+        android:text="Monitor:"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <ImageView
         android:id="@+id/headerlogo"
-        android:layout_width="300dp"
-        android:layout_height="82dp"
-        android:layout_marginStart="300dp"
+        android:layout_width="370dp"
+        android:layout_height="77dp"
+        android:layout_marginStart="228dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/logoheader" />
 
     <TextView
+        android:id="@+id/HISTORIAL_SIEMBRA"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="148dp"
+        android:layout_marginTop="140dp"
+        android:text="Historial de siembra"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="30sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
         android:id="@+id/plantilla_busqueda"
         android:layout_width="551dp"
         android:layout_height="83dp"
-        android:layout_marginStart="36dp"
-        android:layout_marginTop="104dp"
-        android:background="@color/ColorSecondaryText"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="192dp"
+        android:background="#81F0EDED"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -30,8 +82,8 @@
         android:id='@+id/msm_selecciona_fecha'
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="36dp"
-        android:layout_marginTop="104dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="192dp"
         android:text="Selecciona la fecha"
         android:textSize="18sp"
         android:textStyle="bold"
@@ -42,8 +94,8 @@
         android:id="@+id/btn_datapicker"
         android:layout_width="47dp"
         android:layout_height="49dp"
-        android:layout_marginStart="236dp"
-        android:layout_marginTop="132dp"
+        android:layout_marginStart="220dp"
+        android:layout_marginTop="220dp"
         android:background="#00C853"
         android:backgroundTint="#00C853"
         android:onClick="showpicker"
@@ -53,37 +105,35 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/date" />
 
-    <TextView
-        android:id="@+id/txt_fecha"
-        android:layout_width="186dp"
-        android:layout_height="52dp"
-        android:layout_marginStart="48dp"
-        android:layout_marginTop="132dp"
-        android:background="#03FFFFFF"
-        android:textAlignment="center"
-        android:textColor="@color/colorPrimaryDark"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <ImageView
         android:id="@+id/imageView6"
         android:layout_width="54dp"
         android:layout_height="49dp"
-        android:layout_marginStart="292dp"
-        android:layout_marginTop="132dp"
+        android:layout_marginStart="276dp"
+        android:layout_marginTop="220dp"
         android:background="@color/colorPrimary"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/search" />
 
+    <TextView
+        android:id="@+id/textView20"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="344dp"
+        android:layout_marginTop="232dp"
+        android:text="Grados dia:"
+        android:textColor="@android:color/holo_red_light"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <EditText
         android:id="@+id/gradosDia"
         android:layout_width="89dp"
         android:layout_height="44dp"
-        android:layout_marginStart="436dp"
-        android:layout_marginTop="136dp"
+        android:layout_marginStart="420dp"
+        android:layout_marginTop="224dp"
         android:ems="10"
         android:inputType="numberDecimal"
         android:textAlignment="center"
@@ -94,31 +144,44 @@
         android:id="@+id/button"
         android:layout_width="64dp"
         android:layout_height="63dp"
-        android:layout_marginStart="524dp"
-        android:layout_marginTop="128dp"
+        android:layout_marginStart="508dp"
+        android:layout_marginTop="216dp"
         android:background="@drawable/aceptar"
         android:onClick="sharedGradoDia"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/HISTORIAL_SIEMBRA"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="24dp"
-        android:text="Historial de siembra"
+        android:id="@+id/txt_fecha"
+        android:layout_width="186dp"
+        android:layout_height="52dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="220dp"
+        android:background="#03FFFFFF"
+        android:textAlignment="center"
         android:textColor="@color/colorPrimaryDark"
-        android:textSize="30sp"
+        android:textSize="18sp"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="96dp"
+        android:layout_height="75dp"
+        android:layout_marginStart="44dp"
+        android:layout_marginTop="836dp"
+        android:background="#FFC107"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/up" />
 
     <ImageView
         android:id="@+id/imageView3"
         android:layout_width="89dp"
         android:layout_height="73dp"
         android:layout_marginStart="460dp"
-        android:layout_marginTop="748dp"
+        android:layout_marginTop="840dp"
         android:background="#4CAF50"
         android:onClick="goMain"
         app:layout_constraintStart_toStartOf="parent"
@@ -126,45 +189,22 @@
         app:srcCompat="@drawable/plus" />
 
     <ImageView
-        android:id="@+id/imageView4"
-        android:layout_width="96dp"
-        android:layout_height="75dp"
-        android:layout_marginStart="44dp"
-        android:layout_marginTop="744dp"
-        android:background="#FFC107"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/up" />
-
-    <ImageView
         android:id="@+id/imageView5"
         android:layout_width="94dp"
         android:layout_height="76dp"
         android:layout_marginStart="252dp"
-        android:layout_marginTop="744dp"
+        android:layout_marginTop="836dp"
         android:background="#E57373"
         android:onClick="actualizarBases"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/update2" />
 
-    <TextView
-        android:id="@+id/textView20"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="360dp"
-        android:layout_marginTop="144dp"
-        android:text="Grados dia:"
-        android:textColor="@android:color/holo_red_light"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <ScrollView
-        android:layout_width="546dp"
-        android:layout_height="519dp"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="200dp"
+        android:layout_width="538dp"
+        android:layout_height="534dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="284dp"
         android:textColor="@android:color/darker_gray"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -181,12 +221,21 @@
         </HorizontalScrollView>
     </ScrollView>
 
+    <ImageView
+        android:id="@+id/imageView7"
+        android:layout_width="200dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/tituloconteos" />
+
     <DatePicker
         android:id="@+id/date_picker"
         android:layout_width="235dp"
         android:layout_height="205dp"
-        android:layout_marginStart="152dp"
-        android:layout_marginTop="176dp"
+        android:layout_marginStart="136dp"
+        android:layout_marginTop="264dp"
         android:background="@color/ColorPrimaryText"
         android:calendarViewShown="false"
         android:datePickerMode="spinner"

@@ -4,9 +4,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/ColorSecondaryText"
+    android:background="#FFFFFF"
     tools:context=".Login">
 
+
+    <Button
+        android:id="@+id/btn_login"
+        android:layout_width="370dp"
+        android:layout_height="73dp"
+        android:layout_marginStart="128dp"
+        android:layout_marginTop="560dp"
+        android:background="@color/colorPrimary"
+        android:onClick="btn_login"
+        android:text="Ingresar"
+        android:textColor="@color/ColorPrimaryText"
+        android:textSize="30sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textView4"
@@ -14,7 +28,7 @@
         android:layout_height="432dp"
         android:layout_marginStart="68dp"
         android:layout_marginTop="252dp"
-        android:background="@color/ColorPrimaryText"
+        android:background="#81F0EDED"
         android:outlineProvider="none"
         android:shadowColor="@color/colorPrimaryDark"
         app:layout_constraintStart_toStartOf="parent"
@@ -37,26 +51,40 @@
         android:layout_height="51dp"
         android:layout_marginStart="196dp"
         android:layout_marginTop="472dp"
-        android:imeOptions="actionSearch"
         android:ems="10"
+        android:imeOptions="actionSearch"
         android:inputType="numberPassword"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-
-    <Button
-        android:id="@+id/btn_login"
-        android:layout_width="370dp"
-        android:layout_height="73dp"
-        android:layout_marginStart="128dp"
-        android:layout_marginTop="560dp"
-        android:background="@color/colorPrimary"
-        android:onClick="btn_login"
-        android:text="Ingresar"
-        android:textColor="@color/ColorPrimaryText"
-        android:textSize="30sp"
+    <ImageButton
+        android:id="@+id/imageButton"
+        android:layout_width="93dp"
+        android:layout_height="93dp"
+        android:layout_marginStart="488dp"
+        android:layout_marginTop="208dp"
+        android:onClick="quien"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/pregunta" />
+
+    <ImageView
+        android:id="@+id/headerlogo2"
+        android:layout_width="370dp"
+        android:layout_height="77dp"
+        android:layout_marginStart="228dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/logoheader" />
+
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="200dp"
+        android:layout_height="60dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/tituloconteos" />
 
 
     <ImageView
@@ -79,36 +107,26 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/pass" />
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:adjustViewBounds="true"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/logoheader" />
-
     <TextView
         android:id="@+id/textView24"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="224dp"
+        android:layout_marginStart="216dp"
         android:layout_marginTop="264dp"
-        android:text="Login"
+        android:text="Ingresa"
         android:textColor="@color/colorPrimary"
         android:textSize="56sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageButton
-        android:id="@+id/imageButton"
-        android:layout_width="93dp"
-        android:layout_height="93dp"
-        android:layout_marginStart="488dp"
-        android:layout_marginTop="208dp"
-        android:onClick="quien"
+    <ImageView
+        android:id="@+id/imageView11"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="200dp"
+        android:layout_marginTop="148dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/pregunta" />
+        app:srcCompat="@drawable/titulobienvenido" />
 
 </android.support.constraint.ConstraintLayout>

@@ -42,13 +42,18 @@ public class iConteo extends sqlConect implements conteo {
 
     @Override
     public String insert(conteoTab c) {
+
         try {
-            c.setIdConteo(cl.size() + 1);
+            if(cl.isEmpty()){
+                c.setIdConteo(1);
+            }else{
+                c.setIdConteo(cl.size() + 1);
+            }
             // all();
             cl.add(c);
             local();
 
-            return "registrado conteo de la cama: " + c.getCuadro();
+            return "registrado conteo de la cama ID: " + cl.size();
         } catch (Exception e) {
             return "Error: " + e.toString();
         }

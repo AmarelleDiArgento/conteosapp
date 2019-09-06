@@ -18,6 +18,8 @@ public class splash_activity extends AppCompatActivity {
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_splash_activity);
 
+        getSupportActionBar().hide();
+
         new Handler().postDelayed(new Runnable() {
             public void run() {
                 Intent i = new Intent(splash_activity.this,Login.class);

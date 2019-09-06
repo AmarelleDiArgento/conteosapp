@@ -21,8 +21,6 @@ import com.lotus.conteos_app.Model.iConteo;
 import com.lotus.conteos_app.Model.iFenologia;
 import com.lotus.conteos_app.Model.iPlano;
 import com.lotus.conteos_app.Model.tab.conteoTab;
-import com.lotus.conteos_app.Model.tab.fenologiaTab;
-import com.lotus.conteos_app.Model.tab.planoTab;
 
 import java.io.File;
 import java.text.DecimalFormat;
@@ -39,7 +37,7 @@ public class HistorialMainActivity extends AppCompatActivity {
     EditText gradosDiaTxt;
     DatePicker date;
     ImageView btn_show_picker;
-    TextView fech;
+    TextView fech,fechita;
     String path = null;
 
     float gDia;
@@ -58,6 +56,7 @@ public class HistorialMainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.historial_main);
+        getSupportActionBar().hide();
         try {
             path = getExternalFilesDir(null) + File.separator;
             // path = "/storage/extSdCard/";
@@ -66,6 +65,7 @@ public class HistorialMainActivity extends AppCompatActivity {
             date = findViewById(R.id.date_picker);
             btn_show_picker = (ImageButton) findViewById(R.id.btn_datapicker);
             fech = findViewById(R.id.txt_fecha);
+            fechita = findViewById(R.id.fechita);
 
             ja = new jsonAdmin();
 
@@ -127,6 +127,8 @@ public class HistorialMainActivity extends AppCompatActivity {
         SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyy");
         fecha = sdf.format(calendarDate.getTime());
 
+
+
         //desglosando fecha actual
         int diahoy = calendarDate.get(Calendar.DAY_OF_MONTH);
         int meshoy = calendarDate.get(Calendar.MONTH);
@@ -134,6 +136,8 @@ public class HistorialMainActivity extends AppCompatActivity {
 
         fech.setText(diahoy + "/" + (meshoy + 1) + "/" + añohoy);
         fech.setTextSize(30);
+
+        fechita.setText(diahoy + "/" + (meshoy + 1) + "/" + añohoy);
     }
 
     //METODO PARA VALIDAR EL CAMPO DE LOS GRADOS DIA
@@ -305,7 +309,7 @@ public class HistorialMainActivity extends AppCompatActivity {
             );
             tb.backgroundData(
                     Color.parseColor("#FFFFFF"),
-                    Color.parseColor("#E5DBDBDB")
+                    Color.parseColor("#81F0EDED")
             );
 
         } catch (Exception e) {

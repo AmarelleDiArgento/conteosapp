@@ -61,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        getSupportActionBar().hide();
         try {
             codebar = (EditText) findViewById(R.id.resulcode);
 
@@ -114,17 +115,28 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         getCodeBar();
         try {
-            int campo_code = Integer.parseInt(codebar.getText().toString());
-            if (campo_code > 0) {
-                buscarSiembra(campo_code);
-            } else if (campo_code <= 0) {
 
-                Toast toast = Toast.makeText(this, "no hay ID de la siembra para consultar \n" +
-                                                                "por favor realiza una busqueda...", Toast.LENGTH_LONG);
-                toast.setGravity(Gravity.TOP, 0, 100);
-                toast.show();
+            Bundle bundle = getIntent().getExtras();
+                if(bundle==null){
+                    //Toast.makeText(this,  "no has pasado por la camara", Toast.LENGTH_LONG).show();
+                }else if(bundle!=null){
+                    boolean camara = bundle.getBoolean("camaraActivada");
+                    String comp=String.valueOf(camara);
+                            if(comp.equals("true")){
+                                    int campo_code = Integer.parseInt(codebar.getText().toString());
+                                        if (campo_code > 0) {
+                                            buscarSiembra(campo_code);
+                                        } else if (campo_code <= 0) {
 
-            }
+                                            Toast toast = Toast.makeText(this, "no hay ID de la siembra para consultar \n" +
+                                                    "por favor realiza una busqueda...", Toast.LENGTH_LONG);
+                                            toast.setGravity(Gravity.TOP, 0, 100);
+                                            toast.show();
+                                        }
+                            }else{
+                                Toast.makeText(this, "csdvuundsvsd", Toast.LENGTH_LONG).show();
+                            }
+                }
         } catch (Exception ex) {
             Toast.makeText(this, "Exception 0:     " + ex.toString(), Toast.LENGTH_LONG).show();
         }
@@ -189,13 +201,16 @@ public class MainActivity extends AppCompatActivity {
         try {
             Bundle bundle = getIntent().getExtras();
             if (bundle != null) {
-                int dato = bundle.getInt("codigo");
+                String d = bundle.getString("codigo");
+                String[] dato = d.split(",");
+                // Toast.makeText(this,dato.toString(),Toast.LENGTH_SHORT).show();
 
-                if (dato > 0) {
-                    codebar.setText(valueOf(dato));
+
+                if (dato!=null) {
+                    codebar.setText(dato[0]);
                 }
             } else {
-                //Toast.makeText(this, "no hay dato para consultar", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "no hay dato para consultar", Toast.LENGTH_SHORT).show();
             }
         } catch (Exception EX) {
             Toast.makeText(this, "EXCEPTION: " + EX.toString(), Toast.LENGTH_LONG).show();
@@ -237,6 +252,10 @@ public class MainActivity extends AppCompatActivity {
                 NoPlantas.setText(String.valueOf(p.getPlantas()));
 
                 cargarImagenes(p.getIdVariedad());
+            }else {
+                Toast toast = Toast.makeText(getApplicationContext(), "Lo sentimos pero no se encuentra la siembra", Toast.LENGTH_LONG);
+                toast.setGravity(Gravity.TOP,0,100);
+                toast.show();
             }
 
         } catch (Exception e) {
@@ -261,7 +280,11 @@ public class MainActivity extends AppCompatActivity {
 
 
         } catch (Exception e) {
-            Toast.makeText(this, e.toString(), Toast.LENGTH_LONG).show();
+            //Toast.makeText(this,"HOLA"+ e.toString(), Toast.LENGTH_LONG).show();
+
+            Toast toast = Toast.makeText(getApplicationContext(), "Lo sentimos pero no se encuentra la siembra", Toast.LENGTH_LONG);
+            toast.setGravity(Gravity.TOP,0,100);
+            toast.show();
         }
     }
 
@@ -311,11 +334,15 @@ public class MainActivity extends AppCompatActivity {
 
         try {
 
-            if (codebar.getText().toString().isEmpty() || codebar.getText().toString().equalsIgnoreCase("0")) {
-                Toast.makeText(this, "el campo del ID de siembra es invalido", Toast.LENGTH_SHORT).show();
+            variedad = (TextView) findViewById(R.id.cam_variedad);
+            String var = variedad.getText().toString();
+
+            if (var.isEmpty()) {
+                Toast toast = Toast.makeText(getApplicationContext(), "Lo sentimos, no es posible realizar un registro", Toast.LENGTH_LONG);
+                toast.setGravity(Gravity.TOP,0,100);
+                toast.show();
             } else {
                 //Toast.makeText(this,"el campo esta lleno",Toast.LENGTH_SHORT).show();
-
 
                 int siembra = Integer.parseInt(IdSiembra.getText().toString());
                 if (siembra > 0) {
@@ -344,7 +371,7 @@ public class MainActivity extends AppCompatActivity {
 
                     c.setIdUsuario(123);
 
-                    //Toast.makeText(this, iC.insert(c), Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, iC.insert(c), Toast.LENGTH_LONG).show();
                     //Toast.makeText(this, iC.all().toString(),Toast.LENGTH_LONG).show();
 
                     //obteniendo posicion del spinner(Cuadro)
@@ -366,14 +393,12 @@ public class MainActivity extends AppCompatActivity {
                         c4.setText(valueOf(0));
                     }
 
-                } else {
-                    Toast.makeText(this, "No se puede subir si no ID  de siembra", Toast.LENGTH_LONG).show();
-                }
+                } else{}
             }
 
         } catch (Exception e) {
 
-            Toast.makeText(this, e.toString(), Toast.LENGTH_LONG).show();
+            Toast.makeText(this,"hola"+ e.toString(), Toast.LENGTH_LONG).show();
         }
     }
 
