@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -117,8 +118,12 @@ public class MainActivity extends AppCompatActivity {
             if (campo_code > 0) {
                 buscarSiembra(campo_code);
             } else if (campo_code <= 0) {
-                Toast.makeText(this, "no hay ID de la siembra para consultar \n" +
-                        "por favor realiza una busqueda...", Toast.LENGTH_LONG).show();
+
+                Toast toast = Toast.makeText(this, "no hay ID de la siembra para consultar \n" +
+                                                                "por favor realiza una busqueda...", Toast.LENGTH_LONG);
+                toast.setGravity(Gravity.TOP, 0, 100);
+                toast.show();
+
             }
         } catch (Exception ex) {
             Toast.makeText(this, "Exception 0:     " + ex.toString(), Toast.LENGTH_LONG).show();
@@ -143,10 +148,8 @@ public class MainActivity extends AppCompatActivity {
             lp = iP.all();
             lf = iF.all();
             lc = iC.all();
-            Toast.makeText(this, "Tamano: " + lc.size(), Toast.LENGTH_LONG).show();
-
-            Toast.makeText(this, iC.all().toString(),Toast.LENGTH_LONG).show();
-
+            //Toast.makeText(this, "Tamano: " + lc.size(), Toast.LENGTH_LONG).show();
+            //Toast.makeText(this, iC.all().toString(),Toast.LENGTH_LONG).show();
 
         } catch (Exception e) {
             Toast.makeText(this, "Error de recursos: \n" + e.toString(), Toast.LENGTH_LONG).show();
@@ -341,8 +344,8 @@ public class MainActivity extends AppCompatActivity {
 
                     c.setIdUsuario(123);
 
-                    Toast.makeText(this, iC.insert(c), Toast.LENGTH_LONG).show();
-                    Toast.makeText(this, iC.all().toString(),Toast.LENGTH_LONG).show();
+                    //Toast.makeText(this, iC.insert(c), Toast.LENGTH_LONG).show();
+                    //Toast.makeText(this, iC.all().toString(),Toast.LENGTH_LONG).show();
 
                     //obteniendo posicion del spinner(Cuadro)
                     int size = Integer.parseInt(cuadro.getSelectedItem().toString());

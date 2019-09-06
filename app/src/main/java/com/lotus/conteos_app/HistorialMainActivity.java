@@ -111,14 +111,12 @@ public class HistorialMainActivity extends AppCompatActivity {
     @Override
     protected void onRestart() {
         super.onRestart();
-        Toast.makeText(this,"se restaura",Toast.LENGTH_SHORT).show();
         createTable();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        Toast.makeText(this,"se pausa",Toast.LENGTH_SHORT).show();
     }
 
     //OBTENER FECHA ACTUAL
@@ -289,9 +287,9 @@ public class HistorialMainActivity extends AppCompatActivity {
         return rows;
     }
 
+    //CALCULO DE FONOLOGIAS (REGLA DE 3)
     public int extrapolar(int CT, int CC, int S) {
         return (S * CT) / CC;
-
     }
 
     //CREACION DE LA TABLA
@@ -311,14 +309,6 @@ public class HistorialMainActivity extends AppCompatActivity {
             );
 
         } catch (Exception e) {
-
-
-            gradosDiaTxt = findViewById(R.id.gradosDia);
-            int datodia1 = Integer.parseInt(gradosDiaTxt.getText().toString());
-            //Toast.makeText(this,"se pasa el grado: "+datodia1,Toast.LENGTH_LONG).show();
-
-            String datodia = gradosDiaTxt.getText().toString();
-
             Toast.makeText(this, "Error table: " + e.toString(), Toast.LENGTH_LONG).show();
         }
     }

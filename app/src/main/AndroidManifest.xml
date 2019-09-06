@@ -9,7 +9,14 @@
         android:roundIcon="@drawable/ic_web_hi_res_512"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".quienesomos"></activity>
+        <activity android:name=".splash_activity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".quienesomos" />
         <activity android:name=".Camera" />
         <activity
             android:name=".HistorialMainActivity"
@@ -17,22 +24,17 @@
         <activity
             android:name=".Login"
             android:windowSoftInputMode="stateHidden">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
             android:windowSoftInputMode="stateHidden" />
     </application>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CAMERA" />
 
 </manifest>
