@@ -11,23 +11,16 @@
         android:id="@+id/imageView17"
         android:layout_width="445dp"
         android:layout_height="262dp"
-        android:layout_x="80dp"
-        android:layout_y="315dp"
+        android:layout_x="68dp"
+        android:layout_y="127dp"
         app:srcCompat="@drawable/flor" />
 
     <ImageView
         android:id="@+id/imageView18"
         android:layout_width="440dp"
         android:layout_height="213dp"
-        android:layout_x="72dp"
-        android:layout_y="648dp"
+        android:layout_x="74dp"
+        android:layout_y="458dp"
         app:srcCompat="@drawable/eliteflower" />
 
-    <TextView
-        android:id="@+id/textView35"
-        android:layout_width="520dp"
-        android:layout_height="129dp"
-        android:layout_x="42dp"
-        android:layout_y="37dp"
-        android:background="@drawable/tituloconteos" />
 </AbsoluteLayout>
