@@ -271,8 +271,6 @@ public class MainActivity extends AppCompatActivity {
             imageAdmin iA = new imageAdmin();
             List<fenologiaTab> fi = iF.forGrado(dia, gDia, idVariedad);
 
-            //Toast.makeText(this, fi.size() + fi.toString(), Toast.LENGTH_LONG).show();
-
             iA.getImage(jpgView1, fi.get(0).getVariedad(), fi.get(0).getImagen());
             iA.getImage(jpgView2, fi.get(1).getVariedad(), fi.get(1).getImagen());
             iA.getImage(jpgView3, fi.get(2).getVariedad(), fi.get(2).getImagen());
@@ -421,6 +419,40 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         return n;
+    }
+
+    // botones para visualizar las imagenes
+    //semana 1
+    public void btn_visual1(View v){
+        Toast toast = Toast.makeText(getApplicationContext(), "Semana 1", Toast.LENGTH_LONG);
+        toast.setGravity(Gravity.TOP,0,100);
+        toast.show();
+
+        String dat= "semana1";
+
+        try {
+            Intent i = new Intent(MainActivity.this,VisualFenoActivity.class);
+            i.putExtra("dato",dat);
+            startActivity(i);
+        }catch (Exception e){
+            Toast.makeText(this,"Error "+e,Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    //semana 2
+    public void btn_visual2(View v){
+        Toast toast = Toast.makeText(getApplicationContext(), "Semana 2", Toast.LENGTH_LONG);
+        toast.setGravity(Gravity.TOP,0,100);
+        toast.show();
+        String dat= "semana2";
+
+        try {
+            Intent i = new Intent(MainActivity.this,VisualFenoActivity.class);
+            i.putExtra("dato",dat);
+            startActivity(i);
+        }catch (Exception e){
+            Toast.makeText(this,"Error "+e,Toast.LENGTH_SHORT).show();
+        }
     }
 
     //PARA VOLVER A LA ACTIVIDAD ANTERIOR(CAMARA)

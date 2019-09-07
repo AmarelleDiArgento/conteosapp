@@ -9,6 +9,7 @@
         android:roundIcon="@drawable/asd"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".VisualFenoActivity"></activity>
         <activity android:name=".splash_activity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,18 +24,17 @@
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".Login"
-            android:windowSoftInputMode="stateHidden">
-        </activity>
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
             android:windowSoftInputMode="stateHidden" />
     </application>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
-
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
 </manifest>
