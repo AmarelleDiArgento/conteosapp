@@ -1,5 +1,6 @@
 package com.lotus.conteos_app;
 
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.v7.app.AppCompatActivity;
@@ -7,21 +8,12 @@ import android.os.Bundle;
 import android.view.Gravity;
 import android.widget.ImageView;
 import android.widget.Toast;
-
-import com.lotus.conteos_app.Config.Util.imageAdmin;
-import com.lotus.conteos_app.Model.iFenologia;
-import com.lotus.conteos_app.Model.tab.fenologiaTab;
-
 import java.io.File;
-import java.util.List;
+
 
 public class VisualFenoActivity extends AppCompatActivity {
 
-    ImageView jpgView1, jpgView2;
-
-    iFenologia iF = null;
-
-    final String path = "/storage/extSdCard/FREEDOM/GDA8117 JP6.JPG";
+    ImageView jpgView1, jpgView2, jpgView3, jpgView4;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,41 +23,54 @@ public class VisualFenoActivity extends AppCompatActivity {
 
         jpgView1 = (ImageView) findViewById(R.id.jpgView1);
         jpgView2 = (ImageView) findViewById(R.id.jpgView2);
+        jpgView3 = (ImageView) findViewById(R.id.jpgView3);
+        jpgView4 = (ImageView) findViewById(R.id.jpgView4);
 
-        Bundle bundle = getIntent().getExtras();
-        if(bundle!=null){
-            String sem =bundle.getString("dato");
-            cargarImagenes(sem);
-        }else {
-            Toast.makeText(this,"el dato no se cargo",Toast.LENGTH_SHORT).show();
-        }
+        cargarImagenes();
     }
 
     //REALIZA LA CARGAS DE IMAGEN SEGUN FENOLOFIA
-    public void cargarImagenes(String sem) {
+    public void cargarImagenes() {
         try {
 
-            if(sem.equals("semana1")){
-                Toast.makeText(this,"se cargan las imagenes para "+sem,Toast.LENGTH_SHORT).show();
+            String variedad ,imagen,imagen2,imagen3,imagen4;
+
+            SharedPreferences fotollegada = getBaseContext().getSharedPreferences("Fotosfenol", MODE_PRIVATE);
+            if (fotollegada != null) {
+                variedad = fotollegada.getString("fotoVariedad", "");
+                imagen = fotollegada.getString("fotoImagen", "");
+                imagen2 = fotollegada.getString("fotoImagen2", "");
+                imagen3 = fotollegada.getString("fotoImagen3", "");
+                imagen4 = fotollegada.getString("fotoImagen4", "");
+
+                final String path = "/storage/extSdCard/"+variedad+"/"+imagen+"";
+                final String path2 = "/storage/extSdCard/"+variedad+"/"+imagen2+"";
+                final String path3 = "/storage/extSdCard/"+variedad+"/"+imagen3+"";
+                final String path4 = "/storage/extSdCard/"+variedad+"/"+imagen4+"";
+                //Toast.makeText(this,path,Toast.LENGTH_LONG).show();
+
                 File f = new File( path );
+                File f2 = new File( path2 );
+                File f3 = new File( path3 );
+                File f4 = new File( path4 );
 
-                if (f.exists()) {
+                Bitmap bitmap = BitmapFactory.decodeFile(f.getPath());
+                Bitmap bitmap2 = BitmapFactory.decodeFile(f2.getPath());
+                Bitmap bitmap3 = BitmapFactory.decodeFile(f3.getPath());
+                Bitmap bitmap4 = BitmapFactory.decodeFile(f4.getPath());
+                jpgView1.setImageBitmap(bitmap);
+                jpgView2.setImageBitmap(bitmap2);
+                jpgView3.setImageBitmap(bitmap3);
+                jpgView4.setImageBitmap(bitmap4);
 
-                    Toast.makeText(this,"path " +f.toString(),Toast.LENGTH_SHORT).show();
-                    Bitmap bitmap = BitmapFactory.decodeFile(f.getPath());
-                    jpgView1.setImageBitmap(bitmap);
-                    jpgView2.setImageBitmap(bitmap);
-                }else{
-                    Toast.makeText(this,"no se encontro imagen  " +f.toString(),Toast.LENGTH_SHORT).show();
-                }
-
-
-            }else if(sem.equals("semana2")){
-                Toast.makeText(this,"se cargan las imagenes para "+sem,Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this,"no llegaron las fotos",Toast.LENGTH_SHORT).show();
             }
 
+
+
         } catch (Exception e) {
-            Toast toast = Toast.makeText(getApplicationContext(), "PAILAS "+e.toString(), Toast.LENGTH_LONG);
+            Toast toast = Toast.makeText(getApplicationContext(), "Lo sentimo pero no se pudieron cargar las fotos \n"+e.toString(), Toast.LENGTH_LONG);
             toast.setGravity(Gravity.TOP,0,100);
             toast.show();
         }

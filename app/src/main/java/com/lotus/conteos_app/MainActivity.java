@@ -25,7 +25,6 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import static java.lang.String.valueOf;
@@ -35,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
 
     planoTab p = null;
 
-    float gDia;
+    float gDia,fotodato;
     EditText c1, c2, c3, c4, IdSiembra, codebar;
     Spinner cuadro;
     ImageView jpgView1, jpgView2, jpgView3, jpgView4;
@@ -273,13 +272,26 @@ public class MainActivity extends AppCompatActivity {
 
             iA.getImage(jpgView1, fi.get(0).getVariedad(), fi.get(0).getImagen());
             iA.getImage(jpgView2, fi.get(1).getVariedad(), fi.get(1).getImagen());
-            iA.getImage(jpgView3, fi.get(2).getVariedad(), fi.get(2).getImagen());
-            iA.getImage(jpgView4, fi.get(3).getVariedad(), fi.get(3).getImagen());
+            iA.getImage(jpgView3, fi.get(2).getVariedad(), fi.get(3).getImagen());
+            iA.getImage(jpgView4, fi.get(3).getVariedad(), fi.get(2).getImagen());
 
+            String variedad =fi.get(0).getVariedad();
+            String imagen =fi.get(0).getImagen();
+            String imagen2 =fi.get(1).getImagen();
+            String imagen3 =fi.get(2).getImagen();
+            String imagen4 =fi.get(3).getImagen();
+
+            SharedPreferences sp = getBaseContext().getSharedPreferences("Fotosfenol", MODE_PRIVATE);
+            SharedPreferences.Editor edit = sp.edit();
+            edit.putString("fotoVariedad", variedad);
+            edit.putString("fotoImagen", imagen);
+            edit.putString("fotoImagen2", imagen2);
+            edit.putString("fotoImagen3", imagen3);
+            edit.putString("fotoImagen4", imagen4);
+            edit.commit();
+            edit.apply();
 
         } catch (Exception e) {
-            //Toast.makeText(this,"HOLA"+ e.toString(), Toast.LENGTH_LONG).show();
-
             Toast toast = Toast.makeText(getApplicationContext(), "Lo sentimos pero no se encuentra la siembra", Toast.LENGTH_LONG);
             toast.setGravity(Gravity.TOP,0,100);
             toast.show();
@@ -424,36 +436,18 @@ public class MainActivity extends AppCompatActivity {
     // botones para visualizar las imagenes
     //semana 1
     public void btn_visual1(View v){
-        Toast toast = Toast.makeText(getApplicationContext(), "Semana 1", Toast.LENGTH_LONG);
-        toast.setGravity(Gravity.TOP,0,100);
-        toast.show();
 
-        String dat= "semana1";
-
-        try {
-            Intent i = new Intent(MainActivity.this,VisualFenoActivity.class);
-            i.putExtra("dato",dat);
+        if((jpgView1.getDrawable() == null) && (jpgView2.getDrawable() == null) && (jpgView3.getDrawable() == null) && (jpgView4.getDrawable() == null)){
+            Toast toast = Toast.makeText(getApplicationContext(), "No se pueden cargar las imagenes, por que no has realizado una busqueda", Toast.LENGTH_LONG);
+            toast.setGravity(Gravity.TOP,0,100);
+            toast.show();
+        }else {
+            Intent i = new Intent(MainActivity.this, VisualFenoActivity.class);
             startActivity(i);
-        }catch (Exception e){
-            Toast.makeText(this,"Error "+e,Toast.LENGTH_SHORT).show();
         }
+
     }
 
-    //semana 2
-    public void btn_visual2(View v){
-        Toast toast = Toast.makeText(getApplicationContext(), "Semana 2", Toast.LENGTH_LONG);
-        toast.setGravity(Gravity.TOP,0,100);
-        toast.show();
-        String dat= "semana2";
-
-        try {
-            Intent i = new Intent(MainActivity.this,VisualFenoActivity.class);
-            i.putExtra("dato",dat);
-            startActivity(i);
-        }catch (Exception e){
-            Toast.makeText(this,"Error "+e,Toast.LENGTH_SHORT).show();
-        }
-    }
 
     //PARA VOLVER A LA ACTIVIDAD ANTERIOR(CAMARA)
     public void onBackPressed() {

@@ -2,11 +2,11 @@
 <resources>
     <color name="colorPrimary">#20C0FF</color>
     <color name="colorPrimaryDark">#C9030303</color>
-    <color name="colorPrimaryLight">#EA67A4</color>
+    <color name="colorPrimaryLight">#DCEA67A4</color>
     <color name="colorSecondary">#FF9800</color>
     <color name="colorSecondaryLight">#ffe54c</color>
     <color name="colorSecondaryDark">#FF5722</color>
     <color name="ColorPrimaryText">#FFFFFF</color>
-    <color name="ColorSecondaryText">#E5DBDBDB</color>
+    <color name="ColorSecondaryText">#000000</color>
     <color name="colorAccent">#D81B60</color>
 </resources>
