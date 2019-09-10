@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -23,22 +24,27 @@ import com.lotus.conteos_app.Model.iPlano;
 import com.lotus.conteos_app.Model.tab.conteoTab;
 
 import java.io.File;
+import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class HistorialMainActivity extends AppCompatActivity {
 
     String fecha = "";
+    String fecha2 = "";
 
     jsonAdmin ja = null;
     EditText gradosDiaTxt;
     DatePicker date;
     ImageView btn_show_picker;
-    TextView fech,fechita;
+    TextView fech,fechita,fechaoculta;
     String path = null;
+
+    Calendar calendarDate;
 
     float gDia;
 
@@ -66,6 +72,7 @@ public class HistorialMainActivity extends AppCompatActivity {
             btn_show_picker = (ImageButton) findViewById(R.id.btn_datapicker);
             fech = findViewById(R.id.txt_fecha);
             fechita = findViewById(R.id.fechita);
+            fechaoculta = findViewById(R.id.fechaoculta);
 
             ja = new jsonAdmin();
 
@@ -74,20 +81,24 @@ public class HistorialMainActivity extends AppCompatActivity {
             //PROCEDIMIENTO PICKER
             date.setVisibility(View.INVISIBLE);
 
-            Calendar currCalendar = Calendar.getInstance();
+            Calendar cal = Calendar.getInstance();
 
-            day = currCalendar.get(Calendar.DAY_OF_MONTH);
-            month = currCalendar.get(Calendar.MONTH);
-            year = currCalendar.get(Calendar.YEAR);
+            month = cal.get(Calendar.MONTH);
+            day = cal.get(Calendar.DAY_OF_MONTH);
+            year = cal.get(Calendar.YEAR);
 
-            date.init(year, month + 1, day + 5, new DatePicker.OnDateChangedListener() {
+            SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyy");
+            fecha = sdf.format(cal.getTime());
+            fechaoculta.setText(fecha);
+
+            date.init(year, month , day , new DatePicker.OnDateChangedListener() {
                 @Override
                 public void onDateChanged(DatePicker datePicker, int year, int month, int day) {
-                    HistorialMainActivity.this.day = day;
-                    HistorialMainActivity.this.month = month;
-                    HistorialMainActivity.this.year = year;
+                    int day1 = HistorialMainActivity.this.day = day;
+                    int mes1 = HistorialMainActivity.this.month = month;
+                    int año1 = HistorialMainActivity.this.month = year;
 
-                    cargadefecha(day, month, year);
+                    cargadefecha();
                 }
             });
             //limpia los registros
@@ -98,7 +109,7 @@ public class HistorialMainActivity extends AppCompatActivity {
 
 
         } catch (Exception e) {
-            Toast.makeText(this, e.toString(), Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Error en el create "+e.toString(), Toast.LENGTH_LONG).show();
 
         }
     }
@@ -122,22 +133,19 @@ public class HistorialMainActivity extends AppCompatActivity {
     //OBTENER FECHA ACTUAL
     public void getDate() {
 
-        Calendar calendarDate = Calendar.getInstance();
+        try {
+            calendarDate = Calendar.getInstance();
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyy");
+            fecha = sdf.format(calendarDate.getTime());
 
-        SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyy");
-        fecha = sdf.format(calendarDate.getTime());
+            //fech.setText(diahoy + "/" + (meshoy + 1) + "/" + añohoy);
+            fech.setText(fecha);
+            fech.setTextSize(30);
+            fechita.setText(fecha);
 
-
-
-        //desglosando fecha actual
-        int diahoy = calendarDate.get(Calendar.DAY_OF_MONTH);
-        int meshoy = calendarDate.get(Calendar.MONTH);
-        int añohoy = calendarDate.get(Calendar.YEAR);
-
-        fech.setText(diahoy + "/" + (meshoy + 1) + "/" + añohoy);
-        fech.setTextSize(30);
-
-        fechita.setText(diahoy + "/" + (meshoy + 1) + "/" + añohoy);
+        }catch (Exception e){
+            Toast.makeText(this,"Exception getDate"+e,Toast.LENGTH_LONG).show();
+        }
     }
 
     //METODO PARA VALIDAR EL CAMPO DE LOS GRADOS DIA
@@ -155,7 +163,7 @@ public class HistorialMainActivity extends AppCompatActivity {
                 toast.show();
             }
         } catch (Exception ex) {
-            Toast.makeText(this, ex.toString(), Toast.LENGTH_LONG).show();
+            Toast.makeText(this,"Error goMain  "+ ex.toString(), Toast.LENGTH_LONG).show();
         }
     }
 
@@ -169,8 +177,17 @@ public class HistorialMainActivity extends AppCompatActivity {
             edit.putFloat("gradoDia", gDia);
             edit.commit();
             edit.apply();
+
+            InputMethodManager imm = (InputMethodManager) getSystemService(this.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(gradosDiaTxt.getWindowToken(), 0);
+
+            Toast.makeText(this,"Se ha guardado exitosamente los grados dia",Toast.LENGTH_LONG).show();
+
         } else {
-            Toast.makeText(getApplicationContext(), "Por favor verifique que tengas los grados dia menos de 7", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "Por favor verifique que tengas los grados dia mayor a  7 grados dia", Toast.LENGTH_LONG).show();
+
+            InputMethodManager imm = (InputMethodManager) getSystemService(this.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(gradosDiaTxt.getWindowToken(), 0);
         }
     }
 
@@ -192,13 +209,21 @@ public class HistorialMainActivity extends AppCompatActivity {
         } else if (btn_show_picker.isClickable() && date.getVisibility() == View.VISIBLE) {
             date.setVisibility(View.INVISIBLE);
         } else {
-            Toast.makeText(this, "pailas", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "No se pudo cargar el picker de la fecha", Toast.LENGTH_SHORT).show();
         }
     }
 
     //MUESTRA LA FECHA SELECCIONADA SEGUN LO QUE ELIGIO EN EL PICKER
-    public void cargadefecha(int year, int month, int day) {
+    public void cargadefecha() {
+
+
         StringBuffer strBuffer = new StringBuffer();
+        StringBuffer srt2 = new StringBuffer();
+        srt2.append(this.day);
+        srt2.append(this.month + 1);
+        srt2.append(this.year);
+
+        String datoeval = srt2.toString();
 
         strBuffer.append(this.day);
         strBuffer.append(" / ");
@@ -207,6 +232,9 @@ public class HistorialMainActivity extends AppCompatActivity {
         strBuffer.append(this.year);
         fech.setText(strBuffer.toString());
         fech.setTextSize(30);
+
+        fechaoculta.setText(datoeval);
+
     }
 
     public List<conteoTab> calcular() {
@@ -247,7 +275,7 @@ public class HistorialMainActivity extends AppCompatActivity {
 
 
         } catch (Exception e) {
-            Toast.makeText(this, "Error exception: " + e.toString(), Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "No existen registros actuales con refente a esta fecha, \n por favor realiza un registro nuevo o \n puedes buscar por fecha", Toast.LENGTH_LONG).show();
         }
         return clc;
     }
@@ -259,34 +287,31 @@ public class HistorialMainActivity extends AppCompatActivity {
         ArrayList<String[]> rows = new ArrayList<>();
 
         try {
-            //rows.clear();
+
             iConteo iC = new iConteo(path);
             iC.nombre = fecha;
 
-            // Toast.makeText(this, path + fecha + ".json", Toast.LENGTH_LONG).show();
-
             List<conteoTab> cl = calcular();
 
-            // Toast.makeText(this, "" + cl.size(), Toast.LENGTH_LONG).show();
-
+            //Toast.makeText(this, "fecha obtenida   " + fecha +"\n"+
+            //                               "nombre formato    " + iC.nombre, Toast.LENGTH_LONG).show();
 
             for (conteoTab c : cl) {
                 // {"Finca", "Bloque", "Variedad", "CC", "CT", "S1C", "S1P", "S4C", "S4P
-                rows.add(new String[]{
-
-                                c.getBloque(),
-                                c.getVariedad(),
-                                String.valueOf(c.getCuadro()),
-                                String.valueOf(c.getCuadros()),
-                                String.valueOf(frt.format(c.getConteo1())),
-                                String.valueOf(frt.format(extrapolar(c.getCuadros(), c.getCuadro(), c.getConteo1()))),
-                                String.valueOf(frt.format(c.getConteo4())),
-                                String.valueOf(frt.format(extrapolar(c.getCuadros(), c.getCuadro(), c.getConteo4())))
+                        rows.add(new String[]{
+                            c.getBloque(),
+                            c.getVariedad(),
+                            String.valueOf(c.getCuadro()),
+                            String.valueOf(c.getCuadros()),
+                            String.valueOf(frt.format(c.getConteo1())),
+                            String.valueOf(frt.format(extrapolar(c.getCuadros(), c.getCuadro(), c.getConteo1()))),
+                            String.valueOf(frt.format(c.getConteo4())),
+                            String.valueOf(frt.format(extrapolar(c.getCuadros(), c.getCuadro(), c.getConteo4())))
                         }
                 );
             }
         } catch (Exception e) {
-            Toast.makeText(this, "Error exception: " + e.toString(), Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Error exception Cargar conteo: " + e.toString(), Toast.LENGTH_LONG).show();
         }
         return rows;
     }
@@ -313,7 +338,7 @@ public class HistorialMainActivity extends AppCompatActivity {
             );
 
         } catch (Exception e) {
-            Toast.makeText(this, "Error table: " + e.toString(), Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Error de la  table: " + e.toString(), Toast.LENGTH_LONG).show();
         }
     }
 
@@ -332,5 +357,20 @@ public class HistorialMainActivity extends AppCompatActivity {
                     + "Trabajando con recursos locales\n"
                     + "Codigo: " + e.hashCode(), Toast.LENGTH_LONG).show();
         }
+    }
+
+    public void buscarxfecha(View v){
+        Toast.makeText(this,"se oprimio el boton de busqueda",Toast.LENGTH_SHORT).show();
+    }
+
+    public void cerrarsesion(View v){
+        Intent i = new Intent(HistorialMainActivity.this , Login.class);
+        startActivity(i);
+        Toast.makeText(this,"se ha cerrado sesion exitosamente",Toast.LENGTH_SHORT).show();
+        finish();
+    }
+
+    //PARA VOLVER
+    public void onBackPressed() {
     }
 }

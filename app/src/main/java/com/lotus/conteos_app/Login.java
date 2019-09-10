@@ -61,10 +61,19 @@ public class Login extends AppCompatActivity{
         if(txt_user.equals("123") && txt_pass.equals("123")){
             Toast.makeText(this,"Bienvenido",Toast.LENGTH_LONG).show();
             Intent intent=new Intent(this,HistorialMainActivity.class);
-            startActivityForResult(intent, 0);
+            startActivity(intent);
+
+            finish();
         }else{
             Toast.makeText(this,"usuario y clave incorrectas",Toast.LENGTH_SHORT).show();
         }
+    }
+
+
+    //CERRAR APP
+    public void onBackPressed() {
+        finish();
+        System.exit(0);
     }
 
 }

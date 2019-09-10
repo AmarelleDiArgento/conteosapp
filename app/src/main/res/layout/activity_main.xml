@@ -38,7 +38,7 @@
         android:layout_marginTop="860dp"
         android:background="@color/colorPrimary"
         android:onClick="registrarConteo"
-        android:text="Subir"
+        android:text="Guardar"
         android:textColor="@color/ColorPrimaryText"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -634,6 +634,8 @@
         android:textColor="@color/ColorPrimaryText"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+
 
 
 </android.support.constraint.ConstraintLayout>

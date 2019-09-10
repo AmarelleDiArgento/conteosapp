@@ -112,6 +112,7 @@
         android:layout_marginStart="276dp"
         android:layout_marginTop="220dp"
         android:background="@color/colorPrimary"
+        android:onClick="buscarxfecha"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/search" />
@@ -240,11 +241,37 @@
         android:calendarViewShown="false"
         android:datePickerMode="spinner"
         android:endYear="2100"
-        android:maxDate="12/31/2100"
+        android:maxDate="31/12/2100"
         android:minDate="01/01/2000"
         android:spinnersShown="true"
         android:startYear="2019"
         android:visibility="invisible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/fechaoculta"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="252dp"
+        android:layout_marginTop="104dp"
+        android:visibility="invisible"
+        android:text="TextView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="164dp"
+        android:layout_height="41dp"
+        android:layout_marginStart="432dp"
+        android:layout_marginTop="80dp"
+        android:background="#00FFFFFF"
+        android:drawableRight="@drawable/cerrar"
+        android:gravity="left|center_vertical"
+        android:onClick="cerrarsesion"
+        android:text="cerrar sesion"
+        android:textColor="@android:color/holo_red_light"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

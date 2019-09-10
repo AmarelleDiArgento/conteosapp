@@ -163,7 +163,7 @@ public class MainActivity extends AppCompatActivity {
             //Toast.makeText(this, iC.all().toString(),Toast.LENGTH_LONG).show();
 
         } catch (Exception e) {
-            Toast.makeText(this, "Error de recursos: \n" + e.toString(), Toast.LENGTH_LONG).show();
+            //Toast.makeText(this, "Error de recursos: \n" + e.toString(), Toast.LENGTH_LONG).show();
         }
     }
 
@@ -451,8 +451,11 @@ public class MainActivity extends AppCompatActivity {
 
     //PARA VOLVER A LA ACTIVIDAD ANTERIOR(CAMARA)
     public void onBackPressed() {
+        finish();
+        System.exit(0);
         Intent i = new Intent(MainActivity.this, HistorialMainActivity.class);
         startActivity(i);
     }
+
 
 }
