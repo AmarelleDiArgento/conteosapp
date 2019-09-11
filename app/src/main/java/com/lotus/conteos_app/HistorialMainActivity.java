@@ -25,12 +25,14 @@ import com.lotus.conteos_app.Model.tab.conteoTab;
 
 import java.io.File;
 import java.text.DateFormat;
+import java.text.DateFormatSymbols;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class HistorialMainActivity extends AppCompatActivity {
 
@@ -94,11 +96,11 @@ public class HistorialMainActivity extends AppCompatActivity {
             date.init(year, month , day , new DatePicker.OnDateChangedListener() {
                 @Override
                 public void onDateChanged(DatePicker datePicker, int year, int month, int day) {
-                    int day1 = HistorialMainActivity.this.day = day;
-                    int mes1 = HistorialMainActivity.this.month = month;
-                    int año1 = HistorialMainActivity.this.month = year;
+                HistorialMainActivity.this.day = day;
+                HistorialMainActivity.this.month = month;
+                HistorialMainActivity.this.year = year;
 
-                    cargadefecha();
+            cargadefecha();
                 }
             });
             //limpia los registros
@@ -216,25 +218,39 @@ public class HistorialMainActivity extends AppCompatActivity {
     //MUESTRA LA FECHA SELECCIONADA SEGUN LO QUE ELIGIO EN EL PICKER
     public void cargadefecha() {
 
+        String fechaconver;
 
         StringBuffer strBuffer = new StringBuffer();
-        StringBuffer srt2 = new StringBuffer();
-        srt2.append(this.day);
-        srt2.append(this.month + 1);
-        srt2.append(this.year);
-
-        String datoeval = srt2.toString();
 
         strBuffer.append(this.day);
-        strBuffer.append(" / ");
+        strBuffer.append("/");
         strBuffer.append(this.month + 1);
-        strBuffer.append(" / ");
+        strBuffer.append("/");
         strBuffer.append(this.year);
         fech.setText(strBuffer.toString());
         fech.setTextSize(30);
 
-        fechaoculta.setText(datoeval);
+        fechaconver=strBuffer.toString();
 
+        //string a date
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+
+
+        try {
+            Date date = formatter.parse(fechaconver);
+            String nn = formatter.format(date);
+            //Toast.makeText(this, "nuevo formato 1  \n" +date, Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, "nuevo formato 2  \n" +nn, Toast.LENGTH_SHORT).show();
+
+            String[] Strsplit=nn.split("/");
+            String fechanew1=Strsplit[0].trim()+Strsplit[1].trim()+Strsplit[2].trim();
+            String dateInString = fechanew1;
+
+            //Toast.makeText(this, "sin split  \n" +dateInString, Toast.LENGTH_SHORT).show();
+            fechaoculta.setText(dateInString);
+        }catch (Exception e){
+            Toast.makeText(this, "no se pudo convertir \n" + e.toString(), Toast.LENGTH_SHORT).show();
+        }
     }
 
     public List<conteoTab> calcular() {
@@ -243,8 +259,6 @@ public class HistorialMainActivity extends AppCompatActivity {
         try {
             iConteo iC = new iConteo(path);
             iC.nombre = fecha;
-
-            // Toast.makeText(this, path + fecha + ".json", Toast.LENGTH_LONG).show();
 
             List<conteoTab> cl = iC.all();
             for (conteoTab c : cl) {
@@ -269,8 +283,6 @@ public class HistorialMainActivity extends AppCompatActivity {
                     c.setCuadro(1);
                     clc.add(c);
                 }
-
-                // Toast.makeText(this, "Dato 1: " + c.toString() + "\n Dato 2: " + clc.toString(), Toast.LENGTH_LONG).show();
             }
 
 
@@ -282,6 +294,7 @@ public class HistorialMainActivity extends AppCompatActivity {
 
     // Dibuja la tabla de calculos
     public ArrayList<String[]> cargarConteo() {
+
         DecimalFormat frt = new DecimalFormat("#,###");
 
         ArrayList<String[]> rows = new ArrayList<>();
@@ -289,27 +302,27 @@ public class HistorialMainActivity extends AppCompatActivity {
         try {
 
             iConteo iC = new iConteo(path);
-            iC.nombre = fecha;
+            String fob = fechaoculta.getText().toString();
+            iC.nombre = fob;
 
             List<conteoTab> cl = calcular();
 
-            //Toast.makeText(this, "fecha obtenida   " + fecha +"\n"+
-            //                               "nombre formato    " + iC.nombre, Toast.LENGTH_LONG).show();
+                for (conteoTab c : cl) {
+                    // {"Finca", "Bloque", "Variedad", "CC", "CT", "S1C", "S1P", "S4C", "S4P
+                    rows.add(new String[]{
+                                    c.getBloque(),
+                                    c.getVariedad(),
+                                    String.valueOf(c.getCuadro()),
+                                    String.valueOf(c.getCuadros()),
+                                    String.valueOf(frt.format(c.getConteo1())),
+                                    String.valueOf(frt.format(extrapolar(c.getCuadros(), c.getCuadro(), c.getConteo1()))),
+                                    String.valueOf(frt.format(c.getConteo4())),
+                                    String.valueOf(frt.format(extrapolar(c.getCuadros(), c.getCuadro(), c.getConteo4())))
+                            }
+                    );
+                }
 
-            for (conteoTab c : cl) {
-                // {"Finca", "Bloque", "Variedad", "CC", "CT", "S1C", "S1P", "S4C", "S4P
-                        rows.add(new String[]{
-                            c.getBloque(),
-                            c.getVariedad(),
-                            String.valueOf(c.getCuadro()),
-                            String.valueOf(c.getCuadros()),
-                            String.valueOf(frt.format(c.getConteo1())),
-                            String.valueOf(frt.format(extrapolar(c.getCuadros(), c.getCuadro(), c.getConteo1()))),
-                            String.valueOf(frt.format(c.getConteo4())),
-                            String.valueOf(frt.format(extrapolar(c.getCuadros(), c.getCuadro(), c.getConteo4())))
-                        }
-                );
-            }
+
         } catch (Exception e) {
             Toast.makeText(this, "Error exception Cargar conteo: " + e.toString(), Toast.LENGTH_LONG).show();
         }
@@ -360,7 +373,9 @@ public class HistorialMainActivity extends AppCompatActivity {
     }
 
     public void buscarxfecha(View v){
-        Toast.makeText(this,"se oprimio el boton de busqueda",Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this,"se oprimio el boton de busqueda",Toast.LENGTH_SHORT).show();
+        cargarConteo();
+        calcular();
     }
 
     public void cerrarsesion(View v){
