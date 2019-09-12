@@ -47,18 +47,8 @@
         android:id="@+id/textView14"
         android:layout_width="618dp"
         android:layout_height="216dp"
-        android:layout_marginTop="260dp"
+        android:layout_marginTop="256dp"
         android:background="#92F0EDED"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/textView13"
-        android:layout_width="596dp"
-        android:layout_height="178dp"
-        android:layout_marginTop="260dp"
-        android:background="@color/ColorSecondaryText"
-        android:visibility="invisible"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -66,18 +56,18 @@
         android:id="@+id/textViewNoPlantas"
         android:layout_width="90dp"
         android:layout_height="19dp"
-        android:layout_marginStart="108dp"
-        android:layout_marginTop="380dp"
+        android:layout_marginStart="88dp"
+        android:layout_marginTop="344dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textViewArea"
+        android:id="@+id/textViewPlantas"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="224dp"
-        android:layout_marginTop="380dp"
-        android:text="Area:"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="344dp"
+        android:text="Plantas:"
         android:textColor="@android:color/background_dark"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -86,39 +76,28 @@
         android:id="@+id/textViewNoArea"
         android:layout_width="92dp"
         android:layout_height="20dp"
-        android:layout_marginStart="264dp"
-        android:layout_marginTop="380dp"
+        android:layout_marginStart="272dp"
+        android:layout_marginTop="344dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textViewTotalCuadros"
+        android:id="@+id/textViewArea"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="376dp"
-        android:layout_marginTop="380dp"
-        android:text="Cuadros variedad:"
+        android:layout_marginStart="228dp"
+        android:layout_marginTop="344dp"
+        android:text="Area:"
         android:textColor="@android:color/background_dark"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textViewPlantas"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="52dp"
-        android:layout_marginTop="380dp"
-        android:text="Plantas:"
-        android:textColor="@android:color/background_dark"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/gradoDia"
-        android:layout_width="98dp"
-        android:layout_height="43dp"
-        android:layout_marginStart="400dp"
-        android:layout_marginTop="436dp"
+        android:id="@+id/gradodia"
+        android:layout_width="94dp"
+        android:layout_height="31dp"
+        android:layout_marginStart="500dp"
+        android:layout_marginTop="388dp"
         android:editable="false"
         android:ems="10"
         android:textAlignment="center"
@@ -128,12 +107,12 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView21"
-        android:layout_width="133dp"
-        android:layout_height="27dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="436dp"
-        android:text="Cuadro"
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="416dp"
+        android:layout_marginTop="392dp"
+        android:text="Grados dia:"
         android:textColor="#FF82B1FF"
         android:textSize="20sp"
         android:textStyle="bold"
@@ -144,8 +123,8 @@
         android:id="@+id/cuadrosp"
         android:layout_width="65dp"
         android:layout_height="47dp"
-        android:layout_marginStart="152dp"
-        android:layout_marginTop="420dp"
+        android:layout_marginStart="140dp"
+        android:layout_marginTop="380dp"
         android:layout_span="4"
         android:textAlignment="center"
         android:textColor="#000000"
@@ -153,12 +132,12 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="296dp"
-        android:layout_marginTop="436dp"
-        android:text="Grados dia:"
+        android:id="@+id/textView21"
+        android:layout_width="90dp"
+        android:layout_height="27dp"
+        android:layout_marginStart="64dp"
+        android:layout_marginTop="392dp"
+        android:text="Cuadro"
         android:textColor="#FF82B1FF"
         android:textSize="20sp"
         android:textStyle="bold"
@@ -179,11 +158,22 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
+        android:id="@+id/cam_cama"
+        android:layout_width="171dp"
+        android:layout_height="36dp"
+        android:layout_marginStart="400dp"
+        android:layout_marginTop="300dp"
+        android:textAlignment="center"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
         android:id="@+id/textView6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="276dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="260dp"
         android:text="Finca :"
         android:textColor="#FF82B1FF"
         android:textSize="20sp"
@@ -195,8 +185,8 @@
         android:id="@+id/textView7"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="276dp"
-        android:layout_marginTop="276dp"
+        android:layout_marginStart="280dp"
+        android:layout_marginTop="260dp"
         android:text="Variedad :"
         android:textColor="#FF82B1FF"
         android:textSize="20sp"
@@ -208,8 +198,8 @@
         android:id="@+id/textView8"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="316dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="300dp"
         android:text="Bloque :"
         android:textColor="#FF82B1FF"
         android:textSize="20sp"
@@ -221,8 +211,8 @@
         android:id="@+id/textView9"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="276dp"
-        android:layout_marginTop="316dp"
+        android:layout_marginStart="280dp"
+        android:layout_marginTop="300dp"
         android:text="Cama :"
         android:textColor="#FF82B1FF"
         android:textSize="20sp"
@@ -234,30 +224,8 @@
         android:id="@+id/cam_finca"
         android:layout_width="153dp"
         android:layout_height="36dp"
-        android:layout_marginStart="96dp"
-        android:layout_marginTop="272dp"
-        android:textAlignment="center"
-        android:textSize="20sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/cam_cama"
-        android:layout_width="171dp"
-        android:layout_height="36dp"
-        android:layout_marginStart="396dp"
-        android:layout_marginTop="316dp"
-        android:textAlignment="center"
-        android:textSize="20sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/cam_bloque"
-        android:layout_width="153dp"
-        android:layout_height="34dp"
-        android:layout_marginStart="96dp"
-        android:layout_marginTop="316dp"
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="256dp"
         android:textAlignment="center"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -267,8 +235,19 @@
         android:id="@+id/cam_variedad"
         android:layout_width="172dp"
         android:layout_height="35dp"
-        android:layout_marginStart="396dp"
-        android:layout_marginTop="272dp"
+        android:layout_marginStart="400dp"
+        android:layout_marginTop="256dp"
+        android:textAlignment="center"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/cam_bloque"
+        android:layout_width="153dp"
+        android:layout_height="34dp"
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="300dp"
         android:textAlignment="center"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -279,7 +258,18 @@
         android:layout_width="71dp"
         android:layout_height="22dp"
         android:layout_marginStart="500dp"
-        android:layout_marginTop="380dp"
+        android:layout_marginTop="344dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textViewTotalCuadros"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="376dp"
+        android:layout_marginTop="344dp"
+        android:text="Cuadros variedad:"
+        android:textColor="@android:color/background_dark"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -315,6 +305,8 @@
         android:inputType="number"
         android:textAlignment="center"
         android:textSize="30dp"
+        android:background="?android:attr/selectableItemBackground"
+        android:clickable="true"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -381,8 +373,8 @@
 
     <TextView
         android:id="@+id/textView36"
-        android:layout_width="267dp"
-        android:layout_height="295dp"
+        android:layout_width="262dp"
+        android:layout_height="274dp"
         android:layout_marginStart="312dp"
         android:layout_marginTop="528dp"
         android:background="#92F0EDED"
@@ -405,6 +397,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+
     <ImageView
         android:id="@+id/feno3"
         android:layout_width="119dp"
@@ -416,60 +409,13 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView16"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="488dp"
-        android:layout_marginTop="572dp"
-        android:backgroundTint="@android:color/transparent"
-        android:text="Conteo4"
-        android:textColor="#FC7064"
-        android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <EditText
-        android:id="@+id/c4et"
-        android:layout_width="118dp"
-        android:layout_height="39dp"
-        android:layout_marginStart="452dp"
-        android:layout_marginTop="600dp"
-        android:background="@android:color/holo_green_light"
-        android:ems="10"
-        android:inputType="number"
-        android:padding="5dip"
-        android:text="0"
-        android:textAlignment="center"
-        android:textColor="@color/ColorPrimaryText"
-        android:textSize="24sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
         android:id="@+id/textView22"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="352dp"
-        android:layout_marginTop="776dp"
-        android:text="Minimo (-)"
+        android:layout_marginStart="356dp"
+        android:layout_marginTop="772dp"
+        android:text="Minimo "
         android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <EditText
-        android:id="@+id/c3et"
-        android:layout_width="119dp"
-        android:layout_height="38dp"
-        android:layout_marginStart="320dp"
-        android:layout_marginTop="600dp"
-        android:background="@android:color/holo_green_light"
-        android:ems="10"
-        android:inputType="number"
-        android:padding="5dip"
-        android:text="0"
-        android:textAlignment="center"
-        android:textColor="@color/ColorPrimaryText"
-        android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -477,23 +423,10 @@
         android:id="@+id/textView12"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="476dp"
-        android:layout_marginTop="776dp"
-        android:text="Maximo (+)"
+        android:layout_marginStart="480dp"
+        android:layout_marginTop="772dp"
+        android:text="Maximo"
         android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/textView15"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="344dp"
-        android:layout_marginTop="572dp"
-        android:backgroundTint="@android:color/transparent"
-        android:text="Conteo3"
-        android:textColor="#FC7064"
-        android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -507,16 +440,64 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <EditText
+        android:id="@+id/c4et"
+        android:layout_width="165dp"
+        android:layout_height="36dp"
+        android:layout_marginStart="356dp"
+        android:layout_marginTop="576dp"
+        android:background="@android:color/holo_green_light"
+        android:ems="10"
+        android:inputType="number"
+        android:padding="5dip"
+        android:textAlignment="center"
+        android:textColor="@color/ColorPrimaryText"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
         android:id="@+id/textView35"
-        android:layout_width="264dp"
-        android:layout_height="295dp"
+        android:layout_width="265dp"
+        android:layout_height="272dp"
         android:layout_marginStart="24dp"
         android:layout_marginTop="528dp"
         android:background="#92F0EDED"
         android:text="Semana 1"
         android:textAlignment="center"
         android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/feno1"
+        android:layout_width="118dp"
+        android:layout_height="115dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="652dp"
+        android:onClick="sumFen1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView10"
+        android:layout_width="wrap_content"
+        android:layout_height="16dp"
+        android:layout_marginStart="64dp"
+        android:layout_marginTop="772dp"
+        android:text="Maximo "
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView23"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginStart="192dp"
+        android:layout_marginTop="772dp"
+        android:text="Minimo "
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -530,95 +511,21 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/textView17"
-        android:layout_width="61dp"
-        android:layout_height="21dp"
-        android:layout_marginStart="44dp"
-        android:layout_marginTop="572dp"
-        android:backgroundTint="@android:color/transparent"
-        android:text="Conteo1"
-        android:textColor="#FC7064"
-        android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/textView18"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="196dp"
-        android:layout_marginTop="572dp"
-        android:backgroundTint="@android:color/transparent"
-        android:text="Conteo2"
-        android:textColor="#FC7064"
-        android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <EditText
-        android:id="@+id/c2et"
-        android:layout_width="112dp"
-        android:layout_height="39dp"
-        android:layout_marginStart="168dp"
-        android:layout_marginTop="600dp"
-        android:background="@android:color/holo_green_light"
-        android:ems="10"
-        android:inputType="number"
-        android:padding="5dip"
-        android:text="0"
-        android:textAlignment="center"
-        android:textColor="@color/ColorPrimaryText"
-        android:textSize="24sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/c1et"
-        android:layout_width="118dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="600dp"
+        android:layout_width="163dp"
+        android:layout_height="38dp"
+        android:layout_marginStart="76dp"
+        android:layout_marginTop="576dp"
         android:background="@android:color/holo_green_light"
         android:ems="10"
         android:inputType="number"
         android:padding="5dip"
-        android:text="0"
+        android:hint="0"
         android:textAlignment="center"
         android:textColor="@color/ColorPrimaryText"
         android:textSize="24sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/textView23"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_marginStart="188dp"
-        android:layout_marginTop="776dp"
-        android:text="Minimo (-)"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/textView10"
-        android:layout_width="wrap_content"
-        android:layout_height="16dp"
-        android:layout_marginStart="60dp"
-        android:layout_marginTop="776dp"
-        android:text="Maximo (+)"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageView
-        android:id="@+id/feno1"
-        android:layout_width="118dp"
-        android:layout_height="115dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="652dp"
-        android:onClick="sumFen1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -635,7 +542,75 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <TextView
+        android:id="@+id/textView40"
+        android:layout_width="41dp"
+        android:layout_height="93dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="576dp"
+        android:text="+"
+        android:textSize="70sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
+    <TextView
+        android:id="@+id/textView42"
+        android:layout_width="41dp"
+        android:layout_height="93dp"
+        android:layout_marginStart="512dp"
+        android:layout_marginTop="576dp"
+        android:text="+"
+        android:textSize="70sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView18"
+        android:layout_width="39dp"
+        android:layout_height="181dp"
+        android:layout_marginStart="336dp"
+        android:layout_marginTop="540dp"
+        android:text="-"
+        android:textSize="120sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView41"
+        android:layout_width="44dp"
+        android:layout_height="165dp"
+        android:layout_marginStart="228dp"
+        android:layout_marginTop="540dp"
+        android:text="-"
+        android:textSize="120sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView15"
+        android:layout_width="113dp"
+        android:layout_height="28dp"
+        android:layout_marginStart="244dp"
+        android:layout_marginTop="400dp"
+        android:text="Total"
+        android:textAlignment="center"
+        android:textColor="@android:color/holo_green_dark"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/editText2"
+        android:layout_width="115dp"
+        android:layout_height="38dp"
+        android:layout_marginStart="244dp"
+        android:layout_marginTop="432dp"
+        android:ems="10"
+        android:inputType="number"
+        android:textAlignment="center"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </android.support.constraint.ConstraintLayout>

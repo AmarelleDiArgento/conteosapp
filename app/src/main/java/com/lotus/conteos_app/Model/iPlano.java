@@ -82,7 +82,7 @@ public class iPlano extends sqlConect implements plano {
             if (ps.executeUpdate() == 0) {
                 msj = "Ups, algo salio mal. No se registro la siembra #" + o.getIdSiembra();
             } else {
-                msj = "Siembra #" + o.getIdSiembra() + " registrada exitosamente";
+                msj = "El cuadro a sido registrado exitosamente";
             }
             closeConexion(cn);
 

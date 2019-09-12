@@ -5,7 +5,9 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -64,14 +66,40 @@ public class MainActivity extends AppCompatActivity {
         try {
             codebar = (EditText) findViewById(R.id.resulcode);
 
-            gradoDia = (TextView) findViewById(R.id.gradoDia);
+            gradoDia = (TextView) findViewById(R.id.gradodia);
             gradoDia.setText(valueOf(getGradoDia()));
 
             IdSiembra = (EditText) findViewById(R.id.resulcode);
             c1 = (EditText) findViewById(R.id.c1et);
-            c2 = (EditText) findViewById(R.id.c2et);
-            c3 = (EditText) findViewById(R.id.c3et);
             c4 = (EditText) findViewById(R.id.c4et);
+
+            IdSiembra.setSelectAllOnFocus(true);
+            c1.setSelectAllOnFocus(true);
+            c4.setSelectAllOnFocus(true);
+
+            IdSiembra.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    view.clearFocus();
+                    view.requestFocus();
+                }
+            });
+            c1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    view.clearFocus();
+                    view.requestFocus();
+                }
+            });
+            c4.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    view.clearFocus();
+                    view.requestFocus();
+                }
+            });
+
+
 
             cuadro = (Spinner) findViewById(R.id.cuadrosp);
             // Arreglo, desplegable (Spinner) cuadros
@@ -100,8 +128,9 @@ public class MainActivity extends AppCompatActivity {
 
             getDate();
             cargarRecursos();
-
             codebar.setText("0");
+            c4.setText("0");
+            c1.setText("0");
 
         } catch (Exception e) {
             Toast.makeText(this, e.toString(), Toast.LENGTH_LONG).show();
@@ -114,28 +143,16 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         getCodeBar();
         try {
-
-            Bundle bundle = getIntent().getExtras();
-                if(bundle==null){
-                    //Toast.makeText(this,  "no has pasado por la camara", Toast.LENGTH_LONG).show();
-                }else if(bundle!=null){
-                    boolean camara = bundle.getBoolean("camaraActivada");
-                    String comp=String.valueOf(camara);
-                            if(comp.equals("true")){
-                                    int campo_code = Integer.parseInt(codebar.getText().toString());
-                                        if (campo_code > 0) {
-                                            buscarSiembra(campo_code);
-                                        } else if (campo_code <= 0) {
-
-                                            Toast toast = Toast.makeText(this, "no hay ID de la siembra para consultar \n" +
-                                                    "por favor realiza una busqueda...", Toast.LENGTH_LONG);
-                                            toast.setGravity(Gravity.TOP, 0, 100);
-                                            toast.show();
-                                        }
-                            }else{
-                                Toast.makeText(this, "csdvuundsvsd", Toast.LENGTH_LONG).show();
-                            }
-                }
+            int campo_code = Integer.parseInt(codebar.getText().toString());
+            if (campo_code>0) {
+                buscarSiembra(campo_code);
+            } else if (campo_code==0) {
+                /*Toast toast = Toast.makeText(this, "no hay ID de la siembra para consultar \n" +
+                        "por favor realiza una busqueda...", Toast.LENGTH_LONG);
+                toast.setGravity(Gravity.TOP, 0, 100);
+                toast.show();*/
+            }else {
+            }
         } catch (Exception ex) {
             Toast.makeText(this, "Exception 0:     " + ex.toString(), Toast.LENGTH_LONG).show();
         }
@@ -202,14 +219,11 @@ public class MainActivity extends AppCompatActivity {
             if (bundle != null) {
                 String d = bundle.getString("codigo");
                 String[] dato = d.split(",");
-                // Toast.makeText(this,dato.toString(),Toast.LENGTH_SHORT).show();
-
-
                 if (dato!=null) {
                     codebar.setText(dato[0]);
                 }
             } else {
-                Toast.makeText(this, "no hay dato para consultar", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(this, "no hay dato para consultar", Toast.LENGTH_SHORT).show();
             }
         } catch (Exception EX) {
             Toast.makeText(this, "EXCEPTION: " + EX.toString(), Toast.LENGTH_LONG).show();
@@ -226,6 +240,9 @@ public class MainActivity extends AppCompatActivity {
     public void btnBuscar(View v) {
         int bs = Integer.parseInt(codebar.getText().toString());
         buscarSiembra(bs);
+
+        InputMethodManager imm = (InputMethodManager) getSystemService(this.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(codebar.getWindowToken(), 0);
     }
 
     //REALIZA EL FILTRO DE BUSQUEDA SIEMBRAS
@@ -249,6 +266,8 @@ public class MainActivity extends AppCompatActivity {
                 NoArea.setText(String.valueOf(p.getArea()));
                 NoCuadros.setText(String.valueOf(p.getCuadros()));
                 NoPlantas.setText(String.valueOf(p.getPlantas()));
+
+
 
                 cargarImagenes(p.getIdVariedad());
             }else {
@@ -283,11 +302,14 @@ public class MainActivity extends AppCompatActivity {
 
             SharedPreferences sp = getBaseContext().getSharedPreferences("Fotosfenol", MODE_PRIVATE);
             SharedPreferences.Editor edit = sp.edit();
-            edit.putString("fotoVariedad", variedad);
+            edit.putString("variedad", variedad);
             edit.putString("fotoImagen", imagen);
             edit.putString("fotoImagen2", imagen2);
             edit.putString("fotoImagen3", imagen3);
             edit.putString("fotoImagen4", imagen4);
+            edit.putFloat("gDia",gDia);
+            edit.putInt("dia",dia);
+            edit.putInt("IdVariedad",idVariedad);
             edit.commit();
             edit.apply();
 
@@ -306,15 +328,12 @@ public class MainActivity extends AppCompatActivity {
 
     // Aumentar conteo de semana 1
     public void sumFen1(View v) {
-
-        // Toast.makeText(this, "hola btn1", Toast.LENGTH_SHORT).show();
         int n = valnum(c1);
         c1.setText(valueOf(n + 1));
     }
 
     // Disminuir conteo de semana 1
     public void resFen1(View v) {
-        // Toast.makeText(this, "hola btn2", Toast.LENGTH_SHORT).show();
         int n = valnum(c1);
         if (n > 0) {
             c1.setText(valueOf(n - 1));
@@ -331,7 +350,6 @@ public class MainActivity extends AppCompatActivity {
 
     // Disminuir conteo de semana 4
     public void resFen2(View v) {
-        // Toast.makeText(this, "hola btn4", Toast.LENGTH_SHORT).show();
         int n = valnum(c4);
         if (n > 0) {
             c4.setText(valueOf(n - 1));
@@ -378,6 +396,7 @@ public class MainActivity extends AppCompatActivity {
                     c.setPlantas(p.getPlantas());
                     c.setArea(p.getArea());
                     c.setCuadros(p.getCuadros());
+
 
                     c.setIdUsuario(123);
 
@@ -442,6 +461,7 @@ public class MainActivity extends AppCompatActivity {
             toast.setGravity(Gravity.TOP,0,100);
             toast.show();
         }else {
+
             Intent i = new Intent(MainActivity.this, VisualFenoActivity.class);
             startActivity(i);
         }
@@ -458,5 +478,7 @@ public class MainActivity extends AppCompatActivity {
         System.exit(0);
     }
 
+    public void hola(){
 
+    }
 }

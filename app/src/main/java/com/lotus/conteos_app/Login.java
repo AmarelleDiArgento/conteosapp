@@ -72,8 +72,8 @@ public class Login extends AppCompatActivity{
 
     //CERRAR APP
     public void onBackPressed() {
-        finish();
         System.exit(0);
+        finish();
     }
 
 }

@@ -53,7 +53,7 @@ public class iConteo extends sqlConect implements conteo {
             cl.add(c);
             local();
 
-            return "registrado conteo de la cama ID: " + cl.size();
+            return "Registro realizado exitosamente";
         } catch (Exception e) {
             return "Error: " + e.toString();
         }

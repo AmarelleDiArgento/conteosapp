@@ -37,7 +37,7 @@ import java.util.Locale;
 public class HistorialMainActivity extends AppCompatActivity {
 
     String fecha = "";
-    String fecha2 = "";
+    String fechaocultadat = "";
 
     jsonAdmin ja = null;
     EditText gradosDiaTxt;
@@ -153,13 +153,14 @@ public class HistorialMainActivity extends AppCompatActivity {
     //METODO PARA VALIDAR EL CAMPO DE LOS GRADOS DIA
     public void goMain(View v) {
         try {
-            if (gDia >= 7) {
+            if (gDia >= 5){
                 //Toast.makeText(this,"se pasa el grado: "+datodia,Toast.LENGTH_LONG).show();
 
                 Intent intent = new Intent(HistorialMainActivity.this, MainActivity.class);
                 startActivity(intent);
 
-            } else {
+            }
+            else {
                 Toast toast = Toast.makeText(getApplicationContext(), "Por favor verifique que tengas los grados dia menos de 7", Toast.LENGTH_LONG);
                 toast.setGravity(Gravity.CENTER | Gravity.CENTER_HORIZONTAL, 0, 0);
                 toast.show();
@@ -175,7 +176,7 @@ public class HistorialMainActivity extends AppCompatActivity {
         SharedPreferences.Editor edit = gradoDia.edit();
         gDia = Float.valueOf(gradosDiaTxt.getText().toString());
 
-        if (gDia >= 7) {
+        if ((gDia >= 5) && (gDia <=15)) {
             edit.putFloat("gradoDia", gDia);
             edit.commit();
             edit.apply();
@@ -186,7 +187,7 @@ public class HistorialMainActivity extends AppCompatActivity {
             Toast.makeText(this,"Se ha guardado exitosamente los grados dia",Toast.LENGTH_LONG).show();
 
         } else {
-            Toast.makeText(getApplicationContext(), "Por favor verifique que tengas los grados dia mayor a  7 grados dia", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "Por favor verifica que tengas los grados dia entre un rango de 5 y  15 grados dia", Toast.LENGTH_LONG).show();
 
             InputMethodManager imm = (InputMethodManager) getSystemService(this.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(gradosDiaTxt.getWindowToken(), 0);
@@ -258,6 +259,7 @@ public class HistorialMainActivity extends AppCompatActivity {
 
         try {
             iConteo iC = new iConteo(path);
+            fecha = fechaoculta.getText().toString();
             iC.nombre = fecha;
 
             List<conteoTab> cl = iC.all();
@@ -309,6 +311,7 @@ public class HistorialMainActivity extends AppCompatActivity {
 
                 for (conteoTab c : cl) {
                     // {"Finca", "Bloque", "Variedad", "CC", "CT", "S1C", "S1P", "S4C", "S4P
+                    rows.clear();
                     rows.add(new String[]{
                                     c.getBloque(),
                                     c.getVariedad(),
@@ -373,9 +376,10 @@ public class HistorialMainActivity extends AppCompatActivity {
     }
 
     public void buscarxfecha(View v){
-        //Toast.makeText(this,"se oprimio el boton de busqueda",Toast.LENGTH_SHORT).show();
-        cargarConteo();
         calcular();
+        createTable();
+        //PROCEDIMIENTO PICKER
+        date.setVisibility(View.INVISIBLE);
     }
 
     public void cerrarsesion(View v){
