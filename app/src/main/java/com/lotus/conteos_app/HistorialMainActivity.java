@@ -311,7 +311,7 @@ public class HistorialMainActivity extends AppCompatActivity {
 
                 for (conteoTab c : cl) {
                     // {"Finca", "Bloque", "Variedad", "CC", "CT", "S1C", "S1P", "S4C", "S4P
-                    rows.clear();
+
                     rows.add(new String[]{
                                     c.getBloque(),
                                     c.getVariedad(),

@@ -113,6 +113,7 @@ public class VisualFenoActivity extends AppCompatActivity {
             Double d3 = fi.get(3).getDiametro_boton();
             Double l3 = fi.get(3).getLargo_boton();
 
+
             parseoDecimal(d,l,d1,l1,d2,l2,d3,l3);
 
         }catch (Exception e){
