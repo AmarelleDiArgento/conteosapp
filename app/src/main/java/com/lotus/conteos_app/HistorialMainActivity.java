@@ -43,7 +43,7 @@ public class HistorialMainActivity extends AppCompatActivity {
     EditText gradosDiaTxt;
     DatePicker date;
     ImageView btn_show_picker;
-    TextView fech,fechita,fechaoculta;
+    TextView fech, fechita, fechaoculta;
     String path = null;
 
     Calendar calendarDate;
@@ -93,14 +93,14 @@ public class HistorialMainActivity extends AppCompatActivity {
             fecha = sdf.format(cal.getTime());
             fechaoculta.setText(fecha);
 
-            date.init(year, month , day , new DatePicker.OnDateChangedListener() {
+            date.init(year, month, day, new DatePicker.OnDateChangedListener() {
                 @Override
                 public void onDateChanged(DatePicker datePicker, int year, int month, int day) {
-                HistorialMainActivity.this.day = day;
-                HistorialMainActivity.this.month = month;
-                HistorialMainActivity.this.year = year;
+                    HistorialMainActivity.this.day = day;
+                    HistorialMainActivity.this.month = month;
+                    HistorialMainActivity.this.year = year;
 
-            cargadefecha();
+                    cargadefecha();
                 }
             });
             //limpia los registros
@@ -111,7 +111,7 @@ public class HistorialMainActivity extends AppCompatActivity {
 
 
         } catch (Exception e) {
-            Toast.makeText(this, "Error en el create "+e.toString(), Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Error en el create " + e.toString(), Toast.LENGTH_LONG).show();
 
         }
     }
@@ -145,28 +145,27 @@ public class HistorialMainActivity extends AppCompatActivity {
             fech.setTextSize(30);
             fechita.setText(fecha);
 
-        }catch (Exception e){
-            Toast.makeText(this,"Exception getDate"+e,Toast.LENGTH_LONG).show();
+        } catch (Exception e) {
+            Toast.makeText(this, "Exception getDate" + e, Toast.LENGTH_LONG).show();
         }
     }
 
     //METODO PARA VALIDAR EL CAMPO DE LOS GRADOS DIA
     public void goMain(View v) {
         try {
-            if (gDia >= 5){
+            if (gDia >= 5) {
                 //Toast.makeText(this,"se pasa el grado: "+datodia,Toast.LENGTH_LONG).show();
 
                 Intent intent = new Intent(HistorialMainActivity.this, MainActivity.class);
                 startActivity(intent);
 
-            }
-            else {
+            } else {
                 Toast toast = Toast.makeText(getApplicationContext(), "Por favor verifique que tengas los grados dia menos de 7", Toast.LENGTH_LONG);
                 toast.setGravity(Gravity.CENTER | Gravity.CENTER_HORIZONTAL, 0, 0);
                 toast.show();
             }
         } catch (Exception ex) {
-            Toast.makeText(this,"Error goMain  "+ ex.toString(), Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Error goMain  " + ex.toString(), Toast.LENGTH_LONG).show();
         }
     }
 
@@ -176,7 +175,7 @@ public class HistorialMainActivity extends AppCompatActivity {
         SharedPreferences.Editor edit = gradoDia.edit();
         gDia = Float.valueOf(gradosDiaTxt.getText().toString());
 
-        if ((gDia >= 5) && (gDia <=15)) {
+        if ((gDia >= 5) && (gDia <= 15)) {
             edit.putFloat("gradoDia", gDia);
             edit.commit();
             edit.apply();
@@ -184,7 +183,7 @@ public class HistorialMainActivity extends AppCompatActivity {
             InputMethodManager imm = (InputMethodManager) getSystemService(this.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(gradosDiaTxt.getWindowToken(), 0);
 
-            Toast.makeText(this,"Se ha guardado exitosamente los grados dia",Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Se ha guardado exitosamente los grados dia", Toast.LENGTH_LONG).show();
 
         } else {
             Toast.makeText(getApplicationContext(), "Por favor verifica que tengas los grados dia entre un rango de 5 y  15 grados dia", Toast.LENGTH_LONG).show();
@@ -231,7 +230,7 @@ public class HistorialMainActivity extends AppCompatActivity {
         fech.setText(strBuffer.toString());
         fech.setTextSize(30);
 
-        fechaconver=strBuffer.toString();
+        fechaconver = strBuffer.toString();
 
         //string a date
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
@@ -243,13 +242,13 @@ public class HistorialMainActivity extends AppCompatActivity {
             //Toast.makeText(this, "nuevo formato 1  \n" +date, Toast.LENGTH_SHORT).show();
             //Toast.makeText(this, "nuevo formato 2  \n" +nn, Toast.LENGTH_SHORT).show();
 
-            String[] Strsplit=nn.split("/");
-            String fechanew1=Strsplit[0].trim()+Strsplit[1].trim()+Strsplit[2].trim();
+            String[] Strsplit = nn.split("/");
+            String fechanew1 = Strsplit[0].trim() + Strsplit[1].trim() + Strsplit[2].trim();
             String dateInString = fechanew1;
 
             //Toast.makeText(this, "sin split  \n" +dateInString, Toast.LENGTH_SHORT).show();
             fechaoculta.setText(dateInString);
-        }catch (Exception e){
+        } catch (Exception e) {
             Toast.makeText(this, "no se pudo convertir \n" + e.toString(), Toast.LENGTH_SHORT).show();
         }
     }
@@ -265,8 +264,7 @@ public class HistorialMainActivity extends AppCompatActivity {
             List<conteoTab> cl = iC.all();
             for (conteoTab c : cl) {
                 boolean val = true;
-                for (int i = 0; i <= clc.size()-1; i++) {
-
+                for (int i = 0; i <= clc.size() - 1; i++) {
 
 
                     if (c.getIdVariedad() == clc.get(i).getIdVariedad() || c.getIdBloque() == clc.get(i).getIdBloque()) {
@@ -306,24 +304,23 @@ public class HistorialMainActivity extends AppCompatActivity {
             iConteo iC = new iConteo(path);
             String fob = fechaoculta.getText().toString();
             iC.nombre = fob;
-
+            rows.clear();
             List<conteoTab> cl = calcular();
+            for (conteoTab c : cl) {
+                // {"Finca", "Bloque", "Variedad", "CC", "CT", "S1C", "S1P", "S4C", "S4P
 
-                for (conteoTab c : cl) {
-                    // {"Finca", "Bloque", "Variedad", "CC", "CT", "S1C", "S1P", "S4C", "S4P
-                    rows.clear();
-                    rows.add(new String[]{
-                                    c.getBloque(),
-                                    c.getVariedad(),
-                                    String.valueOf(c.getCuadro()),
-                                    String.valueOf(c.getCuadros()),
-                                    String.valueOf(frt.format(c.getConteo1())),
-                                    String.valueOf(frt.format(extrapolar(c.getCuadros(), c.getCuadro(), c.getConteo1()))),
-                                    String.valueOf(frt.format(c.getConteo4())),
-                                    String.valueOf(frt.format(extrapolar(c.getCuadros(), c.getCuadro(), c.getConteo4())))
-                            }
-                    );
-                }
+                rows.add(new String[]{
+                                c.getBloque(),
+                                c.getVariedad(),
+                                String.valueOf(c.getCuadro()),
+                                String.valueOf(c.getCuadros()),
+                                String.valueOf(frt.format(c.getConteo1())),
+                                String.valueOf(frt.format(extrapolar(c.getCuadros(), c.getCuadro(), c.getConteo1()))),
+                                String.valueOf(frt.format(c.getConteo4())),
+                                String.valueOf(frt.format(extrapolar(c.getCuadros(), c.getCuadro(), c.getConteo4())))
+                        }
+                );
+            }
 
 
         } catch (Exception e) {
@@ -375,17 +372,17 @@ public class HistorialMainActivity extends AppCompatActivity {
         }
     }
 
-    public void buscarxfecha(View v){
+    public void buscarxfecha(View v) {
         calcular();
         createTable();
         //PROCEDIMIENTO PICKER
         date.setVisibility(View.INVISIBLE);
     }
 
-    public void cerrarsesion(View v){
-        Intent i = new Intent(HistorialMainActivity.this , Login.class);
+    public void cerrarsesion(View v) {
+        Intent i = new Intent(HistorialMainActivity.this, Login.class);
         startActivity(i);
-        Toast.makeText(this,"se ha cerrado sesion exitosamente",Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "se ha cerrado sesion exitosamente", Toast.LENGTH_SHORT).show();
         finish();
     }
 
