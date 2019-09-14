@@ -307,6 +307,7 @@
         android:textSize="30dp"
         android:background="?android:attr/selectableItemBackground"
         android:clickable="true"
+        android:imeOptions="actionSearch"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -440,22 +441,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/c4et"
-        android:layout_width="165dp"
-        android:layout_height="36dp"
-        android:layout_marginStart="356dp"
-        android:layout_marginTop="576dp"
-        android:background="@android:color/holo_green_light"
-        android:ems="10"
-        android:inputType="number"
-        android:padding="5dip"
-        android:textAlignment="center"
-        android:textColor="@color/ColorPrimaryText"
-        android:textSize="24sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <TextView
         android:id="@+id/textView35"
         android:layout_width="265dp"
@@ -511,6 +496,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <EditText
+        android:id="@+id/editText2"
+        android:layout_width="115dp"
+        android:layout_height="38dp"
+        android:layout_marginStart="244dp"
+        android:layout_marginTop="432dp"
+        android:ems="10"
+        android:inputType="number"
+        android:textAlignment="center"
+        android:imeOptions="actionNext"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 
     <EditText
         android:id="@+id/c1et"
@@ -526,6 +524,24 @@
         android:textAlignment="center"
         android:textColor="@color/ColorPrimaryText"
         android:textSize="24sp"
+        android:imeOptions="actionNext"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/c4et"
+        android:layout_width="165dp"
+        android:layout_height="36dp"
+        android:layout_marginStart="356dp"
+        android:layout_marginTop="576dp"
+        android:background="@android:color/holo_green_light"
+        android:ems="10"
+        android:inputType="number"
+        android:padding="5dip"
+        android:textAlignment="center"
+        android:textColor="@color/ColorPrimaryText"
+        android:textSize="24sp"
+        android:imeOptions="actionDone"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -600,17 +616,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/editText2"
-        android:layout_width="115dp"
-        android:layout_height="38dp"
-        android:layout_marginStart="244dp"
-        android:layout_marginTop="432dp"
-        android:ems="10"
-        android:inputType="number"
-        android:textAlignment="center"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+
 
 
 </android.support.constraint.ConstraintLayout>

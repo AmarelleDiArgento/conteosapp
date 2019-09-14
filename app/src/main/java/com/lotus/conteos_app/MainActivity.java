@@ -132,6 +132,20 @@ public class MainActivity extends AppCompatActivity {
             c4.setText("0");
             c1.setText("0");
 
+            class MyKeyListerner implements View.OnKeyListener{
+                public  boolean onKey(View v,int keyCode, KeyEvent event){
+                    if((event.getAction()==KeyEvent.ACTION_DOWN) && (keyCode ==  KeyEvent.KEYCODE_ENTER)){
+                        //Toast.makeText(Login.this,"se oprimio el boton",Toast.LENGTH_SHORT).show();
+                        buscarSiembra(0);
+                        return true;
+                    }
+                    return  false;
+                }
+            }
+
+            View.OnKeyListener listener = new MyKeyListerner();
+            IdSiembra.setOnKeyListener(listener);
+
         } catch (Exception e) {
             Toast.makeText(this, e.toString(), Toast.LENGTH_LONG).show();
         }
@@ -248,6 +262,10 @@ public class MainActivity extends AppCompatActivity {
     //REALIZA EL FILTRO DE BUSQUEDA SIEMBRAS
     public void buscarSiembra(int bs) {
         try {
+
+            InputMethodManager imm = (InputMethodManager) getSystemService(this.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(codebar.getWindowToken(), 0);
+
             long id = Long.parseLong(IdSiembra.getText().toString());
             p = iP.OneforIdSiembra(id);
 

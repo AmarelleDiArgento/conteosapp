@@ -8,11 +8,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -110,11 +112,14 @@ public class HistorialMainActivity extends AppCompatActivity {
             gradosDiaTxt.setText(String.valueOf(recibirGradoDia()));
 
 
+
         } catch (Exception e) {
             Toast.makeText(this, "Error en el create "+e.toString(), Toast.LENGTH_LONG).show();
 
         }
     }
+
+
 
     @Override
     protected void onResume() {
@@ -299,7 +304,7 @@ public class HistorialMainActivity extends AppCompatActivity {
 
         DecimalFormat frt = new DecimalFormat("#,###");
 
-        ArrayList<String[]> rows = new ArrayList<>();
+        final ArrayList<String[]> rows = new ArrayList<>();
 
         try {
 
@@ -307,9 +312,8 @@ public class HistorialMainActivity extends AppCompatActivity {
             String fob = fechaoculta.getText().toString();
             iC.nombre = fob;
 
-            List<conteoTab> cl = calcular();
-
-                for (conteoTab c : cl) {
+            final List<conteoTab> cl = calcular();
+                for (final conteoTab c : cl) {
                     // {"Finca", "Bloque", "Variedad", "CC", "CT", "S1C", "S1P", "S4C", "S4P
 
                     rows.add(new String[]{
@@ -322,9 +326,10 @@ public class HistorialMainActivity extends AppCompatActivity {
                                     String.valueOf(frt.format(c.getConteo4())),
                                     String.valueOf(frt.format(extrapolar(c.getCuadros(), c.getCuadro(), c.getConteo4())))
                             }
-                    );
-                }
 
+                    );
+
+                }
 
         } catch (Exception e) {
             Toast.makeText(this, "Error exception Cargar conteo: " + e.toString(), Toast.LENGTH_LONG).show();
@@ -352,6 +357,7 @@ public class HistorialMainActivity extends AppCompatActivity {
                     Color.parseColor("#FFFFFF"),
                     Color.parseColor("#81F0EDED")
             );
+
 
         } catch (Exception e) {
             Toast.makeText(this, "Error de la  table: " + e.toString(), Toast.LENGTH_LONG).show();

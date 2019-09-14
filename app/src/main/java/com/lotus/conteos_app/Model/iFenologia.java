@@ -130,7 +130,7 @@ public class iFenologia extends sqlConect implements fenologia {
     @Override
     public List<fenologiaTab> forGrado(int dia, float gDia, int idVariedad) throws Exception {
 
-        int d = 7 - dia;
+        int d = (8 - dia);
 
         float[] img = new float[4];
         img[0] = (d) * gDia;
