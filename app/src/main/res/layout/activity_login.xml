@@ -129,4 +129,17 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/titulobienvenido" />
 
+    <Switch
+        android:id="@+id/switch1"
+        android:layout_width="240dp"
+        android:layout_height="56dp"
+        android:layout_marginStart="196dp"
+        android:layout_marginTop="684dp"
+        android:text="Recuerdame"
+        android:textColor="@color/colorPrimary"
+        android:textSize="30sp"
+        android:onClick="recuerdame"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 </android.support.constraint.ConstraintLayout>
