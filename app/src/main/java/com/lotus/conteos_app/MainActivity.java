@@ -490,13 +490,10 @@ public class MainActivity extends AppCompatActivity {
     //PARA VOLVER A LA ACTIVIDAD ANTERIOR(CAMARA)
     public void onBackPressed() {
         Intent i = new Intent(MainActivity.this, HistorialMainActivity.class);
-        startActivity(i);
+        startActivity(i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
         Toast.makeText(this,"btn back ",Toast.LENGTH_SHORT).show();
         finish();
         System.exit(0);
     }
-
-    public void hola(){
-
-    }
+    
 }

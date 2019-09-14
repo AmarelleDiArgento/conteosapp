@@ -390,7 +390,7 @@ public class HistorialMainActivity extends AppCompatActivity {
 
     public void cerrarsesion(View v){
         Intent i = new Intent(HistorialMainActivity.this , Login.class);
-        startActivity(i);
+        startActivity(i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
         Toast.makeText(this,"se ha cerrado sesion exitosamente",Toast.LENGTH_SHORT).show();
         finish();
     }
