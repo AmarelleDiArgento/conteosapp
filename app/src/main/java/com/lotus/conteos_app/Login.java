@@ -116,7 +116,6 @@ public class Login extends AppCompatActivity{
 
     public void guardarUsuario(){
         try{
-            Toast.makeText(getApplicationContext(),"llegamos antes del shared", Toast.LENGTH_LONG).show();
                 SharedPreferences usuario = getBaseContext().getSharedPreferences("usuario",MODE_PRIVATE);
                 SharedPreferences.Editor edit = usuario.edit();
                 txtus=txtu.getText().toString();
@@ -124,7 +123,7 @@ public class Login extends AppCompatActivity{
                     edit.putString("usuario",txtus);
                     edit.commit();
                     edit.apply();
-                    Toast.makeText(getApplicationContext(),"se guardo \n", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(),"se guardo tu usuario", Toast.LENGTH_LONG).show();
                 }else {
                     Toast.makeText(getApplicationContext(),"Verifica si has ingresado un usuario", Toast.LENGTH_LONG).show();
                 }
