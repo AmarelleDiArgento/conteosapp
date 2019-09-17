@@ -1,11 +1,16 @@
 package com.lotus.conteos_app.Config.Util;
 
+import android.app.Application;
 import android.content.Context;
 import android.graphics.Color;
 import android.view.Gravity;
+import android.view.View;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.lotus.conteos_app.HistorialMainActivity;
 
 import java.util.ArrayList;
 
@@ -20,6 +25,9 @@ public class TableDinamic {
     private int r, c;
     private boolean multicolor = false;
     private int head, firt, second;
+    public static int id;
+
+    HistorialMainActivity hm = new HistorialMainActivity();
 
     public TableDinamic(TableLayout tableLayout, Context context) {
         this.tableLayout = tableLayout;
@@ -44,7 +52,8 @@ public class TableDinamic {
         txtCell = new TextView(context);
         txtCell.setGravity(Gravity.CENTER);
         txtCell.setTextColor(Color.BLACK);
-        txtCell.setTextSize(16);
+        txtCell.setTextSize(20);
+        txtCell.setHeight(50);
     }
 
     private TableRow.LayoutParams newLayoutParams() {
@@ -66,21 +75,34 @@ public class TableDinamic {
     }
 
     private void createDataTable() {
-        String info;
+    String info;
 
         for (r = 1; r <= data.size(); r++) {
             newRow();
             for (c = 0; c < header.length; c++) {
                 newCell();
-                String[] colums = data.get(r - 1);
+                final String[] colums = data.get(r - 1);
                 info = (c < colums.length) ? colums[c] : "";
                 txtCell.setText(info);
                 tableRow.addView(txtCell, newLayoutParams());
+                tableRow.setId(r);
                 txtCell.setBackgroundColor((multicolor) ? firt : second);
+                try {
+                    tableRow.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            id = view.getId();
+                        }
+                    });
+                }catch (Exception E){
+                }
+
+
             }
             tableLayout.addView(tableRow);
         }
     }
+
 
     public void backgroundHeader(int head) {
         c = 0;
@@ -113,4 +135,7 @@ public class TableDinamic {
         return (TextView) tableRow.getChildAt(col);
     }
 
+    public void getClass(int id) {
+
+    }
 }

@@ -1,5 +1,6 @@
 package com.lotus.conteos_app;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -8,13 +9,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TableLayout;
-import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,26 +25,22 @@ import com.lotus.conteos_app.Model.iPlano;
 import com.lotus.conteos_app.Model.tab.conteoTab;
 
 import java.io.File;
-import java.text.DateFormat;
-import java.text.DateFormatSymbols;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 public class HistorialMainActivity extends AppCompatActivity {
 
     String fecha = "";
-    String fechaocultadat = "";
 
     jsonAdmin ja = null;
     EditText gradosDiaTxt;
     DatePicker date;
     ImageView btn_show_picker;
-    TextView fech,fechita,fechaoculta;
+    TextView fech, fechita, fechaoculta;
     String path = null;
 
     Calendar calendarDate;
@@ -59,7 +54,7 @@ public class HistorialMainActivity extends AppCompatActivity {
 
     private TableLayout tableLayout;
     // Encabezados de la tabla
-    private String[] header = {"Bloque", "Variedad", "CC", "CT", "S1C", "S1P", "S4C", "S4P"};
+    private String[] header = {"Bloque", "Variedad", "CC", "CT", "S1C", "S1P", "S4C", "S4P", "ST", "STP"};
     // Datos de la tabla
 
     @Override
@@ -95,14 +90,14 @@ public class HistorialMainActivity extends AppCompatActivity {
             fecha = sdf.format(cal.getTime());
             fechaoculta.setText(fecha);
 
-            date.init(year, month , day , new DatePicker.OnDateChangedListener() {
+            date.init(year, month, day, new DatePicker.OnDateChangedListener() {
                 @Override
                 public void onDateChanged(DatePicker datePicker, int year, int month, int day) {
-                HistorialMainActivity.this.day = day;
-                HistorialMainActivity.this.month = month;
-                HistorialMainActivity.this.year = year;
+                    HistorialMainActivity.this.day = day;
+                    HistorialMainActivity.this.month = month;
+                    HistorialMainActivity.this.year = year;
 
-            cargadefecha();
+                    cargadefecha();
                 }
             });
             //limpia los registros
@@ -112,13 +107,11 @@ public class HistorialMainActivity extends AppCompatActivity {
             gradosDiaTxt.setText(String.valueOf(recibirGradoDia()));
 
 
-
         } catch (Exception e) {
-            Toast.makeText(this, "Error en el create "+e.toString(), Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Error en el create " + e.toString(), Toast.LENGTH_LONG).show();
 
         }
     }
-
 
 
     @Override
@@ -150,28 +143,27 @@ public class HistorialMainActivity extends AppCompatActivity {
             fech.setTextSize(30);
             fechita.setText(fecha);
 
-        }catch (Exception e){
-            Toast.makeText(this,"Exception getDate"+e,Toast.LENGTH_LONG).show();
+        } catch (Exception e) {
+            Toast.makeText(this, "Exception getDate" + e, Toast.LENGTH_LONG).show();
         }
     }
 
     //METODO PARA VALIDAR EL CAMPO DE LOS GRADOS DIA
     public void goMain(View v) {
         try {
-            if (gDia >= 5){
+            if (gDia >= 5) {
                 //Toast.makeText(this,"se pasa el grado: "+datodia,Toast.LENGTH_LONG).show();
 
                 Intent intent = new Intent(HistorialMainActivity.this, MainActivity.class);
                 startActivity(intent);
 
-            }
-            else {
+            } else {
                 Toast toast = Toast.makeText(getApplicationContext(), "Por favor verifique que tengas los grados dia menos de 7", Toast.LENGTH_LONG);
                 toast.setGravity(Gravity.CENTER | Gravity.CENTER_HORIZONTAL, 0, 0);
                 toast.show();
             }
         } catch (Exception ex) {
-            Toast.makeText(this,"Error goMain  "+ ex.toString(), Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Error goMain  " + ex.toString(), Toast.LENGTH_LONG).show();
         }
     }
 
@@ -181,20 +173,20 @@ public class HistorialMainActivity extends AppCompatActivity {
         SharedPreferences.Editor edit = gradoDia.edit();
         gDia = Float.valueOf(gradosDiaTxt.getText().toString());
 
-        if ((gDia >= 5) && (gDia <=15)) {
+        if ((gDia >= 5) && (gDia <= 15)) {
             edit.putFloat("gradoDia", gDia);
             edit.commit();
             edit.apply();
 
-            InputMethodManager imm = (InputMethodManager) getSystemService(this.INPUT_METHOD_SERVICE);
+            InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(gradosDiaTxt.getWindowToken(), 0);
 
-            Toast.makeText(this,"Se ha guardado exitosamente los grados dia",Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Se ha guardado exitosamente los grados dia", Toast.LENGTH_LONG).show();
 
         } else {
             Toast.makeText(getApplicationContext(), "Por favor verifica que tengas los grados dia entre un rango de 5 y  15 grados dia", Toast.LENGTH_LONG).show();
 
-            InputMethodManager imm = (InputMethodManager) getSystemService(this.INPUT_METHOD_SERVICE);
+            InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(gradosDiaTxt.getWindowToken(), 0);
         }
     }
@@ -203,7 +195,7 @@ public class HistorialMainActivity extends AppCompatActivity {
     public float recibirGradoDia() {
         SharedPreferences gradoDia = getBaseContext().getSharedPreferences("gradoDia", MODE_PRIVATE);
         if (gradoDia != null) {
-            gDia = (float) gradoDia.getFloat("gradoDia", 0);
+            gDia = gradoDia.getFloat("gradoDia", 0);
             return gDia;
         } else {
             return 0;
@@ -236,7 +228,7 @@ public class HistorialMainActivity extends AppCompatActivity {
         fech.setText(strBuffer.toString());
         fech.setTextSize(30);
 
-        fechaconver=strBuffer.toString();
+        fechaconver = strBuffer.toString();
 
         //string a date
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
@@ -248,13 +240,13 @@ public class HistorialMainActivity extends AppCompatActivity {
             //Toast.makeText(this, "nuevo formato 1  \n" +date, Toast.LENGTH_SHORT).show();
             //Toast.makeText(this, "nuevo formato 2  \n" +nn, Toast.LENGTH_SHORT).show();
 
-            String[] Strsplit=nn.split("/");
-            String fechanew1=Strsplit[0].trim()+Strsplit[1].trim()+Strsplit[2].trim();
+            String[] Strsplit = nn.split("/");
+            String fechanew1 = Strsplit[0].trim() + Strsplit[1].trim() + Strsplit[2].trim();
             String dateInString = fechanew1;
 
             //Toast.makeText(this, "sin split  \n" +dateInString, Toast.LENGTH_SHORT).show();
             fechaoculta.setText(dateInString);
-        }catch (Exception e){
+        } catch (Exception e) {
             Toast.makeText(this, "no se pudo convertir \n" + e.toString(), Toast.LENGTH_SHORT).show();
         }
     }
@@ -270,8 +262,7 @@ public class HistorialMainActivity extends AppCompatActivity {
             List<conteoTab> cl = iC.all();
             for (conteoTab c : cl) {
                 boolean val = true;
-                for (int i = 0; i <= clc.size()-1; i++) {
-
+                for (int i = 0; i <= clc.size() - 1; i++) {
 
 
                     if (c.getIdVariedad() == clc.get(i).getIdVariedad() || c.getIdBloque() == clc.get(i).getIdBloque()) {
@@ -279,10 +270,12 @@ public class HistorialMainActivity extends AppCompatActivity {
                         int cu = clc.get(i).getCuadro() + 1;
                         int c1 = clc.get(i).getConteo1() + c.getConteo1();
                         int c4 = clc.get(i).getConteo4() + c.getConteo4();
+                        int ct = clc.get(i).getTotal() + c.getTotal();
 
                         clc.get(i).setCuadro(cu);
                         clc.get(i).setConteo1(c1);
                         clc.get(i).setConteo4(c4);
+                        clc.get(i).setTotal(ct);
                         val = false;
                     }
                 }
@@ -306,36 +299,52 @@ public class HistorialMainActivity extends AppCompatActivity {
 
         final ArrayList<String[]> rows = new ArrayList<>();
 
+
         try {
 
-            iConteo iC = new iConteo(path);
+            final iConteo iC = new iConteo(path);
             String fob = fechaoculta.getText().toString();
             iC.nombre = fob;
 
             final List<conteoTab> cl = calcular();
-                for (final conteoTab c : cl) {
-                    // {"Finca", "Bloque", "Variedad", "CC", "CT", "S1C", "S1P", "S4C", "S4P
+            for (final conteoTab c : cl) {
+                // {"Finca", "Bloque", "Variedad", "CC", "CT", "S1C", "S1P", "S4C", "S4P
 
-                    rows.add(new String[]{
-                                    c.getBloque(),
-                                    c.getVariedad(),
-                                    String.valueOf(c.getCuadro()),
-                                    String.valueOf(c.getCuadros()),
-                                    String.valueOf(frt.format(c.getConteo1())),
-                                    String.valueOf(frt.format(extrapolar(c.getCuadros(), c.getCuadro(), c.getConteo1()))),
-                                    String.valueOf(frt.format(c.getConteo4())),
-                                    String.valueOf(frt.format(extrapolar(c.getCuadros(), c.getCuadro(), c.getConteo4())))
-                            }
+                rows.add(new String[]{
+                                c.getBloque(),
+                                c.getVariedad(),
+                                String.valueOf(c.getCuadro()),
+                                String.valueOf(c.getCuadros()),
+                                String.valueOf(frt.format(c.getConteo1())),
+                                String.valueOf(frt.format(extrapolar(c.getCuadros(), c.getCuadro(), c.getConteo1()))),
+                                String.valueOf(frt.format(c.getConteo4())),
+                                String.valueOf(frt.format(extrapolar(c.getCuadros(), c.getCuadro(), c.getConteo4()))),
+                                String.valueOf(frt.format(c.getTotal())),
+                                String.valueOf(frt.format(extrapolar(c.getCuadros(), c.getCuadro(), c.getTotal())))
+                        }
+                );
 
-                    );
+                Toast.makeText(this, "arreglo" + c.getCuadro(), Toast.LENGTH_SHORT).show();
 
-                }
+            }
 
         } catch (Exception e) {
             Toast.makeText(this, "Error exception Cargar conteo: " + e.toString(), Toast.LENGTH_LONG).show();
         }
         return rows;
     }
+
+
+    //MOSTRAR DATOS AL DAL CLICK
+    public void watchRow() {
+        int id = 0;
+        try {
+
+        } catch (Exception e) {
+            Toast.makeText(this, "Pailas: \n" + e, Toast.LENGTH_LONG).show();
+        }
+    }
+
 
     //CALCULO DE FONOLOGIAS (REGLA DE 3)
     public int extrapolar(int CT, int CC, int S) {
@@ -381,17 +390,17 @@ public class HistorialMainActivity extends AppCompatActivity {
         }
     }
 
-    public void buscarxfecha(View v){
+    public void buscarxfecha(View v) {
         calcular();
         createTable();
         //PROCEDIMIENTO PICKER
         date.setVisibility(View.INVISIBLE);
     }
 
-    public void cerrarsesion(View v){
-        Intent i = new Intent(HistorialMainActivity.this , Login.class);
+    public void cerrarsesion(View v) {
+        Intent i = new Intent(HistorialMainActivity.this, Login.class);
         startActivity(i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
-        Toast.makeText(this,"se ha cerrado sesion exitosamente",Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "se ha cerrado sesion exitosamente", Toast.LENGTH_SHORT).show();
         finish();
     }
 
