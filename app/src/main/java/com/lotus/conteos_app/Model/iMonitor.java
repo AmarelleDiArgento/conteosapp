@@ -9,11 +9,12 @@ import com.lotus.conteos_app.Model.tab.conteoTab;
 import com.lotus.conteos_app.Model.tab.monitorTab;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-public class iMonitor extends sqlConect implements monitor{
+public class iMonitor extends sqlConect implements monitor {
     private List<monitorTab> ml = new ArrayList<>();
 
     Connection cn = null;
@@ -21,7 +22,6 @@ public class iMonitor extends sqlConect implements monitor{
     jsonAdmin ja = null;
 
     String nombre = "monitores";
-
 
     final String ins = "USE [Proyecciones]\n" +
             "GO\n" +
@@ -39,7 +39,14 @@ public class iMonitor extends sqlConect implements monitor{
     final String del = "";
     final String one = "";
     final String nam = "";
-    final String all = "";
+    final String all = "SELECT TOP (1000) [idMonitor]\n" +
+            "      ,[codigo]\n" +
+            "      ,[nombres]\n" +
+            "      ,[apellidos]\n" +
+            "      ,[password]\n" +
+            "      ,[idFinca]\n" +
+            "      ,[estado]\n" +
+            "  FROM [Proyecciones].[dbo].[Monitor]";
 
     public iMonitor(String path) throws Exception {
         this.cn = getConexion();
@@ -55,7 +62,7 @@ public class iMonitor extends sqlConect implements monitor{
     public monitorTab login(String user, String pass) {
 
         for (monitorTab m : ml) {
-            if (m.getCodigo() == user || m.getPassword() == pass){
+            if (m.getCodigo() == user || m.getPassword().equals(pass)) {
                 return m;
             }
         }
@@ -85,35 +92,46 @@ public class iMonitor extends sqlConect implements monitor{
         m.setApellidos(rs.getString("apellidos"));
         m.setPassword(rs.getString("password"));
         m.setIdFinca(rs.getInt("idFinca"));
-        m.setEstado(rs.getBoolean("sufijo"));
+        m.setEstado(rs.getBoolean("estado"));
         return m;
     }
 
     @Override
     public monitorTab oneId(Long id) throws Exception {
-        monitorTab mr = new monitorTab();
 
         for (monitorTab m : ml) {
             if (m.getIdMonitor() == id) {
-                mr = m;
+                return m;
             }
         }
-
-        return mr;
+        return null;
     }
 
     @Override
     public boolean local() throws Exception {
-        String contenido = ml.toString();
-        return ja.CrearArchivo(path, nombre, contenido);
+        if (cn != null) {
+            List<monitorTab> po = new ArrayList<>();
+
+            ResultSet rs;
+            PreparedStatement ps = cn.prepareStatement(all);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                po.add(gift(rs));
+            }
+
+            closeConexion(cn, rs);
+
+            String contenido = po.toString();
+
+            return ja.CrearArchivo(path, nombre, contenido);
+        }
+        return false;
     }
 
     @Override
     public List<monitorTab> all() throws Exception {
         Gson gson = new Gson();
-        ml = gson.fromJson(ja.ObtenerLista(path, nombre), new TypeToken<List<monitorTab>>() {
+        return ml = gson.fromJson(ja.ObtenerLista(path, nombre), new TypeToken<List<monitorTab>>() {
         }.getType());
-
-        return ml;
     }
 }

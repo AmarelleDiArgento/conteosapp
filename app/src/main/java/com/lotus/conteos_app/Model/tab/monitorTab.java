@@ -9,6 +9,7 @@ public class monitorTab {
     private int idFinca;
     private boolean estado;
 
+
     public monitorTab() {
 
     }
@@ -23,11 +24,27 @@ public class monitorTab {
         this.estado = estado;
     }
 
+    public String getFullName() {
+        return nombres + " " + apellidos;
+    }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "\"idMonitor\":" + idMonitor + ",\n" +
+                "\"codigo\": \"" + codigo + "\",\n" +
+                "\"nombres\": \"" + nombres + "\",\n" +
+                "\"apellidos\": \"" + apellidos + "\",\n" +
+                "\"password\": \"" + password + "\",\n" +
+                "\"idFinca\":" + idFinca + ",\n" +
+                "\"estado\":" + estado + "\n" +
+                "}";
+    }
     public long getIdMonitor() {
         return idMonitor;
     }
 
-    public void setIdMonitor(Long idMonitor) {
+    public void setIdMonitor(long idMonitor) {
         this.idMonitor = idMonitor;
     }
 
@@ -77,18 +94,5 @@ public class monitorTab {
 
     public void setEstado(boolean estado) {
         this.estado = estado;
-    }
-
-    @Override
-    public String toString() {
-        return "{" +
-                "\"idMonitor\":" + idMonitor + ",\n" +
-                "\"codigo\": \"" + codigo + "\",\n" +
-                "\"nombres\": \"" + nombres + "\",\n" +
-                "\"apellidos\": \"" + apellidos + "\",\n" +
-                "\"password\": \"" + password + "\",\n" +
-                "\"idFinca\":" + idFinca + ",\n" +
-                "\"estado\":" + estado + ",\n" +
-                "}";
     }
 }
