@@ -13,14 +13,26 @@ import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.Toast;
 
-public class Login extends AppCompatActivity{
+import com.lotus.conteos_app.Model.iMonitor;
+import com.lotus.conteos_app.Model.tab.monitorTab;
+
+import java.io.File;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+public class Login extends AppCompatActivity {
 
     //DECLARACION DE VARIABLES
     Button btn_login;
-    EditText txtu,txtp;
+    EditText txtu, txtp;
     Switch switchx;
 
-    String txtus;
+    iMonitor iM = null;
+    List<monitorTab> ml;
+    String path = null;
+
+    String txtus,txtup;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,20 +41,31 @@ public class Login extends AppCompatActivity{
         getSupportActionBar().hide();
 
         //ASOCIACION DE LOS CAMPOS Y BOTONES
-        txtu=(EditText)findViewById(R.id.txt_user);
-        txtp=(EditText)findViewById(R.id.txt_pass);
-        btn_login=(Button) findViewById(R.id.btn_login);
+        txtu = (EditText) findViewById(R.id.txt_user);
+        txtp = (EditText) findViewById(R.id.txt_pass);
+        btn_login = (Button) findViewById(R.id.btn_login);
         switchx = (Switch) findViewById(R.id.switch1);
 
+        path = getExternalFilesDir(null) + File.separator;
 
-        class MyKeyListerner implements View.OnKeyListener{
-            public  boolean onKey(View v,int keyCode, KeyEvent event){
-                if((event.getAction()==KeyEvent.ACTION_DOWN) && (keyCode ==  KeyEvent.KEYCODE_ENTER)){
+
+        try {
+            iM = new iMonitor(path);
+            ml = iM.all();
+            Toast.makeText(this, ml.toString(), Toast.LENGTH_LONG).show();
+        } catch (Exception e) {
+            Toast.makeText(this, e.toString(), Toast.LENGTH_LONG).show();
+        }
+
+
+        class MyKeyListerner implements View.OnKeyListener {
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
                     //Toast.makeText(Login.this,"se oprimio el boton",Toast.LENGTH_SHORT).show();
                     validacion_user();
                     return true;
                 }
-            return  false;
+                return false;
             }
         }
 
@@ -53,10 +76,9 @@ public class Login extends AppCompatActivity{
         switchx.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-                if(isChecked && txtu!=null){
-                    guardarUsuario();
-                }else {
-                    Toast.makeText(getApplicationContext(),"se cerrorn el chek",Toast.LENGTH_SHORT).show();
+                if (isChecked && txtu != null) {
+                } else {
+                    Toast.makeText(getApplicationContext(), "se cerrorn el chek", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -65,83 +87,73 @@ public class Login extends AppCompatActivity{
     }
 
     //REDIRECCIONAR A LA INFORMACION DE LA APP
-    public void quien(View v){
-        Intent i = new Intent(Login.this,quienesomos.class);
+    public void quien(View v) {
+        Intent i = new Intent(Login.this, quienesomos.class);
         startActivity(i);
     }
 
     //METODO PARA VALIDAR EL LOGIN
-    public void btn_login(View v){
+    public void btn_login(View v) {
         validacion_user();
     }
 
-    public  void validacion_user(){
-        String txt_user=txtu.getText().toString();
-        String txt_pass=txtp.getText().toString();
+    public void validacion_user() {
+        String txt_user = txtu.getText().toString();
+        String txt_pass = txtp.getText().toString();
 
+        try {
+            monitorTab m = iM.login(txt_user, txt_pass);
 
-        if(txt_user.equals("123") && txt_pass.equals("123")){
-            Toast.makeText(this,"Bienvenido",Toast.LENGTH_LONG).show();
-            Intent intent=new Intent(this,HistorialMainActivity.class);
-            startActivity(intent);
+            if (m != null) {
+                if (m.isEstado()) {
 
-            finish();
-        }else{
-            Toast.makeText(this,"usuario y clave incorrectas",Toast.LENGTH_SHORT).show();
+                    guardarUsuario(m);
+
+                    Toast.makeText(this, "Bienvenido", Toast.LENGTH_LONG).show();
+                    Intent intent = new Intent(this, HistorialMainActivity.class);
+                    startActivity(intent);
+
+                    finish();
+                } else {
+                    Toast.makeText(this, "Usuario inactivo", Toast.LENGTH_SHORT).show();
+                }
+
+            } else {
+                Toast.makeText(this, "Usuario o clave incorrectas", Toast.LENGTH_SHORT).show();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
 
-    //metodo para recordar el usuario
-    public void recuerdame(View v){
-
-        switchx.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-                try{
-
-                    if(isChecked){
-                        Toast.makeText(getApplicationContext(),"activo", Toast.LENGTH_LONG).show();
-                        guardarUsuario();
-                    }else {
-                        Toast.makeText(getApplicationContext(),"inactivo", Toast.LENGTH_LONG).show();
-                    }
-
-                }catch (Exception e){
-                    Toast.makeText(getApplicationContext(),"Error \n"+e, Toast.LENGTH_LONG).show();
-                }
+    public void guardarUsuario(monitorTab u) {
+        try {
+            SharedPreferences usuario = getBaseContext().getSharedPreferences("usuario", MODE_PRIVATE);
+            SharedPreferences.Editor edit = usuario.edit();
+            if (u != null) {
+                edit.putString("codigo", u.getCodigo());
+                edit.putString("nombre", u.getCodigo());
+                edit.putString("pass", u.getPassword());
+                edit.putInt("idFinca", u.getIdFinca());
+                edit.commit();
+                edit.apply();
             }
-        });
-    }
-
-    public void guardarUsuario(){
-        try{
-                SharedPreferences usuario = getBaseContext().getSharedPreferences("usuario",MODE_PRIVATE);
-                SharedPreferences.Editor edit = usuario.edit();
-                txtus=txtu.getText().toString();
-                if(txtus!=null){
-                    edit.putString("usuario",txtus);
-                    edit.commit();
-                    edit.apply();
-                    Toast.makeText(getApplicationContext(),"se guardo tu usuario", Toast.LENGTH_LONG).show();
-                }else {
-                    Toast.makeText(getApplicationContext(),"Verifica si has ingresado un usuario", Toast.LENGTH_LONG).show();
-                }
-        }catch (Exception e){
-            Toast.makeText(getApplicationContext(),"Error \n"+e, Toast.LENGTH_LONG).show();
+        } catch (Exception e) {
+            Toast.makeText(getApplicationContext(), "Error \n" + e, Toast.LENGTH_LONG).show();
         }
     }
 
-    public void recibirUsuario(){
+    public void recibirUsuario() {
 
-        try{
-            SharedPreferences usuario = getBaseContext().getSharedPreferences("usuario",MODE_PRIVATE);
-            if(usuario!=null){
-                txtus = (String)usuario.getString("usuario",txtus);
-                txtu.setText(txtus);
+        try {
+            SharedPreferences usuario = getBaseContext().getSharedPreferences("usuario", MODE_PRIVATE);
+            if (usuario != null) {
+                txtu.setText(usuario.getString("codigo", txtus));
+                txtp.setText(usuario.getString("pass", txtup));
             }
-        }catch (Exception e){
-            Toast.makeText(this,"Error \n"+e.toString(),Toast.LENGTH_LONG).show();
+        } catch (Exception e) {
+            Toast.makeText(this, "Error \n" + e.toString(), Toast.LENGTH_LONG).show();
         }
 
 

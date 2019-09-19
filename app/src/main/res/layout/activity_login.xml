@@ -53,7 +53,7 @@
         android:layout_marginTop="472dp"
         android:ems="10"
         android:imeOptions="actionSearch"
-        android:inputType="numberPassword"
+        android:inputType="textPassword"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -138,7 +138,6 @@
         android:text="Recuerdame"
         android:textColor="@color/colorPrimary"
         android:textSize="30sp"
-        android:onClick="recuerdame"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
