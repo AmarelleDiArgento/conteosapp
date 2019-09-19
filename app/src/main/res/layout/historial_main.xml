@@ -131,13 +131,14 @@
 
     <EditText
         android:id="@+id/gradosDia"
-        android:layout_width="89dp"
-        android:layout_height="44dp"
-        android:layout_marginStart="420dp"
-        android:layout_marginTop="224dp"
+        android:layout_width="92dp"
+        android:layout_height="73dp"
+        android:layout_marginStart="416dp"
+        android:layout_marginTop="212dp"
         android:ems="10"
         android:inputType="numberDecimal"
         android:textAlignment="center"
+        android:textSize="30sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -202,8 +203,8 @@
         app:srcCompat="@drawable/update2" />
 
     <ScrollView
-        android:layout_width="584dp"
-        android:layout_height="524dp"
+        android:layout_width="587dp"
+        android:layout_height="251dp"
         android:layout_marginStart="4dp"
         android:layout_marginTop="288dp"
         android:textColor="@android:color/darker_gray"
@@ -273,6 +274,17 @@
         android:onClick="cerrarsesion"
         android:text="cerrar sesion"
         android:textColor="@android:color/holo_red_light"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/button5"
+        android:layout_width="176dp"
+        android:layout_height="47dp"
+        android:layout_marginStart="416dp"
+        android:layout_marginTop="552dp"
+        android:onClick="clicTable"
+        android:text="Ver detalles"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

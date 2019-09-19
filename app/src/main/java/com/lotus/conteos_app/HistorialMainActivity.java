@@ -1,6 +1,6 @@
 package com.lotus.conteos_app;
 
-import android.content.Context;
+
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,27 +35,26 @@ import java.util.List;
 
 public class HistorialMainActivity extends AppCompatActivity {
 
+    public String path = null;
     String fecha = "";
-
     jsonAdmin ja = null;
     EditText gradosDiaTxt;
     DatePicker date;
     ImageView btn_show_picker;
     TextView fech, fechita, fechaoculta;
-    String path = null;
-
     Calendar calendarDate;
 
     float gDia;
-
+    List<conteoTab> clc = new ArrayList<>();
+    TableDinamic tb;
+    TableRow tr;
+    private int idtabla;
     private int year;
     private int month;
     private int day;
-
-
     private TableLayout tableLayout;
     // Encabezados de la tabla
-    private String[] header = {"Bloque", "Variedad", "CC", "CT", "S1C", "S1P", "S4C", "S4P", "ST", "STP"};
+    private String[] header = {"Bloque", "Variedad", "CC", "CT", "CN1", "EST1", "CN4", "EST4", "SNT", "ESTT"};
     // Datos de la tabla
 
     @Override
@@ -113,21 +113,24 @@ public class HistorialMainActivity extends AppCompatActivity {
         }
     }
 
+    public void clicTable(View v) {
 
-    @Override
-    protected void onResume() {
-        super.onResume();
+        try {
+            conteoTab ct = clc.get(tb.getIdTabla()-1);
+            tostada(ct.toString()).show();
+            Intent i = new Intent(this,ActivityDetalles.class);
+            startActivity(i);
+        }catch (Exception E){
+            tostada("ERROR\n " + E.toString()).show();
+        }
+
     }
+
 
     @Override
     protected void onRestart() {
         super.onRestart();
         createTable();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
     }
 
     //OBTENER FECHA ACTUAL
@@ -252,8 +255,7 @@ public class HistorialMainActivity extends AppCompatActivity {
     }
 
     public List<conteoTab> calcular() {
-        List<conteoTab> clc = new ArrayList<>();
-
+        //String text = "";
         try {
             iConteo iC = new iConteo(path);
             fecha = fechaoculta.getText().toString();
@@ -264,8 +266,12 @@ public class HistorialMainActivity extends AppCompatActivity {
                 boolean val = true;
                 for (int i = 0; i <= clc.size() - 1; i++) {
 
-
-                    if (c.getIdVariedad() == clc.get(i).getIdVariedad() || c.getIdBloque() == clc.get(i).getIdBloque()) {
+                    /*
+                    text += c.getIdVariedad() + " " + clc.get(i).getIdVariedad() + " " +
+                            c.getIdBloque() + " " + clc.get(i).getIdBloque() + "\n" ;
+                    */
+                    //
+                    if (c.getIdBloque() == clc.get(i).getIdBloque() ||c.getIdVariedad() == clc.get(i).getIdVariedad()) {
 
                         int cu = clc.get(i).getCuadro() + 1;
                         int c1 = clc.get(i).getConteo1() + c.getConteo1();
@@ -285,6 +291,8 @@ public class HistorialMainActivity extends AppCompatActivity {
                 }
             }
 
+            //tostada(text).show();
+
 
         } catch (Exception e) {
             Toast.makeText(this, "No existen registros actuales con refente a esta fecha, \n por favor realiza un registro nuevo o \n puedes buscar por fecha", Toast.LENGTH_LONG).show();
@@ -296,9 +304,7 @@ public class HistorialMainActivity extends AppCompatActivity {
     public ArrayList<String[]> cargarConteo() {
 
         DecimalFormat frt = new DecimalFormat("#,###");
-
         final ArrayList<String[]> rows = new ArrayList<>();
-
 
         try {
 
@@ -323,26 +329,11 @@ public class HistorialMainActivity extends AppCompatActivity {
                                 String.valueOf(frt.format(extrapolar(c.getCuadros(), c.getCuadro(), c.getTotal())))
                         }
                 );
-
-                Toast.makeText(this, "arreglo" + c.getCuadro(), Toast.LENGTH_SHORT).show();
-
             }
-
         } catch (Exception e) {
             Toast.makeText(this, "Error exception Cargar conteo: " + e.toString(), Toast.LENGTH_LONG).show();
         }
         return rows;
-    }
-
-
-    //MOSTRAR DATOS AL DAL CLICK
-    public void watchRow() {
-        int id = 0;
-        try {
-
-        } catch (Exception e) {
-            Toast.makeText(this, "Pailas: \n" + e, Toast.LENGTH_LONG).show();
-        }
     }
 
 
@@ -355,7 +346,7 @@ public class HistorialMainActivity extends AppCompatActivity {
     public void createTable() {
         try {
             tableLayout = findViewById(R.id.tabla);
-            TableDinamic tb = new TableDinamic(tableLayout, getApplicationContext());
+            tb = new TableDinamic(tableLayout, getApplicationContext());
             tableLayout.removeAllViews();
             tb.addHeader(header);
             tb.addData(cargarConteo());
@@ -399,12 +390,17 @@ public class HistorialMainActivity extends AppCompatActivity {
 
     public void cerrarsesion(View v) {
         Intent i = new Intent(HistorialMainActivity.this, Login.class);
-        startActivity(i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+        startActivity(i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
         Toast.makeText(this, "se ha cerrado sesion exitosamente", Toast.LENGTH_SHORT).show();
         finish();
     }
 
     //PARA VOLVER
     public void onBackPressed() {
+    }
+
+
+    Toast tostada(String mjs) {
+        return Toast.makeText(this, mjs, Toast.LENGTH_LONG);
     }
 }

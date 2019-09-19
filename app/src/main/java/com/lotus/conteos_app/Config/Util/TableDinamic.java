@@ -1,8 +1,10 @@
 package com.lotus.conteos_app.Config.Util;
 
-import android.app.Application;
 import android.content.Context;
 import android.graphics.Color;
+import android.os.Build;
+import android.os.Handler;
+import android.support.annotation.RequiresApi;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.TableLayout;
@@ -10,24 +12,20 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.lotus.conteos_app.HistorialMainActivity;
-
 import java.util.ArrayList;
 
 public class TableDinamic {
+    public static int id;
     private TableLayout tableLayout;
     private Context context;
     private String[] header;
     private ArrayList<String[]> data;
-
     private TableRow tableRow;
     private TextView txtCell;
     private int r, c;
     private boolean multicolor = false;
     private int head, firt, second;
-    public static int id;
-
-    HistorialMainActivity hm = new HistorialMainActivity();
+    private int idtabla;
 
     public TableDinamic(TableLayout tableLayout, Context context) {
         this.tableLayout = tableLayout;
@@ -75,7 +73,7 @@ public class TableDinamic {
     }
 
     private void createDataTable() {
-    String info;
+        String info;
 
         for (r = 1; r <= data.size(); r++) {
             newRow();
@@ -86,15 +84,24 @@ public class TableDinamic {
                 txtCell.setText(info);
                 tableRow.addView(txtCell, newLayoutParams());
                 tableRow.setId(r);
-                txtCell.setBackgroundColor((multicolor) ? firt : second);
+                //txtCell.setBackgroundColor((multicolor) ? firt : second);
                 try {
                     tableRow.setOnClickListener(new View.OnClickListener() {
                         @Override
-                        public void onClick(View view) {
+                        public void onClick(final View view) {
                             id = view.getId();
+                            setIdTabla(id);
+                            view.setBackgroundColor(Color.parseColor("#FCC9D6"));
+                            int dur = 1000;
+                            new Handler().postDelayed(new Runnable() {
+                                public void run() {
+                                    view.setBackgroundColor(Color.WHITE);
+                                }
+                            },dur);
                         }
                     });
-                }catch (Exception E){
+                } catch (Exception E) {
+                    Toast.makeText(context, "Error \n" + E.toString(), Toast.LENGTH_SHORT).show();
                 }
 
 
@@ -114,16 +121,17 @@ public class TableDinamic {
 
 
     public void backgroundData(int firt, int second) {
-        for (r = 1; r <= data.size(); r++) {
-            multicolor = !multicolor;
-            for (c = 0; c < header.length; c++) {
-                txtCell = getCell(r, c);
-                txtCell.setBackgroundColor((multicolor) ? firt : second);
-            }
-        }
-        this.firt = firt;
-        this.second = second;
+        //for (r = 1; r <= data.size(); r++) {
+        //    multicolor = !multicolor;
+        //    for (c = 0; c < header.length; c++) {
+        //        txtCell = getCell(r, c);
+        //        txtCell.setBackgroundColor((multicolor) ? firt : second);
+        //    }
+        //}
+        //this.firt = firt;
+        //this.second = second;
     }
+
 
 
     private TableRow getRow(int index) {
@@ -135,7 +143,12 @@ public class TableDinamic {
         return (TextView) tableRow.getChildAt(col);
     }
 
-    public void getClass(int id) {
-
+    public void setIdTabla(int idTabla) {
+        this.idtabla = idTabla;
     }
+
+    public int getIdTabla() {
+        return this.idtabla;
+    }
+
 }

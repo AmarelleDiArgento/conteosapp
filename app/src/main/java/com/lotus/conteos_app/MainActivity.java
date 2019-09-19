@@ -36,8 +36,8 @@ public class MainActivity extends AppCompatActivity {
 
     planoTab p = null;
 
-    float gDia,fotodato;
-    EditText c1, c2, c3, c4, IdSiembra, codebar,total;
+    float gDia;
+    EditText c1, c4, IdSiembra, codebar,total;
     Spinner cuadro;
     ImageView jpgView1, jpgView2, jpgView3, jpgView4;
     TextView gradoDia, finca, variedad, bloque, cama, fechaAct, usuario, NoArea, NoPlantas, NoCuadros;
@@ -132,6 +132,7 @@ public class MainActivity extends AppCompatActivity {
             codebar.setText("0");
             c4.setText("0");
             c1.setText("0");
+            total.setText("0");
 
             class MyKeyListerner implements View.OnKeyListener{
                 public  boolean onKey(View v,int keyCode, KeyEvent event){
@@ -380,11 +381,11 @@ public class MainActivity extends AppCompatActivity {
     public void registrarConteo(View v) {
 
         try {
-
-            variedad = (TextView) findViewById(R.id.cam_variedad);
+            int Tot = Integer.parseInt(total.getText().toString());
             String var = variedad.getText().toString();
 
-            if (var.isEmpty()) {
+
+            if ((var.isEmpty()) && (Tot==0)) {
                 Toast toast = Toast.makeText(getApplicationContext(), "Lo sentimos, no es posible realizar un registro", Toast.LENGTH_LONG);
                 toast.setGravity(Gravity.TOP,0,100);
                 toast.show();

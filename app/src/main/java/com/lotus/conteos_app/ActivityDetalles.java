@@ -1,8 +1,10 @@
 package com.lotus.conteos_app;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.TableLayout;
 import android.widget.Toast;
 
@@ -39,7 +41,7 @@ public class ActivityDetalles extends AppCompatActivity {
         try {
 
             iConteo iC = new iConteo(path);
-            String fecha = "16092019";
+            String fecha = "19092019";
             iC.nombre = fecha;
 
             List<conteoTab> cl = iC.all();
@@ -81,5 +83,12 @@ public class ActivityDetalles extends AppCompatActivity {
         } catch (Exception e) {
             Toast.makeText(this, "Error de la  table: " + e.toString(), Toast.LENGTH_LONG).show();
         }
+    }
+
+    public void cerrarsesion(View v) {
+        Intent i = new Intent(this, Login.class);
+        startActivity(i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
+        Toast.makeText(this, "se ha cerrado sesion exitosamente", Toast.LENGTH_SHORT).show();
+        finish();
     }
 }
