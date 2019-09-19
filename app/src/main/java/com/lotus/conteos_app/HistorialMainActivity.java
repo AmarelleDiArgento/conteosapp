@@ -35,13 +35,15 @@ import java.util.List;
 
 public class HistorialMainActivity extends AppCompatActivity {
 
+    SharedPreferences sp = null;
+
     public String path = null;
     String fecha = "";
     jsonAdmin ja = null;
     EditText gradosDiaTxt;
     DatePicker date;
     ImageView btn_show_picker;
-    TextView fech, fechita, fechaoculta;
+    TextView usuario, fech, fechita, fechaoculta;
     Calendar calendarDate;
 
     float gDia;
@@ -63,6 +65,7 @@ public class HistorialMainActivity extends AppCompatActivity {
         setContentView(R.layout.historial_main);
         getSupportActionBar().hide();
         try {
+            sp = getBaseContext().getSharedPreferences("share", MODE_PRIVATE);
             path = getExternalFilesDir(null) + File.separator;
             // path = "/storage/extSdCard/";
             gradosDiaTxt = findViewById(R.id.gradosDia);
@@ -72,7 +75,8 @@ public class HistorialMainActivity extends AppCompatActivity {
             fech = findViewById(R.id.txt_fecha);
             fechita = findViewById(R.id.fechita);
             fechaoculta = findViewById(R.id.fechaoculta);
-
+            usuario = findViewById(R.id.usuLog);
+            usuario.setText(sp.getString("nombre", ""));
             ja = new jsonAdmin();
 
             getDate();
@@ -137,6 +141,7 @@ public class HistorialMainActivity extends AppCompatActivity {
     public void getDate() {
 
         try {
+
             calendarDate = Calendar.getInstance();
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyy");
             fecha = sdf.format(calendarDate.getTime());
@@ -172,11 +177,10 @@ public class HistorialMainActivity extends AppCompatActivity {
 
     //METODO PARA EL ENVIO DE LOS GRADOS DIA CON SHARED PREFERENCES
     public void sharedGradoDia(View view) {
-        SharedPreferences gradoDia = getBaseContext().getSharedPreferences("gradoDia", MODE_PRIVATE);
-        SharedPreferences.Editor edit = gradoDia.edit();
         gDia = Float.valueOf(gradosDiaTxt.getText().toString());
 
         if ((gDia >= 5) && (gDia <= 15)) {
+            SharedPreferences.Editor edit = sp.edit();
             edit.putFloat("gradoDia", gDia);
             edit.commit();
             edit.apply();
@@ -196,9 +200,8 @@ public class HistorialMainActivity extends AppCompatActivity {
 
     //METODO PARA ALMACENAR LOS GRADOS DIA
     public float recibirGradoDia() {
-        SharedPreferences gradoDia = getBaseContext().getSharedPreferences("gradoDia", MODE_PRIVATE);
-        if (gradoDia != null) {
-            gDia = gradoDia.getFloat("gradoDia", 0);
+        if (sp != null) {
+            gDia = sp.getFloat("gradoDia", 0);
             return gDia;
         } else {
             return 0;

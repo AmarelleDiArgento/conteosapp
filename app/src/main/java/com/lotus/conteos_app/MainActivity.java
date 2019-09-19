@@ -34,6 +34,7 @@ import static java.lang.String.valueOf;
 
 public class MainActivity extends AppCompatActivity {
 
+    SharedPreferences sp = null;
     planoTab p = null;
 
     float gDia;
@@ -64,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         getSupportActionBar().hide();
         try {
+            sp = getBaseContext().getSharedPreferences("share", MODE_PRIVATE);
             codebar = (EditText) findViewById(R.id.resulcode);
 
             gradoDia = (TextView) findViewById(R.id.gradodia);
@@ -73,6 +75,9 @@ public class MainActivity extends AppCompatActivity {
             c1 = (EditText) findViewById(R.id.c1et);
             c4 = (EditText) findViewById(R.id.c4et);
             total = (EditText) findViewById(R.id.total);
+
+            usuario = findViewById(R.id.usuLog);
+            usuario.setText(sp.getString("nombre", ""));
 
             IdSiembra.setSelectAllOnFocus(true);
             c1.setSelectAllOnFocus(true);
@@ -110,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
             ArrayAdapter<String> cuadroArray = new ArrayAdapter<>(this, R.layout.spinner_item_personal, cuadros);
             cuadro.setAdapter(cuadroArray);
 
-            usuario = (TextView) findViewById(R.id.usuario);
+            usuario = (TextView) findViewById(R.id.usuLog);
 
             jpgView1 = (ImageView) findViewById(R.id.feno1);
             jpgView2 = (ImageView) findViewById(R.id.feno2);
@@ -219,9 +224,8 @@ public class MainActivity extends AppCompatActivity {
 
     //OBTENIENDO LOS GRADOS DIA CON SHARED PREFERENCES
     public float getGradoDia() {
-        SharedPreferences gradoDia = getBaseContext().getSharedPreferences("gradoDia", MODE_PRIVATE);
         if (gradoDia != null) {
-            gDia = gradoDia.getFloat("gradoDia", 0);
+            gDia = sp.getFloat("gradoDia", 0);
             return gDia;
         } else {
             return 0;
@@ -320,7 +324,6 @@ public class MainActivity extends AppCompatActivity {
             String imagen3 =fi.get(2).getImagen();
             String imagen4 =fi.get(3).getImagen();
 
-            SharedPreferences sp = getBaseContext().getSharedPreferences("Fotosfenol", MODE_PRIVATE);
             SharedPreferences.Editor edit = sp.edit();
             edit.putString("variedad", variedad);
             edit.putString("fotoImagen", imagen);

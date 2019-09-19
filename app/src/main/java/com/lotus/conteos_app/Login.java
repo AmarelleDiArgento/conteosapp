@@ -17,11 +17,11 @@ import com.lotus.conteos_app.Model.iMonitor;
 import com.lotus.conteos_app.Model.tab.monitorTab;
 
 import java.io.File;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 public class Login extends AppCompatActivity {
+
+    SharedPreferences sp = null;
 
     //DECLARACION DE VARIABLES
     Button btn_login;
@@ -32,13 +32,13 @@ public class Login extends AppCompatActivity {
     List<monitorTab> ml;
     String path = null;
 
-    String txtus,txtup;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         getSupportActionBar().hide();
+
+        sp = getBaseContext().getSharedPreferences("share", MODE_PRIVATE);
 
         //ASOCIACION DE LOS CAMPOS Y BOTONES
         txtu = (EditText) findViewById(R.id.txt_user);
@@ -129,11 +129,10 @@ public class Login extends AppCompatActivity {
 
     public void guardarUsuario(monitorTab u) {
         try {
-            SharedPreferences usuario = getBaseContext().getSharedPreferences("usuario", MODE_PRIVATE);
-            SharedPreferences.Editor edit = usuario.edit();
+            SharedPreferences.Editor edit = sp.edit();
             if (u != null) {
                 edit.putString("codigo", u.getCodigo());
-                edit.putString("nombre", u.getCodigo());
+                edit.putString("nombre", u.getFullName());
                 edit.putString("pass", u.getPassword());
                 edit.putInt("idFinca", u.getIdFinca());
                 edit.commit();
@@ -147,10 +146,9 @@ public class Login extends AppCompatActivity {
     public void recibirUsuario() {
 
         try {
-            SharedPreferences usuario = getBaseContext().getSharedPreferences("usuario", MODE_PRIVATE);
-            if (usuario != null) {
-                txtu.setText(usuario.getString("codigo", txtus));
-                txtp.setText(usuario.getString("pass", txtup));
+            if (sp != null) {
+                txtu.setText(sp.getString("codigo", ""));
+                txtp.setText(sp.getString("pass", ""));
             }
         } catch (Exception e) {
             Toast.makeText(this, "Error \n" + e.toString(), Toast.LENGTH_LONG).show();
