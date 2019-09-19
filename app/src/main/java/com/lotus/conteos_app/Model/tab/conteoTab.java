@@ -4,6 +4,7 @@ public class conteoTab {
     private long idConteo;
     private String fecha;
     private long idSiembra;
+    private int cama;
     private int idBloque;
     private String bloque;
     private int idVariedad;
@@ -13,6 +14,7 @@ public class conteoTab {
     private int conteo2;
     private int conteo3;
     private int conteo4;
+    private int total;
     private int plantas;
     private double area;
     private int cuadros;
@@ -44,6 +46,14 @@ public class conteoTab {
 
     public void setIdSiembra(long idSiembra) {
         this.idSiembra = idSiembra;
+    }
+
+    public int getCama() {
+        return cama;
+    }
+
+    public void setCama(int cama) {
+        this.cama = cama;
     }
 
     public int getIdBloque() {
@@ -118,6 +128,14 @@ public class conteoTab {
         this.conteo4 = conteo4;
     }
 
+    public int getTotal() {
+        return total;
+    }
+
+    public void setTotal(int total) {
+        this.total = total;
+    }
+
     public int getPlantas() {
         return plantas;
     }
@@ -156,6 +174,7 @@ public class conteoTab {
                 "\"id\":" + idConteo + ",\n" +
                 "\"fecha\": \"" + fecha + "\",\n" +
                 "\"idSiembra\":" + idSiembra + ",\n" +
+                "\"cama\":" + cama + ",\n" +
                 "\"idBloque\": " + idBloque + ",\n" +
                 "\"bloque\": \"" + bloque + "\",\n" +
                 "\"idVariedad\":" + idVariedad + ",\n" +
@@ -165,6 +184,7 @@ public class conteoTab {
                 "\"conteo2\":" + conteo2 + ",\n" +
                 "\"conteo3\":" + conteo3 + ",\n" +
                 "\"conteo4\":" + conteo4 + ",\n" +
+                "\"total\":" + total + ",\n" +
                 "\"plantas\": " + plantas + ",\n" +
                 "\"area\": " + area + ",\n" +
                 "\"cuadros\": " + cuadros + ",\n" +

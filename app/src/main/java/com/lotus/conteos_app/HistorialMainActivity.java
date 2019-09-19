@@ -1,5 +1,6 @@
 package com.lotus.conteos_app;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -24,20 +25,16 @@ import com.lotus.conteos_app.Model.iPlano;
 import com.lotus.conteos_app.Model.tab.conteoTab;
 
 import java.io.File;
-import java.text.DateFormat;
-import java.text.DateFormatSymbols;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 public class HistorialMainActivity extends AppCompatActivity {
 
     String fecha = "";
-    String fechaocultadat = "";
 
     jsonAdmin ja = null;
     EditText gradosDiaTxt;
@@ -57,7 +54,7 @@ public class HistorialMainActivity extends AppCompatActivity {
 
     private TableLayout tableLayout;
     // Encabezados de la tabla
-    private String[] header = {"Bloque", "Variedad", "CC", "CT", "S1C", "S1P", "S4C", "S4P"};
+    private String[] header = {"Bloque", "Variedad", "CC", "CT", "S1C", "S1P", "S4C", "S4P", "ST", "STP"};
     // Datos de la tabla
 
     @Override
@@ -115,6 +112,7 @@ public class HistorialMainActivity extends AppCompatActivity {
 
         }
     }
+
 
     @Override
     protected void onResume() {
@@ -180,7 +178,7 @@ public class HistorialMainActivity extends AppCompatActivity {
             edit.commit();
             edit.apply();
 
-            InputMethodManager imm = (InputMethodManager) getSystemService(this.INPUT_METHOD_SERVICE);
+            InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(gradosDiaTxt.getWindowToken(), 0);
 
             Toast.makeText(this, "Se ha guardado exitosamente los grados dia", Toast.LENGTH_LONG).show();
@@ -188,7 +186,7 @@ public class HistorialMainActivity extends AppCompatActivity {
         } else {
             Toast.makeText(getApplicationContext(), "Por favor verifica que tengas los grados dia entre un rango de 5 y  15 grados dia", Toast.LENGTH_LONG).show();
 
-            InputMethodManager imm = (InputMethodManager) getSystemService(this.INPUT_METHOD_SERVICE);
+            InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(gradosDiaTxt.getWindowToken(), 0);
         }
     }
@@ -197,7 +195,7 @@ public class HistorialMainActivity extends AppCompatActivity {
     public float recibirGradoDia() {
         SharedPreferences gradoDia = getBaseContext().getSharedPreferences("gradoDia", MODE_PRIVATE);
         if (gradoDia != null) {
-            gDia = (float) gradoDia.getFloat("gradoDia", 0);
+            gDia = gradoDia.getFloat("gradoDia", 0);
             return gDia;
         } else {
             return 0;
@@ -272,10 +270,12 @@ public class HistorialMainActivity extends AppCompatActivity {
                         int cu = clc.get(i).getCuadro() + 1;
                         int c1 = clc.get(i).getConteo1() + c.getConteo1();
                         int c4 = clc.get(i).getConteo4() + c.getConteo4();
+                        int ct = clc.get(i).getTotal() + c.getTotal();
 
                         clc.get(i).setCuadro(cu);
                         clc.get(i).setConteo1(c1);
                         clc.get(i).setConteo4(c4);
+                        clc.get(i).setTotal(ct);
                         val = false;
                     }
                 }
@@ -297,16 +297,17 @@ public class HistorialMainActivity extends AppCompatActivity {
 
         DecimalFormat frt = new DecimalFormat("#,###");
 
-        ArrayList<String[]> rows = new ArrayList<>();
+        final ArrayList<String[]> rows = new ArrayList<>();
+
 
         try {
 
-            iConteo iC = new iConteo(path);
+            final iConteo iC = new iConteo(path);
             String fob = fechaoculta.getText().toString();
             iC.nombre = fob;
-            rows.clear();
-            List<conteoTab> cl = calcular();
-            for (conteoTab c : cl) {
+
+            final List<conteoTab> cl = calcular();
+            for (final conteoTab c : cl) {
                 // {"Finca", "Bloque", "Variedad", "CC", "CT", "S1C", "S1P", "S4C", "S4P
 
                 rows.add(new String[]{
@@ -317,17 +318,33 @@ public class HistorialMainActivity extends AppCompatActivity {
                                 String.valueOf(frt.format(c.getConteo1())),
                                 String.valueOf(frt.format(extrapolar(c.getCuadros(), c.getCuadro(), c.getConteo1()))),
                                 String.valueOf(frt.format(c.getConteo4())),
-                                String.valueOf(frt.format(extrapolar(c.getCuadros(), c.getCuadro(), c.getConteo4())))
+                                String.valueOf(frt.format(extrapolar(c.getCuadros(), c.getCuadro(), c.getConteo4()))),
+                                String.valueOf(frt.format(c.getTotal())),
+                                String.valueOf(frt.format(extrapolar(c.getCuadros(), c.getCuadro(), c.getTotal())))
                         }
                 );
-            }
 
+                Toast.makeText(this, "arreglo" + c.getCuadro(), Toast.LENGTH_SHORT).show();
+
+            }
 
         } catch (Exception e) {
             Toast.makeText(this, "Error exception Cargar conteo: " + e.toString(), Toast.LENGTH_LONG).show();
         }
         return rows;
     }
+
+
+    //MOSTRAR DATOS AL DAL CLICK
+    public void watchRow() {
+        int id = 0;
+        try {
+
+        } catch (Exception e) {
+            Toast.makeText(this, "Pailas: \n" + e, Toast.LENGTH_LONG).show();
+        }
+    }
+
 
     //CALCULO DE FONOLOGIAS (REGLA DE 3)
     public int extrapolar(int CT, int CC, int S) {
@@ -349,6 +366,7 @@ public class HistorialMainActivity extends AppCompatActivity {
                     Color.parseColor("#FFFFFF"),
                     Color.parseColor("#81F0EDED")
             );
+
 
         } catch (Exception e) {
             Toast.makeText(this, "Error de la  table: " + e.toString(), Toast.LENGTH_LONG).show();
@@ -381,7 +399,7 @@ public class HistorialMainActivity extends AppCompatActivity {
 
     public void cerrarsesion(View v) {
         Intent i = new Intent(HistorialMainActivity.this, Login.class);
-        startActivity(i);
+        startActivity(i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
         Toast.makeText(this, "se ha cerrado sesion exitosamente", Toast.LENGTH_SHORT).show();
         finish();
     }

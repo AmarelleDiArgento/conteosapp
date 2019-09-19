@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
     planoTab p = null;
 
     float gDia,fotodato;
-    EditText c1, c2, c3, c4, IdSiembra, codebar;
+    EditText c1, c2, c3, c4, IdSiembra, codebar,total;
     Spinner cuadro;
     ImageView jpgView1, jpgView2, jpgView3, jpgView4;
     TextView gradoDia, finca, variedad, bloque, cama, fechaAct, usuario, NoArea, NoPlantas, NoCuadros;
@@ -72,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
             IdSiembra = (EditText) findViewById(R.id.resulcode);
             c1 = (EditText) findViewById(R.id.c1et);
             c4 = (EditText) findViewById(R.id.c4et);
+            total = (EditText) findViewById(R.id.total);
 
             IdSiembra.setSelectAllOnFocus(true);
             c1.setSelectAllOnFocus(true);
@@ -131,6 +132,20 @@ public class MainActivity extends AppCompatActivity {
             codebar.setText("0");
             c4.setText("0");
             c1.setText("0");
+
+            class MyKeyListerner implements View.OnKeyListener{
+                public  boolean onKey(View v,int keyCode, KeyEvent event){
+                    if((event.getAction()==KeyEvent.ACTION_DOWN) && (keyCode ==  KeyEvent.KEYCODE_ENTER)){
+                        //Toast.makeText(Login.this,"se oprimio el boton",Toast.LENGTH_SHORT).show();
+                        buscarSiembra(0);
+                        return true;
+                    }
+                    return  false;
+                }
+            }
+
+            View.OnKeyListener listener = new MyKeyListerner();
+            IdSiembra.setOnKeyListener(listener);
 
         } catch (Exception e) {
             Toast.makeText(this, e.toString(), Toast.LENGTH_LONG).show();
@@ -248,6 +263,10 @@ public class MainActivity extends AppCompatActivity {
     //REALIZA EL FILTRO DE BUSQUEDA SIEMBRAS
     public void buscarSiembra(int bs) {
         try {
+
+            InputMethodManager imm = (InputMethodManager) getSystemService(this.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(codebar.getWindowToken(), 0);
+
             long id = Long.parseLong(IdSiembra.getText().toString());
             p = iP.OneforIdSiembra(id);
 
@@ -380,7 +399,8 @@ public class MainActivity extends AppCompatActivity {
                     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
 
-                    c.setIdSiembra(c.getIdSiembra());
+                    c.setIdSiembra(p.getIdSiembra());
+                    c.setCama(p.getCama());
                     c.setFecha(sdf.format(calendarDate.getTime()));
                     c.setIdBloque(p.getIdBloque());
                     c.setBloque(p.getBloque());
@@ -392,6 +412,7 @@ public class MainActivity extends AppCompatActivity {
                     c.setConteo2(0);
                     c.setConteo3(0);
                     c.setConteo4(Integer.parseInt(c4.getText().toString()));
+                    c.setTotal(Integer.parseInt(total.getText().toString()));
 
                     c.setPlantas(p.getPlantas());
                     c.setArea(p.getArea());
@@ -472,13 +493,10 @@ public class MainActivity extends AppCompatActivity {
     //PARA VOLVER A LA ACTIVIDAD ANTERIOR(CAMARA)
     public void onBackPressed() {
         Intent i = new Intent(MainActivity.this, HistorialMainActivity.class);
-        startActivity(i);
+        startActivity(i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
         Toast.makeText(this,"btn back ",Toast.LENGTH_SHORT).show();
         finish();
         System.exit(0);
     }
 
-    public void hola(){
-
-    }
 }

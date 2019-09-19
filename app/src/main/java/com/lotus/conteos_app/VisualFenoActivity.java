@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Gravity;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -106,14 +107,20 @@ public class VisualFenoActivity extends AppCompatActivity {
             List<fenologiaTab> fi = iF.forGrado(dia, gDia, idVariedad);
             Double d = fi.get(0).getDiametro_boton();
             Double l = fi.get(0).getLargo_boton();
+            Double g = fi.get(0).getGrados_dia();
             Double d1 = fi.get(1).getDiametro_boton();
             Double l1 = fi.get(1).getLargo_boton();
+            Double g1 = fi.get(1).getGrados_dia();
             Double d2 = fi.get(2).getDiametro_boton();
             Double l2 = fi.get(2).getLargo_boton();
+            Double g2 = fi.get(2).getGrados_dia();
             Double d3 = fi.get(3).getDiametro_boton();
             Double l3 = fi.get(3).getLargo_boton();
+            Double g3 = fi.get(3).getGrados_dia();
 
-            parseoDecimal(d,l,d1,l1,d2,l2,d3,l3);
+            //Toast.makeText(getApplicationContext(), "Grado Dia \n" + g.toString() + "\n"+g1.toString()+ "\n"+g2.toString()+ "\n"+g3.toString(), Toast.LENGTH_LONG).show();
+
+            parseoDecimal(d,l,g,d1,l1,g1,d2,l2,g2,d3,l3,g3);
 
         }catch (Exception e){
             Toast.makeText(getApplicationContext(), "Exception carga DL \n" +e.toString(), Toast.LENGTH_LONG).show();
@@ -121,12 +128,15 @@ public class VisualFenoActivity extends AppCompatActivity {
     }
 
     //PARSEO DE DECIMAL
-    public void parseoDecimal(Double d,Double l, Double d1, Double l1, Double d2, Double l2, Double d3,Double l3){
+    public void parseoDecimal(Double d,Double l,Double g,Double d1, Double l1,Double g1, Double d2, Double l2,Double g2, Double d3,Double l3,Double g3){
         BigDecimal dpar = new BigDecimal(d);
         dpar = dpar.setScale(2, RoundingMode.DOWN);
 
         BigDecimal lpar = new BigDecimal(l);
         lpar = lpar.setScale(2, RoundingMode.DOWN);
+
+        BigDecimal dgra = new BigDecimal(g);
+        dgra = dgra.setScale(2, RoundingMode.DOWN);
 
         BigDecimal d1par = new BigDecimal(d1);
         d1par = d1par.setScale(2, RoundingMode.DOWN);
@@ -134,11 +144,17 @@ public class VisualFenoActivity extends AppCompatActivity {
         BigDecimal l1par = new BigDecimal(l1);
         l1par = l1par.setScale(2, RoundingMode.DOWN);
 
+        BigDecimal d1gra = new BigDecimal(g1);
+        d1gra = d1gra.setScale(2, RoundingMode.DOWN);
+
         BigDecimal d2par = new BigDecimal(d2);
         d2par = d2par.setScale(2, RoundingMode.DOWN);
 
         BigDecimal l2par = new BigDecimal(l2);
         l2par = l2par.setScale(2, RoundingMode.DOWN);
+
+        BigDecimal d2gra = new BigDecimal(g2);
+        d2gra = d2gra.setScale(2, RoundingMode.DOWN);
 
         BigDecimal d3par = new BigDecimal(d3);
         d3par = d3par.setScale(2, RoundingMode.DOWN);
@@ -146,14 +162,21 @@ public class VisualFenoActivity extends AppCompatActivity {
         BigDecimal l3par = new BigDecimal(l3);
         l3par = l3par.setScale(2, RoundingMode.DOWN);
 
-        txt1.setText("Diametro: " + dpar +"\n Longitud: " + lpar);
-        txt1.setTextSize(20);
-        txt2.setText("Diametro: " + d1par +"\n Longitud: " + l1par);
-        txt2.setTextSize(20);
-        txt3.setText("Diametro: " + d2par +"\n Longitud: " + l2par);
-        txt3.setTextSize(20);
-        txt4.setText("Diametro: " + d3par +"\n Longitud: " + l3par);
-        txt4.setTextSize(20);
+        BigDecimal d3gra = new BigDecimal(g3);
+        d3gra = d3gra.setScale(2, RoundingMode.DOWN);
+
+        txt1.setText("Diametro: " + dpar +"    Longitud: " + lpar+ "\n Grados dia acomulados: "+ dgra);
+        txt1.setTextSize(16);
+        txt1.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+        txt2.setText("Diametro: " + d1par +"     Longitud: " + l1par + "\n Grados dia acomulados: "+ d1gra);
+        txt2.setTextSize(16);
+        txt1.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+        txt3.setText("Diametro: " + d2par +"     Longitud: " + l2par + "\n Grados dia acomulados: "+ d2gra);
+        txt3.setTextSize(16);
+        txt1.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+        txt4.setText("Diametro: " + d3par +"     Longitud: " + l3par + "\n Grados dia acomulados: "+ d3gra );
+        txt4.setTextSize(16);
+        txt1.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
     }
 }
 
