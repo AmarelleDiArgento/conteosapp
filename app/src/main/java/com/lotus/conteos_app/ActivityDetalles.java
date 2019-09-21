@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,6 +30,9 @@ public class ActivityDetalles extends AppCompatActivity {
     private TableLayout tableLayout;
     TableDinamic tb;
 
+    TextView txtIdSiembra,txtCuadro,txtBloque;
+    EditText cap_1,cap_2,cap_ct;
+
     // Encabezados de la tabla
     private String[] header = {"id","Bloque", "Cuadro", "C1", "C2", "C3", "C4", "CT"};
     public TextView  fechaoculta;
@@ -39,6 +43,13 @@ public class ActivityDetalles extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detalles);
         getSupportActionBar().hide();
+
+        txtIdSiembra=findViewById(R.id.txtIdSiembra);
+        txtBloque=findViewById(R.id.txtBloque);
+        txtCuadro=findViewById(R.id.txtCuadro);
+        cap_1=findViewById(R.id.cap_c1);
+        cap_2=findViewById(R.id.cap_c2);
+        cap_ct=findViewById(R.id.cap_ct);
 
         path = getExternalFilesDir(null) + File.separator;
         createTable();
@@ -53,11 +64,23 @@ public class ActivityDetalles extends AppCompatActivity {
             String variedad = ct.getVariedad();
             String bloque= ct.getBloque();
             Long idSiembra= ct.getIdSiembra();
+            String idSiempar= String.valueOf(idSiembra);
+            int cuadro = ct.getCuadro();
+            int conteo1 = ct.getConteo1();
+            int conteo4 = ct.getConteo4();
+            int total = ct.getTotal();
 
-            Toast.makeText(this,"variedad \n"+variedad,Toast.LENGTH_SHORT).show();
-            Toast.makeText(this,"bloque \n"+bloque,Toast.LENGTH_SHORT).show();
-            Toast.makeText(this,"id siembra \n"+idSiembra.toString(),Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this,"variedad \n"+variedad,Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this,"bloque \n"+bloque,Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this,"id siembra \n"+idSiembra.toString(),Toast.LENGTH_SHORT).show();
 
+
+            txtIdSiembra.setText("Id de la Siembra: "+idSiempar);
+            txtBloque.setText("Bloque: "+bloque);
+            txtCuadro.setText("Cuadro: "+cuadro);
+            cap_1.setText(String.valueOf(conteo1));
+            cap_2.setText(String.valueOf(conteo4));
+            cap_ct.setText(String.valueOf(total));
 
         }catch (Exception E){
             tostada("ERROR\n " + E.toString()).show();
@@ -76,7 +99,7 @@ public class ActivityDetalles extends AppCompatActivity {
             List<conteoTab> cl = iC.all();
             for (conteoTab c : cl) {
                 boolean val = true;
-                    for (int i = 0; i <= clc.size() - 1; i++) {
+                    for (int i = 0; i <= clc.size() ; i++) {
                         if (  (c.getBloque().equals(sp.getString("bloque","")))  ) {
                             val = true;
                         }else {
