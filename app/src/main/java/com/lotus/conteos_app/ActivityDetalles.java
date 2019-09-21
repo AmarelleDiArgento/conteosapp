@@ -1,9 +1,11 @@
 package com.lotus.conteos_app;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
@@ -21,6 +23,7 @@ import java.util.List;
 
 public class ActivityDetalles extends AppCompatActivity {
 
+    public static int id;
     SharedPreferences sp = null;
 
     List<conteoTab> clc = new ArrayList<>();
@@ -36,7 +39,6 @@ public class ActivityDetalles extends AppCompatActivity {
     // Encabezados de la tabla
     private String[] header = {"id","Bloque", "Cuadro", "C1", "C2", "C3", "C4", "CT"};
     public TextView  fechaoculta;
-    // createTable();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,42 +58,38 @@ public class ActivityDetalles extends AppCompatActivity {
         createTable();
     }
 
+    //OBTENER EL ID DEL REGISTRO SEGUN LA FILA
     public void clicTable(View v) {
-
         try {
-            tb = new TableDinamic(tableLayout, getApplicationContext());
-            conteoTab ct = clc.get(tb.getIdTabla());
-            Toast.makeText(this,"id \n"+ct.toString(),Toast.LENGTH_SHORT).show();
-            String variedad = ct.getVariedad();
-            String bloque= ct.getBloque();
-            Long idSiembra= ct.getIdSiembra();
-            String idSiempar= String.valueOf(idSiembra);
-            int cuadro = ct.getCuadro();
-            int conteo1 = ct.getConteo1();
-            int conteo4 = ct.getConteo4();
-            int total = ct.getTotal();
+                tb = new TableDinamic(tableLayout, getApplicationContext());
+                int idRow = tb.getIdTabla();
+                conteoTab ct = clc.get(2);
+                tostada("idRow\n " + idRow).show();
 
-            //Toast.makeText(this,"variedad \n"+variedad,Toast.LENGTH_SHORT).show();
-            //Toast.makeText(this,"bloque \n"+bloque,Toast.LENGTH_SHORT).show();
-            //Toast.makeText(this,"id siembra \n"+idSiembra.toString(),Toast.LENGTH_SHORT).show();
+                String variedad = ct.getVariedad();
+                String bloque= ct.getBloque();
+                Long idSiembra= ct.getIdSiembra();
+                String idSiempar= String.valueOf(idSiembra);
+                int cuadro = ct.getCuadro();
+                int conteo1 = ct.getConteo1();
+                int conteo4 = ct.getConteo4();
+                int total = ct.getTotal();
 
-
-            txtIdSiembra.setText("Id Siembra: "+idSiempar);
-            txtBloque.setText("Bloque: "+bloque);
-            txtCuadro.setText("Cuadro: "+cuadro);
-            txtVariedad.setText("Variedad: "+variedad);
-            cap_1.setText(String.valueOf(conteo1));
-            cap_2.setText(String.valueOf(conteo4));
-            cap_ct.setText(String.valueOf(total));
+                txtIdSiembra.setText("Id Siembra: "+idSiempar);
+                txtBloque.setText("Bloque: "+bloque);
+                txtCuadro.setText("Cuadro: "+cuadro);
+                txtVariedad.setText("Variedad: "+variedad);
+                cap_1.setText(String.valueOf(conteo1));
+                cap_2.setText(String.valueOf(conteo4));
+                cap_ct.setText(String.valueOf(total));
 
         }catch (Exception E){
             tostada("ERROR\n " + E.toString()).show();
         }
-
     }
 
-
-    public List<conteoTab> calcular() {
+    //FILTRO DE LA TABLA POR BLOQUE
+    public List<conteoTab> filtro() {
         //String text = "";
         try {
             iConteo iC = new iConteo(path);
@@ -119,13 +117,10 @@ public class ActivityDetalles extends AppCompatActivity {
         return clc;
     }
 
-
-
-    // Dibuja la tabla de calculos
+    // Dibuja la tabla
     public ArrayList<String[]> cargarTabla() {
 
         final ArrayList<String[]> rows = new ArrayList<>();
-
         try {
             sp = getBaseContext().getSharedPreferences("share", MODE_PRIVATE);
 
@@ -133,14 +128,11 @@ public class ActivityDetalles extends AppCompatActivity {
 
             fechaoculta = findViewById(R.id.fechita);
             fechaoculta.setText(sp.getString("fechaoculta",""));
-
-
-
             String nomfecha=fechaoculta.getText().toString();
             String fecha = nomfecha;
             iC.nombre = fecha;
 
-            final List<conteoTab> cl = calcular();
+            final List<conteoTab> cl = filtro();
 
             for (final conteoTab c : cl) {
 
@@ -182,15 +174,78 @@ public class ActivityDetalles extends AppCompatActivity {
         }
     }
 
-    public void cerrarsesion(View v) {
-        Intent i = new Intent(this, Login.class);
-        startActivity(i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
-        Toast.makeText(this, "se ha cerrado sesion exitosamente", Toast.LENGTH_SHORT).show();
-        finish();
+
+    //BOTONES PARA ACTIVAR LOS DIALOGOS
+    public void btn_actualizar(View v){
+        String msj="Seguro que deseas actualizar este registro";
+        String tipo="btn_actualizar";
+        DialogConfirm(msj,tipo);
+    }
+
+    public void btn_borrar_registro(View v){
+        String msj="Seguro que deseas eliminar este registro";
+        String tipo="btn_borrar_registro";
+        DialogConfirm(msj,tipo);
+    }
+
+    public void btn_limpiar(View v){
+        String msj="Seguro que deseas borrar todo lo relacionado con este bloque";
+        String tipo="btn_limpiar";
+        DialogConfirm(msj,tipo);
     }
 
 
+    //MENSAJES DE CONFIRMACIÓN PARA EJECUTAR LOS METODO DEL CRUD
+    public void DialogConfirm(String msj,String tipo){
+        try {
+            final String metodo=tipo;
+            AlertDialog.Builder alertdialog = new AlertDialog.Builder(ActivityDetalles.this,R.style.Theme_AppCompat_DayNight_Dialog_Alert);
+            alertdialog.setMessage(msj)
+                    .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            // agrega aqui la funcion que quieres hacer con el boton positivo
+                            if(metodo.equals("btn_actualizar")){
+                                actualizar_registro();
+                            }else  if(metodo.equals("btn_borrar_registro")){
+                                borrar_registro();
+                            }else  if(metodo.equals("btn_limpiar")){
+                                limpiar();
+                            }
 
+                        }
+                    })
+                    .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            // agrega aqui la funcion que quieres hacer con el boton negativo
+                        }
+                    });
+            AlertDialog.Builder builder = new AlertDialog.Builder(ActivityDetalles.this);
+            builder.setInverseBackgroundForced(true);
+            AlertDialog mensaje = alertdialog.create();
+            mensaje.show();
+        }catch (Exception e){
+            Toast.makeText(this,"error\n"+e,Toast.LENGTH_LONG).show();
+        }
+    }
+
+
+    //METODOS PARA HACER EL CRUD
+    public void actualizar_registro(){
+        Toast.makeText(getApplicationContext(),"llega al metodo actualizar",Toast.LENGTH_SHORT).show();
+    }
+
+    public void borrar_registro(){
+        Toast.makeText(getApplicationContext(),"llega al metodo borrar",Toast.LENGTH_SHORT).show();
+    }
+
+    public void limpiar(){
+        Toast.makeText(getApplicationContext(),"llega al metodo limpiar",Toast.LENGTH_SHORT).show();
+    }
+
+
+    //TOSTADAS
     Toast tostada(String mjs) {
         return Toast.makeText(this, mjs, Toast.LENGTH_LONG);
     }

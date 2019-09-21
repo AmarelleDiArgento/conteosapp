@@ -52,7 +52,7 @@ public class Login extends AppCompatActivity {
         try {
             iM = new iMonitor(path);
             ml = iM.all();
-            Toast.makeText(this, ml.toString(), Toast.LENGTH_LONG).show();
+            //Toast.makeText(this, ml.toString(), Toast.LENGTH_LONG).show();
         } catch (Exception e) {
             Toast.makeText(this, e.toString(), Toast.LENGTH_LONG).show();
         }

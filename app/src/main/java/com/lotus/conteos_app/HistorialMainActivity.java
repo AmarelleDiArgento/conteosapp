@@ -90,7 +90,7 @@ public class HistorialMainActivity extends AppCompatActivity {
             day = cal.get(Calendar.DAY_OF_MONTH);
             year = cal.get(Calendar.YEAR);
 
-            SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyy");
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyy");
             fecha = sdf.format(cal.getTime());
             fechaoculta.setText(fecha);
 
@@ -121,6 +121,7 @@ public class HistorialMainActivity extends AppCompatActivity {
 
         try {
             conteoTab ct = clc.get(tb.getIdTabla()-1);
+            tb.getIdTabla();
             String variedad = ct.getVariedad();
             String bloque= ct.getBloque();
             Long idSiembra= ct.getIdSiembra();
@@ -130,6 +131,7 @@ public class HistorialMainActivity extends AppCompatActivity {
             edit.putString("variedad",variedad);
             edit.putString("bloque",bloque);
             edit.putLong("idSiembra",idSiembra);
+            edit.putInt("idRow",tb.getIdTabla());
             edit.commit();
             edit.apply();
 
