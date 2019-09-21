@@ -74,7 +74,7 @@ public class HistorialMainActivity extends AppCompatActivity {
             btn_show_picker = (ImageButton) findViewById(R.id.btn_datapicker);
             fech = findViewById(R.id.txt_fecha);
             fechita = findViewById(R.id.fechita);
-            fechaoculta = findViewById(R.id.fechaoculta);
+            fechaoculta = findViewById(R.id.fechita);
             usuario = findViewById(R.id.usuLog);
             usuario.setText(sp.getString("nombre", ""));
             ja = new jsonAdmin();
@@ -121,7 +121,20 @@ public class HistorialMainActivity extends AppCompatActivity {
 
         try {
             conteoTab ct = clc.get(tb.getIdTabla()-1);
-            tostada(ct.toString()).show();
+            String variedad = ct.getVariedad();
+            String bloque= ct.getBloque();
+            Long idSiembra= ct.getIdSiembra();
+
+            SharedPreferences.Editor edit = sp.edit();
+            edit.putString("fechaoculta", fechaoculta.getText().toString());
+            edit.putString("variedad",variedad);
+            edit.putString("bloque",bloque);
+            edit.putLong("idSiembra",idSiembra);
+            edit.commit();
+            edit.apply();
+
+
+            tostada(ct.getIdConteo()+"").show();
             Intent i = new Intent(this,ActivityDetalles.class);
             startActivity(i);
         }catch (Exception E){
@@ -273,8 +286,8 @@ public class HistorialMainActivity extends AppCompatActivity {
                     text += c.getIdVariedad() + " " + clc.get(i).getIdVariedad() + " " +
                             c.getIdBloque() + " " + clc.get(i).getIdBloque() + "\n" ;
                     */
-                    //
-                    if (c.getIdBloque() == clc.get(i).getIdBloque() ||c.getIdVariedad() == clc.get(i).getIdVariedad()) {
+                    //c.getIdBloque() == clc.get(i).getIdBloque() || c.getIdVariedad() == clc.get(i).getIdVariedad()
+                    if (c.getIdSiembra() == clc.get(i).getIdSiembra()) {
 
                         int cu = clc.get(i).getCuadro() + 1;
                         int c1 = clc.get(i).getConteo1() + c.getConteo1();
@@ -298,7 +311,8 @@ public class HistorialMainActivity extends AppCompatActivity {
 
 
         } catch (Exception e) {
-            Toast.makeText(this, "No existen registros actuales con refente a esta fecha, \n por favor realiza un registro nuevo o \n puedes buscar por fecha", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "No existen registros actuales que coincidan con la fecha fecha", Toast.LENGTH_LONG).show();
+            clc.clear();
         }
         return clc;
     }
@@ -320,7 +334,8 @@ public class HistorialMainActivity extends AppCompatActivity {
                 // {"Finca", "Bloque", "Variedad", "CC", "CT", "S1C", "S1P", "S4C", "S4P
 
                 rows.add(new String[]{
-                                c.getBloque(),
+                                String.valueOf(c.getIdSiembra()),
+                                //c.getBloque(),
                                 c.getVariedad(),
                                 String.valueOf(c.getCuadro()),
                                 String.valueOf(c.getCuadros()),
@@ -330,7 +345,7 @@ public class HistorialMainActivity extends AppCompatActivity {
                                 String.valueOf(frt.format(extrapolar(c.getCuadros(), c.getCuadro(), c.getConteo4()))),
                                 String.valueOf(frt.format(c.getTotal())),
                                 String.valueOf(frt.format(extrapolar(c.getCuadros(), c.getCuadro(), c.getTotal())))
-                        }
+                                }
                 );
             }
         } catch (Exception e) {

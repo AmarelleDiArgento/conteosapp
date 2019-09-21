@@ -1,5 +1,9 @@
 package com.lotus.conteos_app.Model;
 
+
+import android.content.Context;
+import android.widget.Toast;
+
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.lotus.conteos_app.Config.Util.jsonAdmin;
@@ -16,6 +20,7 @@ import java.util.List;
 
 public class iConteo extends sqlConect implements conteo {
 
+
     public String nombre;
     final String ins = "INSERT INTO Conteos (fecha, idSiembra, cuadro, conteo1, conteo2, conteo3, conteo4, idUsuario)\n" +
             "     VALUES (?,?,?,?,?,?,?,?)";
@@ -23,6 +28,7 @@ public class iConteo extends sqlConect implements conteo {
     Connection cn = null;
     String path = null;
     jsonAdmin ja = null;
+
 
     private List<conteoTab> cl = new ArrayList<>();
 
@@ -49,10 +55,9 @@ public class iConteo extends sqlConect implements conteo {
             }else{
                 c.setIdConteo(cl.size() + 1);
             }
-            // all();
+            //all();
             cl.add(c);
             local();
-
             return "Registro realizado exitosamente";
         } catch (Exception e) {
             return "Error: " + e.toString();
@@ -67,7 +72,6 @@ public class iConteo extends sqlConect implements conteo {
             cl.set(id, c);
             // nombre = sdf.format(c.getFecha());
             local();
-
             return "actualizado conteo de la cama: " + c.getCuadro();
         } catch (Exception e) {
             return "Error: " + e.toString();
@@ -143,4 +147,5 @@ public class iConteo extends sqlConect implements conteo {
         }
         return msj;
     }
+
 }

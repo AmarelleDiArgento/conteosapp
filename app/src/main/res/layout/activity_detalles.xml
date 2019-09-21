@@ -28,7 +28,7 @@
     <ScrollView
         android:layout_width="585dp"
         android:layout_height="472dp"
-        android:layout_marginTop="284dp"
+        android:layout_marginTop="368dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.533"
         app:layout_constraintStart_toStartOf="parent"
@@ -63,6 +63,37 @@
         </LinearLayout>
     </ScrollView>
 
+    <Button
+        android:id="@+id/button4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="904dp"
+        android:text="Actualizar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/button8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="452dp"
+        android:layout_marginTop="904dp"
+        android:onClick="clicTable"
+        android:text="Limpiar todo"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/button7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="232dp"
+        android:layout_marginTop="904dp"
+        android:text="Borra Registro"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
         android:id="@+id/textView13"
         android:layout_width="wrap_content"
@@ -74,7 +105,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/fechita2"
+        android:id="@+id/fechita"
         android:layout_width="132dp"
         android:layout_height="26dp"
         android:layout_marginStart="88dp"
@@ -103,33 +134,4 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/button4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="820dp"
-        android:text="Actualizar"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/button7"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="244dp"
-        android:layout_marginTop="820dp"
-        android:text="Borra Registro"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/button8"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="464dp"
-        android:layout_marginTop="820dp"
-        android:text="Limpiar todo"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 </android.support.constraint.ConstraintLayout>

@@ -91,6 +91,7 @@ public class TableDinamic {
                         public void onClick(final View view) {
                             id = view.getId();
                             setIdTabla(id);
+                            Toast.makeText(context,"click "+id,Toast.LENGTH_SHORT).show();
                             view.setBackgroundColor(Color.parseColor("#FCC9D6"));
                             int dur = 1000;
                             new Handler().postDelayed(new Runnable() {
