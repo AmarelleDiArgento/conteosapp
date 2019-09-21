@@ -30,7 +30,7 @@ public class ActivityDetalles extends AppCompatActivity {
     private TableLayout tableLayout;
     TableDinamic tb;
 
-    TextView txtIdSiembra,txtCuadro,txtBloque;
+    TextView txtIdSiembra,txtCuadro,txtBloque,txtVariedad;
     EditText cap_1,cap_2,cap_ct;
 
     // Encabezados de la tabla
@@ -47,6 +47,7 @@ public class ActivityDetalles extends AppCompatActivity {
         txtIdSiembra=findViewById(R.id.txtIdSiembra);
         txtBloque=findViewById(R.id.txtBloque);
         txtCuadro=findViewById(R.id.txtCuadro);
+        txtVariedad=findViewById(R.id.txtVariedad);
         cap_1=findViewById(R.id.cap_c1);
         cap_2=findViewById(R.id.cap_c2);
         cap_ct=findViewById(R.id.cap_ct);
@@ -60,7 +61,7 @@ public class ActivityDetalles extends AppCompatActivity {
         try {
             tb = new TableDinamic(tableLayout, getApplicationContext());
             conteoTab ct = clc.get(tb.getIdTabla());
-            Toast.makeText(this,"id \n"+clc.get(tb.getIdTabla()).toString(),Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,"id \n"+ct.toString(),Toast.LENGTH_SHORT).show();
             String variedad = ct.getVariedad();
             String bloque= ct.getBloque();
             Long idSiembra= ct.getIdSiembra();
@@ -75,9 +76,10 @@ public class ActivityDetalles extends AppCompatActivity {
             //Toast.makeText(this,"id siembra \n"+idSiembra.toString(),Toast.LENGTH_SHORT).show();
 
 
-            txtIdSiembra.setText("Id de la Siembra: "+idSiempar);
+            txtIdSiembra.setText("Id Siembra: "+idSiempar);
             txtBloque.setText("Bloque: "+bloque);
             txtCuadro.setText("Cuadro: "+cuadro);
+            txtVariedad.setText("Variedad: "+variedad);
             cap_1.setText(String.valueOf(conteo1));
             cap_2.setText(String.valueOf(conteo4));
             cap_ct.setText(String.valueOf(total));
