@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
     EditText c1, c4, IdSiembra, codebar,total;
     Spinner cuadro;
     ImageView jpgView1, jpgView2, jpgView3, jpgView4;
-    TextView gradoDia, finca, variedad, bloque, cama, fechaAct, usuario, NoArea, NoPlantas, NoCuadros;
+    TextView gradoDia, finca, variedad, bloque, cama, fechaAct, usuario, NoArea, NoPlantas, NoCuadros, idusuario;
 
     List<planoTab> lp = new ArrayList<>();
     List<fenologiaTab> lf = new ArrayList<>();
@@ -78,6 +78,9 @@ public class MainActivity extends AppCompatActivity {
 
             usuario = findViewById(R.id.usuLog);
             usuario.setText(sp.getString("nombre", ""));
+
+            idusuario = findViewById(R.id.idusuario);
+            idusuario.setText(sp.getString("codigo",""));
 
             IdSiembra.setSelectAllOnFocus(true);
             c1.setSelectAllOnFocus(true);
@@ -402,7 +405,7 @@ public class MainActivity extends AppCompatActivity {
 
                     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
-
+                    c.setIdConteo(c.getIdConteo());
                     c.setIdSiembra(p.getIdSiembra());
                     c.setCama(p.getCama());
                     c.setFecha(sdf.format(calendarDate.getTime()));
@@ -422,8 +425,8 @@ public class MainActivity extends AppCompatActivity {
                     c.setArea(p.getArea());
                     c.setCuadros(p.getCuadros());
 
-
-                    c.setIdUsuario(123);
+                    int usu= Integer.parseInt(idusuario.getText().toString());
+                    c.setIdUsuario(usu);
 
                     Toast.makeText(this, iC.insert(c), Toast.LENGTH_LONG).show();
                     //Toast.makeText(this, iC.all().toString(),Toast.LENGTH_LONG).show();

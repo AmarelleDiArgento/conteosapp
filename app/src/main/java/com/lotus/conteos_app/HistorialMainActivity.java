@@ -34,16 +34,14 @@ import java.util.Date;
 import java.util.List;
 
 public class HistorialMainActivity extends AppCompatActivity {
-
     SharedPreferences sp = null;
-
     public String path = null;
     String fecha = "";
     jsonAdmin ja = null;
     EditText gradosDiaTxt;
     DatePicker date;
     ImageView btn_show_picker;
-    TextView usuario, fech, fechita, fechaoculta;
+    TextView fech, fechita, fechaoculta,usuLog ;
     Calendar calendarDate;
 
     float gDia;
@@ -55,6 +53,7 @@ public class HistorialMainActivity extends AppCompatActivity {
     private int month;
     private int day;
     private TableLayout tableLayout;
+
     // Encabezados de la tabla
     private String[] header = {"Bloque", "Variedad", "CC", "CT", "CN1", "EST1", "CN4", "EST4", "SNT", "ESTT"};
     // Datos de la tabla
@@ -65,6 +64,7 @@ public class HistorialMainActivity extends AppCompatActivity {
         setContentView(R.layout.historial_main);
         getSupportActionBar().hide();
         try {
+
             sp = getBaseContext().getSharedPreferences("share", MODE_PRIVATE);
             path = getExternalFilesDir(null) + File.separator;
             // path = "/storage/extSdCard/";
@@ -75,8 +75,9 @@ public class HistorialMainActivity extends AppCompatActivity {
             fech = findViewById(R.id.txt_fecha);
             fechita = findViewById(R.id.fechita);
             fechaoculta = findViewById(R.id.fechaoculta);
-            usuario = findViewById(R.id.usuLog);
-            usuario.setText(sp.getString("nombre", ""));
+            usuLog = findViewById(R.id.usuLog);
+            String usuario=sp.getString("nombre","");
+            usuLog.setText(usuario);
             ja = new jsonAdmin();
 
             getDate();
@@ -121,7 +122,16 @@ public class HistorialMainActivity extends AppCompatActivity {
 
         try {
             conteoTab ct = clc.get(tb.getIdTabla()-1);
-            tostada(ct.toString()).show();
+            String bloque = ct.getBloque();
+            String date = fechaoculta.getText().toString();
+            String usuario = usuLog.getText().toString();
+
+            SharedPreferences.Editor edit = sp.edit();
+            edit.putString("bloque", bloque);
+            edit.putString("date", date);
+            edit.putString("usulog", usuario);
+            edit.apply();
+
             Intent i = new Intent(this,ActivityDetalles.class);
             startActivity(i);
         }catch (Exception E){
@@ -141,7 +151,6 @@ public class HistorialMainActivity extends AppCompatActivity {
     public void getDate() {
 
         try {
-
             calendarDate = Calendar.getInstance();
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyy");
             fecha = sdf.format(calendarDate.getTime());
@@ -177,10 +186,11 @@ public class HistorialMainActivity extends AppCompatActivity {
 
     //METODO PARA EL ENVIO DE LOS GRADOS DIA CON SHARED PREFERENCES
     public void sharedGradoDia(View view) {
+        SharedPreferences gradoDia = getBaseContext().getSharedPreferences("gradoDia", MODE_PRIVATE);
+        SharedPreferences.Editor edit = gradoDia.edit();
         gDia = Float.valueOf(gradosDiaTxt.getText().toString());
 
         if ((gDia >= 5) && (gDia <= 15)) {
-            SharedPreferences.Editor edit = sp.edit();
             edit.putFloat("gradoDia", gDia);
             edit.commit();
             edit.apply();
@@ -200,8 +210,9 @@ public class HistorialMainActivity extends AppCompatActivity {
 
     //METODO PARA ALMACENAR LOS GRADOS DIA
     public float recibirGradoDia() {
-        if (sp != null) {
-            gDia = sp.getFloat("gradoDia", 0);
+        SharedPreferences gradoDia = getBaseContext().getSharedPreferences("gradoDia", MODE_PRIVATE);
+        if (gradoDia != null) {
+            gDia = gradoDia.getFloat("gradoDia", 0);
             return gDia;
         } else {
             return 0;
@@ -268,13 +279,11 @@ public class HistorialMainActivity extends AppCompatActivity {
             for (conteoTab c : cl) {
                 boolean val = true;
                 for (int i = 0; i <= clc.size() - 1; i++) {
+                    // c.getIdBloque() == clc.get(i).getIdBloque()
+                    // c.getIdVariedad() == clc.get(i).getIdVariedad()
+                    // c.getIdSiembra() == clc.get(i).getIdSiembra()
 
-                    /*
-                    text += c.getIdVariedad() + " " + clc.get(i).getIdVariedad() + " " +
-                            c.getIdBloque() + " " + clc.get(i).getIdBloque() + "\n" ;
-                    */
-                    //
-                    if (c.getIdBloque() == clc.get(i).getIdBloque() ||c.getIdVariedad() == clc.get(i).getIdVariedad()) {
+                    if (c.getIdSiembra() == clc.get(i).getIdSiembra()) {
 
                         int cu = clc.get(i).getCuadro() + 1;
                         int c1 = clc.get(i).getConteo1() + c.getConteo1();
@@ -298,7 +307,8 @@ public class HistorialMainActivity extends AppCompatActivity {
 
 
         } catch (Exception e) {
-            Toast.makeText(this, "No existen registros actuales con refente a esta fecha, \n por favor realiza un registro nuevo o \n puedes buscar por fecha", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "No existen registros actuales que coincidan con la fecha fecha", Toast.LENGTH_LONG).show();
+            clc.clear();
         }
         return clc;
     }
@@ -310,7 +320,7 @@ public class HistorialMainActivity extends AppCompatActivity {
         final ArrayList<String[]> rows = new ArrayList<>();
 
         try {
-
+            rows.clear();
             final iConteo iC = new iConteo(path);
             String fob = fechaoculta.getText().toString();
             iC.nombre = fob;

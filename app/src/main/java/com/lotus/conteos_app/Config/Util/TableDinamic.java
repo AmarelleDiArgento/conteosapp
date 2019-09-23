@@ -2,9 +2,7 @@ package com.lotus.conteos_app.Config.Util;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.os.Build;
 import android.os.Handler;
-import android.support.annotation.RequiresApi;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.TableLayout;
@@ -23,8 +21,6 @@ public class TableDinamic {
     private TableRow tableRow;
     private TextView txtCell;
     private int r, c;
-    private boolean multicolor = false;
-    private int head, firt, second;
     private int idtabla;
 
     public TableDinamic(TableLayout tableLayout, Context context) {
@@ -86,11 +82,13 @@ public class TableDinamic {
                 tableRow.setId(r);
                 //txtCell.setBackgroundColor((multicolor) ? firt : second);
                 try {
+                    tableRow.clearDisappearingChildren();
                     tableRow.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(final View view) {
                             id = view.getId();
                             setIdTabla(id);
+                            Toast.makeText(context,"click "+id,Toast.LENGTH_SHORT).show();
                             view.setBackgroundColor(Color.parseColor("#FCC9D6"));
                             int dur = 1000;
                             new Handler().postDelayed(new Runnable() {
@@ -106,6 +104,7 @@ public class TableDinamic {
 
 
             }
+            tableRow.clearFocus();
             tableLayout.addView(tableRow);
         }
     }
@@ -135,6 +134,7 @@ public class TableDinamic {
 
 
     private TableRow getRow(int index) {
+
         return (TableRow) tableLayout.getChildAt(index);
     }
 
@@ -150,5 +150,6 @@ public class TableDinamic {
     public int getIdTabla() {
         return this.idtabla;
     }
+
 
 }

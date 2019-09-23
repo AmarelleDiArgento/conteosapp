@@ -9,7 +9,8 @@
         android:roundIcon="@drawable/asd"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ActivityDetalles">
+        <activity android:name=".ActivityDetalles"
+            android:windowSoftInputMode="stateHidden">
         </activity>
         <activity android:name=".VisualFenoActivity" />
         <activity android:name=".splash_activity">
