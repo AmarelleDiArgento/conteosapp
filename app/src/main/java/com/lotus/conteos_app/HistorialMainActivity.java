@@ -41,7 +41,7 @@ public class HistorialMainActivity extends AppCompatActivity {
     EditText gradosDiaTxt;
     DatePicker date;
     ImageView btn_show_picker;
-    TextView fech, fechita, fechaoculta;
+    TextView fech, fechita, fechaoculta,usuLog ;
     Calendar calendarDate;
 
     float gDia;
@@ -75,7 +75,9 @@ public class HistorialMainActivity extends AppCompatActivity {
             fech = findViewById(R.id.txt_fecha);
             fechita = findViewById(R.id.fechita);
             fechaoculta = findViewById(R.id.fechaoculta);
-
+            usuLog = findViewById(R.id.usuLog);
+            String usuario=sp.getString("nombre","");
+            usuLog.setText(usuario);
             ja = new jsonAdmin();
 
             getDate();
@@ -122,10 +124,12 @@ public class HistorialMainActivity extends AppCompatActivity {
             conteoTab ct = clc.get(tb.getIdTabla()-1);
             String bloque = ct.getBloque();
             String date = fechaoculta.getText().toString();
+            String usuario = usuLog.getText().toString();
 
             SharedPreferences.Editor edit = sp.edit();
             edit.putString("bloque", bloque);
             edit.putString("date", date);
+            edit.putString("usulog", usuario);
             edit.apply();
 
             Intent i = new Intent(this,ActivityDetalles.class);
@@ -275,7 +279,6 @@ public class HistorialMainActivity extends AppCompatActivity {
             for (conteoTab c : cl) {
                 boolean val = true;
                 for (int i = 0; i <= clc.size() - 1; i++) {
-
                     // c.getIdBloque() == clc.get(i).getIdBloque()
                     // c.getIdVariedad() == clc.get(i).getIdVariedad()
                     // c.getIdSiembra() == clc.get(i).getIdSiembra()
@@ -317,7 +320,7 @@ public class HistorialMainActivity extends AppCompatActivity {
         final ArrayList<String[]> rows = new ArrayList<>();
 
         try {
-
+            rows.clear();
             final iConteo iC = new iConteo(path);
             String fob = fechaoculta.getText().toString();
             iC.nombre = fob;

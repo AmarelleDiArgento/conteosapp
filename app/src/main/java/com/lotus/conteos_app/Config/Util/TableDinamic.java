@@ -82,6 +82,7 @@ public class TableDinamic {
                 tableRow.setId(r);
                 //txtCell.setBackgroundColor((multicolor) ? firt : second);
                 try {
+                    tableRow.clearDisappearingChildren();
                     tableRow.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(final View view) {
@@ -103,6 +104,7 @@ public class TableDinamic {
 
 
             }
+            tableRow.clearFocus();
             tableLayout.addView(tableRow);
         }
     }
@@ -132,6 +134,7 @@ public class TableDinamic {
 
 
     private TableRow getRow(int index) {
+
         return (TableRow) tableLayout.getChildAt(index);
     }
 

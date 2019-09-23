@@ -35,12 +35,11 @@ public class ActivityDetalles extends AppCompatActivity {
     private TableLayout tableLayout;
     TableDinamic tb;
 
-    TextView txtIdSiembra,txtCuadro,txtBloque,txtVariedad,fechita;
+    TextView txtIdSiembra,txtCuadro,txtBloque,txtVariedad,fechita,usulog;
     EditText cap_1,cap_2,cap_ct;
 
     // Encabezados de la tabla
     private String[] header = {"id","Bloque", "Cuadro", "C1", "C2", "C3", "C4", "CT"};
-    public TextView  fechaoculta;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +47,7 @@ public class ActivityDetalles extends AppCompatActivity {
         setContentView(R.layout.activity_detalles);
         getSupportActionBar().hide();
         try {
+            sp = getBaseContext().getSharedPreferences("share", MODE_PRIVATE);
             txtIdSiembra=findViewById(R.id.txtIdSiembra);
             txtBloque=findViewById(R.id.txtBloque);
             txtCuadro=findViewById(R.id.txtCuadro);
@@ -56,8 +56,9 @@ public class ActivityDetalles extends AppCompatActivity {
             cap_2=findViewById(R.id.cap_c2);
             cap_ct=findViewById(R.id.cap_ct);
             fechita=findViewById(R.id.fechita);
-
-
+            usulog=findViewById(R.id.usuario);
+            String usuario=sp.getString("nombre","");
+            usulog.setText(usuario);
             path = getExternalFilesDir(null) + File.separator;
             createTable();
             getDate();
