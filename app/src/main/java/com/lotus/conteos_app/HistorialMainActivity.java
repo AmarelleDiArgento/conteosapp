@@ -121,9 +121,11 @@ public class HistorialMainActivity extends AppCompatActivity {
         try {
             conteoTab ct = clc.get(tb.getIdTabla()-1);
             String bloque = ct.getBloque();
+            String date = fechaoculta.getText().toString();
 
             SharedPreferences.Editor edit = sp.edit();
             edit.putString("bloque", bloque);
+            edit.putString("date", date);
             edit.apply();
 
             Intent i = new Intent(this,ActivityDetalles.class);
@@ -263,6 +265,7 @@ public class HistorialMainActivity extends AppCompatActivity {
     }
 
     public List<conteoTab> calcular() {
+        //String text = "";
         try {
             iConteo iC = new iConteo(path);
             fecha = fechaoculta.getText().toString();
@@ -273,7 +276,11 @@ public class HistorialMainActivity extends AppCompatActivity {
                 boolean val = true;
                 for (int i = 0; i <= clc.size() - 1; i++) {
 
-                    if (c.getIdSiembra()==clc.get(i).getIdSiembra()||c.getVariedad()==clc.get(i).getVariedad()) {
+                    // c.getIdBloque() == clc.get(i).getIdBloque()
+                    // c.getIdVariedad() == clc.get(i).getIdVariedad()
+                    // c.getIdSiembra() == clc.get(i).getIdSiembra()
+
+                    if (c.getIdSiembra() == clc.get(i).getIdSiembra()) {
 
                         int cu = clc.get(i).getCuadro() + 1;
                         int c1 = clc.get(i).getConteo1() + c.getConteo1();
@@ -293,8 +300,11 @@ public class HistorialMainActivity extends AppCompatActivity {
                 }
             }
 
+            //tostada(text).show();
+
+
         } catch (Exception e) {
-            Toast.makeText(this, "No existen registros actuales con refente a esta fecha, \n por favor realiza un registro nuevo o \n puedes buscar por fecha", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "No existen registros actuales que coincidan con la fecha fecha", Toast.LENGTH_LONG).show();
             clc.clear();
         }
         return clc;

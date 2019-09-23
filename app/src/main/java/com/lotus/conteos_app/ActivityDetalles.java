@@ -18,7 +18,9 @@ import com.lotus.conteos_app.Model.iConteo;
 import com.lotus.conteos_app.Model.tab.conteoTab;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class ActivityDetalles extends AppCompatActivity {
@@ -33,7 +35,7 @@ public class ActivityDetalles extends AppCompatActivity {
     private TableLayout tableLayout;
     TableDinamic tb;
 
-    TextView txtIdSiembra,txtCuadro,txtBloque,txtVariedad;
+    TextView txtIdSiembra,txtCuadro,txtBloque,txtVariedad,fechita;
     EditText cap_1,cap_2,cap_ct;
 
     // Encabezados de la tabla
@@ -45,17 +47,40 @@ public class ActivityDetalles extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detalles);
         getSupportActionBar().hide();
+        try {
+            txtIdSiembra=findViewById(R.id.txtIdSiembra);
+            txtBloque=findViewById(R.id.txtBloque);
+            txtCuadro=findViewById(R.id.txtCuadro);
+            txtVariedad=findViewById(R.id.txtVariedad);
+            cap_1=findViewById(R.id.cap_c1);
+            cap_2=findViewById(R.id.cap_c2);
+            cap_ct=findViewById(R.id.cap_ct);
+            fechita=findViewById(R.id.fechita);
 
-        txtIdSiembra=findViewById(R.id.txtIdSiembra);
-        txtBloque=findViewById(R.id.txtBloque);
-        txtCuadro=findViewById(R.id.txtCuadro);
-        txtVariedad=findViewById(R.id.txtVariedad);
-        cap_1=findViewById(R.id.cap_c1);
-        cap_2=findViewById(R.id.cap_c2);
-        cap_ct=findViewById(R.id.cap_ct);
 
-        path = getExternalFilesDir(null) + File.separator;
-        createTable();
+            path = getExternalFilesDir(null) + File.separator;
+            createTable();
+            getDate();
+        }catch (Exception e){
+            tostada("Error\n"+e).show();
+        }
+    }
+
+    //OBTENER FECHA ACTUAL
+    public void getDate() {
+
+        try {
+            Calendar calendarDate = Calendar.getInstance();
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyy");
+            fecha = sdf.format(calendarDate.getTime());
+
+            fechita.setText(fecha);
+
+            tostada(sp.getString("date","")).show();
+
+        } catch (Exception e) {
+            Toast.makeText(this, "Exception getDate" + e, Toast.LENGTH_LONG).show();
+        }
     }
 
     //OBTENER EL ID DEL REGISTRO SEGUN LA FILA
@@ -93,11 +118,11 @@ public class ActivityDetalles extends AppCompatActivity {
     }
 
     //FILTRO DE LA TABLA POR BLOQUE
-    public List<conteoTab> filtro() {
+    public List<conteoTab> filtro() throws Exception {
         //String text = "";
+        iConteo iC = new iConteo(path);
         try {
-            iConteo iC = new iConteo(path);
-            fecha = fechaoculta.getText().toString();
+            fecha = sp.getString("date","");
             iC.nombre = fecha;
 
             List<conteoTab> cl = iC.all();
@@ -115,7 +140,7 @@ public class ActivityDetalles extends AppCompatActivity {
                 }else {}
             }
         } catch (Exception e) {
-            Toast.makeText(this, "No existen registros actuales que coincidan con la fecha fecha", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "No existen registros actuales que coincidan con la fecha", Toast.LENGTH_LONG).show();
             clc.clear();
         }
         return clc;
@@ -130,10 +155,6 @@ public class ActivityDetalles extends AppCompatActivity {
 
             iConteo iC = new iConteo(path);
 
-            fechaoculta = findViewById(R.id.fechita);
-            fechaoculta.setText(sp.getString("fechaoculta",""));
-            String nomfecha=fechaoculta.getText().toString();
-            String fecha = nomfecha;
             iC.nombre = fecha;
 
             final List<conteoTab> cl = filtro();
