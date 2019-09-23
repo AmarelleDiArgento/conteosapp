@@ -63,7 +63,7 @@ public class iPlano extends sqlConect implements plano {
             "      ,[area]\n" +
             "      ,[cuadros]\n" +
             "  FROM [Proyecciones].[dbo].[Plano_Siembra]" +
-            "  WHERE finca = ?";
+            "  WHERE [idFinca] = ?";
 
     public iPlano(String path) throws Exception {
         this.cn = getConexion();

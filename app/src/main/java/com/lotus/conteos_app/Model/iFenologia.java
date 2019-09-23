@@ -41,6 +41,17 @@ public class iFenologia extends sqlConect implements fenologia {
             "  WHERE  [variedad] = ?;";
     final String all = "SELECT [idFenologia] ,[idVariedad] ,[variedad] ,[grados_dia] ,[diametro_boton] ,[largo_boton] ,[imagen]\n" +
             "  FROM [dbo].[Fenologia];";
+    final String allfin = "SELECT [idFenologia]\n" +
+            "      ,[idVariedad]\n" +
+            "      ,[variedad]\n" +
+            "      ,[grados_dia]\n" +
+            "      ,[diametro_boton]\n" +
+            "      ,[largo_boton]\n" +
+            "      ,[imagen]\n" +
+            "  FROM [dbo].[Fenologia]\n" +
+            "  WHERE [idVariedad] in(SELECT distinct  [idVariedad]\n" +
+            "\t  FROM [dbo].[Plano_Siembra]\n" +
+            "\t  WHERE [idFinca] = ?);";
 
 
     public iFenologia(String path) throws Exception {
@@ -104,6 +115,25 @@ public class iFenologia extends sqlConect implements fenologia {
 
         ResultSet rs;
         PreparedStatement ps = cn.prepareStatement(all);
+        rs = ps.executeQuery();
+        while (rs.next()) {
+            fl.add(gift(rs));
+        }
+
+        closeConexion(cn, rs);
+
+        String contenido = fl.toString();
+
+        return ja.CrearArchivo(path, nombre, contenido);
+    }
+
+    @Override
+    public boolean local(int idFinca) throws Exception {
+
+
+        ResultSet rs;
+        PreparedStatement ps = cn.prepareStatement(allfin);
+        ps.setInt(1,idFinca);
         rs = ps.executeQuery();
         while (rs.next()) {
             fl.add(gift(rs));

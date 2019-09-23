@@ -128,6 +128,7 @@ public class Login extends AppCompatActivity {
 
 
     public void guardarUsuario(monitorTab u) {
+        Toast.makeText(this, u.toString(), Toast.LENGTH_LONG).show();
         try {
             SharedPreferences.Editor edit = sp.edit();
             if (u != null) {

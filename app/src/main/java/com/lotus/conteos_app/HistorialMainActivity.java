@@ -186,8 +186,7 @@ public class HistorialMainActivity extends AppCompatActivity {
 
     //METODO PARA EL ENVIO DE LOS GRADOS DIA CON SHARED PREFERENCES
     public void sharedGradoDia(View view) {
-        SharedPreferences gradoDia = getBaseContext().getSharedPreferences("gradoDia", MODE_PRIVATE);
-        SharedPreferences.Editor edit = gradoDia.edit();
+        SharedPreferences.Editor edit = sp.edit();
         gDia = Float.valueOf(gradosDiaTxt.getText().toString());
 
         if ((gDia >= 5) && (gDia <= 15)) {
@@ -210,9 +209,9 @@ public class HistorialMainActivity extends AppCompatActivity {
 
     //METODO PARA ALMACENAR LOS GRADOS DIA
     public float recibirGradoDia() {
-        SharedPreferences gradoDia = getBaseContext().getSharedPreferences("gradoDia", MODE_PRIVATE);
-        if (gradoDia != null) {
-            gDia = gradoDia.getFloat("gradoDia", 0);
+
+        if (sp != null) {
+            gDia = sp.getFloat("gradoDia", 0);
             return gDia;
         } else {
             return 0;
@@ -380,17 +379,21 @@ public class HistorialMainActivity extends AppCompatActivity {
     //ACTUALIZA LOS PLANOS
     public void actualizarBases(View v) {
         try {
+
+
+            int idFinca = sp.getInt("idFinca", 0);
+
             iFenologia iF = new iFenologia(path);
             iPlano iP = new iPlano(path);
 
-            if (iP.local() && iF.local()) {
+            if (iP.local(idFinca) && iF.local(idFinca)) {
                 Toast.makeText(this, "Local actualizado exitosamente", Toast.LENGTH_LONG).show();
             }
 
         } catch (Exception e) {
             Toast.makeText(this, "No se dispone de conexion:\n"
                     + "Trabajando con recursos locales\n"
-                    + "Codigo: " + e.hashCode(), Toast.LENGTH_LONG).show();
+                    + "Codigo: " + e, Toast.LENGTH_LONG).show();
         }
     }
 
