@@ -50,6 +50,20 @@ public class iPlano extends sqlConect implements plano {
             "  FROM [Proyecciones].[dbo].[Plano_Siembra]" +
             "  WHERE finca = 'SAN MATEO'" +
             "  and idVariedad in(1358,1101,870,284,115)";
+    final String allFin = "SELECT [idSiembra]\n" +
+            "      ,[idFinca]\n" +
+            "      ,[finca]\n" +
+            "      ,[idBloque]\n" +
+            "      ,[bloque]\n" +
+            "      ,[idVariedad]\n" +
+            "      ,[variedad]\n" +
+            "      ,[cama]\n" +
+            "      ,[sufijo]\n" +
+            "      ,[plantas]\n" +
+            "      ,[area]\n" +
+            "      ,[cuadros]\n" +
+            "  FROM [Proyecciones].[dbo].[Plano_Siembra]" +
+            "  WHERE finca = ?";
 
     public iPlano(String path) throws Exception {
         this.cn = getConexion();
@@ -218,4 +232,26 @@ public class iPlano extends sqlConect implements plano {
         }
         return pr;
     }
+
+    @Override
+    public boolean local(int idFinca)throws Exception {
+
+
+        List<planoTab> po = new ArrayList<>();
+
+        ResultSet rs;
+        PreparedStatement ps = cn.prepareStatement(allFin);
+        ps.setInt(1,idFinca);
+        rs = ps.executeQuery();
+        while (rs.next()) {
+            po.add(gift(rs));
+        }
+        closeConexion(cn, rs);
+
+        String contenido = po.toString();
+
+        return ja.CrearArchivo(path, nombre, contenido);
+    }
+
+
 }

@@ -8,4 +8,5 @@ import java.util.List;
 public interface plano extends DAO <Long, planoTab,String> {
 
     planoTab OneforIdSiembra(long idSiembra) throws Exception;
+    boolean local(int idFinca) throws Exception;
 }
