@@ -26,6 +26,8 @@ public class VisualFenoActivity extends AppCompatActivity {
     List<fenologiaTab> lf = new ArrayList<>();
     String path = null;
 
+    SharedPreferences sp = null;
+
     iFenologia iF = null;
     int dia = 0, IdVariedad;
     String variedad ,imagen,imagen2,imagen3,imagen4;
@@ -39,6 +41,7 @@ public class VisualFenoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_visual_feno);
         getSupportActionBar().hide();
+        sp = getBaseContext().getSharedPreferences("share", MODE_PRIVATE);
 
         jpgView1 = (ImageView) findViewById(R.id.jpgView1);
         jpgView2 = (ImageView) findViewById(R.id.jpgView2);
@@ -56,16 +59,15 @@ public class VisualFenoActivity extends AppCompatActivity {
     //REALIZA LA CARGAS DE IMAGEN SEGUN FENOLOFIA
     public void cargarImagenes() {
         try {
-            SharedPreferences fotollegada = getBaseContext().getSharedPreferences("Fotosfenol", MODE_PRIVATE);
-            if (fotollegada != null) {
-                variedad = fotollegada.getString("variedad", "");
-                imagen = fotollegada.getString("fotoImagen", "");
-                imagen2 = fotollegada.getString("fotoImagen2", "");
-                imagen3 = fotollegada.getString("fotoImagen3", "");
-                imagen4 = fotollegada.getString("fotoImagen4", "");
-                gDia = fotollegada.getFloat("gDia", 0);
-                dia = fotollegada.getInt("dia", 0);
-                IdVariedad = fotollegada.getInt("IdVariedad",0);
+            if (sp != null) {
+                variedad = sp.getString("variedad", "");
+                imagen = sp.getString("fotoImagen", "");
+                imagen2 = sp.getString("fotoImagen2", "");
+                imagen3 = sp.getString("fotoImagen3", "");
+                imagen4 = sp.getString("fotoImagen4", "");
+                gDia = sp.getFloat("gDia", 0);
+                dia = sp.getInt("dia", 0);
+                IdVariedad = sp.getInt("IdVariedad",0);
 
                 final String path = "/storage/extSdCard/"+variedad+"/"+imagen+"";
                 final String path2 = "/storage/extSdCard/"+variedad+"/"+imagen2+"";
@@ -85,8 +87,10 @@ public class VisualFenoActivity extends AppCompatActivity {
                 jpgView2.setImageBitmap(bitmap2);
                 jpgView3.setImageBitmap(bitmap3);
                 jpgView4.setImageBitmap(bitmap4);
-
+                Toast.makeText(getApplicationContext(),"llegaron las imagenes",Toast.LENGTH_SHORT).show();
                 cargaDl(dia,gDia,IdVariedad);
+            }else {
+                Toast.makeText(getApplicationContext(),"no llegaron las imagenes",Toast.LENGTH_SHORT).show();
             }
 
         } catch (Exception e) {
@@ -97,7 +101,7 @@ public class VisualFenoActivity extends AppCompatActivity {
     }
 
     //CARGA DE LOGITUN Y DIAMETRO
-    public void cargaDl(int dia,Float gDia,int idVariedad){
+   public void cargaDl(int dia,Float gDia,int idVariedad){
 
         try {
             path = getExternalFilesDir(null) + File.separator;

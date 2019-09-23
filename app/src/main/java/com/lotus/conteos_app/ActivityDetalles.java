@@ -1,7 +1,6 @@
 package com.lotus.conteos_app;
 
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -104,9 +103,8 @@ public class ActivityDetalles extends AppCompatActivity {
             //Toast.makeText(this,"bloque \n"+bloque,Toast.LENGTH_SHORT).show();
             //Toast.makeText(this,"id siembra \n"+idSiembra.toString(),Toast.LENGTH_SHORT).show();
 
-            txtVariedad.setText("Variedad: "+variedad);
+            txtVariedad.setText("Variedad: "+variedad+"  -   Bloque: "+bloque);
             txtIdSiembra.setText("Id de la Siembra: "+idSiempar);
-            txtBloque.setText("Bloque: "+bloque);
             txtCuadro.setText("Cuadro: "+cuadro);
             cap_1.setText(String.valueOf(conteo1));
             cap_2.setText(String.valueOf(conteo4));

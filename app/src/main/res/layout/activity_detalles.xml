@@ -26,9 +26,9 @@
         app:srcCompat="@drawable/logoheader" />
 
     <ScrollView
-        android:layout_width="581dp"
-        android:layout_height="386dp"
-        android:layout_marginTop="444dp"
+        android:layout_width="580dp"
+        android:layout_height="506dp"
+        android:layout_marginTop="348dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.526"
         app:layout_constraintStart_toStartOf="parent"
@@ -147,22 +147,25 @@
 
     <TextView
         android:id="@+id/textView17"
-        android:layout_width="576dp"
-        android:layout_height="233dp"
+        android:layout_width="570dp"
+        android:layout_height="144dp"
         android:layout_marginStart="12dp"
         android:layout_marginTop="148dp"
         android:background="#92F0EDED"
         android:text="   Información sobre el cuadro"
+        android:textAlignment="viewStart"
         android:textColor="@color/ColorSecondaryText"
+        android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/txtBloque"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="56dp"
-        android:layout_marginTop="224dp"
+        android:layout_width="0dp"
+        android:layout_height="18dp"
+        android:layout_marginStart="244dp"
+        android:layout_marginTop="172dp"
+        android:textSize="15sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -170,8 +173,8 @@
         android:id="@+id/txtVariedad"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="56dp"
-        android:layout_marginTop="184dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="312dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -179,8 +182,9 @@
         android:id="@+id/txtCuadro"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="284dp"
-        android:layout_marginTop="224dp"
+        android:layout_marginStart="424dp"
+        android:layout_marginTop="172dp"
+        android:textSize="15sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -188,8 +192,8 @@
         android:id="@+id/cap_ct"
         android:layout_width="86dp"
         android:layout_height="44dp"
-        android:layout_marginStart="436dp"
-        android:layout_marginTop="312dp"
+        android:layout_marginStart="424dp"
+        android:layout_marginTop="240dp"
         android:ems="10"
         android:inputType="textPersonName"
         android:textAlignment="center"
@@ -197,22 +201,12 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/titulo_c1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="56dp"
-        android:layout_marginTop="276dp"
-        android:text="Conteo Semana1"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <EditText
         android:id="@+id/cap_c1"
         android:layout_width="90dp"
         android:layout_height="49dp"
-        android:layout_marginStart="56dp"
-        android:layout_marginTop="312dp"
+        android:layout_marginStart="44dp"
+        android:layout_marginTop="240dp"
         android:ems="10"
         android:inputType="textPersonName"
         android:textAlignment="center"
@@ -224,8 +218,8 @@
         android:id="@+id/titulo_c2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="244dp"
-        android:layout_marginTop="276dp"
+        android:layout_marginStart="240dp"
+        android:layout_marginTop="216dp"
         android:text="Conteo Semana4"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -234,8 +228,8 @@
         android:id="@+id/cap_c2"
         android:layout_width="94dp"
         android:layout_height="46dp"
-        android:layout_marginStart="252dp"
-        android:layout_marginTop="312dp"
+        android:layout_marginStart="240dp"
+        android:layout_marginTop="240dp"
         android:ems="10"
         android:inputType="textPersonName"
         android:textAlignment="center"
@@ -247,9 +241,19 @@
         android:id="@+id/titulo_ct"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="460dp"
-        android:layout_marginTop="276dp"
+        android:layout_marginStart="444dp"
+        android:layout_marginTop="216dp"
         android:text="Total"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/titulo_c1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="44dp"
+        android:layout_marginTop="216dp"
+        android:text="Conteo Semana1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -257,8 +261,8 @@
         android:id="@+id/button9"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="412dp"
-        android:layout_marginTop="392dp"
+        android:layout_marginStart="416dp"
+        android:layout_marginTop="300dp"
         android:drawableRight="@drawable/cargar_datos"
         android:onClick="clicTable"
         android:text="Cargar datos    "
@@ -269,8 +273,9 @@
         android:id="@+id/txtIdSiembra"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="284dp"
-        android:layout_marginTop="184dp"
+        android:layout_marginStart="56dp"
+        android:layout_marginTop="176dp"
+        android:textSize="15sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

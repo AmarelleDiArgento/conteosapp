@@ -2,6 +2,7 @@ package com.lotus.conteos_app;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
@@ -29,6 +30,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import static com.lotus.conteos_app.R.drawable.flor;
 import static java.lang.String.valueOf;
 
 
@@ -70,7 +72,8 @@ public class MainActivity extends AppCompatActivity {
 
             gradoDia = (TextView) findViewById(R.id.gradodia);
             gradoDia.setText(valueOf(getGradoDia()));
-
+            String gD = String.valueOf(sp.getFloat("gradoDia", 0));
+            Toast.makeText(getApplicationContext(),gD,Toast.LENGTH_SHORT).show();
             IdSiembra = (EditText) findViewById(R.id.resulcode);
             c1 = (EditText) findViewById(R.id.c1et);
             c4 = (EditText) findViewById(R.id.c4et);
@@ -227,12 +230,17 @@ public class MainActivity extends AppCompatActivity {
 
     //OBTENIENDO LOS GRADOS DIA CON SHARED PREFERENCES
     public float getGradoDia() {
-        if (gradoDia != null) {
-            gDia = sp.getFloat("gradoDia", 0);
-            return gDia;
-        } else {
-            return 0;
-        }
+       try{
+           if (gradoDia != null) {
+               gDia = sp.getFloat("gradoDia", 0);
+               return gDia;
+           } else {
+               return 0;
+           }
+       }catch (Exception e){
+           Toast.makeText(this,"Error el gdia \n"+e,Toast.LENGTH_SHORT).show();
+       }
+        return 0;
     }
 
     //OBTENIENDO EL CODIGO DE BARRAS DESDE LA CAMARA
@@ -280,7 +288,7 @@ public class MainActivity extends AppCompatActivity {
 
             if (p != null) {
                 String s;
-                if (p.getSufijo() != null) {
+                if (p.getIdSiembra() != null) {
                     s = p.getCama() + p.getSufijo();
                 } else {
                     s = valueOf(p.getCama());
@@ -293,10 +301,8 @@ public class MainActivity extends AppCompatActivity {
                 NoArea.setText(String.valueOf(p.getArea()));
                 NoCuadros.setText(String.valueOf(p.getCuadros()));
                 NoPlantas.setText(String.valueOf(p.getPlantas()));
-
-
-
                 cargarImagenes(p.getIdVariedad());
+
             }else {
                 Toast toast = Toast.makeText(getApplicationContext(), "Lo sentimos pero no se encuentra la siembra", Toast.LENGTH_LONG);
                 toast.setGravity(Gravity.TOP,0,100);
@@ -311,6 +317,17 @@ public class MainActivity extends AppCompatActivity {
 
     //REALIZA LA CARGAS DE IMAGEN SEGUN FENOLOFIA
     public void cargarImagenes(int idVariedad) {
+
+        if((jpgView3.getDrawable() == null) && (jpgView4.getDrawable() == null)){
+            jpgView3.setImageResource(R.drawable.noimagen);
+            jpgView4.setImageResource(R.drawable.noimagen);
+        }
+
+        if((jpgView1.getDrawable() == null) && (jpgView2.getDrawable() == null)){
+            jpgView1.setImageResource(R.drawable.noimagen);
+            jpgView2.setImageResource(R.drawable.noimagen);
+        }
+
         try {
 
             imageAdmin iA = new imageAdmin();
@@ -339,10 +356,12 @@ public class MainActivity extends AppCompatActivity {
             edit.commit();
             edit.apply();
 
+
+
         } catch (Exception e) {
-            Toast toast = Toast.makeText(getApplicationContext(), "Lo sentimos pero no se encuentra la siembra", Toast.LENGTH_LONG);
-            toast.setGravity(Gravity.TOP,0,100);
-            toast.show();
+            //Toast toast = Toast.makeText(getApplicationContext(), "Error \n"+e, Toast.LENGTH_LONG);
+            //toast.setGravity(Gravity.TOP,0,100);
+            //toast.show();
         }
     }
 
@@ -391,7 +410,7 @@ public class MainActivity extends AppCompatActivity {
             String var = variedad.getText().toString();
 
 
-            if ((var.isEmpty()) && (Tot==0)) {
+            if (Tot<=0) {
                 Toast toast = Toast.makeText(getApplicationContext(), "Lo sentimos, no es posible realizar un registro", Toast.LENGTH_LONG);
                 toast.setGravity(Gravity.TOP,0,100);
                 toast.show();
@@ -484,12 +503,12 @@ public class MainActivity extends AppCompatActivity {
     //semana 1
     public void btn_visual1(View v){
 
-        if((jpgView1.getDrawable() == null) && (jpgView2.getDrawable() == null) && (jpgView3.getDrawable() == null) && (jpgView4.getDrawable() == null)){
-            Toast toast = Toast.makeText(getApplicationContext(), "No se pueden cargar las imagenes, por que no has realizado una busqueda", Toast.LENGTH_LONG);
-            toast.setGravity(Gravity.TOP,0,100);
-            toast.show();
-        }else {
 
+        if((jpgView1.getDrawable() == null) && (jpgView2.getDrawable() == null) && (jpgView3.getDrawable() == null) && (jpgView4.getDrawable() == null)) {
+            Toast toast = Toast.makeText(getApplicationContext(), "No se pueden cargar las imagenes, por que no has realizado una busqueda", Toast.LENGTH_LONG);
+            toast.setGravity(Gravity.TOP, 0, 100);
+            toast.show();
+        } else {
             Intent i = new Intent(MainActivity.this, VisualFenoActivity.class);
             startActivity(i);
         }
