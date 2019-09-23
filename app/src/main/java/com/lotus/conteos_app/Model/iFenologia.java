@@ -133,7 +133,7 @@ public class iFenologia extends sqlConect implements fenologia {
 
         ResultSet rs;
         PreparedStatement ps = cn.prepareStatement(allfin);
-        ps.setInt(1,idFinca);
+        ps.setInt(1, idFinca);
         rs = ps.executeQuery();
         while (rs.next()) {
             fl.add(gift(rs));
@@ -178,9 +178,14 @@ public class iFenologia extends sqlConect implements fenologia {
             fenologiaTab f = i.next();
             if (f.getIdVariedad() == idVariedad) {
                 if (img[c] <= f.getGrados_dia()) {
+                    double pos = f.getGrados_dia() - img[c];
+                    double pre = fu.getGrados_dia() - img[c];
 
-
-                    fi.add(fu);
+                    if (pre >= pos) {
+                        fi.add(f);
+                    } else {
+                        fi.add(fu);
+                    }
                     c++;
                     if (c >= 4) {
                         break;
