@@ -73,7 +73,6 @@ public class MainActivity extends AppCompatActivity {
             gradoDia = (TextView) findViewById(R.id.gradodia);
             gradoDia.setText(valueOf(getGradoDia()));
             String gD = String.valueOf(sp.getFloat("gradoDia", 0));
-            Toast.makeText(getApplicationContext(),gD,Toast.LENGTH_SHORT).show();
             IdSiembra = (EditText) findViewById(R.id.resulcode);
             c1 = (EditText) findViewById(R.id.c1et);
             c4 = (EditText) findViewById(R.id.c4et);
@@ -408,15 +407,18 @@ public class MainActivity extends AppCompatActivity {
         try {
             int Tot = Integer.parseInt(total.getText().toString());
             String var = variedad.getText().toString();
+            int Siembraval = Integer.parseInt(IdSiembra.getText().toString());
 
 
-            if (Tot<=0) {
-                Toast toast = Toast.makeText(getApplicationContext(), "Lo sentimos, no es posible realizar un registro", Toast.LENGTH_LONG);
+            if (Siembraval==0) {
+                Toast toast = Toast.makeText(getApplicationContext(), "Lo sentimos, no es posible realizar un registro \n por favor reliza una busqueda", Toast.LENGTH_LONG);
+                toast.setGravity(Gravity.TOP,0,100);
+                toast.show();
+            }else if(Tot==0){
+                Toast toast = Toast.makeText(getApplicationContext(), "Lo sentimos, no es posible realizar un registro\n por favor llena el campo total", Toast.LENGTH_LONG);
                 toast.setGravity(Gravity.TOP,0,100);
                 toast.show();
             } else {
-                //Toast.makeText(this,"el campo esta lleno",Toast.LENGTH_SHORT).show();
-
                 int siembra = Integer.parseInt(IdSiembra.getText().toString());
                 if (siembra > 0) {
 
