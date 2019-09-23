@@ -87,7 +87,7 @@ public class TableDinamic {
                         public void onClick(final View view) {
                             id = view.getId();
                             setIdTabla(id);
-                            //Toast.makeText(context,"click "+id,Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context,"click "+id,Toast.LENGTH_SHORT).show();
                             view.setBackgroundColor(Color.parseColor("#FCC9D6"));
                             int dur = 1000;
                             new Handler().postDelayed(new Runnable() {
@@ -141,12 +141,10 @@ public class TableDinamic {
     }
 
     public void setIdTabla(int idTabla) {
-
         this.idtabla = idTabla;
     }
 
     public int getIdTabla() {
-        //Toast.makeText(context,"id desde el get \n"+this.idtabla,Toast.LENGTH_SHORT).show();
         return this.idtabla;
     }
 

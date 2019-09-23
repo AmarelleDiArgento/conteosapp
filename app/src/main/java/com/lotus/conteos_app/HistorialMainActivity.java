@@ -34,16 +34,14 @@ import java.util.Date;
 import java.util.List;
 
 public class HistorialMainActivity extends AppCompatActivity {
-
     SharedPreferences sp = null;
-
     public String path = null;
     String fecha = "";
     jsonAdmin ja = null;
     EditText gradosDiaTxt;
     DatePicker date;
     ImageView btn_show_picker;
-    TextView usuario, fech, fechita, fechaoculta;
+    TextView fech, fechita, fechaoculta;
     Calendar calendarDate;
 
     float gDia;
@@ -55,6 +53,7 @@ public class HistorialMainActivity extends AppCompatActivity {
     private int month;
     private int day;
     private TableLayout tableLayout;
+
     // Encabezados de la tabla
     private String[] header = {"Bloque", "Variedad", "CC", "CT", "CN1", "EST1", "CN4", "EST4", "SNT", "ESTT"};
     // Datos de la tabla
@@ -65,6 +64,7 @@ public class HistorialMainActivity extends AppCompatActivity {
         setContentView(R.layout.historial_main);
         getSupportActionBar().hide();
         try {
+
             sp = getBaseContext().getSharedPreferences("share", MODE_PRIVATE);
             path = getExternalFilesDir(null) + File.separator;
             // path = "/storage/extSdCard/";
@@ -74,9 +74,8 @@ public class HistorialMainActivity extends AppCompatActivity {
             btn_show_picker = (ImageButton) findViewById(R.id.btn_datapicker);
             fech = findViewById(R.id.txt_fecha);
             fechita = findViewById(R.id.fechita);
-            fechaoculta = findViewById(R.id.fechita);
-            usuario = findViewById(R.id.usuLog);
-            usuario.setText(sp.getString("nombre", ""));
+            fechaoculta = findViewById(R.id.fechaoculta);
+
             ja = new jsonAdmin();
 
             getDate();
@@ -90,7 +89,7 @@ public class HistorialMainActivity extends AppCompatActivity {
             day = cal.get(Calendar.DAY_OF_MONTH);
             year = cal.get(Calendar.YEAR);
 
-            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyy");
+            SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyy");
             fecha = sdf.format(cal.getTime());
             fechaoculta.setText(fecha);
 
@@ -121,22 +120,12 @@ public class HistorialMainActivity extends AppCompatActivity {
 
         try {
             conteoTab ct = clc.get(tb.getIdTabla()-1);
-            tb.getIdTabla();
-            String variedad = ct.getVariedad();
-            String bloque= ct.getBloque();
-            Long idSiembra= ct.getIdSiembra();
+            String bloque = ct.getBloque();
 
             SharedPreferences.Editor edit = sp.edit();
-            edit.putString("fechaoculta", fechaoculta.getText().toString());
-            edit.putString("variedad",variedad);
-            edit.putString("bloque",bloque);
-            edit.putLong("idSiembra",idSiembra);
-            edit.putInt("idRow",tb.getIdTabla());
-            edit.commit();
+            edit.putString("bloque", bloque);
             edit.apply();
 
-
-            tostada(ct.getIdConteo()+"").show();
             Intent i = new Intent(this,ActivityDetalles.class);
             startActivity(i);
         }catch (Exception E){
@@ -156,7 +145,6 @@ public class HistorialMainActivity extends AppCompatActivity {
     public void getDate() {
 
         try {
-
             calendarDate = Calendar.getInstance();
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyy");
             fecha = sdf.format(calendarDate.getTime());
@@ -192,10 +180,11 @@ public class HistorialMainActivity extends AppCompatActivity {
 
     //METODO PARA EL ENVIO DE LOS GRADOS DIA CON SHARED PREFERENCES
     public void sharedGradoDia(View view) {
+        SharedPreferences gradoDia = getBaseContext().getSharedPreferences("gradoDia", MODE_PRIVATE);
+        SharedPreferences.Editor edit = gradoDia.edit();
         gDia = Float.valueOf(gradosDiaTxt.getText().toString());
 
         if ((gDia >= 5) && (gDia <= 15)) {
-            SharedPreferences.Editor edit = sp.edit();
             edit.putFloat("gradoDia", gDia);
             edit.commit();
             edit.apply();
@@ -215,8 +204,9 @@ public class HistorialMainActivity extends AppCompatActivity {
 
     //METODO PARA ALMACENAR LOS GRADOS DIA
     public float recibirGradoDia() {
-        if (sp != null) {
-            gDia = sp.getFloat("gradoDia", 0);
+        SharedPreferences gradoDia = getBaseContext().getSharedPreferences("gradoDia", MODE_PRIVATE);
+        if (gradoDia != null) {
+            gDia = gradoDia.getFloat("gradoDia", 0);
             return gDia;
         } else {
             return 0;
@@ -273,7 +263,6 @@ public class HistorialMainActivity extends AppCompatActivity {
     }
 
     public List<conteoTab> calcular() {
-        //String text = "";
         try {
             iConteo iC = new iConteo(path);
             fecha = fechaoculta.getText().toString();
@@ -284,12 +273,7 @@ public class HistorialMainActivity extends AppCompatActivity {
                 boolean val = true;
                 for (int i = 0; i <= clc.size() - 1; i++) {
 
-                    /*
-                    text += c.getIdVariedad() + " " + clc.get(i).getIdVariedad() + " " +
-                            c.getIdBloque() + " " + clc.get(i).getIdBloque() + "\n" ;
-                    */
-                    //c.getIdBloque() == clc.get(i).getIdBloque() || c.getIdVariedad() == clc.get(i).getIdVariedad()
-                    if (c.getIdSiembra() == clc.get(i).getIdSiembra()) {
+                    if (c.getIdSiembra()==clc.get(i).getIdSiembra()||c.getVariedad()==clc.get(i).getVariedad()) {
 
                         int cu = clc.get(i).getCuadro() + 1;
                         int c1 = clc.get(i).getConteo1() + c.getConteo1();
@@ -309,11 +293,8 @@ public class HistorialMainActivity extends AppCompatActivity {
                 }
             }
 
-            //tostada(text).show();
-
-
         } catch (Exception e) {
-            Toast.makeText(this, "No existen registros actuales que coincidan con la fecha fecha", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "No existen registros actuales con refente a esta fecha, \n por favor realiza un registro nuevo o \n puedes buscar por fecha", Toast.LENGTH_LONG).show();
             clc.clear();
         }
         return clc;
@@ -336,8 +317,7 @@ public class HistorialMainActivity extends AppCompatActivity {
                 // {"Finca", "Bloque", "Variedad", "CC", "CT", "S1C", "S1P", "S4C", "S4P
 
                 rows.add(new String[]{
-                                String.valueOf(c.getIdSiembra()),
-                                //c.getBloque(),
+                                c.getBloque(),
                                 c.getVariedad(),
                                 String.valueOf(c.getCuadro()),
                                 String.valueOf(c.getCuadros()),
@@ -347,7 +327,7 @@ public class HistorialMainActivity extends AppCompatActivity {
                                 String.valueOf(frt.format(extrapolar(c.getCuadros(), c.getCuadro(), c.getConteo4()))),
                                 String.valueOf(frt.format(c.getTotal())),
                                 String.valueOf(frt.format(extrapolar(c.getCuadros(), c.getCuadro(), c.getTotal())))
-                                }
+                        }
                 );
             }
         } catch (Exception e) {

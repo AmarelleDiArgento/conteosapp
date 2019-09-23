@@ -60,32 +60,36 @@ public class ActivityDetalles extends AppCompatActivity {
 
     //OBTENER EL ID DEL REGISTRO SEGUN LA FILA
     public void clicTable(View v) {
+
         try {
-                tb = new TableDinamic(tableLayout, getApplicationContext());
-                int idRow = tb.getIdTabla();
-                conteoTab ct = clc.get(2);
-                tostada("idRow\n " + idRow).show();
+            tb = new TableDinamic(tableLayout, getApplicationContext());
+            conteoTab ct = clc.get(tb.getIdTabla());
+            tostada(sp.getString("bloque",""));
+            String variedad = ct.getVariedad();
+            String bloque= ct.getBloque();
+            Long idSiembra= ct.getIdSiembra();
+            String idSiempar= String.valueOf(idSiembra);
+            int cuadro = ct.getCuadro();
+            int conteo1 = ct.getConteo1();
+            int conteo4 = ct.getConteo4();
+            int total = ct.getTotal();
 
-                String variedad = ct.getVariedad();
-                String bloque= ct.getBloque();
-                Long idSiembra= ct.getIdSiembra();
-                String idSiempar= String.valueOf(idSiembra);
-                int cuadro = ct.getCuadro();
-                int conteo1 = ct.getConteo1();
-                int conteo4 = ct.getConteo4();
-                int total = ct.getTotal();
+            //Toast.makeText(this,"variedad \n"+variedad,Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this,"bloque \n"+bloque,Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this,"id siembra \n"+idSiembra.toString(),Toast.LENGTH_SHORT).show();
 
-                txtIdSiembra.setText("Id Siembra: "+idSiempar);
-                txtBloque.setText("Bloque: "+bloque);
-                txtCuadro.setText("Cuadro: "+cuadro);
-                txtVariedad.setText("Variedad: "+variedad);
-                cap_1.setText(String.valueOf(conteo1));
-                cap_2.setText(String.valueOf(conteo4));
-                cap_ct.setText(String.valueOf(total));
+            txtVariedad.setText("Variedad: "+variedad);
+            txtIdSiembra.setText("Id de la Siembra: "+idSiempar);
+            txtBloque.setText("Bloque: "+bloque);
+            txtCuadro.setText("Cuadro: "+cuadro);
+            cap_1.setText(String.valueOf(conteo1));
+            cap_2.setText(String.valueOf(conteo4));
+            cap_ct.setText(String.valueOf(total));
 
         }catch (Exception E){
             tostada("ERROR\n " + E.toString()).show();
         }
+
     }
 
     //FILTRO DE LA TABLA POR BLOQUE
