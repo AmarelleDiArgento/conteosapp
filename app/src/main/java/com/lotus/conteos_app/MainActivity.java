@@ -306,7 +306,7 @@ public class MainActivity extends AppCompatActivity {
                 NoPlantas.setText(String.valueOf(p.getPlantas()));
                 cargarImagenes(p.getIdVariedad());
 
-            }else {
+            }else{
                 Toast toast = Toast.makeText(getApplicationContext(), "Lo sentimos pero no se encuentra la siembra", Toast.LENGTH_LONG);
                 toast.setGravity(Gravity.TOP,0,100);
                 toast.show();
@@ -415,7 +415,7 @@ public class MainActivity extends AppCompatActivity {
 
 
             if (Siembraval==0) {
-                Toast toast = Toast.makeText(getApplicationContext(), "Lo sentimos, no es posible realizar un registro \n por favor reliza una busqueda", Toast.LENGTH_LONG);
+                Toast toast = Toast.makeText(getApplicationContext(), "Lo sentimos, no es posible realizar un registro \n por favor realiza una búsqueda", Toast.LENGTH_LONG);
                 toast.setGravity(Gravity.TOP,0,100);
                 toast.show();
             }else if(Tot==0){
