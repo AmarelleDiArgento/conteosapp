@@ -8,42 +8,12 @@
     tools:context=".HistorialMainActivity">
 
     <TextView
-        android:id="@+id/textView33"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="64dp"
-        android:text="Fecha:"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
         android:id="@+id/fechita"
-        android:layout_width="132dp"
-        android:layout_height="26dp"
-        android:layout_marginStart="88dp"
-        android:layout_marginTop="64dp"
-        android:text="TextView"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/usuLog"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="96dp"
-        android:layout_marginTop="88dp"
-        android:text="Leider  Sarmiento"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/textView34"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="28dp"
-        android:layout_marginTop="88dp"
-        android:text="Monitor:"
+        android:layout_width="228dp"
+        android:layout_height="52dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="60dp"
+        android:text="Usuario y fecha"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -60,96 +30,49 @@
         android:id="@+id/HISTORIAL_SIEMBRA"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="148dp"
-        android:layout_marginTop="140dp"
-        android:text="Historial de siembra"
+        android:layout_marginStart="252dp"
+        android:layout_marginTop="124dp"
+        android:text="Busqueda"
         android:textColor="@color/colorPrimaryDark"
-        android:textSize="30sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/plantilla_busqueda"
-        android:layout_width="551dp"
-        android:layout_height="83dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="192dp"
-        android:background="#81F0EDED"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id='@+id/msm_selecciona_fecha'
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="192dp"
-        android:text="Selecciona la fecha"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageButton
-        android:id="@+id/btn_datapicker"
-        android:layout_width="47dp"
-        android:layout_height="49dp"
-        android:layout_marginStart="220dp"
-        android:layout_marginTop="220dp"
-        android:background="#00C853"
-        android:backgroundTint="#00C853"
-        android:onClick="showpicker"
-        android:text="textStart"
-        android:textAlignment="textStart"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/date" />
-
-    <ImageView
-        android:id="@+id/imageView6"
-        android:layout_width="54dp"
-        android:layout_height="49dp"
-        android:layout_marginStart="276dp"
-        android:layout_marginTop="220dp"
-        android:background="@color/colorPrimary"
-        android:onClick="buscarxfecha"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/search" />
-
     <TextView
-        android:id="@+id/textView20"
+        android:id="@+id/HISTORIAL_SIEMBRA3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="344dp"
-        android:layout_marginTop="232dp"
-        android:text="Grados dia:"
-        android:textColor="@android:color/holo_red_light"
+        android:layout_marginStart="260dp"
+        android:layout_marginTop="712dp"
+        android:text="Acciones"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/gradosDia"
-        android:layout_width="92dp"
-        android:layout_height="73dp"
-        android:layout_marginStart="416dp"
-        android:layout_marginTop="212dp"
-        android:ems="10"
-        android:inputType="numberDecimal"
-        android:textAlignment="center"
-        android:textSize="30sp"
+    <TextView
+        android:id="@+id/HISTORIAL_SIEMBRA2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="252dp"
+        android:layout_marginTop="260dp"
+        android:text="Resultados"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="18sp"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/button"
-        android:layout_width="64dp"
-        android:layout_height="63dp"
-        android:layout_marginStart="508dp"
-        android:layout_marginTop="216dp"
-        android:background="@drawable/aceptar"
-        android:onClick="sharedGradoDia"
+    <ImageView
+        android:id="@+id/imageView6"
+        android:layout_width="57dp"
+        android:layout_height="61dp"
+        android:layout_marginStart="284dp"
+        android:layout_marginTop="168dp"
+        android:background="@drawable/lupa"
+        android:onClick="buscarxfecha"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -157,9 +80,9 @@
         android:id="@+id/txt_fecha"
         android:layout_width="186dp"
         android:layout_height="52dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="220dp"
-        android:background="#03FFFFFF"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="168dp"
+        android:background="#92F0EDED"
         android:textAlignment="center"
         android:textColor="@color/colorPrimaryDark"
         android:textSize="18sp"
@@ -167,47 +90,63 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
-        android:id="@+id/imageView4"
-        android:layout_width="96dp"
-        android:layout_height="75dp"
-        android:layout_marginStart="44dp"
-        android:layout_marginTop="836dp"
-        android:background="#FFC107"
+    <ImageButton
+        android:id="@+id/btn_datapicker"
+        android:layout_width="63dp"
+        android:layout_height="61dp"
+        android:layout_marginStart="216dp"
+        android:layout_marginTop="168dp"
+        android:onClick="showpicker"
+        android:text="textStart"
+        android:textAlignment="textStart"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/up" />
+        app:srcCompat="@drawable/date" />
 
-    <ImageView
-        android:id="@+id/imageView3"
-        android:layout_width="89dp"
-        android:layout_height="73dp"
-        android:layout_marginStart="460dp"
-        android:layout_marginTop="840dp"
-        android:background="#4CAF50"
-        android:onClick="goMain"
+    <EditText
+        android:id="@+id/gradosDia"
+        android:layout_width="130dp"
+        android:layout_height="46dp"
+        android:layout_marginStart="392dp"
+        android:layout_marginTop="172dp"
+        android:background="#92F0EDED"
+        android:ems="10"
+        android:clickable="true"
+        android:inputType="numberDecimal"
+        android:textAlignment="center"
+        android:textSize="30sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/plus" />
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
-        android:id="@+id/imageView5"
-        android:layout_width="94dp"
-        android:layout_height="76dp"
-        android:layout_marginStart="252dp"
-        android:layout_marginTop="836dp"
-        android:background="#E57373"
-        android:onClick="actualizarBases"
+    <TextView
+        android:id="@+id/plantilla_busqueda2"
+        android:layout_width="134dp"
+        android:layout_height="21dp"
+        android:layout_marginStart="392dp"
+        android:layout_marginTop="144dp"
+        android:background="@android:color/transparent"
+        android:text="Digita los grados dia"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/update2" />
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="57dp"
+        android:layout_height="56dp"
+        android:layout_marginStart="528dp"
+        android:layout_marginTop="168dp"
+        android:background="@android:color/transparent"
+        android:drawableTop="@drawable/okey"
+        android:onClick="sharedGradoDia"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ScrollView
-        android:layout_width="587dp"
-        android:layout_height="251dp"
+        android:layout_width="592dp"
+        android:layout_height="420dp"
         android:layout_marginStart="4dp"
         android:layout_marginTop="288dp"
-        android:textColor="@android:color/darker_gray"
+        android:textColor="@android:color/white"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -238,7 +177,7 @@
         android:layout_width="235dp"
         android:layout_height="205dp"
         android:layout_marginStart="136dp"
-        android:layout_marginTop="264dp"
+        android:layout_marginTop="240dp"
         android:background="@color/ColorPrimaryText"
         android:calendarViewShown="false"
         android:datePickerMode="spinner"
@@ -264,27 +203,83 @@
 
     <Button
         android:id="@+id/button2"
-        android:layout_width="164dp"
-        android:layout_height="41dp"
-        android:layout_marginStart="432dp"
-        android:layout_marginTop="80dp"
-        android:background="#00FFFFFF"
-        android:drawableRight="@drawable/cerrar"
+        android:layout_width="94dp"
+        android:layout_height="31dp"
+        android:layout_marginStart="484dp"
+        android:layout_marginTop="68dp"
+        android:background="@color/ColorPrimaryText"
         android:gravity="left|center_vertical"
         android:onClick="cerrarsesion"
         android:text="cerrar sesion"
         android:textColor="@android:color/holo_red_light"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btnSubir"
+        android:layout_width="224dp"
+        android:layout_height="86dp"
+        android:layout_marginStart="52dp"
+        android:layout_marginTop="752dp"
+        android:backgroundTint="#2980B9"
+        android:text="subir registro"
+        android:textColor="@android:color/background_light"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btnBajar"
+        android:layout_width="224dp"
+        android:layout_height="84dp"
+        android:layout_marginStart="52dp"
+        android:layout_marginTop="844dp"
+        android:backgroundTint="#C0392B"
+        android:onClick="actualizarBases"
+        android:text="Cargar planos"
+        android:textColor="@color/ColorPrimaryText"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/button5"
-        android:layout_width="176dp"
-        android:layout_height="47dp"
-        android:layout_marginStart="416dp"
-        android:layout_marginTop="552dp"
+        android:layout_width="218dp"
+        android:layout_height="72dp"
+        android:layout_marginStart="312dp"
+        android:layout_marginTop="756dp"
+        android:background="#2980B9"
+        android:backgroundTint="#2980B9"
         android:onClick="clicTable"
         android:text="Ver detalles"
+        android:textColor="@color/ColorPrimaryText"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btnPlus"
+        android:layout_width="222dp"
+        android:layout_height="88dp"
+        android:layout_marginStart="312dp"
+        android:layout_marginTop="840dp"
+        android:backgroundTint="#52BE80"
+        android:onClick="goMain"
+        android:text="Nuevo registro"
+        android:textColor="@color/ColorPrimaryText"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="564dp"
+        android:layout_height="194dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="740dp"
+        android:background="#92F0EDED"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

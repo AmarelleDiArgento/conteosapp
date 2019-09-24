@@ -78,19 +78,19 @@ public class MainActivity extends AppCompatActivity {
             c4 = (EditText) findViewById(R.id.c4et);
             total = (EditText) findViewById(R.id.total);
 
-            usuario = findViewById(R.id.usuLog);
-            usuario.setText(sp.getString("nombre", ""));
 
             idusuario = findViewById(R.id.idusuario);
             idusuario.setText(sp.getString("codigo",""));
 
-            IdSiembra.setSelectAllOnFocus(true);
+
             c1.setSelectAllOnFocus(true);
             c4.setSelectAllOnFocus(true);
+            total.setSelectAllOnFocus(true);
 
             IdSiembra.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    IdSiembra.setSelectAllOnFocus(true);
                     view.clearFocus();
                     view.requestFocus();
                 }
@@ -103,6 +103,13 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
             c4.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    view.clearFocus();
+                    view.requestFocus();
+                }
+            });
+            total.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     view.clearFocus();
@@ -173,10 +180,6 @@ public class MainActivity extends AppCompatActivity {
             if (campo_code>0) {
                 buscarSiembra(campo_code);
             } else if (campo_code==0) {
-                /*Toast toast = Toast.makeText(this, "no hay ID de la siembra para consultar \n" +
-                        "por favor realiza una busqueda...", Toast.LENGTH_LONG);
-                toast.setGravity(Gravity.TOP, 0, 100);
-                toast.show();*/
             }else {
             }
         } catch (Exception ex) {
@@ -202,11 +205,7 @@ public class MainActivity extends AppCompatActivity {
             lp = iP.all();
             lf = iF.all();
             lc = iC.all();
-            //Toast.makeText(this, "Tamano: " + lc.size(), Toast.LENGTH_LONG).show();
-            //Toast.makeText(this, iC.all().toString(),Toast.LENGTH_LONG).show();
-
         } catch (Exception e) {
-            //Toast.makeText(this, "Error de recursos: \n" + e.toString(), Toast.LENGTH_LONG).show();
         }
     }
 
@@ -216,6 +215,11 @@ public class MainActivity extends AppCompatActivity {
         calendarDate = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         fecha = sdf.format(calendarDate.getTime());
+
+
+        usuario = findViewById(R.id.usuLog);
+        String usu =sp.getString("nombre", "");
+        usuario.setText("Fecha: "+fecha+"\nUsuario: "+usu);
 
         fechaAct.setText(fecha);
 
@@ -505,7 +509,6 @@ public class MainActivity extends AppCompatActivity {
     //semana 1
     public void btn_visual1(View v){
 
-
         if((jpgView1.getDrawable() == null) && (jpgView2.getDrawable() == null) && (jpgView3.getDrawable() == null) && (jpgView4.getDrawable() == null)) {
             Toast toast = Toast.makeText(getApplicationContext(), "No se pueden cargar las imagenes, por que no has realizado una busqueda", Toast.LENGTH_LONG);
             toast.setGravity(Gravity.TOP, 0, 100);
@@ -514,7 +517,6 @@ public class MainActivity extends AppCompatActivity {
             Intent i = new Intent(MainActivity.this, VisualFenoActivity.class);
             startActivity(i);
         }
-
     }
 
 

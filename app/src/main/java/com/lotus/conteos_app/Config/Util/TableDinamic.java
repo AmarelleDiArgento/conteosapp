@@ -2,13 +2,17 @@ package com.lotus.conteos_app.Config.Util;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Handler;
+import android.support.annotation.RequiresApi;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.lotus.conteos_app.R;
 
 import java.util.ArrayList;
 
@@ -46,7 +50,7 @@ public class TableDinamic {
         txtCell = new TextView(context);
         txtCell.setGravity(Gravity.CENTER);
         txtCell.setTextColor(Color.BLACK);
-        txtCell.setTextSize(20);
+        txtCell.setTextSize(15);
         txtCell.setHeight(50);
     }
 
@@ -64,6 +68,7 @@ public class TableDinamic {
             newCell();
             txtCell.setText(header[c++]);
             tableRow.addView(txtCell, newLayoutParams());
+            tableRow.setVerticalScrollBarEnabled(false);
         }
         tableLayout.addView(tableRow);
     }
@@ -88,8 +93,8 @@ public class TableDinamic {
                         public void onClick(final View view) {
                             id = view.getId();
                             setIdTabla(id);
-                            Toast.makeText(context,"click "+id,Toast.LENGTH_SHORT).show();
-                            view.setBackgroundColor(Color.parseColor("#FCC9D6"));
+                            Toast.makeText(context,"Fila "+id,Toast.LENGTH_SHORT).show();
+                            view.setBackgroundColor(Color.parseColor("#92F0EDED"));
                             int dur = 1000;
                             new Handler().postDelayed(new Runnable() {
                                 public void run() {
@@ -114,7 +119,9 @@ public class TableDinamic {
         c = 0;
         while (c < header.length) {
             txtCell = getCell(0, c++);
-            txtCell.setBackgroundColor(head);
+            txtCell.setBackgroundColor(Color.parseColor("#2980B9"));
+            txtCell.setTextColor(Color.parseColor("#FDFEFE"));
+            txtCell.setTextSize(18);
         }
     }
 
