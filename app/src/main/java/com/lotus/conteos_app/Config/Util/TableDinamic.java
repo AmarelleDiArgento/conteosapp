@@ -93,14 +93,14 @@ public class TableDinamic {
                         public void onClick(final View view) {
                             id = view.getId();
                             setIdTabla(id);
-                            Toast.makeText(context,"Fila "+id,Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, "Fila " + id, Toast.LENGTH_SHORT).show();
                             view.setBackgroundColor(Color.parseColor("#92F0EDED"));
                             int dur = 1000;
                             new Handler().postDelayed(new Runnable() {
                                 public void run() {
                                     view.setBackgroundColor(Color.WHITE);
                                 }
-                            },dur);
+                            }, dur);
                         }
                     });
                 } catch (Exception E) {
@@ -137,7 +137,6 @@ public class TableDinamic {
         //this.firt = firt;
         //this.second = second;
     }
-
 
 
     private TableRow getRow(int index) {

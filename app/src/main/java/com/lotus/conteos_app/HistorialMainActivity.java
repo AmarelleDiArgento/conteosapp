@@ -151,8 +151,9 @@ public class HistorialMainActivity extends AppCompatActivity {
                 String usuario = fechita.getText().toString();
 
                 SharedPreferences.Editor edit = sp.edit();
-                edit.putString("bloque", ct.getBloque());
-                edit.putString("variedad", ct.getVariedad());
+                edit.putString("date", fecha);
+                edit.putInt("bloque", ct.getIdBloque());
+                edit.putInt("idvariedad", ct.getIdVariedad());
                 edit.putString("usulog", usuario);
                 edit.apply();
 
