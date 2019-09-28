@@ -150,7 +150,7 @@ public class iFenologia extends sqlConect implements fenologia {
     public List<fenologiaTab> all() throws Exception {
 
         Gson gson = new Gson();
-        List<fenologiaTab> fl = gson.fromJson(ja.ObtenerLista(path, nombre), new TypeToken<List<fenologiaTab>>() {
+        fl = gson.fromJson(ja.ObtenerLista(path, nombre), new TypeToken<List<fenologiaTab>>() {
         }.getType());
 
         return fl;
@@ -179,7 +179,7 @@ public class iFenologia extends sqlConect implements fenologia {
             if (f.getIdVariedad() == idVariedad) {
                 if (img[c] <= f.getGrados_dia()) {
                     double pos = f.getGrados_dia() - img[c];
-                    double pre = fu.getGrados_dia() - img[c];
+                    double pre = img[c] - fu.getGrados_dia();
 
                     if (pre >= pos) {
                         fi.add(f);

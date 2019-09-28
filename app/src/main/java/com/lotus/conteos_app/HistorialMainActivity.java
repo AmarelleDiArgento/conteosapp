@@ -46,13 +46,13 @@ public class HistorialMainActivity extends AppCompatActivity {
 
     float gDia;
     List<conteoTab> clc = new ArrayList<>();
+    private TableLayout tableLayout;
     TableDinamic tb;
     TableRow tr;
     private int idtabla;
     private int year;
     private int month;
     private int day;
-    private TableLayout tableLayout;
 
     // Encabezados de la tabla
     private String[] header = {"Bloque", "Variedad", "CC", "CT", "CN1", "EST1", "CN4", "EST4", "SNT", "ESTT"};
