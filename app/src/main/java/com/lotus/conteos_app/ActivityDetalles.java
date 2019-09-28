@@ -58,6 +58,35 @@ public class ActivityDetalles extends AppCompatActivity {
             usulog.setText(usuario);
             path = getExternalFilesDir(null) + File.separator;
             createTable();
+
+            cap_1.setSelectAllOnFocus(true);
+            cap_2.setSelectAllOnFocus(true);
+            cap_ct.setSelectAllOnFocus(true);
+
+            cap_1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    view.clearFocus();
+                    view.requestFocus();
+                }
+            });
+
+            cap_2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    view.clearFocus();
+                    view.requestFocus();
+                }
+            });
+
+            cap_ct.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    view.clearFocus();
+                    view.requestFocus();
+                }
+            });
+
         }catch (Exception e){
             tostada("Error\n"+e).show();
         }
