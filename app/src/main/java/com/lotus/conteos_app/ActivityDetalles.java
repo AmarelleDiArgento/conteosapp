@@ -45,14 +45,14 @@ public class ActivityDetalles extends AppCompatActivity {
         getSupportActionBar().hide();
         try {
             sp = getBaseContext().getSharedPreferences("share", MODE_PRIVATE);
-            txtId=findViewById(R.id.txtId);
+            txtId=findViewById(R.id.txtIdSiembra);
             txtVariedad=findViewById(R.id.txtVariedad);
             txtBloque=findViewById(R.id.txtBloque);
             cap_1=findViewById(R.id.cap_c1);
             cap_2=findViewById(R.id.cap_c2);
             cap_ct=findViewById(R.id.cap_ct);
             fechita=findViewById(R.id.fechita);
-            usulog=findViewById(R.id.usulog);
+            usulog=findViewById(R.id.usuLog);
             txtCuadro=findViewById(R.id.txtCuadro);
             String usuario=sp.getString("usulog","");
             usulog.setText(usuario);
@@ -67,7 +67,6 @@ public class ActivityDetalles extends AppCompatActivity {
     public void clicTable(View v) {
 
         try {
-            tb = new TableDinamic(tableLayout, getApplicationContext());
             conteoTab ct = clc.get(tb.getIdTabla());
             String variedad = ct.getVariedad();
             String bloque= ct.getBloque();
@@ -106,7 +105,7 @@ public class ActivityDetalles extends AppCompatActivity {
             for (conteoTab c : cl) {
                 boolean val = true;
                     for (int i = 0; i <= clc.size() ; i++) {
-                        if (  (c.getBloque().equals(sp.getString("bloque","")))  ) {
+                        if (  c.getBloque().equals(sp.getString("bloque","")) || c.getVariedad().equals(sp.getString("variedad","")) ) {
                             val = true;
                         }else {
                             val= false;
@@ -146,7 +145,7 @@ public class ActivityDetalles extends AppCompatActivity {
                                 String.valueOf(c.getConteo2()),
                                 String.valueOf(c.getConteo3()),
                                 String.valueOf(c.getConteo4()),
-                                String.valueOf((c.getConteo1() + c.getConteo2() + c.getConteo3() + c.getConteo4())),
+                                String.valueOf((c.getTotal())),
                         }
                 );
             }
