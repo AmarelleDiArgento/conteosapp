@@ -106,7 +106,7 @@ public class ActivityDetalles extends AppCompatActivity {
             for (conteoTab c : cl) {
                 boolean val = true;
                     for (int i = 0; i <= clc.size() ; i++) {
-                        if (  (c.getBloque().equals(sp.getString("bloque","")))  ) {
+                        if (  (c.getBloque().equals(sp.getString("bloque","")))) {
                             val = true;
                         }else {
                             val= false;
