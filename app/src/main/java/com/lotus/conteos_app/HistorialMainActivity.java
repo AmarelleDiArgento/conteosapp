@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.DatePicker;
@@ -48,8 +49,6 @@ public class HistorialMainActivity extends AppCompatActivity {
     List<conteoTab> clc = new ArrayList<>();
     private TableLayout tableLayout;
     TableDinamic tb;
-    TableRow tr;
-    private int idtabla;
     private int year;
     private int month;
     private int day;
@@ -75,10 +74,20 @@ public class HistorialMainActivity extends AppCompatActivity {
             fech = findViewById(R.id.txt_fecha);
             fechita = findViewById(R.id.fechita);
             fechaoculta = findViewById(R.id.fechaoculta);
-            usuLog = findViewById(R.id.usuLog);
-            String usuario=sp.getString("nombre","");
-            usuLog.setText(usuario);
+            //usuLog = findViewById(R.id.usuLog);
+            //String usuario=sp.getString("nombre","");
+            //usuLog.setText(usuario);
             ja = new jsonAdmin();
+
+            //gradosDiaTxt.setSelectAllOnFocus(true);
+            gradosDiaTxt.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    gradosDiaTxt.setSelectAllOnFocus(true);
+                    view.clearFocus();
+                    view.requestFocus();
+                }
+            });
 
             getDate();
 
@@ -112,6 +121,20 @@ public class HistorialMainActivity extends AppCompatActivity {
             gradosDiaTxt.setText(String.valueOf(recibirGradoDia()));
 
 
+            class MyKeyListerner implements View.OnKeyListener{
+                public  boolean onKey(View v,int keyCode, KeyEvent event){
+                    if((event.getAction()==KeyEvent.ACTION_DOWN) && (keyCode ==  KeyEvent.KEYCODE_ENTER)){
+                        //Toast.makeText(Login.this,"se oprimio el boton",Toast.LENGTH_SHORT).show();
+                        sharedGradoDia(null);
+                        return true;
+                    }
+                    return  false;
+                }
+            }
+
+            View.OnKeyListener listener = new MyKeyListerner();
+            gradosDiaTxt.setOnKeyListener(listener);
+
         } catch (Exception e) {
             Toast.makeText(this, "Error en el create " + e.toString(), Toast.LENGTH_LONG).show();
 
@@ -121,21 +144,24 @@ public class HistorialMainActivity extends AppCompatActivity {
     public void clicTable(View v) {
 
         try {
+
             conteoTab ct = clc.get(tb.getIdTabla()-1);
-            String bloque = ct.getBloque();
-            String date = fechaoculta.getText().toString();
-            String usuario = usuLog.getText().toString();
+            if(ct!=null){
+                String bloque = ct.getBloque();
+                String usuario = fechita.getText().toString();
 
-            SharedPreferences.Editor edit = sp.edit();
-            edit.putString("bloque", bloque);
-            edit.putString("date", date);
-            edit.putString("usulog", usuario);
-            edit.apply();
+                SharedPreferences.Editor edit = sp.edit();
+                edit.putString("bloque", bloque);
+                edit.putString("usulog", usuario);
+                edit.apply();
 
-            Intent i = new Intent(this,ActivityDetalles.class);
-            startActivity(i);
+                Intent i = new Intent(this,ActivityDetalles.class);
+                startActivity(i);
+            }else {
+                Toast.makeText(getApplicationContext(),"No has seleccionado aún una fila",Toast.LENGTH_LONG).show();
+            }
         }catch (Exception E){
-            tostada("ERROR\n " + E.toString()).show();
+            Toast.makeText(getApplicationContext(),"No has seleccionado aún una fila",Toast.LENGTH_LONG).show();
         }
 
     }
@@ -158,7 +184,10 @@ public class HistorialMainActivity extends AppCompatActivity {
             //fech.setText(diahoy + "/" + (meshoy + 1) + "/" + añohoy);
             fech.setText(fecha);
             fech.setTextSize(30);
-            fechita.setText(fecha);
+
+            //obteniendo el usuario
+            String usuario=sp.getString("nombre","");
+            fechita.setText("Fecha: "+fecha+"\nUsuario: "+usuario);
 
         } catch (Exception e) {
             Toast.makeText(this, "Exception getDate" + e, Toast.LENGTH_LONG).show();

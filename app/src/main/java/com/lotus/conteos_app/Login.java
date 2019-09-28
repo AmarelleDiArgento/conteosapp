@@ -77,8 +77,8 @@ public class Login extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
                 if (isChecked && txtu != null) {
+                    Toast.makeText(getApplicationContext(), "Se guardo exitosamente tu usuario", Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(getApplicationContext(), "se cerrorn el chek", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -128,7 +128,7 @@ public class Login extends AppCompatActivity {
 
 
     public void guardarUsuario(monitorTab u) {
-        Toast.makeText(this, u.toString(), Toast.LENGTH_LONG).show();
+
         try {
             SharedPreferences.Editor edit = sp.edit();
             if (u != null) {

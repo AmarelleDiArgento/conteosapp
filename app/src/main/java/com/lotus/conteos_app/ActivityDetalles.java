@@ -1,7 +1,6 @@
 package com.lotus.conteos_app;
 
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -18,9 +17,7 @@ import com.lotus.conteos_app.Model.iConteo;
 import com.lotus.conteos_app.Model.tab.conteoTab;
 
 import java.io.File;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 public class ActivityDetalles extends AppCompatActivity {
@@ -35,7 +32,7 @@ public class ActivityDetalles extends AppCompatActivity {
     private TableLayout tableLayout;
     TableDinamic tb;
 
-    TextView txtIdSiembra,txtCuadro,txtBloque,txtVariedad,fechita,usulog;
+    TextView txtId,txtCuadro,txtBloque,txtVariedad,fechita,usulog;
     EditText cap_1,cap_2,cap_ct;
 
     // Encabezados de la tabla
@@ -48,39 +45,21 @@ public class ActivityDetalles extends AppCompatActivity {
         getSupportActionBar().hide();
         try {
             sp = getBaseContext().getSharedPreferences("share", MODE_PRIVATE);
-            txtIdSiembra=findViewById(R.id.txtIdSiembra);
-            txtBloque=findViewById(R.id.txtBloque);
-            txtCuadro=findViewById(R.id.txtCuadro);
+            txtId=findViewById(R.id.txtId);
             txtVariedad=findViewById(R.id.txtVariedad);
+            txtBloque=findViewById(R.id.txtBloque);
             cap_1=findViewById(R.id.cap_c1);
             cap_2=findViewById(R.id.cap_c2);
             cap_ct=findViewById(R.id.cap_ct);
             fechita=findViewById(R.id.fechita);
-            usulog=findViewById(R.id.usuario);
-            String usuario=sp.getString("nombre","");
+            usulog=findViewById(R.id.usulog);
+            txtCuadro=findViewById(R.id.txtCuadro);
+            String usuario=sp.getString("usulog","");
             usulog.setText(usuario);
             path = getExternalFilesDir(null) + File.separator;
             createTable();
-            getDate();
         }catch (Exception e){
             tostada("Error\n"+e).show();
-        }
-    }
-
-    //OBTENER FECHA ACTUAL
-    public void getDate() {
-
-        try {
-            Calendar calendarDate = Calendar.getInstance();
-            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyy");
-            fecha = sdf.format(calendarDate.getTime());
-
-            fechita.setText(fecha);
-
-            tostada(sp.getString("date","")).show();
-
-        } catch (Exception e) {
-            Toast.makeText(this, "Exception getDate" + e, Toast.LENGTH_LONG).show();
         }
     }
 
@@ -90,7 +69,6 @@ public class ActivityDetalles extends AppCompatActivity {
         try {
             tb = new TableDinamic(tableLayout, getApplicationContext());
             conteoTab ct = clc.get(tb.getIdTabla());
-            tostada(sp.getString("bloque",""));
             String variedad = ct.getVariedad();
             String bloque= ct.getBloque();
             Long idSiembra= ct.getIdSiembra();
@@ -100,20 +78,18 @@ public class ActivityDetalles extends AppCompatActivity {
             int conteo4 = ct.getConteo4();
             int total = ct.getTotal();
 
-            //Toast.makeText(this,"variedad \n"+variedad,Toast.LENGTH_SHORT).show();
-            //Toast.makeText(this,"bloque \n"+bloque,Toast.LENGTH_SHORT).show();
-            //Toast.makeText(this,"id siembra \n"+idSiembra.toString(),Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(),"Total\n"+ct.getTotal(),Toast.LENGTH_LONG).show();
 
-            txtVariedad.setText("Variedad: "+variedad);
-            txtIdSiembra.setText("Id de la Siembra: "+idSiempar);
-            txtBloque.setText("Bloque: "+bloque);
             txtCuadro.setText("Cuadro: "+cuadro);
             cap_1.setText(String.valueOf(conteo1));
             cap_2.setText(String.valueOf(conteo4));
             cap_ct.setText(String.valueOf(total));
+            txtId.setText("Siembra: "+idSiempar);
+            txtVariedad.setText("Variedad: "+variedad);
+            txtBloque.setText("Bloque: "+bloque);
 
         }catch (Exception E){
-            tostada("ERROR\n " + E.toString()).show();
+            Toast.makeText(getApplicationContext(),"No has seleccionado aún una fila",Toast.LENGTH_LONG).show();
         }
 
     }
@@ -203,21 +179,48 @@ public class ActivityDetalles extends AppCompatActivity {
 
     //BOTONES PARA ACTIVAR LOS DIALOGOS
     public void btn_actualizar(View v){
-        String msj="Seguro que deseas actualizar este registro";
-        String tipo="btn_actualizar";
-        DialogConfirm(msj,tipo);
+        String conteo1 = cap_1.getText().toString();
+        String conteo2 = cap_2.getText().toString();
+
+        if(conteo1.isEmpty()){
+            tostada("No haz seleccionado un registro para actualizar").show();
+        }else if(conteo2.isEmpty()){
+            tostada("No haz seleccionado un registro para actualizar").show();
+        }else {
+            String msj="Seguro que deseas actualizar este registro";
+            String tipo="btn_actualizar";
+            DialogConfirm(msj,tipo);
+        }
     }
 
     public void btn_borrar_registro(View v){
-        String msj="Seguro que deseas eliminar este registro";
-        String tipo="btn_borrar_registro";
-        DialogConfirm(msj,tipo);
+        String conteo1 = cap_1.getText().toString();
+        String conteo2 = cap_2.getText().toString();
+
+        if(conteo1.isEmpty()){
+            tostada("No haz seleccionado un registro para borrar").show();
+        }else if(conteo2.isEmpty()){
+            tostada("No haz seleccionado un registro para borrar").show();
+        }else {
+            String msj="Seguro que deseas eliminar este registro";
+            String tipo="btn_borrar_registro";
+            DialogConfirm(msj,tipo);
+        }
     }
 
     public void btn_limpiar(View v){
-        String msj="Seguro que deseas borrar todo lo relacionado con este bloque";
-        String tipo="btn_limpiar";
-        DialogConfirm(msj,tipo);
+        String conteo1 = cap_1.getText().toString();
+        String conteo2 = cap_2.getText().toString();
+
+        if(conteo1.isEmpty()){
+            tostada("No haz seleccionado un registro para borrar").show();
+        }else if(conteo2.isEmpty()){
+            tostada("No haz seleccionado un registro para borrar").show();
+        }else {
+            String msj="Seguro que deseas borrar todo lo relacionado con este bloque";
+            String tipo="btn_limpiar";
+            DialogConfirm(msj,tipo);
+        }
     }
 
 
