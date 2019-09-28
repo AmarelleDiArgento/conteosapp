@@ -223,8 +223,9 @@ public class MainActivity extends AppCompatActivity {
 
         fechaAct.setText(fecha);
 
-        dia = calendarDate.get(Calendar.DAY_OF_WEEK) - 1;
+        dia = calendarDate.get(Calendar.DAY_OF_WEEK);
         hora = calendarDate.get(Calendar.HOUR_OF_DAY);
+        Toast.makeText(this,"dia: "+dia+"\n hora  "+hora,Toast.LENGTH_LONG).show();
         if (hora >= 12) {
             dia++;
         }
