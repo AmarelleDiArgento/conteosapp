@@ -3,7 +3,7 @@ package com.lotus.conteos_app.Model.tab;
 
 public class fenologiaTab {
     private long idFenologia;
-    private int idVariedad;
+    private long idVariedad;
     private String variedad;
     private double grados_dia;
     private double diametro_boton;
@@ -18,7 +18,7 @@ public class fenologiaTab {
     public fenologiaTab() {
     }
 
-    public fenologiaTab(int idVariedad, String variedad, double grados_dia, double diametro_boton, double largo_boton, String imagen) {
+    public fenologiaTab(long idVariedad, String variedad, double grados_dia, double diametro_boton, double largo_boton, String imagen) {
         this.idVariedad = idVariedad;
         this.variedad = variedad;
         this.grados_dia = grados_dia;
@@ -27,7 +27,7 @@ public class fenologiaTab {
         this.imagen = imagen;
     }
 
-    public fenologiaTab(long idFenologia, int idVariedad, String variedad, double grados_dia, double diametro_boton, double largo_boton, String imagen) {
+    public fenologiaTab(long idFenologia, long idVariedad, String variedad, double grados_dia, double diametro_boton, double largo_boton, String imagen) {
         this.idFenologia = idFenologia;
         this.idVariedad = idVariedad;
         this.variedad = variedad;
@@ -54,11 +54,11 @@ public class fenologiaTab {
         this.idFenologia = idFenologia;
     }
 
-    public int getIdVariedad() {
+    public long getIdVariedad() {
         return idVariedad;
     }
 
-    public void setIdVariedad(int idVariedad) {
+    public void setIdVariedad(long idVariedad) {
         this.idVariedad = idVariedad;
     }
 

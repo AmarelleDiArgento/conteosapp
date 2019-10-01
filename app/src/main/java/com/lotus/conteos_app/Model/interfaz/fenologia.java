@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface fenologia extends DAO<Long, fenologiaTab, String> {
 
-    List<fenologiaTab> forGrado(int dia, float grado, int variedad) throws Exception;
+    List<fenologiaTab> forGrado(int dia, float grado, long variedad) throws Exception;
     boolean local(int idFinca) throws Exception;
 }

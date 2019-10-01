@@ -13,11 +13,13 @@ public class planoTab {
     private int plantas;
     private double area;
     private int cuadros;
+    private long  fenologia;
 
     public planoTab() {
     }
 
-    public planoTab(Long idSiembra, int idFinca, String finca, int idBloque, String bloque, int idVariedad, String variedad, int cama, String sufijo, int plantas, double area, int cuadros) {
+    public planoTab(Long idSiembra, int idFinca, String finca, int idBloque, String bloque, int idVariedad, String variedad, int cama,
+                    String sufijo, int plantas, double area, int cuadros, long fenologia) {
         this.setIdSiembra(idSiembra);
         this.setIdFinca(idFinca);
         this.setFinca(finca);
@@ -30,6 +32,7 @@ public class planoTab {
         this.setPlantas(plantas);
         this.setArea(area);
         this.setCuadros(cuadros);
+        this.setFenologia(fenologia);
     }
 
 
@@ -130,6 +133,15 @@ public class planoTab {
     }
 
 
+    public Long getFenologia() {
+        return fenologia;
+    }
+
+    public void setFenologia(Long fenologia) {
+        this.fenologia = fenologia;
+    }
+
+
     @Override
     public String toString() {
         String s;
@@ -150,7 +162,8 @@ public class planoTab {
                 "\"plantas\": " + plantas + ",\n" +
                 "\"area\": " + area + ",\n" +
                 "\"cuadros\": " + cuadros + ",\n" +
-                "\"sufijo\": \"" + s + "\"\n" +
+                "\"sufijo\": \"" + s + "\",\n" +
+                "\"fenologia\":" + fenologia + "\n" +
                 "}";
     }
 }

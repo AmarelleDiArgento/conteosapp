@@ -11,6 +11,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.lotus.conteos_app.Config.Util.imageAdmin;
+import com.lotus.conteos_app.Config.Util.jsonAdmin;
 import com.lotus.conteos_app.Model.iFenologia;
 import com.lotus.conteos_app.Model.tab.fenologiaTab;
 
@@ -18,6 +20,7 @@ import java.io.File;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 
@@ -29,29 +32,38 @@ public class VisualFenoActivity extends AppCompatActivity {
     SharedPreferences sp = null;
 
     iFenologia iF = null;
-    int dia = 0, IdVariedad;
-    String variedad ,imagen,imagen2,imagen3,imagen4;
+    int dia = 0;
+    long idVariedad;
+    String variedad, imagen, imagen2, imagen3, imagen4;
     Float gDia;
 
     ImageView jpgView1, jpgView2, jpgView3, jpgView4;
-    TextView txt1,txt2,txt3,txt4;
+    TextView txt1, txt2, txt3, txt4;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_visual_feno);
         getSupportActionBar().hide();
-        sp = getBaseContext().getSharedPreferences("share", MODE_PRIVATE);
+        try {
+            sp = getBaseContext().getSharedPreferences("share", MODE_PRIVATE);
 
-        jpgView1 = (ImageView) findViewById(R.id.jpgView1);
-        jpgView2 = (ImageView) findViewById(R.id.jpgView2);
-        jpgView3 = (ImageView) findViewById(R.id.jpgView3);
-        jpgView4 = (ImageView) findViewById(R.id.jpgView4);
+            jpgView1 = (ImageView) findViewById(R.id.jpgView1);
+            jpgView2 = (ImageView) findViewById(R.id.jpgView2);
+            jpgView3 = (ImageView) findViewById(R.id.jpgView3);
+            jpgView4 = (ImageView) findViewById(R.id.jpgView4);
 
-        txt1 = (TextView) findViewById(R.id.txt1);
-        txt2 = (TextView) findViewById(R.id.txt2);
-        txt3 = (TextView) findViewById(R.id.txt3);
-        txt4 = (TextView) findViewById(R.id.txt4);
+            txt1 = (TextView) findViewById(R.id.txt1);
+            txt2 = (TextView) findViewById(R.id.txt2);
+            txt3 = (TextView) findViewById(R.id.txt3);
+            txt4 = (TextView) findViewById(R.id.txt4);
+            path = getExternalFilesDir(null) + File.separator;
+            iF = new iFenologia(path);
+
+        } catch (Exception e) {
+            Toast.makeText(this, "Exception On create:     " + e.toString(), Toast.LENGTH_LONG).show();
+
+        }
 
         cargarImagenes();
     }
@@ -59,128 +71,96 @@ public class VisualFenoActivity extends AppCompatActivity {
     //REALIZA LA CARGAS DE IMAGEN SEGUN FENOLOFIA
     public void cargarImagenes() {
         try {
-            if (sp != null) {
-                variedad = sp.getString("variedad", "");
-                imagen = sp.getString("fotoImagen", "");
-                imagen2 = sp.getString("fotoImagen2", "");
-                imagen3 = sp.getString("fotoImagen3", "");
-                imagen4 = sp.getString("fotoImagen4", "");
-                gDia = sp.getFloat("gDia", 0);
-                dia = sp.getInt("dia", 0);
-                IdVariedad = sp.getInt("IdVariedad",0);
 
-                final String path = "/storage/extSdCard/"+variedad+"/"+imagen+"";
-                final String path2 = "/storage/extSdCard/"+variedad+"/"+imagen2+"";
-                final String path3 = "/storage/extSdCard/"+variedad+"/"+imagen3+"";
-                final String path4 = "/storage/extSdCard/"+variedad+"/"+imagen4+"";
+            variedad = sp.getString("variedad", "");
+            gDia = sp.getFloat("gDia", 0);
+            dia = sp.getInt("dia", 0);
+            idVariedad = sp.getLong("IdVariedad", 0);
 
-                File f = new File( path );
-                File f2 = new File( path2 );
-                File f3 = new File( path3 );
-                File f4 = new File( path4 );
+            Toast.makeText(this, variedad + " / " + gDia + " / " + dia + " / " + idVariedad, Toast.LENGTH_LONG).show();
 
-                Bitmap bitmap = BitmapFactory.decodeFile(f.getPath());
-                Bitmap bitmap2 = BitmapFactory.decodeFile(f2.getPath());
-                Bitmap bitmap3 = BitmapFactory.decodeFile(f3.getPath());
-                Bitmap bitmap4 = BitmapFactory.decodeFile(f4.getPath());
-                jpgView1.setImageBitmap(bitmap);
-                jpgView2.setImageBitmap(bitmap2);
-                jpgView3.setImageBitmap(bitmap3);
-                jpgView4.setImageBitmap(bitmap4);
-                Toast.makeText(getApplicationContext(),"llegaron las imagenes",Toast.LENGTH_SHORT).show();
-                cargaDl(dia,gDia,IdVariedad);
-            }else {
-                Toast.makeText(getApplicationContext(),"no llegaron las imagenes",Toast.LENGTH_SHORT).show();
-            }
+            imageAdmin iA = new imageAdmin();
+            List<fenologiaTab> fi = forGradoloc(dia, gDia, idVariedad);
+
+            Toast.makeText(this, "/storage/extSdCard/" + idVariedad + "/" + fi.get(0).getImagen(), Toast.LENGTH_LONG).show();
+
+            iA.getImage(jpgView1, idVariedad, fi.get(0).getImagen());
+            datos(txt1, pD(fi.get(0).getDiametro_boton()), pD(fi.get(0).getLargo_boton()), pD(fi.get(0).getGrados_dia()));
+
+            iA.getImage(jpgView2, idVariedad, fi.get(1).getImagen());
+            datos(txt2, pD(fi.get(1).getDiametro_boton()), pD(fi.get(1).getLargo_boton()), pD(fi.get(1).getGrados_dia()));
+
+            iA.getImage(jpgView3, idVariedad, fi.get(2).getImagen());
+            datos(txt3, pD(fi.get(2).getDiametro_boton()), pD(fi.get(2).getLargo_boton()), pD(fi.get(2).getGrados_dia()));
+
+            iA.getImage(jpgView4, idVariedad, fi.get(3).getImagen());
+            datos(txt4, pD(fi.get(3).getDiametro_boton()), pD(fi.get(3).getLargo_boton()), pD(fi.get(3).getGrados_dia()));
+
 
         } catch (Exception e) {
-            Toast toast = Toast.makeText(getApplicationContext(), "Lo sentimos pero no se pudieron cargar las fotos \n"+e.toString(), Toast.LENGTH_LONG);
-            toast.setGravity(Gravity.TOP,0,100);
-            toast.show();
+            Toast.makeText(getApplicationContext(), "Error \n" + e, Toast.LENGTH_LONG).show();
         }
     }
 
-    //CARGA DE LOGITUN Y DIAMETRO
-   public void cargaDl(int dia,Float gDia,int idVariedad){
 
-        try {
-            path = getExternalFilesDir(null) + File.separator;
-            iF = new iFenologia(path);
-            lf = iF.all();
+    public List<fenologiaTab> forGradoloc(int dia, float gDia, long idVariedad) throws Exception {
 
-            List<fenologiaTab> fi = iF.forGrado(dia, gDia, idVariedad);
-            Double d = fi.get(0).getDiametro_boton();
-            Double l = fi.get(0).getLargo_boton();
-            Double g = fi.get(0).getGrados_dia();
-            Double d1 = fi.get(1).getDiametro_boton();
-            Double l1 = fi.get(1).getLargo_boton();
-            Double g1 = fi.get(1).getGrados_dia();
-            Double d2 = fi.get(2).getDiametro_boton();
-            Double l2 = fi.get(2).getLargo_boton();
-            Double g2 = fi.get(2).getGrados_dia();
-            Double d3 = fi.get(3).getDiametro_boton();
-            Double l3 = fi.get(3).getLargo_boton();
-            Double g3 = fi.get(3).getGrados_dia();
+        int d = (8 - dia);
 
-            //Toast.makeText(getApplicationContext(), "Grado Dia \n" + g.toString() + "\n"+g1.toString()+ "\n"+g2.toString()+ "\n"+g3.toString(), Toast.LENGTH_LONG).show();
+        float[] img = new float[4];
+        img[0] = (d) * gDia;
+        img[1] = (d + 7) * gDia;
+        img[2] = (d + 21) * gDia;
+        img[3] = (d + 28) * gDia;
+        int c = 0;
+        Toast.makeText(this, "dia: " + dia + "gDia: " + gDia + "idVariedad: " + idVariedad, Toast.LENGTH_LONG).show();
+        // en caso de no saber que paso en los grados dia.
+        Toast.makeText(this, img[0] + ",  " + img[1] + ",  " + img[2] + ",  " + img[3] + ".", Toast.LENGTH_LONG).show();
+        String data = "";
+        Iterator<fenologiaTab> i = iF.all().iterator();
+        List<fenologiaTab> fi = new ArrayList<>();
+        fenologiaTab fu = new fenologiaTab();
 
-            parseoDecimal(d,l,g,d1,l1,g1,d2,l2,g2,d3,l3,g3);
+        while (i.hasNext()) {
+            fenologiaTab f = i.next();
+            if (f.getIdVariedad() == idVariedad) {
 
-        }catch (Exception e){
-            Toast.makeText(getApplicationContext(), "Exception carga DL \n" +e.toString(), Toast.LENGTH_LONG).show();
+                data += img[c] + " - " + f.getGrados_dia() + " " + (img[c] <= f.getGrados_dia()) + "\n";
+                if (img[c] <= f.getGrados_dia()) {
+                    double pos = f.getGrados_dia() - img[c];
+                    double pre = img[c] - fu.getGrados_dia();
+
+                    if (pre >= pos) {
+                        fi.add(f);
+                    } else {
+                        fi.add(fu);
+                    }
+                    c++;
+                    if (c >= 4) {
+                        break;
+                    }
+                }
+                fu = f;
+            }
         }
+        if (c < 4) {
+            fi.add(fu);
+        }
+        jsonAdmin jsonAdmin = new jsonAdmin();
+        jsonAdmin.CrearArchivo(path, "Error 2", data);
+        return fi;
     }
 
-    //PARSEO DE DECIMAL
-    public void parseoDecimal(Double d,Double l,Double g,Double d1, Double l1,Double g1, Double d2, Double l2,Double g2, Double d3,Double l3,Double g3){
-        BigDecimal dpar = new BigDecimal(d);
-        dpar = dpar.setScale(2, RoundingMode.DOWN);
+    public void datos(TextView tv, BigDecimal dia, BigDecimal lon, BigDecimal grados) {
 
-        BigDecimal lpar = new BigDecimal(l);
-        lpar = lpar.setScale(2, RoundingMode.DOWN);
+        tv.setText("Diametro: " + dia + "    Longitud: " + lon + "\n Grados dia acomulados: " + grados);
+        tv.setTextSize(16);
 
-        BigDecimal dgra = new BigDecimal(g);
-        dgra = dgra.setScale(2, RoundingMode.DOWN);
+    }
 
-        BigDecimal d1par = new BigDecimal(d1);
-        d1par = d1par.setScale(2, RoundingMode.DOWN);
-
-        BigDecimal l1par = new BigDecimal(l1);
-        l1par = l1par.setScale(2, RoundingMode.DOWN);
-
-        BigDecimal d1gra = new BigDecimal(g1);
-        d1gra = d1gra.setScale(2, RoundingMode.DOWN);
-
-        BigDecimal d2par = new BigDecimal(d2);
-        d2par = d2par.setScale(2, RoundingMode.DOWN);
-
-        BigDecimal l2par = new BigDecimal(l2);
-        l2par = l2par.setScale(2, RoundingMode.DOWN);
-
-        BigDecimal d2gra = new BigDecimal(g2);
-        d2gra = d2gra.setScale(2, RoundingMode.DOWN);
-
-        BigDecimal d3par = new BigDecimal(d3);
-        d3par = d3par.setScale(2, RoundingMode.DOWN);
-
-        BigDecimal l3par = new BigDecimal(l3);
-        l3par = l3par.setScale(2, RoundingMode.DOWN);
-
-        BigDecimal d3gra = new BigDecimal(g3);
-        d3gra = d3gra.setScale(2, RoundingMode.DOWN);
-
-        txt1.setText("Diametro: " + dpar +"    Longitud: " + lpar+ "\n Grados dia acomulados: "+ dgra);
-        txt1.setTextSize(16);
-        txt1.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-        txt2.setText("Diametro: " + d1par +"     Longitud: " + l1par + "\n Grados dia acomulados: "+ d1gra);
-        txt2.setTextSize(16);
-        txt1.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-        txt3.setText("Diametro: " + d2par +"     Longitud: " + l2par + "\n Grados dia acomulados: "+ d2gra);
-        txt3.setTextSize(16);
-        txt1.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-        txt4.setText("Diametro: " + d3par +"     Longitud: " + l3par + "\n Grados dia acomulados: "+ d3gra );
-        txt4.setTextSize(16);
-        txt1.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+    public BigDecimal pD(double dou) {
+        BigDecimal dpar = new BigDecimal(dou);
+        return dpar.setScale(2, RoundingMode.DOWN);
     }
 }
 

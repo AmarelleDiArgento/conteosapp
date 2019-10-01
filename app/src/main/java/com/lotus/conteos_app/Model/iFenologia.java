@@ -48,10 +48,11 @@ public class iFenologia extends sqlConect implements fenologia {
             "      ,[diametro_boton]\n" +
             "      ,[largo_boton]\n" +
             "      ,[imagen]\n" +
-            "  FROM [dbo].[Fenologia]\n" +
-            "  WHERE [idVariedad] in(SELECT distinct  [idVariedad]\n" +
-            "\t  FROM [dbo].[Plano_Siembra]\n" +
-            "\t  WHERE [idFinca] = ?);";
+            "  FROM [Proyecciones].[dbo].[Fenologia]\n" +
+            "  where idVariedad in(\n" +
+            "SELECT distinct [fenologia]\n" +
+            "  FROM [Proyecciones].[dbo].[Plano_Siembra]\n" +
+            "  where idFinca = ?);";
 
 
     public iFenologia(String path) throws Exception {
@@ -82,7 +83,7 @@ public class iFenologia extends sqlConect implements fenologia {
     private fenologiaTab gift(ResultSet rs) throws Exception {
         fenologiaTab f = new fenologiaTab();
         f.setIdFenologia(rs.getLong("idFenologia"));
-        f.setIdVariedad(rs.getInt("idVariedad"));
+        f.setIdVariedad(rs.getLong("idVariedad"));
         f.setVariedad(rs.getString("variedad"));
         f.setGrados_dia(rs.getDouble("grados_dia"));
         f.setDiametro_boton(rs.getDouble("diametro_boton"));
@@ -158,7 +159,7 @@ public class iFenologia extends sqlConect implements fenologia {
 
 
     @Override
-    public List<fenologiaTab> forGrado(int dia, float gDia, int idVariedad) throws Exception {
+    public List<fenologiaTab> forGrado(int dia, float gDia, long idVariedad) throws Exception {
 
         int d = (8 - dia);
 

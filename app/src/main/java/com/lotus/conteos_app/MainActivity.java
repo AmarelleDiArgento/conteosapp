@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.lotus.conteos_app.Config.Util.imageAdmin;
+import com.lotus.conteos_app.Config.Util.jsonAdmin;
 import com.lotus.conteos_app.Model.iPlano;
 import com.lotus.conteos_app.Model.iFenologia;
 import com.lotus.conteos_app.Model.iConteo;
@@ -28,6 +29,7 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Iterator;
 import java.util.List;
 
 import static com.lotus.conteos_app.R.drawable.flor;
@@ -40,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
     planoTab p = null;
 
     float gDia;
-    EditText c1, c4, IdSiembra, codebar,total;
+    EditText c1, c4, IdSiembra, codebar, total;
     Spinner cuadro;
     ImageView jpgView1, jpgView2, jpgView3, jpgView4;
     TextView gradoDia, finca, variedad, bloque, cama, fechaAct, usuario, NoArea, NoPlantas, NoCuadros, idusuario;
@@ -80,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
 
 
             idusuario = findViewById(R.id.idusuario);
-            idusuario.setText(sp.getString("codigo",""));
+            idusuario.setText(sp.getString("codigo", ""));
 
 
             c1.setSelectAllOnFocus(true);
@@ -118,7 +120,6 @@ public class MainActivity extends AppCompatActivity {
             });
 
 
-
             cuadro = (Spinner) findViewById(R.id.cuadrosp);
             // Arreglo, desplegable (Spinner) cuadros
             String[] cuadros = {"1", "2", "3", "4", "5", "6", "7", "8"};
@@ -151,14 +152,14 @@ public class MainActivity extends AppCompatActivity {
             c1.setText("0");
             total.setText("0");
 
-            class MyKeyListerner implements View.OnKeyListener{
-                public  boolean onKey(View v,int keyCode, KeyEvent event){
-                    if((event.getAction()==KeyEvent.ACTION_DOWN) && (keyCode ==  KeyEvent.KEYCODE_ENTER)){
+            class MyKeyListerner implements View.OnKeyListener {
+                public boolean onKey(View v, int keyCode, KeyEvent event) {
+                    if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
                         //Toast.makeText(Login.this,"se oprimio el boton",Toast.LENGTH_SHORT).show();
                         buscarSiembra(0);
                         return true;
                     }
-                    return  false;
+                    return false;
                 }
             }
 
@@ -177,10 +178,10 @@ public class MainActivity extends AppCompatActivity {
         getCodeBar();
         try {
             int campo_code = Integer.parseInt(codebar.getText().toString());
-            if (campo_code>0) {
+            if (campo_code > 0) {
                 buscarSiembra(campo_code);
-            } else if (campo_code==0) {
-            }else {
+            } else if (campo_code == 0) {
+            } else {
             }
         } catch (Exception ex) {
             Toast.makeText(this, "Exception 0:     " + ex.toString(), Toast.LENGTH_LONG).show();
@@ -195,7 +196,6 @@ public class MainActivity extends AppCompatActivity {
         try {
 
             SimpleDateFormat sdfn = new SimpleDateFormat("ddMMyyyy");
-
 
             iP = new iPlano(path);
             iF = new iFenologia(path);
@@ -218,14 +218,14 @@ public class MainActivity extends AppCompatActivity {
 
 
         usuario = findViewById(R.id.usuLog);
-        String usu =sp.getString("nombre", "");
-        usuario.setText("Fecha: "+fecha+"\nUsuario: "+usu);
+        String usu = sp.getString("nombre", "");
+        usuario.setText("Fecha: " + fecha + "\nUsuario: " + usu);
 
         fechaAct.setText(fecha);
 
         dia = calendarDate.get(Calendar.DAY_OF_WEEK);
         hora = calendarDate.get(Calendar.HOUR_OF_DAY);
-        Toast.makeText(this,"dia: "+dia+"\n hora  "+hora,Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "dia: " + dia + "\n hora  " + hora, Toast.LENGTH_LONG).show();
         if (hora >= 12) {
             dia++;
         }
@@ -234,16 +234,16 @@ public class MainActivity extends AppCompatActivity {
 
     //OBTENIENDO LOS GRADOS DIA CON SHARED PREFERENCES
     public float getGradoDia() {
-       try{
-           if (gradoDia != null) {
-               gDia = sp.getFloat("gradoDia", 0);
-               return gDia;
-           } else {
-               return 0;
-           }
-       }catch (Exception e){
-           Toast.makeText(this,"Error el gdia \n"+e,Toast.LENGTH_SHORT).show();
-       }
+        try {
+            if (gradoDia != null) {
+                gDia = sp.getFloat("gradoDia", 0);
+                return gDia;
+            } else {
+                return 0;
+            }
+        } catch (Exception e) {
+            Toast.makeText(this, "Error el gdia \n" + e, Toast.LENGTH_SHORT).show();
+        }
         return 0;
     }
 
@@ -254,7 +254,7 @@ public class MainActivity extends AppCompatActivity {
             if (bundle != null) {
                 String d = bundle.getString("codigo");
                 String[] dato = d.split(",");
-                if (dato!=null) {
+                if (dato != null) {
                     codebar.setText(dato[0]);
                 }
             } else {
@@ -305,11 +305,11 @@ public class MainActivity extends AppCompatActivity {
                 NoArea.setText(String.valueOf(p.getArea()));
                 NoCuadros.setText(String.valueOf(p.getCuadros()));
                 NoPlantas.setText(String.valueOf(p.getPlantas()));
-                cargarImagenes(p.getIdVariedad());
+                cargarImagenes(p.getFenologia());
 
-            }else{
+            } else {
                 Toast toast = Toast.makeText(getApplicationContext(), "Lo sentimos pero no se encuentra la siembra", Toast.LENGTH_LONG);
-                toast.setGravity(Gravity.TOP,0,100);
+                toast.setGravity(Gravity.TOP, 0, 100);
                 toast.show();
             }
 
@@ -320,53 +320,91 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //REALIZA LA CARGAS DE IMAGEN SEGUN FENOLOFIA
-    public void cargarImagenes(int idVariedad) {
+    public void cargarImagenes(long idVariedad) {
 
-        if((jpgView3.getDrawable() == null) && (jpgView4.getDrawable() == null)){
-            jpgView3.setImageResource(R.drawable.noimagen);
-            jpgView4.setImageResource(R.drawable.noimagen);
-        }
+       // Toast.makeText(this, "" + idVariedad, Toast.LENGTH_LONG).show();
 
-        if((jpgView1.getDrawable() == null) && (jpgView2.getDrawable() == null)){
-            jpgView1.setImageResource(R.drawable.noimagen);
-            jpgView2.setImageResource(R.drawable.noimagen);
-        }
 
         try {
 
             imageAdmin iA = new imageAdmin();
-            List<fenologiaTab> fi = iF.forGrado(dia, gDia, idVariedad);
+            List<fenologiaTab> fi = forGradoloc(dia, gDia, idVariedad);
 
-            iA.getImage(jpgView1, fi.get(0).getVariedad(), fi.get(0).getImagen());
-            iA.getImage(jpgView2, fi.get(1).getVariedad(), fi.get(1).getImagen());
-            iA.getImage(jpgView3, fi.get(2).getVariedad(), fi.get(3).getImagen());
-            iA.getImage(jpgView4, fi.get(3).getVariedad(), fi.get(2).getImagen());
+            // Toast.makeText(this, "/storage/extSdCard/" + idVariedad + "/" + fi.get(0).getImagen(), Toast.LENGTH_LONG).show();
 
-            String variedad =fi.get(0).getVariedad();
-            String imagen =fi.get(0).getImagen();
-            String imagen2 =fi.get(1).getImagen();
-            String imagen3 =fi.get(2).getImagen();
-            String imagen4 =fi.get(3).getImagen();
+            iA.getImage(jpgView1, idVariedad, fi.get(0).getImagen());
+            iA.getImage(jpgView2, idVariedad, fi.get(1).getImagen());
+            iA.getImage(jpgView3, idVariedad, fi.get(3).getImagen());
+            iA.getImage(jpgView4, idVariedad, fi.get(2).getImagen());
+
+
+
+            String variedad = fi.get(0).getVariedad();
+            String imagen = fi.get(0).getImagen();
+            String imagen2 = fi.get(1).getImagen();
+            String imagen3 = fi.get(2).getImagen();
+            String imagen4 = fi.get(3).getImagen();
 
             SharedPreferences.Editor edit = sp.edit();
-            edit.putString("variedad", variedad);
-            edit.putString("fotoImagen", imagen);
-            edit.putString("fotoImagen2", imagen2);
-            edit.putString("fotoImagen3", imagen3);
-            edit.putString("fotoImagen4", imagen4);
-            edit.putFloat("gDia",gDia);
-            edit.putInt("dia",dia);
-            edit.putInt("IdVariedad",idVariedad);
+            edit.putFloat("gDia", gDia);
+            edit.putInt("dia", dia);
+            edit.putLong("IdVariedad", idVariedad);
             edit.commit();
             edit.apply();
 
 
-
         } catch (Exception e) {
-            //Toast toast = Toast.makeText(getApplicationContext(), "Error \n"+e, Toast.LENGTH_LONG);
-            //toast.setGravity(Gravity.TOP,0,100);
-            //toast.show();
+            Toast.makeText(getApplicationContext(), "Error \n" + e, Toast.LENGTH_LONG).show();
         }
+    }
+
+
+    public List<fenologiaTab> forGradoloc(int dia, float gDia, long idVariedad) throws Exception {
+
+        int d = (8 - dia);
+
+        float[] img = new float[4];
+        img[0] = (d) * gDia;
+        img[1] = (d + 7) * gDia;
+        img[2] = (d + 21) * gDia;
+        img[3] = (d + 28) * gDia;
+        int c = 0;
+        // Toast.makeText(this, "dia: " + dia + "gDia: " + gDia + "idVariedad: " + idVariedad, Toast.LENGTH_LONG).show();
+        // en caso de no saber que paso en los grados dia.
+        // Toast.makeText(this, img[0] + ",  " + img[1] + ",  " +img[2] + ",  " +img[3] + ".", Toast.LENGTH_LONG).show();
+        String data = "";
+        Iterator<fenologiaTab> i = iF.all().iterator();
+        List<fenologiaTab> fi = new ArrayList<>();
+        fenologiaTab fu = new fenologiaTab();
+
+        while (i.hasNext()) {
+            fenologiaTab f = i.next();
+            if (f.getIdVariedad() == idVariedad) {
+
+                data += img[c] + " - " + f.getGrados_dia() + " " + (img[c] <= f.getGrados_dia()) + "\n";
+                if (img[c] <= f.getGrados_dia()) {
+                    double pos = f.getGrados_dia() - img[c];
+                    double pre = img[c] - fu.getGrados_dia();
+
+                    if (pre >= pos) {
+                        fi.add(f);
+                    } else {
+                        fi.add(fu);
+                    }
+                    c++;
+                    if (c >= 4) {
+                        break;
+                    }
+                }
+                fu = f;
+            }
+        }
+        if (c < 4) {
+            fi.add(fu);
+        }
+        jsonAdmin jsonAdmin = new jsonAdmin();
+        jsonAdmin.CrearArchivo(path, "Error", data);
+        return fi;
     }
 
     /*
@@ -415,13 +453,13 @@ public class MainActivity extends AppCompatActivity {
             int Siembraval = Integer.parseInt(IdSiembra.getText().toString());
 
 
-            if (Siembraval==0) {
+            if (Siembraval == 0) {
                 Toast toast = Toast.makeText(getApplicationContext(), "Lo sentimos, no es posible realizar un registro \n por favor realiza una búsqueda", Toast.LENGTH_LONG);
-                toast.setGravity(Gravity.TOP,0,100);
+                toast.setGravity(Gravity.TOP, 0, 100);
                 toast.show();
-            }else if(Tot==0){
+            } else if (Tot == 0) {
                 Toast toast = Toast.makeText(getApplicationContext(), "Lo sentimos, no es posible realizar un registro\n por favor llena el campo total", Toast.LENGTH_LONG);
-                toast.setGravity(Gravity.TOP,0,100);
+                toast.setGravity(Gravity.TOP, 0, 100);
                 toast.show();
             } else {
                 int siembra = Integer.parseInt(IdSiembra.getText().toString());
@@ -451,7 +489,7 @@ public class MainActivity extends AppCompatActivity {
                     c.setArea(p.getArea());
                     c.setCuadros(p.getCuadros());
 
-                    int usu= Integer.parseInt(idusuario.getText().toString());
+                    int usu = Integer.parseInt(idusuario.getText().toString());
                     c.setIdUsuario(usu);
 
                     Toast.makeText(this, iC.insert(c), Toast.LENGTH_LONG).show();
@@ -476,12 +514,13 @@ public class MainActivity extends AppCompatActivity {
                         c4.setText(valueOf(0));
                     }
 
-                } else{}
+                } else {
+                }
             }
 
         } catch (Exception e) {
 
-            Toast.makeText(this,"hola"+ e.toString(), Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "hola" + e.toString(), Toast.LENGTH_LONG).show();
         }
     }
 
@@ -508,9 +547,9 @@ public class MainActivity extends AppCompatActivity {
 
     // botones para visualizar las imagenes
     //semana 1
-    public void btn_visual1(View v){
+    public void btn_visual1(View v) {
 
-        if((jpgView1.getDrawable() == null) && (jpgView2.getDrawable() == null) && (jpgView3.getDrawable() == null) && (jpgView4.getDrawable() == null)) {
+        if ((jpgView1.getDrawable() == null) && (jpgView2.getDrawable() == null) && (jpgView3.getDrawable() == null) && (jpgView4.getDrawable() == null)) {
             Toast toast = Toast.makeText(getApplicationContext(), "No se pueden cargar las imagenes, por que no has realizado una busqueda", Toast.LENGTH_LONG);
             toast.setGravity(Gravity.TOP, 0, 100);
             toast.show();
@@ -525,7 +564,7 @@ public class MainActivity extends AppCompatActivity {
     public void onBackPressed() {
         Intent i = new Intent(MainActivity.this, HistorialMainActivity.class);
         startActivity(i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
-        Toast.makeText(this,"btn back ",Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "btn back ", Toast.LENGTH_SHORT).show();
         finish();
         System.exit(0);
     }

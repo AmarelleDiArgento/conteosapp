@@ -42,7 +42,7 @@ public class HistorialMainActivity extends AppCompatActivity {
     EditText gradosDiaTxt;
     DatePicker date;
     ImageView btn_show_picker;
-    TextView fech, fechita, fechaoculta,usuLog ;
+    TextView fech, fechita, fechaoculta, usuLog;
     Calendar calendarDate;
 
     float gDia;
@@ -121,14 +121,14 @@ public class HistorialMainActivity extends AppCompatActivity {
             gradosDiaTxt.setText(String.valueOf(recibirGradoDia()));
 
 
-            class MyKeyListerner implements View.OnKeyListener{
-                public  boolean onKey(View v,int keyCode, KeyEvent event){
-                    if((event.getAction()==KeyEvent.ACTION_DOWN) && (keyCode ==  KeyEvent.KEYCODE_ENTER)){
+            class MyKeyListerner implements View.OnKeyListener {
+                public boolean onKey(View v, int keyCode, KeyEvent event) {
+                    if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
                         //Toast.makeText(Login.this,"se oprimio el boton",Toast.LENGTH_SHORT).show();
                         sharedGradoDia(null);
                         return true;
                     }
-                    return  false;
+                    return false;
                 }
             }
 
@@ -145,8 +145,8 @@ public class HistorialMainActivity extends AppCompatActivity {
 
         try {
 
-            conteoTab ct = clc.get(tb.getIdTabla()-1);
-            if(ct!=null){
+            conteoTab ct = clc.get(tb.getIdTabla() - 1);
+            if (ct != null) {
                 String bloque = ct.getBloque();
                 String usuario = fechita.getText().toString();
 
@@ -157,13 +157,13 @@ public class HistorialMainActivity extends AppCompatActivity {
                 edit.putString("usulog", usuario);
                 edit.apply();
 
-                Intent i = new Intent(this,ActivityDetalles.class);
+                Intent i = new Intent(this, ActivityDetalles.class);
                 startActivity(i);
-            }else {
-                Toast.makeText(getApplicationContext(),"No has seleccionado aún una fila",Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(getApplicationContext(), "No has seleccionado aún una fila", Toast.LENGTH_LONG).show();
             }
-        }catch (Exception E){
-            Toast.makeText(getApplicationContext(),"No has seleccionado aún una fila",Toast.LENGTH_LONG).show();
+        } catch (Exception E) {
+            Toast.makeText(getApplicationContext(), "No has seleccionado aún una fila", Toast.LENGTH_LONG).show();
         }
 
     }
@@ -188,8 +188,8 @@ public class HistorialMainActivity extends AppCompatActivity {
             fech.setTextSize(30);
 
             //obteniendo el usuario
-            String usuario=sp.getString("nombre","");
-            fechita.setText("Fecha: "+fecha+"\nUsuario: "+usuario);
+            String usuario = sp.getString("nombre", "");
+            fechita.setText("Fecha: " + fecha + "\nUsuario: " + usuario);
 
         } catch (Exception e) {
             Toast.makeText(this, "Exception getDate" + e, Toast.LENGTH_LONG).show();
@@ -304,7 +304,7 @@ public class HistorialMainActivity extends AppCompatActivity {
             iConteo iC = new iConteo(path);
             fecha = fechaoculta.getText().toString();
             iC.nombre = fecha;
-
+            clc.clear();
             List<conteoTab> cl = iC.all();
             for (conteoTab c : cl) {
                 boolean val = true;
@@ -313,7 +313,7 @@ public class HistorialMainActivity extends AppCompatActivity {
                     // c.getIdVariedad() == clc.get(i).getIdVariedad()
                     // c.getIdSiembra() == clc.get(i).getIdSiembra()
 
-                    if (c.getIdSiembra() == clc.get(i).getIdSiembra()) {
+                    if (c.getIdVariedad() == clc.get(i).getIdVariedad() || c.getIdBloque() == clc.get(i).getIdBloque()) {
 
                         int cu = clc.get(i).getCuadro() + 1;
                         int c1 = clc.get(i).getConteo1() + c.getConteo1();
@@ -371,7 +371,10 @@ public class HistorialMainActivity extends AppCompatActivity {
                                 String.valueOf(frt.format(c.getTotal())),
                                 String.valueOf(frt.format(extrapolar(c.getCuadros(), c.getCuadro(), c.getTotal())))
                         }
+
                 );
+
+                Toast.makeText(this, "id Variedad"+c.getIdVariedad(), Toast.LENGTH_LONG).show();
             }
         } catch (Exception e) {
             Toast.makeText(this, "Error exception Cargar conteo: " + e.toString(), Toast.LENGTH_LONG).show();

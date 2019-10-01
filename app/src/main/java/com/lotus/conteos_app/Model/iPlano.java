@@ -47,6 +47,7 @@ public class iPlano extends sqlConect implements plano {
             "      ,[plantas]\n" +
             "      ,[area]\n" +
             "      ,[cuadros]\n" +
+            "      ,[fenologia]\n" +
             "  FROM [Proyecciones].[dbo].[Plano_Siembra]" +
             "  WHERE finca = 'SAN MATEO'" +
             "  and idVariedad in(1358,1101,870,284,115)";
@@ -62,6 +63,7 @@ public class iPlano extends sqlConect implements plano {
             "      ,[plantas]\n" +
             "      ,[area]\n" +
             "      ,[cuadros]\n" +
+            "      ,[fenologia]\n" +
             "  FROM [Proyecciones].[dbo].[Plano_Siembra]" +
             "  WHERE [idFinca] = ?";
 
@@ -166,6 +168,7 @@ public class iPlano extends sqlConect implements plano {
         p.setPlantas(rs.getInt("plantas"));
         p.setArea(rs.getInt("area"));
         p.setCuadros(rs.getInt("cuadros"));
+        p.setFenologia(rs.getLong("fenologia"));
         return p;
     }
 
