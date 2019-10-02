@@ -54,7 +54,7 @@ public class HistorialMainActivity extends AppCompatActivity {
     private int day;
 
     // Encabezados de la tabla
-    private String[] header = {"Bloque", "Variedad", "CC", "CT", "CN1", "EST1", "CN4", "EST4", "SNT", "ESTT"};
+    private String[] header = {"Bloque", "Variedad", "CC", "CT", "CN1", "EST1", "CN4", "EST4", "CTA", "ESTT"};
     // Datos de la tabla
 
     @Override

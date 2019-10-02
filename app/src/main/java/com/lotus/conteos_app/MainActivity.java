@@ -223,7 +223,8 @@ public class MainActivity extends AppCompatActivity {
 
         fechaAct.setText(fecha);
 
-        dia = calendarDate.get(Calendar.DAY_OF_WEEK);
+        dia = calendarDate.get(Calendar.DAY_OF_WEEK) - 1;
+
         hora = calendarDate.get(Calendar.HOUR_OF_DAY);
         Toast.makeText(this, "dia: " + dia + "\n hora  " + hora, Toast.LENGTH_LONG).show();
         if (hora >= 12) {
@@ -334,9 +335,8 @@ public class MainActivity extends AppCompatActivity {
 
             iA.getImage(jpgView1, idVariedad, fi.get(0).getImagen());
             iA.getImage(jpgView2, idVariedad, fi.get(1).getImagen());
-            iA.getImage(jpgView3, idVariedad, fi.get(3).getImagen());
-            iA.getImage(jpgView4, idVariedad, fi.get(2).getImagen());
-
+            iA.getImage(jpgView3, idVariedad, fi.get(2).getImagen());
+            iA.getImage(jpgView4, idVariedad, fi.get(3).getImagen());
 
 
             String variedad = fi.get(0).getVariedad();
@@ -369,9 +369,10 @@ public class MainActivity extends AppCompatActivity {
         img[2] = (d + 21) * gDia;
         img[3] = (d + 28) * gDia;
         int c = 0;
+
         // Toast.makeText(this, "dia: " + dia + "gDia: " + gDia + "idVariedad: " + idVariedad, Toast.LENGTH_LONG).show();
         // en caso de no saber que paso en los grados dia.
-        // Toast.makeText(this, img[0] + ",  " + img[1] + ",  " +img[2] + ",  " +img[3] + ".", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "Gdia: " + d + " /  " +  img[0] + ",  " + img[1] + ",  " +img[2] + ",  " +img[3] + ".", Toast.LENGTH_LONG).show();
         String data = "";
         Iterator<fenologiaTab> i = iF.all().iterator();
         List<fenologiaTab> fi = new ArrayList<>();
@@ -504,14 +505,14 @@ public class MainActivity extends AppCompatActivity {
                         cuadro.setEnabled(true);
                         c1.setText(valueOf(0));
                         c4.setText(valueOf(0));
+                        total.setText(valueOf(0));
                     } else {
                         int posNext = size++;
                         Toast.makeText(this, "En este momento estas sobre el cuadro " + size, Toast.LENGTH_LONG).show();
-
                         cuadro.setSelection(posNext);
-
                         c1.setText(valueOf(0));
                         c4.setText(valueOf(0));
+                        total.setText(valueOf(0));
                     }
 
                 } else {

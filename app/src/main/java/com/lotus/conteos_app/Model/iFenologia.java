@@ -1,5 +1,7 @@
 package com.lotus.conteos_app.Model;
 
+import android.widget.Toast;
+
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.lotus.conteos_app.Config.Util.jsonAdmin;
@@ -40,7 +42,8 @@ public class iFenologia extends sqlConect implements fenologia {
             "  FROM [dbo].[Fenologia]\n" +
             "  WHERE  [variedad] = ?;";
     final String all = "SELECT [idFenologia] ,[idVariedad] ,[variedad] ,[grados_dia] ,[diametro_boton] ,[largo_boton] ,[imagen]\n" +
-            "  FROM [dbo].[Fenologia];";
+            "  FROM [dbo].[Fenologia] order by [idFenologia];";
+
     final String allfin = "SELECT [idFenologia]\n" +
             "      ,[idVariedad]\n" +
             "      ,[variedad]\n" +
@@ -52,7 +55,7 @@ public class iFenologia extends sqlConect implements fenologia {
             "  where idVariedad in(\n" +
             "SELECT distinct [fenologia]\n" +
             "  FROM [Proyecciones].[dbo].[Plano_Siembra]\n" +
-            "  where idFinca = ?);";
+            "  where idFinca = ?) order by [idFenologia];";
 
 
     public iFenologia(String path) throws Exception {
