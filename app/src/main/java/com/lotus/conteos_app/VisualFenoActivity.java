@@ -85,16 +85,16 @@ public class VisualFenoActivity extends AppCompatActivity {
             Toast.makeText(this, "/storage/extSdCard/" + idVariedad + "/" + fi.get(0).getImagen(), Toast.LENGTH_LONG).show();
 
             iA.getImage(jpgView1, idVariedad, fi.get(0).getImagen());
-            datos(txt1, pD(fi.get(0).getDiametro_boton()), pD(fi.get(0).getLargo_boton()), pD(fi.get(0).getGrados_dia()));
+            datos(txt1, fi.get(0).getDiametro_boton(), fi.get(0).getLargo_boton(), fi.get(0).getGrados_dia());
 
             iA.getImage(jpgView2, idVariedad, fi.get(1).getImagen());
-            datos(txt2, pD(fi.get(1).getDiametro_boton()), pD(fi.get(1).getLargo_boton()), pD(fi.get(1).getGrados_dia()));
+            datos(txt2, fi.get(1).getDiametro_boton(), fi.get(1).getLargo_boton(), fi.get(1).getGrados_dia());
 
             iA.getImage(jpgView3, idVariedad, fi.get(2).getImagen());
-            datos(txt3, pD(fi.get(2).getDiametro_boton()), pD(fi.get(2).getLargo_boton()), pD(fi.get(2).getGrados_dia()));
+            datos(txt3, fi.get(2).getDiametro_boton(), fi.get(2).getLargo_boton(), fi.get(2).getGrados_dia());
 
             iA.getImage(jpgView4, idVariedad, fi.get(3).getImagen());
-            datos(txt4, pD(fi.get(3).getDiametro_boton()), pD(fi.get(3).getLargo_boton()), pD(fi.get(3).getGrados_dia()));
+            datos(txt4, fi.get(3).getDiametro_boton(), fi.get(3).getLargo_boton(), fi.get(3).getGrados_dia());
 
 
         } catch (Exception e) {
@@ -113,9 +113,9 @@ public class VisualFenoActivity extends AppCompatActivity {
         img[2] = (d + 21) * gDia;
         img[3] = (d + 28) * gDia;
         int c = 0;
-        Toast.makeText(this, "dia: " + dia + "gDia: " + gDia + "idVariedad: " + idVariedad, Toast.LENGTH_LONG).show();
+        //Toast.makeText(this, "dia: " + dia + "gDia: " + gDia + "idVariedad: " + idVariedad, Toast.LENGTH_LONG).show();
         // en caso de no saber que paso en los grados dia.
-        Toast.makeText(this, img[0] + ",  " + img[1] + ",  " + img[2] + ",  " + img[3] + ".", Toast.LENGTH_LONG).show();
+        //Toast.makeText(this, img[0] + ",  " + img[1] + ",  " + img[2] + ",  " + img[3] + ".", Toast.LENGTH_LONG).show();
         String data = "";
         Iterator<fenologiaTab> i = iF.all().iterator();
         List<fenologiaTab> fi = new ArrayList<>();
@@ -151,14 +151,14 @@ public class VisualFenoActivity extends AppCompatActivity {
         return fi;
     }
 
-    public void datos(TextView tv, BigDecimal dia, BigDecimal lon, BigDecimal grados) {
+    public void datos(TextView tv, Double dia, Double lon, Double grados) {
 
         tv.setText("Diametro: " + dia + "    Longitud: " + lon + "\n Grados dia acomulados: " + grados);
         tv.setTextSize(16);
 
     }
 
-    public BigDecimal pD(double dou) {
+   public BigDecimal pD(double dou) {
         BigDecimal dpar = new BigDecimal(dou);
         return dpar.setScale(2, RoundingMode.DOWN);
     }
