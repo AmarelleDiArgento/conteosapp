@@ -56,8 +56,8 @@ public class ActivityDetalles extends AppCompatActivity {
             usulog = findViewById(R.id.usuLog);
             txtCuadro = findViewById(R.id.txtCuadro);
 
-//            String usuario = sp.getString("usulog", "");
-//            usulog.setText(usuario);
+            //String usuario = sp.getString("nombre", "");
+            //usulog.setText(usuario);
 
             path = getExternalFilesDir(null) + File.separator;
             createTable();
@@ -99,21 +99,18 @@ public class ActivityDetalles extends AppCompatActivity {
     public void clicTable(View v) {
 
         try {
-
-            Toast.makeText(this, "ID " + tb.getIdTabla(), Toast.LENGTH_LONG).show();
             conteoTab ct = clc.get(tb.getIdTabla() - 1);
 
             String variedad = ct.getVariedad();
             String bloque = ct.getBloque();
             Long idSiembra = ct.getIdSiembra();
             String idSiempar = String.valueOf(idSiembra);
+            Toast.makeText(this, "id conteo \n \n"+ct.getIdSiembra(), Toast.LENGTH_SHORT).show();
 
             int cuadro = ct.getCuadro();
             int conteo1 = ct.getConteo1();
             int conteo4 = ct.getConteo4();
             int total = ct.getTotal();
-
-            Toast.makeText(getApplicationContext(), "Total\n" + ct.getTotal(), Toast.LENGTH_LONG).show();
 
             txtCuadro.setText("Cuadro: " + cuadro);
             cap_1.setText(String.valueOf(conteo1));
@@ -130,7 +127,6 @@ public class ActivityDetalles extends AppCompatActivity {
 
     //FILTRO DE LA TABLA POR BLOQUE
     public List<conteoTab> filtro() throws Exception {
-        //String text = "";
         iConteo iC = new iConteo(path);
         try {
             fecha = sp.getString("date", "");
@@ -242,21 +238,7 @@ public class ActivityDetalles extends AppCompatActivity {
             DialogConfirm(msj, tipo);
         }
     }
-
-    public void btn_limpiar(View v) {
-        String conteo1 = cap_1.getText().toString();
-        String conteo2 = cap_2.getText().toString();
-
-        if (conteo1.isEmpty()) {
-            tostada("No haz seleccionado un registro para borrar").show();
-        } else if (conteo2.isEmpty()) {
-            tostada("No haz seleccionado un registro para borrar").show();
-        } else {
-            String msj = "Seguro que deseas borrar todo lo relacionado con este bloque";
-            String tipo = "btn_limpiar";
-            DialogConfirm(msj, tipo);
-        }
-    }
+    
 
 
     //MENSAJES DE CONFIRMACIÓN PARA EJECUTAR LOS METODO DEL CRUD
@@ -297,7 +279,7 @@ public class ActivityDetalles extends AppCompatActivity {
 
     //METODOS PARA HACER EL CRUD
     public void actualizar_registro() {
-        Toast.makeText(getApplicationContext(), "llega al metodo actualizar", Toast.LENGTH_SHORT).show();
+
     }
 
     public void borrar_registro() {

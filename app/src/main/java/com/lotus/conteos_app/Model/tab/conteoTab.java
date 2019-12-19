@@ -170,9 +170,9 @@ public class conteoTab {
 
     @Override
     public String toString() {
-        return "{" +
-                "\"id\":" + idConteo + ",\n" +
+        return "{\n" +
                 "\"fecha\": \"" + fecha + "\",\n" +
+                "\"id\":" + idConteo + ",\n" +
                 "\"idSiembra\":" + idSiembra + ",\n" +
                 "\"cama\":" + cama + ",\n" +
                 "\"idBloque\": " + idBloque + ",\n" +
@@ -189,6 +189,6 @@ public class conteoTab {
                 "\"area\": " + area + ",\n" +
                 "\"cuadros\": " + cuadros + ",\n" +
                 "\"IdUsuario\":" + IdUsuario + "\n" +
-                "}";
+                "}"+"\n";
     }
 }
