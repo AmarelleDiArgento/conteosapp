@@ -60,13 +60,14 @@ public class iConteo extends sqlConect implements conteo {
     }
 
     @Override
-    public String update(conteoTab c) {
+    public String update(Long id,conteoTab c) {
 
         try {
-            int id = (int) c.getIdConteo();
-            cl.set(id, c);
+            all();
+            int idparseo = id.intValue();
+            cl.set(idparseo, c);
             local();
-            return "actualizado conteo de la cama: " + c.getCuadro();
+            return "se actualizo correctamente";
         } catch (Exception e) {
             return "Error: " + e.toString();
         }
@@ -80,7 +81,7 @@ public class iConteo extends sqlConect implements conteo {
     @Override
     public conteoTab oneId(Long id) throws Exception {
         conteoTab cr = new conteoTab();
-
+        cl = all();
         for (conteoTab c : cl) {
             if (c.getIdConteo() == id) {
                 cr = c;

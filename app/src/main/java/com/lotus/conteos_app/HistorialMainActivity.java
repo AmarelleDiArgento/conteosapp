@@ -74,9 +74,7 @@ public class HistorialMainActivity extends AppCompatActivity {
             fech = findViewById(R.id.txt_fecha);
             fechita = findViewById(R.id.fechita);
             fechaoculta = findViewById(R.id.fechaoculta);
-            //usuLog = findViewById(R.id.usuLog);
-            //String usuario=sp.getString("nombre","");
-            //usuLog.setText(usuario);
+
             ja = new jsonAdmin();
 
             //gradosDiaTxt.setSelectAllOnFocus(true);
@@ -177,7 +175,6 @@ public class HistorialMainActivity extends AppCompatActivity {
 
     //OBTENER FECHA ACTUAL
     public void getDate() {
-
         try {
             calendarDate = Calendar.getInstance();
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyy");

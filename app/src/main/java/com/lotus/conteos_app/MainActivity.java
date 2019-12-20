@@ -322,10 +322,6 @@ public class MainActivity extends AppCompatActivity {
 
     //REALIZA LA CARGAS DE IMAGEN SEGUN FENOLOFIA
     public void cargarImagenes(long idVariedad) {
-
-       // Toast.makeText(this, "" + idVariedad, Toast.LENGTH_LONG).show();
-
-
         try {
 
             imageAdmin iA = new imageAdmin();
@@ -370,9 +366,8 @@ public class MainActivity extends AppCompatActivity {
         img[3] = (d + 28) * gDia;
         int c = 0;
 
-        // Toast.makeText(this, "dia: " + dia + "gDia: " + gDia + "idVariedad: " + idVariedad, Toast.LENGTH_LONG).show();
         // en caso de no saber que paso en los grados dia.
-        Toast.makeText(this, "Gdia: " + d + " /  " +  img[0] + ",  " + img[1] + ",  " +img[2] + ",  " +img[3] + ".", Toast.LENGTH_LONG).show();
+        //(Toast.makeText(this, "Gdia: " + d + " /  " +  img[0] + ",  " + img[1] + ",  " +img[2] + ",  " +img[3] + ".", Toast.LENGTH_LONG).show();
         String data = "";
         Iterator<fenologiaTab> i = iF.all().iterator();
         List<fenologiaTab> fi = new ArrayList<>();
@@ -403,8 +398,8 @@ public class MainActivity extends AppCompatActivity {
         if (c < 4) {
             fi.add(fu);
         }
-        jsonAdmin jsonAdmin = new jsonAdmin();
-        jsonAdmin.CrearArchivo(path, "Error", data);
+        //jsonAdmin jsonAdmin = new jsonAdmin();
+        //jsonAdmin.CrearArchivo(path, "Error", data);
         return fi;
     }
 

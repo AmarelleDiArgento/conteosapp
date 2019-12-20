@@ -171,24 +171,24 @@ public class conteoTab {
     @Override
     public String toString() {
         return "{\n" +
-                "\"fecha\": \"" + fecha + "\",\n" +
-                "\"id\":" + idConteo + ",\n" +
-                "\"idSiembra\":" + idSiembra + ",\n" +
-                "\"cama\":" + cama + ",\n" +
-                "\"idBloque\": " + idBloque + ",\n" +
-                "\"bloque\": \"" + bloque + "\",\n" +
-                "\"idVariedad\":" + idVariedad + ",\n" +
-                "\"variedad\": \"" + variedad + "\",\n" +
-                "\"cuadro\":" + cuadro + ",\n" +
-                "\"conteo1\":" + conteo1 + ",\n" +
-                "\"conteo2\":" + conteo2 + ",\n" +
-                "\"conteo3\":" + conteo3 + ",\n" +
-                "\"conteo4\":" + conteo4 + ",\n" +
-                "\"total\":" + total + ",\n" +
-                "\"plantas\": " + plantas + ",\n" +
-                "\"area\": " + area + ",\n" +
-                "\"cuadros\": " + cuadros + ",\n" +
-                "\"IdUsuario\":" + IdUsuario + "\n" +
+                "\"fecha\": \""+fecha+"\",\n" +
+                "\"idConteo\":"+idConteo+",\n" +
+                "\"idSiembra\":"+idSiembra+",\n" +
+                "\"cama\":"+cama+",\n" +
+                "\"idBloque\":"+idBloque+",\n" +
+                "\"bloque\": \""+bloque+"\",\n" +
+                "\"idVariedad\":"+idVariedad+",\n" +
+                "\"variedad\": \""+variedad+"\",\n" +
+                "\"cuadro\":"+cuadro+",\n"+
+                "\"conteo1\":"+conteo1+",\n" +
+                "\"conteo2\":"+conteo2+",\n" +
+                "\"conteo3\":"+conteo3+",\n" +
+                "\"conteo4\":"+conteo4+",\n" +
+                "\"total\":"+total+",\n" +
+                "\"plantas\":"+plantas+",\n" +
+                "\"area\":"+area+",\n" +
+                "\"cuadros\":"+cuadros+",\n" +
+                "\"IdUsuario\":"+IdUsuario+"\n" +
                 "}"+"\n";
     }
 }

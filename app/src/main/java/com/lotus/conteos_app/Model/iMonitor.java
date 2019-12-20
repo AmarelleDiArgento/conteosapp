@@ -75,7 +75,7 @@ public class iMonitor extends sqlConect implements monitor {
     }
 
     @Override
-    public String update(monitorTab o) throws Exception {
+    public String update(Long id,monitorTab o) throws Exception {
         return null;
     }
 

@@ -1,6 +1,7 @@
 package com.lotus.conteos_app;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -17,13 +18,16 @@ import com.lotus.conteos_app.Model.iConteo;
 import com.lotus.conteos_app.Model.tab.conteoTab;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class ActivityDetalles extends AppCompatActivity {
 
     public static int id;
     SharedPreferences sp = null;
+    Calendar calendarDate = null;
 
     List<conteoTab> clc = new ArrayList<>();
 
@@ -31,12 +35,13 @@ public class ActivityDetalles extends AppCompatActivity {
     String fecha = "";
     private TableLayout tableLayout;
     TableDinamic tb;
+    iConteo iC = null;
 
-    TextView txtId, txtCuadro, txtBloque, txtVariedad, fechita, usulog;
+    TextView txtId, txtCuadro, txtBloque, txtVariedad,  fechita, txtidReg;
     EditText cap_1, cap_2, cap_ct;
 
     // Encabezados de la tabla
-    private String[] header = {"id", "Bloque", "Cuadro", "C1", "C2", "C3", "C4", "CT"};
+    private String[] header = {"idReg", "Bloque", "Cuadro", "C1", "C2", "C3", "C4", "CT"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,12 +57,9 @@ public class ActivityDetalles extends AppCompatActivity {
             cap_1 = findViewById(R.id.cap_c1);
             cap_2 = findViewById(R.id.cap_c2);
             cap_ct = findViewById(R.id.cap_ct);
-            fechita = findViewById(R.id.fechita);
-            usulog = findViewById(R.id.usuLog);
+            fechita = findViewById(R.id.usulog);
             txtCuadro = findViewById(R.id.txtCuadro);
-
-            //String usuario = sp.getString("nombre", "");
-            //usulog.setText(usuario);
+            txtidReg = findViewById(R.id.idReg);
 
             path = getExternalFilesDir(null) + File.separator;
             createTable();
@@ -90,8 +92,41 @@ public class ActivityDetalles extends AppCompatActivity {
                 }
             });
 
+            getDate();
+            cargarRecursos();
+
         }catch (Exception e){
             tostada("Error\n"+e).show();
+        }
+    }
+
+    public void cargarRecursos(){
+        SimpleDateFormat sdfn = new SimpleDateFormat("ddMMyyyy");
+        try{
+            iC = new iConteo(path);
+            fecha = sp.getString("date", "");
+            iC.nombre = fecha;
+        }catch (Exception ex){
+            Toast.makeText(this, "Exception al cargar recursos \n \n"+ex.toString(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+
+    //OBTENER FECHA ACTUAL
+    public void getDate() {
+
+        try {
+            calendarDate = Calendar.getInstance();
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyy");
+            fecha = sdf.format(calendarDate.getTime());
+
+
+            //obteniendo el usuario
+            String usuario = sp.getString("nombre", "");
+            fechita.setText("Fecha: " + fecha + "\nUsuario: " + usuario);
+
+        } catch (Exception e) {
+            Toast.makeText(this, "Exception getDate" + e, Toast.LENGTH_LONG).show();
         }
     }
 
@@ -105,13 +140,15 @@ public class ActivityDetalles extends AppCompatActivity {
             String bloque = ct.getBloque();
             Long idSiembra = ct.getIdSiembra();
             String idSiempar = String.valueOf(idSiembra);
-            Toast.makeText(this, "id conteo \n \n"+ct.getIdSiembra(), Toast.LENGTH_SHORT).show();
 
+
+            long idReg = ct.getIdConteo();
             int cuadro = ct.getCuadro();
             int conteo1 = ct.getConteo1();
             int conteo4 = ct.getConteo4();
             int total = ct.getTotal();
 
+            txtidReg.setText("idReg:" + idReg);
             txtCuadro.setText("Cuadro: " + cuadro);
             cap_1.setText(String.valueOf(conteo1));
             cap_2.setText(String.valueOf(conteo4));
@@ -137,6 +174,7 @@ public class ActivityDetalles extends AppCompatActivity {
             for (conteoTab c : cl) {
                 boolean val = true;
                 for (int i = 0; i <= clc.size(); i++) {
+                    Toast.makeText(this,"id "+c.getIdConteo(),Toast.LENGTH_SHORT).show();
                     if (c.getIdBloque() == sp.getInt("bloque", 0) || c.getIdVariedad() == sp.getInt("idvariedad", 0)) {
                         val = true;
                     } else {
@@ -161,16 +199,12 @@ public class ActivityDetalles extends AppCompatActivity {
         final ArrayList<String[]> rows = new ArrayList<>();
         try {
 
-            iConteo iC = new iConteo(path);
-
-            iC.nombre = fecha;
-
             final List<conteoTab> cl = filtro();
 
             for (final conteoTab c : cl) {
 
                 rows.add(new String[]{
-                                String.valueOf(c.getIdSiembra()),
+                                String.valueOf(c.getIdConteo()),
                                 String.valueOf(c.getBloque()),
                                 String.valueOf(c.getCuadro()),
                                 String.valueOf(c.getConteo1()),
@@ -238,7 +272,7 @@ public class ActivityDetalles extends AppCompatActivity {
             DialogConfirm(msj, tipo);
         }
     }
-    
+
 
 
     //MENSAJES DE CONFIRMACIÓN PARA EJECUTAR LOS METODO DEL CRUD
@@ -255,9 +289,7 @@ public class ActivityDetalles extends AppCompatActivity {
                                 actualizar_registro();
                             } else if (metodo.equals("btn_borrar_registro")) {
                                 borrar_registro();
-                            } else if (metodo.equals("btn_limpiar")) {
-                                limpiar();
-                            }
+                            }else{}
 
                         }
                     })
@@ -279,16 +311,50 @@ public class ActivityDetalles extends AppCompatActivity {
 
     //METODOS PARA HACER EL CRUD
     public void actualizar_registro() {
+        try {
+            iC.nombre = fecha;
 
+            String [] data = txtidReg.getText().toString().split(":");
+            Long id = Long.parseLong(data[1].trim());
+
+            int conteo1 = Integer.parseInt(cap_1.getText().toString());
+            int conteo2 = Integer.parseInt(cap_2.getText().toString());
+            int conteoT = Integer.parseInt(cap_ct.getText().toString());
+
+            conteoTab cl = iC.oneId(id);
+
+            conteoTab c = new conteoTab();
+
+                c.setFecha(cl.getFecha());
+                c.setIdConteo(cl.getIdConteo());
+                c.setIdSiembra(cl.getIdSiembra());
+                c.setCama(cl.getCama());
+                c.setIdBloque(cl.getIdBloque());
+                c.setBloque(cl.getBloque());
+                c.setIdVariedad(cl.getIdVariedad());
+                c.setVariedad(cl.getVariedad());
+                c.setCuadro(cl.getCuadro());
+                c.setConteo1(conteo1);
+                c.setConteo4(conteo2);
+                c.setTotal(conteoT);
+                c.setPlantas(cl.getPlantas());
+                c.setArea(cl.getArea());
+                c.setCuadros(cl.getCuadros());
+                c.setIdUsuario(cl.getIdUsuario());
+
+                Toast.makeText(this, ""+iC.update(id-1,c), Toast.LENGTH_SHORT).show();
+                Intent i = new Intent(this,ActivityDetalles.class);
+                startActivity(i);
+        }catch (Exception ex){
+            Toast.makeText(this, "exception al actualizar el registro \n \n"+ex.toString(), Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void borrar_registro() {
         Toast.makeText(getApplicationContext(), "llega al metodo borrar", Toast.LENGTH_SHORT).show();
+
     }
 
-    public void limpiar() {
-        Toast.makeText(getApplicationContext(), "llega al metodo limpiar", Toast.LENGTH_SHORT).show();
-    }
 
 
     //TOSTADAS

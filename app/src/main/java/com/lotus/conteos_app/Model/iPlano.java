@@ -109,7 +109,7 @@ public class iPlano extends sqlConect implements plano {
     }
 
     @Override
-    public String update(planoTab o) {
+    public String update(Long id,planoTab o) {
         String msj = "";
         try {
             PreparedStatement ps = cn.prepareStatement(upd);

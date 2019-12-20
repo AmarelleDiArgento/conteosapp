@@ -74,7 +74,7 @@ public class iFenologia extends sqlConect implements fenologia {
     }
 
     @Override
-    public String update(fenologiaTab o) throws Exception {
+    public String update(Long id,fenologiaTab o) throws Exception {
         return null;
     }
 
