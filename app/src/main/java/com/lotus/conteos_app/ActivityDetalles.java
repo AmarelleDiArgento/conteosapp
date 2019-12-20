@@ -351,7 +351,49 @@ public class ActivityDetalles extends AppCompatActivity {
     }
 
     public void borrar_registro() {
-        Toast.makeText(getApplicationContext(), "llega al metodo borrar", Toast.LENGTH_SHORT).show();
+        try {
+
+            int idauto = 0;
+
+            iC.nombre = fecha;
+            String[] data = txtidReg.getText().toString().split(":");
+            Long id = Long.parseLong(data[1].trim());
+
+            Toast.makeText(this, "" + iC.delete(id - 1), Toast.LENGTH_SHORT).show();
+
+            List<conteoTab> ct  =  iC.all();
+
+            conteoTab ct2 = new conteoTab();
+
+            for(conteoTab ctt : ct){
+                Toast.makeText(this, ""+iC.delete(ctt.getIdConteo()+1), Toast.LENGTH_SHORT).show();
+                ct2.setFecha(ctt.getFecha());
+                ct2.setIdConteo(idauto+1);
+                ct2.setIdSiembra(ctt.getIdSiembra());
+                ct2.setCama(ctt.getCama());
+                ct2.setIdBloque(ctt.getIdBloque());
+                ct2.setBloque(ctt.getBloque());
+                ct2.setIdVariedad(ctt.getIdVariedad());
+                ct2.setVariedad(ctt.getVariedad());
+                ct2.setCuadro(ctt.getCuadro());
+                ct2.setConteo1(ctt.getConteo1());
+                ct2.setConteo2(ctt.getConteo2());
+                ct2.setConteo3(ctt.getConteo3());
+                ct2.setConteo4(ctt.getConteo4());
+                ct2.setTotal(ctt.getTotal());
+                ct2.setPlantas(ctt.getPlantas());
+                ct2.setArea(ctt.getArea());
+                ct2.setCuadros(ctt.getCuadros());
+                ct2.setIdUsuario(ctt.getIdUsuario());
+
+                iC.insertBeDelete(ct2);
+            }
+
+            Intent i = new Intent(this, ActivityDetalles.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(i);
+        }catch (Exception ex){
+            Toast.makeText(this, "Exception al borrar el registro \n \n"+ex, Toast.LENGTH_SHORT).show();
+        }
 
     }
 

@@ -75,7 +75,19 @@ public class iConteo extends sqlConect implements conteo {
 
     @Override
     public String delete(Long id) {
-        return null;
+        String msj = "";
+        try {
+            all();
+            int idparseo = id.intValue();
+            cl.remove(idparseo);
+            local();
+            msj="Se elimino exitosamente";
+            return msj;
+        }catch (Exception ex){
+            msj="Exception en delete iConteo \n"+ex;
+            return msj;
+        }
+
     }
 
     @Override
@@ -141,6 +153,34 @@ public class iConteo extends sqlConect implements conteo {
             msj = e.toString();
         }
         return msj;
+    }
+
+    public String clear(){
+        String msj = "";
+        try{
+            cl.clear();
+            local();
+
+            msj = "ok";
+            return msj;
+        }catch (Exception ex){
+            msj = "Exception clearBeDelete \n \n"+ex;
+            return msj;
+        }
+    }
+
+    public String insertBeDelete(conteoTab o){
+        String msj = "";
+        try{
+            cl.add(o);
+            local();
+
+            msj = "ok";
+            return msj;
+        }catch (Exception ex){
+            msj = "Exception insertBeDelete \n \n"+ex;
+            return msj;
+        }
     }
 
 }
