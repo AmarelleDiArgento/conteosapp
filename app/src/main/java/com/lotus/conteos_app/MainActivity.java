@@ -9,6 +9,7 @@ import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -35,9 +36,7 @@ import java.util.List;
 import static com.lotus.conteos_app.R.drawable.flor;
 import static java.lang.String.valueOf;
 
-
 public class MainActivity extends AppCompatActivity {
-
     SharedPreferences sp = null;
     planoTab p = null;
 
@@ -70,20 +69,17 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().hide();
         try {
             sp = getBaseContext().getSharedPreferences("share", MODE_PRIVATE);
-            codebar = (EditText) findViewById(R.id.resulcode);
+            codebar = findViewById(R.id.resulcode);
 
-            gradoDia = (TextView) findViewById(R.id.gradodia);
+            gradoDia = findViewById(R.id.gradodia);
             gradoDia.setText(valueOf(getGradoDia()));
-            String gD = String.valueOf(sp.getFloat("gradoDia", 0));
-            IdSiembra = (EditText) findViewById(R.id.resulcode);
-            c1 = (EditText) findViewById(R.id.c1et);
-            c4 = (EditText) findViewById(R.id.c4et);
-            total = (EditText) findViewById(R.id.total);
-
+            IdSiembra = findViewById(R.id.resulcode);
+            c1 = findViewById(R.id.c1et);
+            c4 = findViewById(R.id.c4et);
+            total = findViewById(R.id.total);
 
             idusuario = findViewById(R.id.idusuario);
             idusuario.setText(sp.getString("codigo", ""));
-
 
             c1.setSelectAllOnFocus(true);
             c4.setSelectAllOnFocus(true);
@@ -120,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
             });
 
 
-            cuadro = (Spinner) findViewById(R.id.cuadrosp);
+            cuadro = findViewById(R.id.cuadrosp);
             // Arreglo, desplegable (Spinner) cuadros
             String[] cuadros = {"1", "2", "3", "4", "5", "6", "7", "8"};
 
@@ -128,22 +124,22 @@ public class MainActivity extends AppCompatActivity {
             ArrayAdapter<String> cuadroArray = new ArrayAdapter<>(this, R.layout.spinner_item_personal, cuadros);
             cuadro.setAdapter(cuadroArray);
 
-            usuario = (TextView) findViewById(R.id.usuLog);
+            usuario = findViewById(R.id.usuLog);
 
-            jpgView1 = (ImageView) findViewById(R.id.feno1);
-            jpgView2 = (ImageView) findViewById(R.id.feno2);
-            jpgView3 = (ImageView) findViewById(R.id.feno3);
-            jpgView4 = (ImageView) findViewById(R.id.feno4);
+            jpgView1 =  findViewById(R.id.feno1);
+            jpgView2 =  findViewById(R.id.feno2);
+            jpgView3 =  findViewById(R.id.feno3);
+            jpgView4 =  findViewById(R.id.feno4);
 
-            finca = (TextView) findViewById(R.id.cam_finca);
-            variedad = (TextView) findViewById(R.id.cam_variedad);
-            bloque = (TextView) findViewById(R.id.cam_bloque);
-            cama = (TextView) findViewById(R.id.cam_cama);
-            NoArea = (TextView) findViewById(R.id.textViewNoArea);
-            NoCuadros = (TextView) findViewById(R.id.textViewNoTotalCuadros);
-            NoPlantas = (TextView) findViewById(R.id.textViewNoPlantas);
+            finca =  findViewById(R.id.cam_finca);
+            variedad =  findViewById(R.id.cam_variedad);
+            bloque =  findViewById(R.id.cam_bloque);
+            cama =  findViewById(R.id.cam_cama);
+            NoArea =  findViewById(R.id.textViewNoArea);
+            NoCuadros =  findViewById(R.id.textViewNoTotalCuadros);
+            NoPlantas =  findViewById(R.id.textViewNoPlantas);
 
-            fechaAct = (TextView) findViewById(R.id.fechaAct);
+            fechaAct =  findViewById(R.id.fechaAct);
 
             getDate();
             cargarRecursos();
@@ -155,7 +151,6 @@ public class MainActivity extends AppCompatActivity {
             class MyKeyListerner implements View.OnKeyListener {
                 public boolean onKey(View v, int keyCode, KeyEvent event) {
                     if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                        //Toast.makeText(Login.this,"se oprimio el boton",Toast.LENGTH_SHORT).show();
                         buscarSiembra(0);
                         return true;
                     }
@@ -165,6 +160,26 @@ public class MainActivity extends AppCompatActivity {
 
             View.OnKeyListener listener = new MyKeyListerner();
             IdSiembra.setOnKeyListener(listener);
+
+            requestConteoTotal();
+
+            cuadro.setOnItemSelectedListener(
+                    new AdapterView.OnItemSelectedListener() {
+                        public void onItemSelected(AdapterView<?> spn, android.view.View v, int posicion, long id) {
+                            try {
+                                int seleccionado = posicion;
+
+                                SharedPreferences.Editor edit = sp.edit();
+                                edit.putInt("Item", seleccionado);
+
+                            }catch (Exception ex){
+                                Toast.makeText(MainActivity.this, "Error "+ex.toString(), Toast.LENGTH_SHORT).show();
+                            }
+
+                        }
+                        public void onNothingSelected(AdapterView<?> spn) {
+                        }
+                    });
 
         } catch (Exception e) {
             Toast.makeText(this, e.toString(), Toast.LENGTH_LONG).show();
@@ -177,9 +192,11 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         getCodeBar();
         try {
+            obtenerCuadro();
             int campo_code = Integer.parseInt(codebar.getText().toString());
             if (campo_code > 0) {
                 buscarSiembra(campo_code);
+                c1.requestFocus();
             } else if (campo_code == 0) {
             } else {
             }
@@ -191,8 +208,6 @@ public class MainActivity extends AppCompatActivity {
     private void cargarRecursos() {
 
         path = getExternalFilesDir(null) + File.separator;
-        //path = "/storage/extSdCard/";
-
         try {
 
             SimpleDateFormat sdfn = new SimpleDateFormat("ddMMyyyy");
@@ -261,15 +276,34 @@ public class MainActivity extends AppCompatActivity {
             } else {
                 //Toast.makeText(this, "no hay dato para consultar", Toast.LENGTH_SHORT).show();
             }
+
         } catch (Exception EX) {
             Toast.makeText(this, "EXCEPTION: " + EX.toString(), Toast.LENGTH_LONG).show();
         }
     }
 
+    public void obtenerCuadro(){
+        try{
+            int itemSpin = sp.getInt("Item", 0);
+            if(itemSpin >= 0){
+                cuadro.setSelection(itemSpin);
+            }else{
+                Toast.makeText(this, "no se pudo obtener el cuadro", Toast.LENGTH_SHORT).show();
+            }
+        }catch (Exception ex){
+            Toast.makeText(this, "Exception al sp de cuadro \n \n"+ex.toString(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
     //BOTON (VERDE) PARA ACTIVAR LA CAMARA CODEBAR
     public void barcode(View v) {
-        Intent intent = new Intent(v.getContext(), Camera.class);
-        startActivityForResult(intent, 0);
+        try {
+            Intent intent = new Intent(v.getContext(), Camera.class);
+            startActivityForResult(intent, 0);
+
+        }catch (Exception ex){
+            Toast.makeText(this, "Exception al guardar el cuadro \n \n"+ex.toString(), Toast.LENGTH_SHORT).show();
+        }
     }
 
     //BOTON (AZUL LUPA) BUSCAR SIEMBRA
@@ -398,8 +432,6 @@ public class MainActivity extends AppCompatActivity {
         if (c < 4) {
             fi.add(fu);
         }
-        //jsonAdmin jsonAdmin = new jsonAdmin();
-        //jsonAdmin.CrearArchivo(path, "Error", data);
         return fi;
     }
 
@@ -516,7 +548,7 @@ public class MainActivity extends AppCompatActivity {
 
         } catch (Exception e) {
 
-            Toast.makeText(this, "hola" + e.toString(), Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Exception al momento de registrar \n \n" + e.toString(), Toast.LENGTH_LONG).show();
         }
     }
 
@@ -563,6 +595,25 @@ public class MainActivity extends AppCompatActivity {
         Toast.makeText(this, "btn back ", Toast.LENGTH_SHORT).show();
         finish();
         System.exit(0);
+    }
+
+
+    public void requestConteoTotal() {
+
+        c4.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                    Toast.makeText(MainActivity.this, "ok", Toast.LENGTH_SHORT).show();
+                    total.requestFocus();
+                    //InputMethodManager imm = (InputMethodManager) getSystemService(getApplicationContext().INPUT_METHOD_SERVICE);
+                    //imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+                    return true;
+                }
+                return false;
+            }
+        });
+
     }
 
 }

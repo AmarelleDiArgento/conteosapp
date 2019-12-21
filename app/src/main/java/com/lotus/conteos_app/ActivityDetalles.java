@@ -176,7 +176,6 @@ public class ActivityDetalles extends AppCompatActivity {
             for (conteoTab c : cl) {
                 boolean val = true;
                 for (int i = 0; i <= clc.size(); i++) {
-                    Toast.makeText(this,"id "+c.getIdConteo(),Toast.LENGTH_SHORT).show();
                     if (c.getIdBloque() == sp.getInt("bloque", 0) || c.getIdVariedad() == sp.getInt("idvariedad", 0)) {
                         val = true;
                     } else {
