@@ -226,7 +226,7 @@ public class MainActivity extends AppCompatActivity {
         dia = calendarDate.get(Calendar.DAY_OF_WEEK) - 1;
 
         hora = calendarDate.get(Calendar.HOUR_OF_DAY);
-        Toast.makeText(this, "dia: " + dia + "\n hora  " + hora, Toast.LENGTH_LONG).show();
+
         if (hora >= 12) {
             dia++;
         }

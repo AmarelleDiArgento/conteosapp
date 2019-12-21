@@ -112,9 +112,6 @@ public class HistorialMainActivity extends AppCompatActivity {
                     cargadefecha();
                 }
             });
-            //limpia los registros
-
-            // createTable();
             createTable();
             gradosDiaTxt.setText(String.valueOf(recibirGradoDia()));
 
@@ -122,7 +119,6 @@ public class HistorialMainActivity extends AppCompatActivity {
             class MyKeyListerner implements View.OnKeyListener {
                 public boolean onKey(View v, int keyCode, KeyEvent event) {
                     if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                        //Toast.makeText(Login.this,"se oprimio el boton",Toast.LENGTH_SHORT).show();
                         sharedGradoDia(null);
                         return true;
                     }
@@ -135,14 +131,11 @@ public class HistorialMainActivity extends AppCompatActivity {
 
         } catch (Exception e) {
             Toast.makeText(this, "Error en el create " + e.toString(), Toast.LENGTH_LONG).show();
-
         }
     }
 
     public void clicTable(View v) {
-
         try {
-
             conteoTab ct = clc.get(tb.getIdTabla() - 1);
             if (ct != null) {
                 String bloque = ct.getBloque();
@@ -197,8 +190,6 @@ public class HistorialMainActivity extends AppCompatActivity {
     public void goMain(View v) {
         try {
             if (gDia >= 5) {
-                //Toast.makeText(this,"se pasa el grado: "+datodia,Toast.LENGTH_LONG).show();
-
                 Intent intent = new Intent(HistorialMainActivity.this, MainActivity.class);
                 startActivity(intent);
 
@@ -274,21 +265,17 @@ public class HistorialMainActivity extends AppCompatActivity {
 
         fechaconver = strBuffer.toString();
 
-        //string a date
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
 
 
         try {
             Date date = formatter.parse(fechaconver);
             String nn = formatter.format(date);
-            //Toast.makeText(this, "nuevo formato 1  \n" +date, Toast.LENGTH_SHORT).show();
-            //Toast.makeText(this, "nuevo formato 2  \n" +nn, Toast.LENGTH_SHORT).show();
 
             String[] Strsplit = nn.split("/");
             String fechanew1 = Strsplit[0].trim() + Strsplit[1].trim() + Strsplit[2].trim();
             String dateInString = fechanew1;
 
-            //Toast.makeText(this, "sin split  \n" +dateInString, Toast.LENGTH_SHORT).show();
             fechaoculta.setText(dateInString);
         } catch (Exception e) {
             Toast.makeText(this, "no se pudo convertir \n" + e.toString(), Toast.LENGTH_SHORT).show();
@@ -296,7 +283,6 @@ public class HistorialMainActivity extends AppCompatActivity {
     }
 
     public List<conteoTab> calcular() {
-        //String text = "";
         try {
             iConteo iC = new iConteo(path);
             fecha = fechaoculta.getText().toString();
@@ -306,9 +292,6 @@ public class HistorialMainActivity extends AppCompatActivity {
             for (conteoTab c : cl) {
                 boolean val = true;
                 for (int i = 0; i <= clc.size() - 1; i++) {
-                    // c.getIdBloque() == clc.get(i).getIdBloque()
-                    // c.getIdVariedad() == clc.get(i).getIdVariedad()
-                    // c.getIdSiembra() == clc.get(i).getIdSiembra()
 
                     if (c.getIdVariedad() == clc.get(i).getIdVariedad() || c.getIdBloque() == clc.get(i).getIdBloque()) {
 
@@ -371,7 +354,6 @@ public class HistorialMainActivity extends AppCompatActivity {
 
                 );
 
-                Toast.makeText(this, "id Variedad"+c.getIdVariedad(), Toast.LENGTH_LONG).show();
             }
         } catch (Exception e) {
             Toast.makeText(this, "Error exception Cargar conteo: " + e.toString(), Toast.LENGTH_LONG).show();
@@ -446,8 +428,4 @@ public class HistorialMainActivity extends AppCompatActivity {
     public void onBackPressed() {
     }
 
-
-    Toast tostada(String mjs) {
-        return Toast.makeText(this, mjs, Toast.LENGTH_LONG);
-    }
 }

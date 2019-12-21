@@ -31,6 +31,8 @@ public class ActivityDetalles extends AppCompatActivity {
 
     List<conteoTab> clc = new ArrayList<>();
 
+    int idres=0;
+
     String path = null;
     String fecha = "";
     private TableLayout tableLayout;
@@ -41,7 +43,7 @@ public class ActivityDetalles extends AppCompatActivity {
     EditText cap_1, cap_2, cap_ct;
 
     // Encabezados de la tabla
-    private String[] header = {"idReg", "Bloque", "Cuadro", "C1", "C2", "C3", "C4", "CT"};
+    private String[] header = {"Bloque", "Cuadro", "C1", "C2", "C3", "C4", "CT"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -204,7 +206,6 @@ public class ActivityDetalles extends AppCompatActivity {
             for (final conteoTab c : cl) {
 
                 rows.add(new String[]{
-                                String.valueOf(c.getIdConteo()),
                                 String.valueOf(c.getBloque()),
                                 String.valueOf(c.getCuadro()),
                                 String.valueOf(c.getConteo1()),
@@ -352,23 +353,24 @@ public class ActivityDetalles extends AppCompatActivity {
 
     public void borrar_registro() {
         try {
-
-            int idauto = 0;
-
             iC.nombre = fecha;
             String[] data = txtidReg.getText().toString().split(":");
             Long id = Long.parseLong(data[1].trim());
 
-            Toast.makeText(this, "" + iC.delete(id - 1), Toast.LENGTH_SHORT).show();
+            if(id!=0) {
+                Toast.makeText(this, "" + iC.delete(id - 1), Toast.LENGTH_SHORT).show();
+            }else {
+                iC.delete(id);
+            }
 
             List<conteoTab> ct  =  iC.all();
 
             conteoTab ct2 = new conteoTab();
 
             for(conteoTab ctt : ct){
-                Toast.makeText(this, ""+iC.delete(ctt.getIdConteo()+1), Toast.LENGTH_SHORT).show();
+                int idAct = (int)ctt.getIdConteo()-1;
                 ct2.setFecha(ctt.getFecha());
-                ct2.setIdConteo(idauto+1);
+                ct2.setIdConteo(idres++);
                 ct2.setIdSiembra(ctt.getIdSiembra());
                 ct2.setCama(ctt.getCama());
                 ct2.setIdBloque(ctt.getIdBloque());
@@ -385,18 +387,19 @@ public class ActivityDetalles extends AppCompatActivity {
                 ct2.setArea(ctt.getArea());
                 ct2.setCuadros(ctt.getCuadros());
                 ct2.setIdUsuario(ctt.getIdUsuario());
-
-                iC.insertBeDelete(ct2);
+                if(idres!=0) {
+                    iC.update((long) idres - 1, ct2);
+                }else{
+                    iC.update((long) idres + 1, ct2);
+                }
             }
 
-            Intent i = new Intent(this, ActivityDetalles.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            Intent i = new Intent(this,ActivityDetalles.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(i);
         }catch (Exception ex){
             Toast.makeText(this, "Exception al borrar el registro \n \n"+ex, Toast.LENGTH_SHORT).show();
         }
-
     }
-
 
 
     //TOSTADAS

@@ -169,10 +169,10 @@ public class iConteo extends sqlConect implements conteo {
         }
     }
 
-    public String insertBeDelete(conteoTab o){
+    public String insertBeDelete(int i,conteoTab o){
         String msj = "";
         try{
-            cl.add(o);
+            cl.set(i-1,o);
             local();
 
             msj = "ok";

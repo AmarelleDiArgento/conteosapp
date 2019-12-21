@@ -77,12 +77,11 @@ public class VisualFenoActivity extends AppCompatActivity {
             dia = sp.getInt("dia", 0);
             idVariedad = sp.getLong("IdVariedad", 0);
 
-            Toast.makeText(this, variedad + " / " + gDia + " / " + dia + " / " + idVariedad, Toast.LENGTH_LONG).show();
+
 
             imageAdmin iA = new imageAdmin();
             List<fenologiaTab> fi = forGradoloc(dia, gDia, idVariedad);
 
-            Toast.makeText(this, "/storage/extSdCard/" + idVariedad + "/" + fi.get(0).getImagen(), Toast.LENGTH_LONG).show();
 
             iA.getImage(jpgView1, idVariedad, fi.get(0).getImagen());
             datos(txt1, fi.get(0).getDiametro_boton(), fi.get(0).getLargo_boton(), fi.get(0).getGrados_dia());

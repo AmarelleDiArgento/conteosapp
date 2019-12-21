@@ -93,7 +93,7 @@ public class TableDinamic {
                         public void onClick(final View view) {
                             id = view.getId();
                             setIdTabla(id);
-                            Toast.makeText(context, "Fila " + id, Toast.LENGTH_SHORT).show();
+                            // Toast.makeText(context, "Fila " + id, Toast.LENGTH_SHORT).show();
                             view.setBackgroundColor(Color.parseColor("#92F0EDED"));
                             int dur = 1000;
                             new Handler().postDelayed(new Runnable() {
@@ -127,15 +127,6 @@ public class TableDinamic {
 
 
     public void backgroundData(int firt, int second) {
-        //for (r = 1; r <= data.size(); r++) {
-        //    multicolor = !multicolor;
-        //    for (c = 0; c < header.length; c++) {
-        //        txtCell = getCell(r, c);
-        //        txtCell.setBackgroundColor((multicolor) ? firt : second);
-        //    }
-        //}
-        //this.firt = firt;
-        //this.second = second;
     }
 
 
