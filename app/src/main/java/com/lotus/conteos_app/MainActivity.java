@@ -171,6 +171,8 @@ public class MainActivity extends AppCompatActivity {
 
                                 SharedPreferences.Editor edit = sp.edit();
                                 edit.putInt("Item", seleccionado);
+                                edit.apply();
+                                edit.commit();
 
                             }catch (Exception ex){
                                 Toast.makeText(MainActivity.this, "Error "+ex.toString(), Toast.LENGTH_SHORT).show();
