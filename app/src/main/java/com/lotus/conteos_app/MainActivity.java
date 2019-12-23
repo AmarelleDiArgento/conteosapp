@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -126,20 +127,20 @@ public class MainActivity extends AppCompatActivity {
 
             usuario = findViewById(R.id.usuLog);
 
-            jpgView1 =  findViewById(R.id.feno1);
-            jpgView2 =  findViewById(R.id.feno2);
-            jpgView3 =  findViewById(R.id.feno3);
-            jpgView4 =  findViewById(R.id.feno4);
+            jpgView1 = findViewById(R.id.feno1);
+            jpgView2 = findViewById(R.id.feno2);
+            jpgView3 = findViewById(R.id.feno3);
+            jpgView4 = findViewById(R.id.feno4);
 
-            finca =  findViewById(R.id.cam_finca);
-            variedad =  findViewById(R.id.cam_variedad);
-            bloque =  findViewById(R.id.cam_bloque);
-            cama =  findViewById(R.id.cam_cama);
-            NoArea =  findViewById(R.id.textViewNoArea);
-            NoCuadros =  findViewById(R.id.textViewNoTotalCuadros);
-            NoPlantas =  findViewById(R.id.textViewNoPlantas);
+            finca = findViewById(R.id.cam_finca);
+            variedad = findViewById(R.id.cam_variedad);
+            bloque = findViewById(R.id.cam_bloque);
+            cama = findViewById(R.id.cam_cama);
+            NoArea = findViewById(R.id.textViewNoArea);
+            NoCuadros = findViewById(R.id.textViewNoTotalCuadros);
+            NoPlantas = findViewById(R.id.textViewNoPlantas);
 
-            fechaAct =  findViewById(R.id.fechaAct);
+            fechaAct = findViewById(R.id.fechaAct);
 
             getDate();
             cargarRecursos();
@@ -147,6 +148,7 @@ public class MainActivity extends AppCompatActivity {
             c4.setText("0");
             c1.setText("0");
             total.setText("0");
+            
 
             class MyKeyListerner implements View.OnKeyListener {
                 public boolean onKey(View v, int keyCode, KeyEvent event) {
@@ -163,6 +165,7 @@ public class MainActivity extends AppCompatActivity {
 
             requestConteoTotal();
 
+
             cuadro.setOnItemSelectedListener(
                     new AdapterView.OnItemSelectedListener() {
                         public void onItemSelected(AdapterView<?> spn, android.view.View v, int posicion, long id) {
@@ -174,14 +177,17 @@ public class MainActivity extends AppCompatActivity {
                                 edit.apply();
                                 edit.commit();
 
-                            }catch (Exception ex){
-                                Toast.makeText(MainActivity.this, "Error "+ex.toString(), Toast.LENGTH_SHORT).show();
+                            } catch (Exception ex) {
+                                Toast.makeText(MainActivity.this, "Error " + ex.toString(), Toast.LENGTH_SHORT).show();
                             }
 
                         }
+
                         public void onNothingSelected(AdapterView<?> spn) {
                         }
                     });
+
+
 
         } catch (Exception e) {
             Toast.makeText(this, e.toString(), Toast.LENGTH_LONG).show();
@@ -602,20 +608,17 @@ public class MainActivity extends AppCompatActivity {
 
     public void requestConteoTotal() {
 
-        c4.setOnKeyListener(new View.OnKeyListener() {
+        c4.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                    Toast.makeText(MainActivity.this, "ok", Toast.LENGTH_SHORT).show();
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                boolean handled = false;
+                if (actionId == EditorInfo.IME_ACTION_GO) {
                     total.requestFocus();
-                    //InputMethodManager imm = (InputMethodManager) getSystemService(getApplicationContext().INPUT_METHOD_SERVICE);
-                    //imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
-                    return true;
+
                 }
-                return false;
+                return handled;
             }
         });
-
     }
 
 }

@@ -508,7 +508,7 @@
         android:layout_marginTop="544dp"
         android:background="#52BE80"
         android:ems="10"
-        android:imeOptions="actionNext"
+        android:imeOptions="actionGo"
         android:inputType="number"
         android:padding="5dip"
         android:textAlignment="center"
