@@ -3,6 +3,7 @@ package com.lotus.conteos_app;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
@@ -93,6 +94,10 @@ public class ActivityDetalles extends AppCompatActivity {
                     view.requestFocus();
                 }
             });
+
+            cap_1.setRawInputType (Configuration.KEYBOARD_QWERTY);
+            cap_2.setRawInputType (Configuration.KEYBOARD_QWERTY);
+            cap_ct.setRawInputType (Configuration.KEYBOARD_QWERTY);
 
             getDate();
             cargarRecursos();
@@ -342,8 +347,13 @@ public class ActivityDetalles extends AppCompatActivity {
                 c.setCuadros(cl.getCuadros());
                 c.setIdUsuario(cl.getIdUsuario());
 
-                Toast.makeText(this, ""+iC.update(id-1,c), Toast.LENGTH_SHORT).show();
-                Intent i = new Intent(this,ActivityDetalles.class);
+                if(id!=0) {
+                    Toast.makeText(this, ""+iC.update(id - 1, c), Toast.LENGTH_SHORT).show();
+                }else{
+                    Toast.makeText(this, ""+iC.update(id , c), Toast.LENGTH_SHORT).show();
+                }
+
+                Intent i = new Intent(this,ActivityDetalles.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(i);
         }catch (Exception ex){
             Toast.makeText(this, "exception al actualizar el registro \n \n"+ex.toString(), Toast.LENGTH_SHORT).show();
@@ -357,7 +367,7 @@ public class ActivityDetalles extends AppCompatActivity {
             Long id = Long.parseLong(data[1].trim());
 
             if(id!=0) {
-                Toast.makeText(this, "" + iC.delete(id - 1), Toast.LENGTH_SHORT).show();
+                iC.delete(id - 1);
             }else {
                 iC.delete(id);
             }
@@ -367,7 +377,6 @@ public class ActivityDetalles extends AppCompatActivity {
             conteoTab ct2 = new conteoTab();
 
             for(conteoTab ctt : ct){
-                int idAct = (int)ctt.getIdConteo()-1;
                 ct2.setFecha(ctt.getFecha());
                 ct2.setIdConteo(idres++);
                 ct2.setIdSiembra(ctt.getIdSiembra());

@@ -69,6 +69,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         getSupportActionBar().hide();
         try {
+
+            Toast.makeText(this, "onCreate", Toast.LENGTH_SHORT).show();
+
             sp = getBaseContext().getSharedPreferences("share", MODE_PRIVATE);
             codebar = findViewById(R.id.resulcode);
 
@@ -125,6 +128,7 @@ public class MainActivity extends AppCompatActivity {
             ArrayAdapter<String> cuadroArray = new ArrayAdapter<>(this, R.layout.spinner_item_personal, cuadros);
             cuadro.setAdapter(cuadroArray);
 
+
             usuario = findViewById(R.id.usuLog);
 
             jpgView1 = findViewById(R.id.feno1);
@@ -148,7 +152,7 @@ public class MainActivity extends AppCompatActivity {
             c4.setText("0");
             c1.setText("0");
             total.setText("0");
-            
+
 
             class MyKeyListerner implements View.OnKeyListener {
                 public boolean onKey(View v, int keyCode, KeyEvent event) {
@@ -165,42 +169,25 @@ public class MainActivity extends AppCompatActivity {
 
             requestConteoTotal();
 
-
-            cuadro.setOnItemSelectedListener(
-                    new AdapterView.OnItemSelectedListener() {
-                        public void onItemSelected(AdapterView<?> spn, android.view.View v, int posicion, long id) {
-                            try {
-                                int seleccionado = posicion;
-
-                                SharedPreferences.Editor edit = sp.edit();
-                                edit.putInt("Item", seleccionado);
-                                edit.apply();
-                                edit.commit();
-
-                            } catch (Exception ex) {
-                                Toast.makeText(MainActivity.this, "Error " + ex.toString(), Toast.LENGTH_SHORT).show();
-                            }
-
-                        }
-
-                        public void onNothingSelected(AdapterView<?> spn) {
-                        }
-                    });
-
-
-
         } catch (Exception e) {
             Toast.makeText(this, e.toString(), Toast.LENGTH_LONG).show();
         }
 
     }
 
-    @Override
-    protected void onResume() {
+
+    @Override protected void onStart() {
+        super.onStart();
+        Toast.makeText(this, "onStart", Toast.LENGTH_SHORT).show();
+        //obtenerCuadro();
+    }
+
+    @Override protected void onResume() {
         super.onResume();
+        Toast.makeText(this, "onResume", Toast.LENGTH_SHORT).show();
         getCodeBar();
+        getState();
         try {
-            obtenerCuadro();
             int campo_code = Integer.parseInt(codebar.getText().toString());
             if (campo_code > 0) {
                 buscarSiembra(campo_code);
@@ -208,8 +195,86 @@ public class MainActivity extends AppCompatActivity {
             } else if (campo_code == 0) {
             } else {
             }
+
+            //Toast.makeText(this, ""+obtenerCuadro(), Toast.LENGTH_SHORT).show();
         } catch (Exception ex) {
             Toast.makeText(this, "Exception 0:     " + ex.toString(), Toast.LENGTH_LONG).show();
+        }
+    }
+
+    @Override protected void onPause() {
+        Toast.makeText(this, "onPause", Toast.LENGTH_SHORT).show();
+        super.onPause();
+
+        /*cuadro.setOnItemSelectedListener(
+                new AdapterView.OnItemSelectedListener() {
+                    public void onItemSelected(AdapterView<?> spn, android.view.View v, int posicion, long id) {
+                        try {
+                            int seleccionado = posicion;
+
+                            SharedPreferences.Editor edit = sp.edit();
+                            edit.putInt("Item", seleccionado);
+                            edit.apply();
+                            if(edit.commit()){
+                                Toast.makeText(MainActivity.this, "si se logro capturar el cuadro", Toast.LENGTH_SHORT).show();
+                            }else{
+                                Toast.makeText(MainActivity.this, "ocurrio un problema", Toast.LENGTH_SHORT).show();
+                            }
+
+
+
+                        } catch (Exception ex) {
+                            Toast.makeText(MainActivity.this, "Error " + ex.toString(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    public void onNothingSelected(AdapterView<?> spn) {
+                    }
+                }
+                );
+         */
+
+        saveState();
+    }
+
+    @Override protected void onStop() {
+        Toast.makeText(this, "onStop", Toast.LENGTH_SHORT).show();
+        super.onStop();
+    }
+
+    @Override protected void onRestart() {
+        super.onRestart();
+        Toast.makeText(this, "onRestart", Toast.LENGTH_SHORT).show();
+
+    }
+
+    @Override protected void onDestroy() {
+        Toast.makeText(this, "onDestroy", Toast.LENGTH_SHORT).show();
+        super.onDestroy();
+    }
+
+    //SHARED PREFERENCES
+    public void saveState() {
+        try{
+            int valueSpinner = cuadro.getSelectedItemPosition();
+
+            SharedPreferences.Editor edit = sp.edit();
+            edit.putInt("sp_spinner_cuadro", valueSpinner);
+            edit.commit();
+            edit.apply();
+
+        }catch (Exception e){
+            Toast.makeText(this,"¡¡NO SE GUARDO CORRECTAMENTE EL ESTADO DE LA ACTIVIDAD \n \n"+e,Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void getState(){
+        try{
+            if(sp !=null){
+                cuadro.setSelection(sp.getInt("sp_spinner_cuadro",0));
+            }
+        }catch (Exception e){
+            Toast.makeText(this,"¡¡NO SE RECIBIO CORRECTAMENTE EL ESTADO DE LA ACTIVIDAD \n \n"+e,Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -290,16 +355,21 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void obtenerCuadro(){
+    public String obtenerCuadro(){
+        String msj="";
         try{
             int itemSpin = sp.getInt("Item", 0);
             if(itemSpin >= 0){
                 cuadro.setSelection(itemSpin);
+                msj="se logro obktener el cuadro";
+                return msj;
             }else{
-                Toast.makeText(this, "no se pudo obtener el cuadro", Toast.LENGTH_SHORT).show();
+               msj="no se pudo obtener el cuadro";
+               return msj;
             }
         }catch (Exception ex){
-            Toast.makeText(this, "Exception al sp de cuadro \n \n"+ex.toString(), Toast.LENGTH_SHORT).show();
+            msj="Exception al sp de cuadro \n \n"+ex.toString();
+            return msj;
         }
     }
 
