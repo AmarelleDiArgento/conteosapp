@@ -13,6 +13,8 @@ import me.dm7.barcodescanner.zbar.ZBarScannerView;
 public class Camera extends AppCompatActivity {
     private ZBarScannerView vbc;
 
+    boolean camara_activada = true;
+
     //SE INICIALIZA LA CREACION DE LA ACTIVIDAD
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +48,7 @@ public class Camera extends AppCompatActivity {
             try {
                 String bc = result.getContents();
                         if (bc != null) {
-                            boolean camara_activada = true;
+                            camara_activada = true;
                             Intent intent = new Intent(Camera.this, MainActivity.class);
                             //Exportar parametro
                             intent.putExtra("codigo", bc);
@@ -61,8 +63,14 @@ public class Camera extends AppCompatActivity {
                 Toast toast = Toast.makeText(getApplicationContext(), "Lo sentimos, no se obtuvo resultado del codigo", Toast.LENGTH_LONG);
                 toast.setGravity(Gravity.TOP,0,100);
                 toast.show();
-                Intent i = new Intent(Camera.this,MainActivity.class);
-                startActivity(i);
+
+                camara_activada = false;
+
+                Intent intent = new Intent(Camera.this, MainActivity.class);
+                //Exportar parametro
+                intent.putExtra("codigo", 0);
+                intent.putExtra("camaraActivada", camara_activada);
+                startActivityForResult(intent, 0);
             }
         }
     }

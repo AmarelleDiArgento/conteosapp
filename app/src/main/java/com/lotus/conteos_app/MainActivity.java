@@ -69,9 +69,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         getSupportActionBar().hide();
         try {
-
-            Toast.makeText(this, "onCreate", Toast.LENGTH_SHORT).show();
-
             sp = getBaseContext().getSharedPreferences("share", MODE_PRIVATE);
             codebar = findViewById(R.id.resulcode);
 
@@ -169,6 +166,9 @@ public class MainActivity extends AppCompatActivity {
 
             requestConteoTotal();
 
+            boolean camaraActivada = false;
+
+
         } catch (Exception e) {
             Toast.makeText(this, e.toString(), Toast.LENGTH_LONG).show();
         }
@@ -178,15 +178,12 @@ public class MainActivity extends AppCompatActivity {
 
     @Override protected void onStart() {
         super.onStart();
-        Toast.makeText(this, "onStart", Toast.LENGTH_SHORT).show();
         //obtenerCuadro();
     }
 
     @Override protected void onResume() {
         super.onResume();
-        Toast.makeText(this, "onResume", Toast.LENGTH_SHORT).show();
         getCodeBar();
-        getState();
         try {
             int campo_code = Integer.parseInt(codebar.getText().toString());
             if (campo_code > 0) {
@@ -195,61 +192,25 @@ public class MainActivity extends AppCompatActivity {
             } else if (campo_code == 0) {
             } else {
             }
-
-            //Toast.makeText(this, ""+obtenerCuadro(), Toast.LENGTH_SHORT).show();
         } catch (Exception ex) {
-            Toast.makeText(this, "Exception 0:     " + ex.toString(), Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Exception onResume:     " + ex.toString(), Toast.LENGTH_LONG).show();
         }
     }
 
     @Override protected void onPause() {
-        Toast.makeText(this, "onPause", Toast.LENGTH_SHORT).show();
         super.onPause();
-
-        /*cuadro.setOnItemSelectedListener(
-                new AdapterView.OnItemSelectedListener() {
-                    public void onItemSelected(AdapterView<?> spn, android.view.View v, int posicion, long id) {
-                        try {
-                            int seleccionado = posicion;
-
-                            SharedPreferences.Editor edit = sp.edit();
-                            edit.putInt("Item", seleccionado);
-                            edit.apply();
-                            if(edit.commit()){
-                                Toast.makeText(MainActivity.this, "si se logro capturar el cuadro", Toast.LENGTH_SHORT).show();
-                            }else{
-                                Toast.makeText(MainActivity.this, "ocurrio un problema", Toast.LENGTH_SHORT).show();
-                            }
-
-
-
-                        } catch (Exception ex) {
-                            Toast.makeText(MainActivity.this, "Error " + ex.toString(), Toast.LENGTH_SHORT).show();
-                        }
-                    }
-
-                    public void onNothingSelected(AdapterView<?> spn) {
-                    }
-                }
-                );
-         */
-
         saveState();
     }
 
     @Override protected void onStop() {
-        Toast.makeText(this, "onStop", Toast.LENGTH_SHORT).show();
         super.onStop();
     }
 
     @Override protected void onRestart() {
         super.onRestart();
-        Toast.makeText(this, "onRestart", Toast.LENGTH_SHORT).show();
-
     }
 
     @Override protected void onDestroy() {
-        Toast.makeText(this, "onDestroy", Toast.LENGTH_SHORT).show();
         super.onDestroy();
     }
 
@@ -268,15 +229,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void getState(){
-        try{
-            if(sp !=null){
-                cuadro.setSelection(sp.getInt("sp_spinner_cuadro",0));
-            }
-        }catch (Exception e){
-            Toast.makeText(this,"¡¡NO SE RECIBIO CORRECTAMENTE EL ESTADO DE LA ACTIVIDAD \n \n"+e,Toast.LENGTH_SHORT).show();
-        }
-    }
 
     private void cargarRecursos() {
 
@@ -342,6 +294,14 @@ public class MainActivity extends AppCompatActivity {
             Bundle bundle = getIntent().getExtras();
             if (bundle != null) {
                 String d = bundle.getString("codigo");
+                boolean camaraact = bundle.getBoolean("camaraActivada");
+
+                if(camaraact){
+                    cuadro.setSelection(sp.getInt("sp_spinner_cuadro",0));
+                }else{
+                    cuadro.setSelection(0);
+                }
+
                 String[] dato = d.split(",");
                 if (dato != null) {
                     codebar.setText(dato[0]);
@@ -355,23 +315,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public String obtenerCuadro(){
-        String msj="";
-        try{
-            int itemSpin = sp.getInt("Item", 0);
-            if(itemSpin >= 0){
-                cuadro.setSelection(itemSpin);
-                msj="se logro obktener el cuadro";
-                return msj;
-            }else{
-               msj="no se pudo obtener el cuadro";
-               return msj;
-            }
-        }catch (Exception ex){
-            msj="Exception al sp de cuadro \n \n"+ex.toString();
-            return msj;
-        }
-    }
 
     //BOTON (VERDE) PARA ACTIVAR LA CAMARA CODEBAR
     public void barcode(View v) {
@@ -677,7 +620,6 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void requestConteoTotal() {
-
         c4.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
