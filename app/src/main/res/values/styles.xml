@@ -21,4 +21,8 @@
         </item>
     </style>
 
+    <style name="MyProgressDialogDespues" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="colorAccent">#00C853</item>
+    </style>
+
 </resources>

@@ -19,6 +19,7 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.lotus.conteos_app.Config.Util.Dialog;
 import com.lotus.conteos_app.Config.Util.TableDinamic;
 import com.lotus.conteos_app.Config.Util.jsonAdmin;
 import com.lotus.conteos_app.Model.iConteo;
@@ -442,8 +443,11 @@ public class HistorialMainActivity extends AppCompatActivity {
 
                 //Toast.makeText(this, ""+c, Toast.LENGTH_SHORT).show();
 
-                Toast.makeText(this, ""+iC.record(c), Toast.LENGTH_SHORT).show();
+                iC.record(c);
             }
+
+            Dialog d = new Dialog(this);
+            d.progressBar("Se esta enviando los registros....","Se envio correctamente los registros",20);
 
         }catch (Exception ex){
             Toast.makeText(this, "Exception al subir el registro \n \n"+ex.toString(), Toast.LENGTH_SHORT).show();
