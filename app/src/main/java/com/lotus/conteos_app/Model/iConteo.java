@@ -22,8 +22,8 @@ public class iConteo extends sqlConect implements conteo {
 
 
     public String nombre;
-    final String ins = "INSERT INTO Conteos (fecha, idSiembra, cuadro, conteo1, conteo2, conteo3, conteo4, idUsuario)\n" +
-            "     VALUES (?,?,?,?,?,?,?,?)";
+    final String ins = "INSERT INTO Conteos (fecha, idSiembra, cuadro, conteo1, conteo2, conteo3, conteo4, total, idUsuario)\n" +
+            "     VALUES (?,?,?,?,?,?,?,?,?)";
 
     Connection cn = null;
     String path = null;
@@ -141,20 +141,21 @@ public class iConteo extends sqlConect implements conteo {
         String msj = "";
         try {
             PreparedStatement ps = cn.prepareStatement(ins);
-            ps.setString(1, o.getFecha());
+            ps.setString(1, o.getFecha()+"T00:00:00");
             ps.setLong(2, o.getIdSiembra());
             ps.setInt(3, o.getCuadro());
             ps.setInt(4, o.getConteo1());
             ps.setInt(5, o.getConteo2());
             ps.setInt(6, o.getConteo3());
             ps.setInt(7, o.getConteo4());
-            ps.setInt(8, o.getIdUsuario());
+            ps.setInt(8,o.getTotal());
+            ps.setInt(9, o.getIdUsuario());
             if (ps.executeUpdate() == 0) {
                 msj = "Ups, algo salio mal. No se registro conteo de la siembra #" + o.getIdSiembra();
             } else {
                 msj = "Conteo de la siembra #" + o.getIdSiembra() + " registrada exitosamente";
             }
-            closeConexion(cn);
+            //closeConexion(cn);
 
         } catch (Exception e) {
             msj = e.toString();

@@ -424,6 +424,33 @@ public class HistorialMainActivity extends AppCompatActivity {
         finish();
     }
 
+    public void subirRegistro(View v){
+        try{
+            iConteo iC = new iConteo(path);
+            iC.nombre = fechaoculta.getText().toString();
+
+            for(conteoTab c : iC.all()){
+                c.setFecha(c.getFecha());
+                c.setIdSiembra(c.getIdSiembra());
+                c.setCuadro(c.getCuadro());
+                c.setConteo1(c.getConteo1());
+                c.setConteo2(c.getConteo2());
+                c.setConteo3(c.getConteo3());
+                c.setConteo4(c.getConteo4());
+                c.setTotal(c.getTotal());
+                c.setIdUsuario(c.getIdUsuario());
+
+                //Toast.makeText(this, ""+c, Toast.LENGTH_SHORT).show();
+
+                Toast.makeText(this, ""+iC.record(c), Toast.LENGTH_SHORT).show();
+            }
+
+        }catch (Exception ex){
+            Toast.makeText(this, "Exception al subir el registro \n \n"+ex.toString(), Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
     //PARA VOLVER
     public void onBackPressed() {
     }
