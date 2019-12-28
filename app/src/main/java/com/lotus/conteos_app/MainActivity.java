@@ -176,11 +176,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    @Override protected void onStart() {
-        super.onStart();
-        //obtenerCuadro();
-    }
-
     @Override protected void onResume() {
         super.onResume();
         getCodeBar();
@@ -617,7 +612,6 @@ public class MainActivity extends AppCompatActivity {
         finish();
         System.exit(0);
     }
-
 
     public void requestConteoTotal() {
         c4.setOnEditorActionListener(new TextView.OnEditorActionListener() {

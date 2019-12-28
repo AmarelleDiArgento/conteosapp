@@ -50,10 +50,18 @@ public class iConteo extends sqlConect implements conteo {
     public String insert(conteoTab c) {
 
         try {
-            c.setIdConteo(cl.size()+1);
-            cl.add(c);
-            local();
-            return "Registro realizado exitosamente"+cl.size();
+            if(cl.size()==0){
+                c.setIdConteo(cl.size());
+                cl.add(c);
+                local();
+            }else {
+                c.setIdConteo(cl.size());
+                cl.add(c);
+                local();
+                return "el registro ya paso de 0 \n"+cl.size();
+            }
+
+            return "Registro realizado exitosamente";
         } catch (Exception e) {
             return "Error: " + e.toString();
         }

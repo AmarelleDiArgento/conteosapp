@@ -346,12 +346,7 @@ public class ActivityDetalles extends AppCompatActivity {
                 c.setArea(cl.getArea());
                 c.setCuadros(cl.getCuadros());
                 c.setIdUsuario(cl.getIdUsuario());
-
-                if(id!=0) {
-                    Toast.makeText(this, ""+iC.update(id - 1, c), Toast.LENGTH_SHORT).show();
-                }else{
-                    Toast.makeText(this, ""+iC.update(id , c), Toast.LENGTH_SHORT).show();
-                }
+                iC.update(id,c);
 
                 Intent i = new Intent(this,ActivityDetalles.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(i);
@@ -366,11 +361,7 @@ public class ActivityDetalles extends AppCompatActivity {
             String[] data = txtidReg.getText().toString().split(":");
             Long id = Long.parseLong(data[1].trim());
 
-            if(id!=0) {
-                iC.delete(id - 1);
-            }else {
-                iC.delete(id);
-            }
+            iC.delete(id);
 
             List<conteoTab> ct  =  iC.all();
 
