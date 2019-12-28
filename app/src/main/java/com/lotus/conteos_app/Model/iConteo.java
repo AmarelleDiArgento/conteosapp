@@ -58,7 +58,6 @@ public class iConteo extends sqlConect implements conteo {
                 c.setIdConteo(cl.size());
                 cl.add(c);
                 local();
-                return "el registro ya paso de 0 \n"+cl.size();
             }
 
             return "Registro realizado exitosamente";
