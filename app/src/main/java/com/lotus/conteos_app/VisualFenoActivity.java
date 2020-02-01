@@ -82,17 +82,18 @@ public class VisualFenoActivity extends AppCompatActivity {
             imageAdmin iA = new imageAdmin();
             List<fenologiaTab> fi = forGradoloc(dia, gDia, idVariedad);
 
+            path = getExternalFilesDir(null) + File.separator;
 
-            iA.getImage(jpgView1, idVariedad, fi.get(0).getImagen());
+            iA.getImage(path,jpgView1, idVariedad, fi.get(0).getImagen());
             datos(txt1, fi.get(0).getDiametro_boton(), fi.get(0).getLargo_boton(), fi.get(0).getGrados_dia());
 
-            iA.getImage(jpgView2, idVariedad, fi.get(1).getImagen());
+            iA.getImage(path,jpgView2, idVariedad, fi.get(1).getImagen());
             datos(txt2, fi.get(1).getDiametro_boton(), fi.get(1).getLargo_boton(), fi.get(1).getGrados_dia());
 
-            iA.getImage(jpgView3, idVariedad, fi.get(2).getImagen());
+            iA.getImage(path,jpgView3, idVariedad, fi.get(2).getImagen());
             datos(txt3, fi.get(2).getDiametro_boton(), fi.get(2).getLargo_boton(), fi.get(2).getGrados_dia());
 
-            iA.getImage(jpgView4, idVariedad, fi.get(3).getImagen());
+            iA.getImage(path,jpgView4, idVariedad, fi.get(3).getImagen());
             datos(txt4, fi.get(3).getDiametro_boton(), fi.get(3).getLargo_boton(), fi.get(3).getGrados_dia());
 
 

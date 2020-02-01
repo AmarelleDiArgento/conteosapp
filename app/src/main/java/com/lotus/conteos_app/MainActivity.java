@@ -230,6 +230,7 @@ public class MainActivity extends AppCompatActivity {
         path = getExternalFilesDir(null) + File.separator;
         try {
 
+
             SimpleDateFormat sdfn = new SimpleDateFormat("ddMMyyyy");
 
             iP = new iPlano(path);
@@ -377,12 +378,14 @@ public class MainActivity extends AppCompatActivity {
             imageAdmin iA = new imageAdmin();
             List<fenologiaTab> fi = forGradoloc(dia, gDia, idVariedad);
 
+            path = getExternalFilesDir(null) + File.separator;
+
             // Toast.makeText(this, "/storage/extSdCard/" + idVariedad + "/" + fi.get(0).getImagen(), Toast.LENGTH_LONG).show();
 
-            iA.getImage(jpgView1, idVariedad, fi.get(0).getImagen());
-            iA.getImage(jpgView2, idVariedad, fi.get(1).getImagen());
-            iA.getImage(jpgView3, idVariedad, fi.get(2).getImagen());
-            iA.getImage(jpgView4, idVariedad, fi.get(3).getImagen());
+            iA.getImage(path,jpgView1, idVariedad, fi.get(0).getImagen());
+            iA.getImage(path,jpgView2, idVariedad, fi.get(1).getImagen());
+            iA.getImage(path,jpgView3, idVariedad, fi.get(2).getImagen());
+            iA.getImage(path,jpgView4, idVariedad, fi.get(3).getImagen());
 
 
             String variedad = fi.get(0).getVariedad();

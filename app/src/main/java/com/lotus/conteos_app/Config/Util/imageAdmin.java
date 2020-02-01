@@ -13,12 +13,16 @@ public class imageAdmin {
     final String path = "/storage/extSdCard/";
 
 
-    public void getImage(ImageView iv, long idVariedad, String imagen) throws Exception {
+    public void getImage(String path2, ImageView iv, long idVariedad, String imagen) throws Exception {
 
         File f = new File( path + idVariedad + "/" + imagen);
+        File f2 = new File( path2 + idVariedad + "/" + imagen);
 
         if (f.exists()) {
             Bitmap bitmap = BitmapFactory.decodeFile(f.getPath());
+            iv.setImageBitmap(bitmap);
+        }else if(f2.exists()){
+            Bitmap bitmap = BitmapFactory.decodeFile(f2.getPath());
             iv.setImageBitmap(bitmap);
         }
 
