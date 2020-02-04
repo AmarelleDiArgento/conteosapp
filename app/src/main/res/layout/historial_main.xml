@@ -40,19 +40,6 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/HISTORIAL_SIEMBRA3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="260dp"
-        android:layout_marginTop="712dp"
-        android:text="Acciones"
-        android:textColor="@color/colorPrimaryDark"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
         android:id="@+id/HISTORIAL_SIEMBRA2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -142,8 +129,8 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ScrollView
-        android:layout_width="592dp"
-        android:layout_height="420dp"
+        android:layout_width="590dp"
+        android:layout_height="361dp"
         android:layout_marginStart="4dp"
         android:layout_marginTop="288dp"
         android:textColor="@android:color/white"
@@ -218,14 +205,28 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
+        android:id="@+id/btnPlus"
+        android:layout_width="222dp"
+        android:layout_height="88dp"
+        android:layout_marginStart="308dp"
+        android:layout_marginTop="776dp"
+        android:backgroundTint="#52BE80"
+        android:onClick="goMain"
+        android:text="Nuevo registro"
+        android:textColor="@color/ColorPrimaryText"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
         android:id="@+id/btnSubir"
         android:layout_width="224dp"
         android:layout_height="86dp"
-        android:layout_marginStart="52dp"
-        android:layout_marginTop="752dp"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="688dp"
         android:backgroundTint="#2980B9"
-        android:text="subir registro"
         android:onClick="subirRegistro"
+        android:text="subir registro"
         android:textColor="@android:color/background_light"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
@@ -235,8 +236,8 @@
         android:id="@+id/btnBajar"
         android:layout_width="224dp"
         android:layout_height="84dp"
-        android:layout_marginStart="52dp"
-        android:layout_marginTop="844dp"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="780dp"
         android:backgroundTint="#C0392B"
         android:onClick="actualizarBases"
         android:text="Cargar planos"
@@ -249,8 +250,8 @@
         android:id="@+id/button5"
         android:layout_width="218dp"
         android:layout_height="72dp"
-        android:layout_marginStart="312dp"
-        android:layout_marginTop="756dp"
+        android:layout_marginStart="308dp"
+        android:layout_marginTop="692dp"
         android:background="#2980B9"
         android:backgroundTint="#2980B9"
         android:onClick="clicTable"
@@ -261,27 +262,26 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/btnPlus"
-        android:layout_width="222dp"
-        android:layout_height="88dp"
-        android:layout_marginStart="312dp"
-        android:layout_marginTop="840dp"
-        android:backgroundTint="#52BE80"
-        android:onClick="goMain"
-        android:text="Nuevo registro"
-        android:textColor="@color/ColorPrimaryText"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <TextView
         android:id="@+id/textView"
         android:layout_width="564dp"
         android:layout_height="194dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="740dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="684dp"
         android:background="#92F0EDED"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/HISTORIAL_SIEMBRA3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="256dp"
+        android:layout_marginTop="656dp"
+        android:text="Acciones"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="18sp"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
