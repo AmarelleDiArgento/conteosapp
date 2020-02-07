@@ -378,7 +378,7 @@ public class MainActivity extends AppCompatActivity {
             imageAdmin iA = new imageAdmin();
             List<fenologiaTab> fi = forGradoloc(dia, gDia, idVariedad);
 
-            String path2 = "/storage/emulated/0/Pictures";
+            String path2 = "/storage/emulated/0/Pictures/fenologias";
 
             // Toast.makeText(this, "/storage/extSdCard/" + idVariedad + "/" + fi.get(0).getImagen(), Toast.LENGTH_LONG).show();
 
@@ -387,12 +387,6 @@ public class MainActivity extends AppCompatActivity {
             iA.getImage(path2,jpgView3, idVariedad, fi.get(2).getImagen());
             iA.getImage(path2,jpgView4, idVariedad, fi.get(3).getImagen());
 
-
-            String variedad = fi.get(0).getVariedad();
-            String imagen = fi.get(0).getImagen();
-            String imagen2 = fi.get(1).getImagen();
-            String imagen3 = fi.get(2).getImagen();
-            String imagen4 = fi.get(3).getImagen();
 
             SharedPreferences.Editor edit = sp.edit();
             edit.putFloat("gDia", gDia);
@@ -419,8 +413,6 @@ public class MainActivity extends AppCompatActivity {
         img[3] = (d + 28) * gDia;
         int c = 0;
 
-        // en caso de no saber que paso en los grados dia.
-        //(Toast.makeText(this, "Gdia: " + d + " /  " +  img[0] + ",  " + img[1] + ",  " +img[2] + ",  " +img[3] + ".", Toast.LENGTH_LONG).show();
         String data = "";
         Iterator<fenologiaTab> i = iF.all().iterator();
         List<fenologiaTab> fi = new ArrayList<>();
