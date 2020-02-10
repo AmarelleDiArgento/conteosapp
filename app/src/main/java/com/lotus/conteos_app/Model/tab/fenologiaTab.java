@@ -2,72 +2,40 @@ package com.lotus.conteos_app.Model.tab;
 
 
 public class fenologiaTab {
+    private long idFenologia_gd;
     private long idFenologia;
-    private long idVariedad;
-    private String variedad;
     private double grados_dia;
     private double diametro_boton;
     private double largo_boton;
     private String imagen;
 
 
+    public fenologiaTab() {
+    }
+
+    public fenologiaTab(long idFenologia_gd, long idFenologia, double grados_dia, double diametro_boton, double largo_boton, String imagen) {
+        this.idFenologia_gd = idFenologia_gd;
+        this.idFenologia = idFenologia;
+        this.grados_dia = grados_dia;
+        this.diametro_boton = diametro_boton;
+        this.largo_boton = largo_boton;
+        this.imagen = imagen;
+    }
+
+    public long getIdFenologia_gd() {
+        return idFenologia_gd;
+    }
+
+    public void setIdFenologia_gd(long idFenologia_gd) {
+        this.idFenologia_gd = idFenologia_gd;
+    }
+
     public long getIdFenologia() {
         return idFenologia;
     }
 
-    public fenologiaTab() {
-    }
-
-    public fenologiaTab(long idVariedad, String variedad, double grados_dia, double diametro_boton, double largo_boton, String imagen) {
-        this.idVariedad = idVariedad;
-        this.variedad = variedad;
-        this.grados_dia = grados_dia;
-        this.diametro_boton = diametro_boton;
-        this.largo_boton = largo_boton;
-        this.imagen = imagen;
-    }
-
-    public fenologiaTab(long idFenologia, long idVariedad, String variedad, double grados_dia, double diametro_boton, double largo_boton, String imagen) {
-        this.idFenologia = idFenologia;
-        this.idVariedad = idVariedad;
-        this.variedad = variedad;
-        this.grados_dia = grados_dia;
-        this.diametro_boton = diametro_boton;
-        this.largo_boton = largo_boton;
-        this.imagen = imagen;
-    }
-
-    @Override
-    public String toString() {
-        return "{" +
-                "\"idFenologia\":" + idFenologia + ",\n" +
-                "\"idVariedad\":" + idVariedad + ",\n" +
-                "\"variedad\": \"" + variedad + "\",\n" +
-                "\"grados_dia\":" + grados_dia + ",\n" +
-                "\"diametro_boton\":" + diametro_boton + ",\n" +
-                "\"largo_boton\":" + largo_boton + ",\n" +
-                "\"imagen\": \"" + imagen + "\" \n" +
-                "}";
-    }
-
     public void setIdFenologia(long idFenologia) {
         this.idFenologia = idFenologia;
-    }
-
-    public long getIdVariedad() {
-        return idVariedad;
-    }
-
-    public void setIdVariedad(long idVariedad) {
-        this.idVariedad = idVariedad;
-    }
-
-    public String getVariedad() {
-        return variedad;
-    }
-
-    public void setVariedad(String variedad) {
-        this.variedad = variedad;
     }
 
     public double getGrados_dia() {
@@ -102,5 +70,15 @@ public class fenologiaTab {
         this.imagen = imagen;
     }
 
-
+    @Override
+    public String toString() {
+        return "{ \n" +
+                "\"idFenologia_dg\":" + idFenologia_gd + ",\n" +
+                "\"idFenologia\":" + idFenologia + ",\n" +
+                "\"grados_dia\":" + grados_dia + ",\n" +
+                "\"diametro_boton\":" + diametro_boton + ",\n" +
+                "\"largo_boton\":" + largo_boton + ",\n" +
+                "\"imagen\": \"" + imagen + "\" \n" +
+                "}";
+    }
 }

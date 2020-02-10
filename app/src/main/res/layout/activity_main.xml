@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:background="#FFFFFF"
     tools:context=".MainActivity">
 
@@ -124,9 +124,8 @@
         android:id="@+id/cuadrosp"
         android:layout_width="65dp"
         android:layout_height="47dp"
-        android:layout_marginStart="140dp"
+        android:layout_marginStart="152dp"
         android:layout_marginTop="380dp"
-        android:layout_span="4"
         android:textAlignment="center"
         android:textColor="#000000"
         app:layout_constraintStart_toStartOf="parent"

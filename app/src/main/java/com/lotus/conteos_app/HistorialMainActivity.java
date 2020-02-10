@@ -23,6 +23,7 @@ import com.lotus.conteos_app.Config.Util.Dialog;
 import com.lotus.conteos_app.Config.Util.TableDinamic;
 import com.lotus.conteos_app.Config.Util.jsonAdmin;
 import com.lotus.conteos_app.Model.iConteo;
+import com.lotus.conteos_app.Model.iCuadrosBloque;
 import com.lotus.conteos_app.Model.iFenologia;
 import com.lotus.conteos_app.Model.iPlano;
 import com.lotus.conteos_app.Model.tab.conteoTab;
@@ -399,8 +400,11 @@ public class HistorialMainActivity extends AppCompatActivity {
 
             iFenologia iF = new iFenologia(path);
             iPlano iP = new iPlano(path);
+            iCuadrosBloque iCB = new iCuadrosBloque(path);
 
-            if (iP.local(idFinca) && iF.local(idFinca)) {
+            //iP.local(idFinca) && iF.local(idFinca) &&
+
+            if (iCB.local() && iP.local(idFinca) && iF.local()) {
                 Toast.makeText(this, "Local actualizado exitosamente", Toast.LENGTH_LONG).show();
             }
 

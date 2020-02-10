@@ -20,9 +20,11 @@ import android.widget.Toast;
 
 import com.lotus.conteos_app.Config.Util.imageAdmin;
 import com.lotus.conteos_app.Config.Util.jsonAdmin;
+import com.lotus.conteos_app.Model.iCuadrosBloque;
 import com.lotus.conteos_app.Model.iPlano;
 import com.lotus.conteos_app.Model.iFenologia;
 import com.lotus.conteos_app.Model.iConteo;
+import com.lotus.conteos_app.Model.tab.cuadros_bloqueTab;
 import com.lotus.conteos_app.Model.tab.planoTab;
 import com.lotus.conteos_app.Model.tab.fenologiaTab;
 import com.lotus.conteos_app.Model.tab.conteoTab;
@@ -40,6 +42,7 @@ import static java.lang.String.valueOf;
 public class MainActivity extends AppCompatActivity {
     SharedPreferences sp = null;
     planoTab p = null;
+    cuadros_bloqueTab ab = null;
 
     float gDia;
     EditText c1, c4, IdSiembra, codebar, total;
@@ -50,10 +53,12 @@ public class MainActivity extends AppCompatActivity {
     List<planoTab> lp = new ArrayList<>();
     List<fenologiaTab> lf = new ArrayList<>();
     List<conteoTab> lc = new ArrayList<>();
+    List<cuadros_bloqueTab> lcb = new ArrayList<>();
 
     iPlano iP = null;
     iFenologia iF = null;
     iConteo iC = null;
+    iCuadrosBloque iCB = null;
 
     String path = null;
 
@@ -138,8 +143,8 @@ public class MainActivity extends AppCompatActivity {
             bloque = findViewById(R.id.cam_bloque);
             cama = findViewById(R.id.cam_cama);
             NoArea = findViewById(R.id.textViewNoArea);
-            NoCuadros = findViewById(R.id.textViewNoTotalCuadros);
             NoPlantas = findViewById(R.id.textViewNoPlantas);
+            NoCuadros = findViewById(R.id.textViewNoTotalCuadros);
 
             fechaAct = findViewById(R.id.fechaAct);
 
@@ -154,7 +159,7 @@ public class MainActivity extends AppCompatActivity {
             class MyKeyListerner implements View.OnKeyListener {
                 public boolean onKey(View v, int keyCode, KeyEvent event) {
                     if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                        buscarSiembra(0);
+                        buscarSiembra((long)0);
                         return true;
                     }
                     return false;
@@ -180,7 +185,7 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         getCodeBar();
         try {
-            int campo_code = Integer.parseInt(codebar.getText().toString());
+            Long campo_code = Long.parseLong(codebar.getText().toString());
             if (campo_code > 0) {
                 buscarSiembra(campo_code);
                 c1.requestFocus();
@@ -237,10 +242,14 @@ public class MainActivity extends AppCompatActivity {
             iF = new iFenologia(path);
             iC = new iConteo(path);
             iC.nombre = sdfn.format(calendarDate.getTime());
+            iCB = new iCuadrosBloque(path);
 
             lp = iP.all();
             lf = iF.all();
             lc = iC.all();
+            lcb = iCB.all();
+
+
         } catch (Exception e) {
         }
     }
@@ -295,7 +304,7 @@ public class MainActivity extends AppCompatActivity {
                 if(camaraact){
                     cuadro.setSelection(sp.getInt("sp_spinner_cuadro",0));
                 }else{
-                    cuadro.setSelection(0);
+                    cuadro.setSelection(1);
                 }
 
                 String[] dato = d.split(",");
@@ -317,53 +326,72 @@ public class MainActivity extends AppCompatActivity {
         try {
             Intent intent = new Intent(v.getContext(), Camera.class);
             startActivityForResult(intent, 0);
-
         }catch (Exception ex){
             Toast.makeText(this, "Exception al guardar el cuadro \n \n"+ex.toString(), Toast.LENGTH_SHORT).show();
         }
     }
 
     //BOTON (AZUL LUPA) BUSCAR SIEMBRA
-    public void btnBuscar(View v) {
-        int bs = Integer.parseInt(codebar.getText().toString());
-        buscarSiembra(bs);
+    public void btnBuscar(View v) throws Exception{
 
-        InputMethodManager imm = (InputMethodManager) getSystemService(this.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(codebar.getWindowToken(), 0);
+        String idVariedad = codebar.getText().toString();
+
+        if(idVariedad.isEmpty()){
+            Toast.makeText(this, "No puedes dejar el campo vacio", Toast.LENGTH_SHORT).show();
+        }else{
+            long bs = Long.parseLong(idVariedad);
+            if(bs <= 0) {
+                Toast.makeText(this, "El digito es invalido", Toast.LENGTH_SHORT).show();
+            }else {
+                buscarSiembra(bs);
+                iCB.all();
+            }
+        }
+        //InputMethodManager imm = (InputMethodManager) getSystemService(this.INPUT_METHOD_SERVICE);
+        //imm.hideSoftInputFromWindow(codebar.getWindowToken(), 0);
     }
 
     //REALIZA EL FILTRO DE BUSQUEDA SIEMBRAS
-    public void buscarSiembra(int bs) {
+    public void buscarSiembra(long bs) {
         try {
 
-            InputMethodManager imm = (InputMethodManager) getSystemService(this.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(codebar.getWindowToken(), 0);
+                    InputMethodManager imm = (InputMethodManager) getSystemService(this.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(codebar.getWindowToken(), 0);
 
-            long id = Long.parseLong(IdSiembra.getText().toString());
-            p = iP.OneforIdSiembra(id);
+                    p = iP.OneforIdSiembra(bs);
 
-            if (p != null) {
-                String s;
-                if (p.getIdSiembra() != null) {
-                    s = p.getCama() + p.getSufijo();
-                } else {
-                    s = valueOf(p.getCama());
-                }
 
-                finca.setText(p.getFinca());
-                variedad.setText(p.getVariedad());
-                bloque.setText(p.getBloque());
-                cama.setText(s);
-                NoArea.setText(String.valueOf(p.getArea()));
-                NoCuadros.setText(String.valueOf(p.getCuadros()));
-                NoPlantas.setText(String.valueOf(p.getPlantas()));
-                cargarImagenes(p.getFenologia());
+                    if (p != null) {
+                        String s;
+                        if (p.getIdSiembra() != null) {
+                            s = p.getCama() + p.getSufijo();
+                        } else {
+                            s = valueOf(p.getCama());
+                        }
 
-            } else {
-                Toast toast = Toast.makeText(getApplicationContext(), "Lo sentimos pero no se encuentra la siembra", Toast.LENGTH_LONG);
-                toast.setGravity(Gravity.TOP, 0, 100);
-                toast.show();
-            }
+                        finca.setText(p.getFinca());
+                        variedad.setText(p.getVariedad());
+                        bloque.setText(p.getBloque());
+                        cama.setText(s);
+                        NoArea.setText(String.valueOf(p.getArea()));
+                        NoPlantas.setText(String.valueOf(p.getPlantas()));
+
+                        ab = iCB.cuadroyvariedad((long) p.getIdBloque(), (long) p.getIdVariedad());
+
+
+                    } else {
+                        Toast toast = Toast.makeText(getApplicationContext(), "Lo sentimos pero no se encuentra la siembra", Toast.LENGTH_LONG);
+                        toast.setGravity(Gravity.TOP, 0, 100);
+                        toast.show();
+                    }
+
+                    if (ab != null) {
+                        NoCuadros.setText(String.valueOf(ab.getNumeroCuadros()));
+                        cargarImagenes(ab.getIdFenologia());
+                    } else {
+                        Toast.makeText(this, "ocurrio un problema", Toast.LENGTH_SHORT).show();
+                    }
+
 
         } catch (Exception e) {
             Toast.makeText(this, "Error busqueda" + e.toString(), Toast.LENGTH_LONG).show();
@@ -372,7 +400,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //REALIZA LA CARGAS DE IMAGEN SEGUN FENOLOFIA
-    public void cargarImagenes(long idVariedad) {
+    public void cargarImagenes(long idVariedad) throws Exception{
         try {
 
             imageAdmin iA = new imageAdmin();
@@ -380,13 +408,10 @@ public class MainActivity extends AppCompatActivity {
 
             String path2 = "/storage/emulated/0/Pictures/fenologias";
 
-            // Toast.makeText(this, "/storage/extSdCard/" + idVariedad + "/" + fi.get(0).getImagen(), Toast.LENGTH_LONG).show();
-
             iA.getImage(path2,jpgView1, idVariedad, fi.get(0).getImagen());
             iA.getImage(path2,jpgView2, idVariedad, fi.get(1).getImagen());
             iA.getImage(path2,jpgView3, idVariedad, fi.get(2).getImagen());
             iA.getImage(path2,jpgView4, idVariedad, fi.get(3).getImagen());
-
 
             SharedPreferences.Editor edit = sp.edit();
             edit.putFloat("gDia", gDia);
@@ -394,7 +419,6 @@ public class MainActivity extends AppCompatActivity {
             edit.putLong("IdVariedad", idVariedad);
             edit.commit();
             edit.apply();
-
 
         } catch (Exception e) {
             Toast.makeText(getApplicationContext(), "Error \n" + e, Toast.LENGTH_LONG).show();
@@ -413,14 +437,15 @@ public class MainActivity extends AppCompatActivity {
         img[3] = (d + 28) * gDia;
         int c = 0;
 
-        String data = "";
         Iterator<fenologiaTab> i = iF.all().iterator();
         List<fenologiaTab> fi = new ArrayList<>();
         fenologiaTab fu = new fenologiaTab();
 
+        String data = "";
+
         while (i.hasNext()) {
             fenologiaTab f = i.next();
-            if (f.getIdVariedad() == idVariedad) {
+            if (f.getIdFenologia() == idVariedad) {
 
                 data += img[c] + " - " + f.getGrados_dia() + " " + (img[c] <= f.getGrados_dia()) + "\n";
                 if (img[c] <= f.getGrados_dia()) {
@@ -526,7 +551,7 @@ public class MainActivity extends AppCompatActivity {
 
                     c.setPlantas(p.getPlantas());
                     c.setArea(p.getArea());
-                    c.setCuadros(p.getCuadros());
+                    //c.setCuadros("");
 
                     int usu = Integer.parseInt(idusuario.getText().toString());
                     c.setIdUsuario(usu);

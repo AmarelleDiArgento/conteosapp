@@ -123,7 +123,7 @@ public class VisualFenoActivity extends AppCompatActivity {
 
         while (i.hasNext()) {
             fenologiaTab f = i.next();
-            if (f.getIdVariedad() == idVariedad) {
+            if (f.getIdFenologia() == idVariedad) {
 
                 data += img[c] + " - " + f.getGrados_dia() + " " + (img[c] <= f.getGrados_dia()) + "\n";
                 if (img[c] <= f.getGrados_dia()) {

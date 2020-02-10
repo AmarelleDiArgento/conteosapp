@@ -41,21 +41,20 @@ public class iFenologia extends sqlConect implements fenologia {
     final String nam = "SELECT [idFenologia] ,[idVariedad] ,[variedad] ,[grados_dia] ,[diametro_boton] ,[largo_boton] ,[imagen]\n" +
             "  FROM [dbo].[Fenologia]\n" +
             "  WHERE  [variedad] = ?;";
-    final String all = "SELECT [idFenologia] ,[idVariedad] ,[variedad] ,[grados_dia] ,[diametro_boton] ,[largo_boton] ,[imagen]\n" +
+    final String all = "SELECT [idFenologia_gd] ,[idFenologia]  ,[grados_dia] ,[diametro_boton] ,[largo_boton] ,[imagen]\n" +
             "  FROM [dbo].[Fenologia] order by [idFenologia];";
 
-    final String allfin = "SELECT [idFenologia]\n" +
-            "      ,[idVariedad]\n" +
-            "      ,[variedad]\n" +
+    final String allfin = "SELECT [idFenologia_gd]\n" +
+            "      ,[idFenologia]\n" +
             "      ,[grados_dia]\n" +
             "      ,[diametro_boton]\n" +
             "      ,[largo_boton]\n" +
             "      ,[imagen]\n" +
             "  FROM [Proyecciones].[dbo].[Fenologia]\n" +
-            "  where idVariedad in(\n" +
-            "SELECT distinct [fenologia]\n" +
-            "  FROM [Proyecciones].[dbo].[Plano_Siembra]\n" +
-            "  where idFinca = ?) order by [idFenologia];";
+            "  where idFenologia in(\n" +
+            "SELECT distinct [id_fenologia]\n" +
+            "  FROM [Proyecciones].[dbo].[Cuadros_Bloque]\n )"+
+            "order by [id_fenologia_gd];";
 
 
     public iFenologia(String path) throws Exception {
@@ -85,9 +84,8 @@ public class iFenologia extends sqlConect implements fenologia {
 
     private fenologiaTab gift(ResultSet rs) throws Exception {
         fenologiaTab f = new fenologiaTab();
+        f.setIdFenologia_gd(rs.getLong("idFenologia_gd"));
         f.setIdFenologia(rs.getLong("idFenologia"));
-        f.setIdVariedad(rs.getLong("idVariedad"));
-        f.setVariedad(rs.getString("variedad"));
         f.setGrados_dia(rs.getDouble("grados_dia"));
         f.setDiametro_boton(rs.getDouble("diametro_boton"));
         f.setLargo_boton(rs.getDouble("largo_boton"));
@@ -180,7 +178,7 @@ public class iFenologia extends sqlConect implements fenologia {
 
         while (i.hasNext()) {
             fenologiaTab f = i.next();
-            if (f.getIdVariedad() == idVariedad) {
+            if (f.getIdFenologia() == idVariedad) {
                 if (img[c] <= f.getGrados_dia()) {
                     double pos = f.getGrados_dia() - img[c];
                     double pre = img[c] - fu.getGrados_dia();

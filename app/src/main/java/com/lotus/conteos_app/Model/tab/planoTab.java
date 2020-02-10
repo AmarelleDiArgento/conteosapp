@@ -12,29 +12,23 @@ public class planoTab {
     private String sufijo;
     private int plantas;
     private double area;
-    private int cuadros;
-    private long  fenologia;
 
     public planoTab() {
     }
 
-    public planoTab(Long idSiembra, int idFinca, String finca, int idBloque, String bloque, int idVariedad, String variedad, int cama,
-                    String sufijo, int plantas, double area, int cuadros, long fenologia) {
-        this.setIdSiembra(idSiembra);
-        this.setIdFinca(idFinca);
-        this.setFinca(finca);
-        this.setIdBloque(idBloque);
-        this.setBloque(bloque);
-        this.setIdVariedad(idVariedad);
-        this.setVariedad(variedad);
-        this.setCama(cama);
-        this.setSufijo(sufijo);
-        this.setPlantas(plantas);
-        this.setArea(area);
-        this.setCuadros(cuadros);
-        this.setFenologia(fenologia);
+    public planoTab(Long idSiembra, int idFinca, String finca, int idBloque, String bloque, int idVariedad, String variedad, int cama, String sufijo, int plantas, double area) {
+        this.idSiembra = idSiembra;
+        this.idFinca = idFinca;
+        this.finca = finca;
+        this.idBloque = idBloque;
+        this.bloque = bloque;
+        this.idVariedad = idVariedad;
+        this.variedad = variedad;
+        this.cama = cama;
+        this.sufijo = sufijo;
+        this.plantas = plantas;
+        this.area = area;
     }
-
 
     public Long getIdSiembra() {
         return idSiembra;
@@ -124,24 +118,6 @@ public class planoTab {
         this.area = area;
     }
 
-    public int getCuadros() {
-        return cuadros;
-    }
-
-    public void setCuadros(int cuadros) {
-        this.cuadros = cuadros;
-    }
-
-
-    public Long getFenologia() {
-        return fenologia;
-    }
-
-    public void setFenologia(Long fenologia) {
-        this.fenologia = fenologia;
-    }
-
-
     @Override
     public String toString() {
         String s;
@@ -161,9 +137,7 @@ public class planoTab {
                 "\"cama\": " + cama + ",\n" +
                 "\"plantas\": " + plantas + ",\n" +
                 "\"area\": " + area + ",\n" +
-                "\"cuadros\": " + cuadros + ",\n" +
-                "\"sufijo\": \"" + s + "\",\n" +
-                "\"fenologia\":" + fenologia + "\n" +
+                "\"sufijo\": \"" + s + "\" \n" +
                 "}";
     }
 }
