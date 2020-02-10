@@ -18,7 +18,7 @@ public class imageAdmin {
     public void getImage(String path2, ImageView iv, long idVariedad, String imagen) throws Exception {
 
         File f = new File( path + idVariedad + "/" + imagen);
-        File f2 = new File("/storage/emulated/0/Pictures/fenologias/"+ idVariedad + "/" + imagen);
+        File f2 = new File(path2+ idVariedad + "/" + imagen);
 
         if (f.exists()) {
             Bitmap bitmap = BitmapFactory.decodeFile(f.getPath());

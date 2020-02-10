@@ -150,7 +150,7 @@ public class MainActivity extends AppCompatActivity {
 
             getDate();
             cargarRecursos();
-            codebar.setText("0");
+            //codebar.setText("0");
             c4.setText("0");
             c1.setText("0");
             total.setText("0");
@@ -158,11 +158,22 @@ public class MainActivity extends AppCompatActivity {
 
             class MyKeyListerner implements View.OnKeyListener {
                 public boolean onKey(View v, int keyCode, KeyEvent event) {
-                    if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                        buscarSiembra((long)0);
-                        return true;
+
+                    if(!IdSiembra.getText().toString().isEmpty()){
+                    long id = Long.parseLong(IdSiembra.getText().toString());
+
+                        if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                            buscarSiembra(id);
+                            bajarTeclado();
+                            return true;
+                        }
+                        else {
+                            return false;
+                        }
+                    }else{
+                        return false;
                     }
-                    return false;
+
                 }
             }
 
@@ -175,7 +186,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         } catch (Exception e) {
-            Toast.makeText(this, e.toString(), Toast.LENGTH_LONG).show();
+            Toast.makeText(this,"onCreate \n"+ e.toString(), Toast.LENGTH_LONG).show();
         }
 
     }
@@ -185,12 +196,13 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         getCodeBar();
         try {
-            Long campo_code = Long.parseLong(codebar.getText().toString());
-            if (campo_code > 0) {
-                buscarSiembra(campo_code);
-                c1.requestFocus();
-            } else if (campo_code == 0) {
-            } else {
+            if(!codebar.getText().toString().isEmpty()) {
+                long campo_code = Long.parseLong(codebar.getText().toString());
+                if (campo_code <= 0) {
+                } else {
+                    buscarSiembra(campo_code);
+                    c1.requestFocus();
+                }
             }
         } catch (Exception ex) {
             Toast.makeText(this, "Exception onResume:     " + ex.toString(), Toast.LENGTH_LONG).show();
@@ -234,7 +246,6 @@ public class MainActivity extends AppCompatActivity {
 
         path = getExternalFilesDir(null) + File.separator;
         try {
-
 
             SimpleDateFormat sdfn = new SimpleDateFormat("ddMMyyyy");
 
@@ -347,66 +358,54 @@ public class MainActivity extends AppCompatActivity {
                 iCB.all();
             }
         }
-        //InputMethodManager imm = (InputMethodManager) getSystemService(this.INPUT_METHOD_SERVICE);
-        //imm.hideSoftInputFromWindow(codebar.getWindowToken(), 0);
+        bajarTeclado();
     }
 
     //REALIZA EL FILTRO DE BUSQUEDA SIEMBRAS
     public void buscarSiembra(long bs) {
         try {
+            p = iP.OneforIdSiembra(bs);
 
-                    InputMethodManager imm = (InputMethodManager) getSystemService(this.INPUT_METHOD_SERVICE);
-                    imm.hideSoftInputFromWindow(codebar.getWindowToken(), 0);
+            if (p.getIdSiembra()==null) {
 
-                    p = iP.OneforIdSiembra(bs);
+                Toast toast = Toast.makeText(getApplicationContext(), "Lo sentimos pero no se encuentra la siembra", Toast.LENGTH_LONG);
+                toast.setGravity(Gravity.TOP, 0, 100);
+                toast.show();
 
-
-                    if (p != null) {
-                        String s;
-                        if (p.getIdSiembra() != null) {
-                            s = p.getCama() + p.getSufijo();
-                        } else {
-                            s = valueOf(p.getCama());
-                        }
-
-                        finca.setText(p.getFinca());
-                        variedad.setText(p.getVariedad());
-                        bloque.setText(p.getBloque());
-                        cama.setText(s);
-                        NoArea.setText(String.valueOf(p.getArea()));
-                        NoPlantas.setText(String.valueOf(p.getPlantas()));
-
-                        ab = iCB.cuadroyvariedad((long) p.getIdBloque(), (long) p.getIdVariedad());
-
-
+            } else {
+                    String s;
+                    if (p.getIdSiembra() != null) {
+                        s = p.getCama() + p.getSufijo();
                     } else {
-                        Toast toast = Toast.makeText(getApplicationContext(), "Lo sentimos pero no se encuentra la siembra", Toast.LENGTH_LONG);
-                        toast.setGravity(Gravity.TOP, 0, 100);
-                        toast.show();
+                        s = valueOf(p.getCama());
                     }
 
-                    if (ab != null) {
-                        NoCuadros.setText(String.valueOf(ab.getNumeroCuadros()));
-                        cargarImagenes(ab.getIdFenologia());
-                    } else {
-                        Toast.makeText(this, "ocurrio un problema", Toast.LENGTH_SHORT).show();
-                    }
+                ab = iCB.cuadroyvariedad((long) p.getIdBloque(), (long) p.getIdVariedad());
+                cargarImagenes(ab.getIdFenologia(),(long) p.getIdFinca());
 
+                finca.setText(p.getFinca());
+                variedad.setText(p.getVariedad());
+                bloque.setText(p.getBloque());
+                cama.setText(s);
+                NoArea.setText(String.valueOf(p.getArea()));
+                NoPlantas.setText(String.valueOf(p.getPlantas()));
+                NoCuadros.setText(String.valueOf(ab.getNumeroCuadros()));
+
+            }
 
         } catch (Exception e) {
             Toast.makeText(this, "Error busqueda" + e.toString(), Toast.LENGTH_LONG).show();
         }
-
     }
 
     //REALIZA LA CARGAS DE IMAGEN SEGUN FENOLOFIA
-    public void cargarImagenes(long idVariedad) throws Exception{
+    public void cargarImagenes(long idVariedad, Long idFinca) throws Exception{
         try {
 
             imageAdmin iA = new imageAdmin();
             List<fenologiaTab> fi = forGradoloc(dia, gDia, idVariedad);
 
-            String path2 = "/storage/emulated/0/Pictures/fenologias";
+            String path2 = "/storage/emulated/0/Pictures/fenologias/"+idFinca+"/";
 
             iA.getImage(path2,jpgView1, idVariedad, fi.get(0).getImagen());
             iA.getImage(path2,jpgView2, idVariedad, fi.get(1).getImagen());
@@ -510,24 +509,18 @@ public class MainActivity extends AppCompatActivity {
 
     //BOTON PARA REALIZAR RESTRO DE LOS CONTEOS SEGUN ID SIEMBRA
     public void registrarConteo(View v) {
-
         try {
-            int Tot = Integer.parseInt(total.getText().toString());
-            String var = variedad.getText().toString();
-            int Siembraval = Integer.parseInt(IdSiembra.getText().toString());
-
-
-            if (Siembraval == 0) {
+            if (IdSiembra.getText().toString().isEmpty()) {
                 Toast toast = Toast.makeText(getApplicationContext(), "Lo sentimos, no es posible realizar un registro \n por favor realiza una búsqueda", Toast.LENGTH_LONG);
                 toast.setGravity(Gravity.TOP, 0, 100);
                 toast.show();
-            } else if (Tot == 0) {
+            } else if (total.getText().toString().isEmpty()) {
                 Toast toast = Toast.makeText(getApplicationContext(), "Lo sentimos, no es posible realizar un registro\n por favor llena el campo total", Toast.LENGTH_LONG);
                 toast.setGravity(Gravity.TOP, 0, 100);
                 toast.show();
             } else {
-                int siembra = Integer.parseInt(IdSiembra.getText().toString());
-                if (siembra > 0) {
+
+                if (!IdSiembra.getText().toString().isEmpty() || Integer.parseInt(IdSiembra.getText().toString())>0) {
 
                     conteoTab c = new conteoTab();
 
@@ -551,14 +544,11 @@ public class MainActivity extends AppCompatActivity {
 
                     c.setPlantas(p.getPlantas());
                     c.setArea(p.getArea());
-                    //c.setCuadros("");
 
                     int usu = Integer.parseInt(idusuario.getText().toString());
                     c.setIdUsuario(usu);
 
                     Toast.makeText(this, iC.insert(c), Toast.LENGTH_LONG).show();
-                    //Toast.makeText(this, iC.all().toString(),Toast.LENGTH_LONG).show();
-
                     //obteniendo posicion del spinner(Cuadro)
                     int size = Integer.parseInt(cuadro.getSelectedItem().toString());
 
@@ -579,11 +569,11 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                 } else {
+                    Toast.makeText(this, "hola", Toast.LENGTH_SHORT).show();
                 }
             }
 
         } catch (Exception e) {
-
             Toast.makeText(this, "Exception al momento de registrar \n \n" + e.toString(), Toast.LENGTH_LONG).show();
         }
     }
@@ -640,11 +630,15 @@ public class MainActivity extends AppCompatActivity {
                 boolean handled = false;
                 if (actionId == EditorInfo.IME_ACTION_GO) {
                     total.requestFocus();
-
                 }
                 return handled;
             }
         });
+    }
+
+    public  void bajarTeclado(){
+        InputMethodManager imm = (InputMethodManager) getSystemService(this.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(codebar.getWindowToken(), 0);
     }
 
 }
