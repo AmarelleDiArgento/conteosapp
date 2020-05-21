@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
@@ -343,22 +344,26 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //BOTON (AZUL LUPA) BUSCAR SIEMBRA
-    public void btnBuscar(View v) throws Exception{
+    public void btnBuscar(View v){
 
-        String idVariedad = codebar.getText().toString();
+        try {
+            String idVariedad = codebar.getText().toString();
 
-        if(idVariedad.isEmpty()){
-            Toast.makeText(this, "No puedes dejar el campo vacio", Toast.LENGTH_SHORT).show();
-        }else{
-            long bs = Long.parseLong(idVariedad);
-            if(bs <= 0) {
-                Toast.makeText(this, "El digito es invalido", Toast.LENGTH_SHORT).show();
-            }else {
-                buscarSiembra(bs);
-                iCB.all();
+            if (idVariedad.isEmpty()) {
+                Toast.makeText(this, "No puedes dejar el campo vacio", Toast.LENGTH_SHORT).show();
+            } else {
+                long bs = Long.parseLong(idVariedad);
+                if (bs <= 0) {
+                    Toast.makeText(this, "El digito es invalido", Toast.LENGTH_SHORT).show();
+                } else {
+                    buscarSiembra(bs);
+                    iCB.all();
+                }
             }
+            bajarTeclado();
+        }catch (Exception e){
+            Log.i("ERRORBUSCAR",e.toString());
         }
-        bajarTeclado();
     }
 
     //REALIZA EL FILTRO DE BUSQUEDA SIEMBRAS

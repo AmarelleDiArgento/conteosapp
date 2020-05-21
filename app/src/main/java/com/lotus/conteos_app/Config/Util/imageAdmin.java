@@ -7,7 +7,10 @@ import android.util.Log;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.lotus.conteos_app.R;
+
 import java.io.File;
+import java.io.FileNotFoundException;
 
 public class imageAdmin {
 
@@ -18,19 +21,20 @@ public class imageAdmin {
     public void getImage(String path2, ImageView iv, long idVariedad, String imagen) throws Exception {
 
         File f = new File( path + idVariedad + "/" + imagen);
-        File f2 = new File(path2+ idVariedad + "/" + imagen);
+        File f2 = new File(path2 + idVariedad + "/" + imagen);
 
-        if (f.exists()) {
-            Bitmap bitmap = BitmapFactory.decodeFile(f.getPath());
-            iv.setImageBitmap(bitmap);
-        }else if(f2.exists()){
-            Bitmap bitmap = BitmapFactory.decodeFile(f2.getPath());
-            iv.setImageBitmap(bitmap);
-            Log.i("RIMG","se encontro la ruta de prueba");
-        }else{
-            Log.i("RIMG","no se encontro la ruta");
+        Log.i("RIMG",""+f2);
+
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inSampleSize = 4;
+
+        Bitmap bmp = BitmapFactory.decodeFile(f2.getAbsolutePath(), options);
+        if (bmp == null) {
+            iv.setImageResource(R.drawable.flor); //poner imagen genérica
+        } else {
+            iv.setImageBitmap(bmp);
+            bmp = null; //importante cerrar las referencias para que no se queden en memoria
         }
-
     }
 
 

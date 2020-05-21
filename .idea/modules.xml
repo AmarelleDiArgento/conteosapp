@@ -2,8 +2,10 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/AndroidStudioProjects-conteosapp.iml" filepath="$PROJECT_DIR$/AndroidStudioProjects-conteosapp.iml" group="conteosapp" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/conteosapp.iml" filepath="$PROJECT_DIR$/conteosapp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/conteosapp-app.iml" filepath="$PROJECT_DIR$/app/conteosapp-app.iml" group="conteosapp/app" />
     </modules>
   </component>
 </project>

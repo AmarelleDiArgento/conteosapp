@@ -1,5 +1,7 @@
 package com.lotus.conteos_app.Model;
 
+import android.util.Log;
+
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.lotus.conteos_app.Config.DAO;
@@ -77,7 +79,7 @@ public class iCuadrosBloque extends sqlConect implements DAO {
   }
 
   @Override
-  public List all() throws Exception {
+  public List<cuadros_bloqueTab> all() throws Exception {
     Gson gson = new Gson();
     cb = gson.fromJson(ja.ObtenerLista(path, nombre), new TypeToken<List<cuadros_bloqueTab>>(){
     }.getType());
@@ -93,16 +95,14 @@ public class iCuadrosBloque extends sqlConect implements DAO {
     return cbt;
   }
 
-  public cuadros_bloqueTab cuadroyvariedad(long idBloque, long idVariedad){
+  public cuadros_bloqueTab cuadroyvariedad(long idBloque, long idVariedad) throws Exception{
     cuadros_bloqueTab cbt = new cuadros_bloqueTab();
 
-    if(idBloque != 0 && idVariedad != 0 && cb.size() > 0){
-      for(cuadros_bloqueTab c : cb){
+      for(cuadros_bloqueTab c : all()){
         if(c.getIdBloque() == idBloque && c.getIdVariedad() == idVariedad) {
           cbt = c;
         }
       }
-    }
     return cbt;
   }
 }
