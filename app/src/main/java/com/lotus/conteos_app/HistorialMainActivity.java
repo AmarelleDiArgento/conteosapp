@@ -397,6 +397,7 @@ public class HistorialMainActivity extends AppCompatActivity {
 
 
             int idFinca = sp.getInt("idFinca", 0);
+            Toast.makeText(this, ""+idFinca, Toast.LENGTH_SHORT).show();
 
             iFenologia iF = new iFenologia(path);
             iPlano iP = new iPlano(path);

@@ -46,11 +46,10 @@ public class iPlano extends sqlConect implements plano {
             "      ,[sufijo]\n" +
             "      ,[plantas]\n" +
             "      ,[area]\n" +
-            "      ,[cuadros]\n" +
-            "      ,[fenologia]\n" +
-            "  FROM [Proyecciones].[dbo].[Plano_Siembra]" +
-            "  WHERE finca = 'SAN MATEO'" +
-            "  and idVariedad in(1358,1101,870,284,115)";
+            "  FROM [Proyecciones].[dbo].[Plano_Siembra]"+
+            "  WHERE idFinca in (1004,1005,1006) ";
+            //"  and idVariedad in(1358,1101,870,284,115)";
+
     final String allFin = "SELECT [idSiembra]\n" +
             "      ,[idFinca]\n" +
             "      ,[finca]\n" +
@@ -62,8 +61,8 @@ public class iPlano extends sqlConect implements plano {
             "      ,[sufijo]\n" +
             "      ,[plantas]\n" +
             "      ,[area]\n" +
-            "  FROM [Proyecciones].[dbo].[Plano_Siembra]" +
-            "  WHERE [idFinca] = ?";
+            "  FROM [Proyecciones].[dbo].[Plano_Siembra]";
+            //"  WHERE [idFinca] = ?";
 
     public iPlano(String path) throws Exception {
         this.cn = getConexion();
@@ -240,8 +239,8 @@ public class iPlano extends sqlConect implements plano {
         List<planoTab> po = new ArrayList<>();
 
         ResultSet rs;
-        PreparedStatement ps = cn.prepareStatement(allFin);
-        ps.setInt(1,idFinca);
+        PreparedStatement ps = cn.prepareStatement(all);
+        //ps.setInt(1,idFinca);
         rs = ps.executeQuery();
         while (rs.next()) {
             po.add(gift(rs));
