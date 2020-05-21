@@ -33,7 +33,7 @@ public class VisualFenoActivity extends AppCompatActivity {
 
     iFenologia iF = null;
     int dia = 0;
-    long idVariedad;
+    long idVariedad, idFinca;
     String variedad, imagen, imagen2, imagen3, imagen4;
     Float gDia;
 
@@ -48,15 +48,15 @@ public class VisualFenoActivity extends AppCompatActivity {
         try {
             sp = getBaseContext().getSharedPreferences("share", MODE_PRIVATE);
 
-            jpgView1 = (ImageView) findViewById(R.id.jpgView1);
-            jpgView2 = (ImageView) findViewById(R.id.jpgView2);
-            jpgView3 = (ImageView) findViewById(R.id.jpgView3);
-            jpgView4 = (ImageView) findViewById(R.id.jpgView4);
+            jpgView1 = findViewById(R.id.jpgView1);
+            jpgView2 = findViewById(R.id.jpgView2);
+            jpgView3 = findViewById(R.id.jpgView3);
+            jpgView4 = findViewById(R.id.jpgView4);
 
-            txt1 = (TextView) findViewById(R.id.txt1);
-            txt2 = (TextView) findViewById(R.id.txt2);
-            txt3 = (TextView) findViewById(R.id.txt3);
-            txt4 = (TextView) findViewById(R.id.txt4);
+            txt1 = findViewById(R.id.txt1);
+            txt2 = findViewById(R.id.txt2);
+            txt3 = findViewById(R.id.txt3);
+            txt4 = findViewById(R.id.txt4);
             path = getExternalFilesDir(null) + File.separator;
             iF = new iFenologia(path);
 
@@ -76,6 +76,7 @@ public class VisualFenoActivity extends AppCompatActivity {
             gDia = sp.getFloat("gDia", 0);
             dia = sp.getInt("dia", 0);
             idVariedad = sp.getLong("IdVariedad", 0);
+            idFinca = sp.getLong("IdFinca",0);
 
 
 
@@ -83,17 +84,18 @@ public class VisualFenoActivity extends AppCompatActivity {
             List<fenologiaTab> fi = forGradoloc(dia, gDia, idVariedad);
 
             path = getExternalFilesDir(null) + File.separator;
+            String path2 = "/storage/emulated/0/Pictures/fenologias/"+idFinca+"/";
 
-            iA.getImage(path,jpgView1, idVariedad, fi.get(0).getImagen());
+            iA.getImage(path2,jpgView1, idVariedad, fi.get(0).getImagen());
             datos(txt1, fi.get(0).getDiametro_boton(), fi.get(0).getLargo_boton(), fi.get(0).getGrados_dia());
 
-            iA.getImage(path,jpgView2, idVariedad, fi.get(1).getImagen());
+            iA.getImage(path2,jpgView2, idVariedad, fi.get(1).getImagen());
             datos(txt2, fi.get(1).getDiametro_boton(), fi.get(1).getLargo_boton(), fi.get(1).getGrados_dia());
 
-            iA.getImage(path,jpgView3, idVariedad, fi.get(2).getImagen());
+            iA.getImage(path2,jpgView3, idVariedad, fi.get(2).getImagen());
             datos(txt3, fi.get(2).getDiametro_boton(), fi.get(2).getLargo_boton(), fi.get(2).getGrados_dia());
 
-            iA.getImage(path,jpgView4, idVariedad, fi.get(3).getImagen());
+            iA.getImage(path2,jpgView4, idVariedad, fi.get(3).getImagen());
             datos(txt4, fi.get(3).getDiametro_boton(), fi.get(3).getLargo_boton(), fi.get(3).getGrados_dia());
 
 

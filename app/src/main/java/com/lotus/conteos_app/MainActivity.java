@@ -421,6 +421,7 @@ public class MainActivity extends AppCompatActivity {
             edit.putFloat("gDia", gDia);
             edit.putInt("dia", dia);
             edit.putLong("IdVariedad", idVariedad);
+            edit.putLong("IdFinca", idFinca);
             edit.commit();
             edit.apply();
 

@@ -25,15 +25,16 @@ public class imageAdmin {
 
         Log.i("RIMG",""+f2);
 
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inSampleSize = 4;
+        /**sirve para dejar la resolucion de la imagen en minimo*/
+        //BitmapFactory.Options options = new BitmapFactory.Options();
+        //options.inSampleSize = 4;
+        //Bitmap bmp = BitmapFactory.decodeFile(f2.getAbsolutePath(), options);
 
-        Bitmap bmp = BitmapFactory.decodeFile(f2.getAbsolutePath(), options);
+        Bitmap bmp = BitmapFactory.decodeFile(f2.getAbsolutePath());
         if (bmp == null) {
             iv.setImageResource(R.drawable.flor); //poner imagen genérica
         } else {
             iv.setImageBitmap(bmp);
-            bmp = null; //importante cerrar las referencias para que no se queden en memoria
         }
     }
 
