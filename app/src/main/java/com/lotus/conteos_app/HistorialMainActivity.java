@@ -20,13 +20,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.lotus.conteos_app.Config.Util.Dialog;
+import com.lotus.conteos_app.Config.Util.ModalFincas;
 import com.lotus.conteos_app.Config.Util.TableDinamic;
 import com.lotus.conteos_app.Config.Util.jsonAdmin;
 import com.lotus.conteos_app.Model.iConteo;
 import com.lotus.conteos_app.Model.iCuadrosBloque;
 import com.lotus.conteos_app.Model.iFenologia;
+import com.lotus.conteos_app.Model.iFincas;
 import com.lotus.conteos_app.Model.iPlano;
 import com.lotus.conteos_app.Model.tab.conteoTab;
+import com.lotus.conteos_app.Model.tab.fincasTab;
 
 import java.io.File;
 import java.text.DecimalFormat;
@@ -394,20 +397,20 @@ public class HistorialMainActivity extends AppCompatActivity {
     //ACTUALIZA LOS PLANOS
     public void actualizarBases(View v) {
         try {
-
-
-            int idFinca = sp.getInt("idFinca", 0);
+            iFincas iF = new iFincas(path);
+            /*int idFinca = sp.getInt("idFinca", 0);
             Toast.makeText(this, ""+idFinca, Toast.LENGTH_SHORT).show();
 
             iFenologia iF = new iFenologia(path);
             iPlano iP = new iPlano(path);
             iCuadrosBloque iCB = new iCuadrosBloque(path);
 
-            //iP.local(idFinca) && iF.local(idFinca) &&
 
             if (iCB.local() && iP.local(idFinca) && iF.local()) {
                 Toast.makeText(this, "Local actualizado exitosamente", Toast.LENGTH_LONG).show();
-            }
+            }*/
+
+            new ModalFincas(this, path).crear();
 
         } catch (Exception e) {
             Toast.makeText(this, "No se dispone de conexion:\n"

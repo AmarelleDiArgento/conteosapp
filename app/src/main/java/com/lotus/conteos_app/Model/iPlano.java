@@ -1,5 +1,8 @@
 package com.lotus.conteos_app.Model;
 
+import android.util.Log;
+import android.widget.Toast;
+
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.lotus.conteos_app.Config.Util.jsonAdmin;
@@ -240,17 +243,48 @@ public class iPlano extends sqlConect implements plano {
 
         ResultSet rs;
         PreparedStatement ps = cn.prepareStatement(all);
-        //ps.setInt(1,idFinca);
         rs = ps.executeQuery();
         while (rs.next()) {
             po.add(gift(rs));
         }
         closeConexion(cn, rs);
 
-        String contenido = po.toString();
-
+        String contenido = new Gson().toJson(po);
         return ja.CrearArchivo(path, nombre, contenido);
     }
 
+    public boolean crearPlano(List<Integer> fincas) throws Exception{
+        List<planoTab> po = new ArrayList<>();
 
+        ResultSet rs;
+        for(Integer idF : fincas) {
+            PreparedStatement ps = cn.prepareStatement(q(idF));
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                po.add(gift(rs));
+            }
+        }
+        String contenido = new Gson().toJson(po);
+        Log.i("FINCAS", "llego a crear");
+        return ja.CrearArchivo(path, nombre, contenido);
+    }
+
+    public String q(Integer fincas){
+        String d = "SELECT [idSiembra]\n" +
+                "      ,[idFinca]\n" +
+                "      ,[finca]\n" +
+                "      ,[idBloque]\n" +
+                "      ,[bloque]\n" +
+                "      ,[idVariedad]\n" +
+                "      ,[variedad]\n" +
+                "      ,[cama]\n" +
+                "      ,[sufijo]\n" +
+                "      ,[plantas]\n" +
+                "      ,[area]\n" +
+                "  FROM [Proyecciones].[dbo].[Plano_Siembra]"+
+                "  WHERE idFinca in ('"+fincas+"') ";
+
+            Log.i("FINCAS","consulta : "+d);
+        return d;
+    }
 }

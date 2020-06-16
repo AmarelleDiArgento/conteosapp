@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.WindowManager;
 import android.widget.Toast;
 
+import com.lotus.conteos_app.Model.iFincas;
 import com.lotus.conteos_app.Model.iMonitor;
 
 import java.io.File;
@@ -19,7 +20,6 @@ public class splash_activity extends AppCompatActivity {
     long ini, fin;
 
     String path = null;
-    Calendar calendarDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,12 +36,10 @@ public class splash_activity extends AppCompatActivity {
 
         ini = Calendar.getInstance().getTimeInMillis();
         try {
-
             iMonitor iM = new iMonitor(path);
+            iFincas iF = new iFincas(path);
             iM.local();
-
-            // delayed =  delayed - Integer.valueOf((int) ());
-
+            iF.local();
         } catch (Exception e) {
             Toast.makeText(this, "Error: " + e.toString(), Toast.LENGTH_LONG).show();;
         }
