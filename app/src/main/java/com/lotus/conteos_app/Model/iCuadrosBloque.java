@@ -101,6 +101,10 @@ public class iCuadrosBloque extends sqlConect implements DAO {
       for(cuadros_bloqueTab c : all()){
         if(c.getIdBloque() == idBloque && c.getIdVariedad() == idVariedad) {
           cbt = c;
+          Log.i("SIEMBRA","encontro en cuadros bloque");
+          break;
+        }else{
+          Log.i("SIEMBRA","not cuadros bloque");
         }
       }
     return cbt;

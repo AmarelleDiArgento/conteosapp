@@ -18,6 +18,8 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.lotus.conteos_app.Model.iCuadrosBloque;
+import com.lotus.conteos_app.Model.iFenologia;
 import com.lotus.conteos_app.Model.iFincas;
 import com.lotus.conteos_app.Model.iPlano;
 import com.lotus.conteos_app.Model.tab.fincasTab;
@@ -42,6 +44,7 @@ public class ModalFincas {
     public void crear(){
         d = new Dialog(context);
         d.setContentView(R.layout.modalinfo);
+        d.setTitle("Selecciona las fincas para descargar los datos");
 
         Window windowfinca = d.getWindow();
         windowfinca.setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -63,7 +66,7 @@ public class ModalFincas {
     public View panel(){
         LinearLayout line = new LinearLayout(context);
         line.setOrientation(LinearLayout.VERTICAL);
-        line.addView(Header());
+        //line.addView(Header());
         line.addView(Checks());
         line.addView(Footer());
         return line;
@@ -77,7 +80,6 @@ public class ModalFincas {
         t.setTextColor(Color.parseColor("#34495E"));
         t.setTypeface(null, Typeface.BOLD);
         t.setBackgroundResource(R.drawable.border_header);
-        t.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
         t.setTextSize(20);
         t.setGravity(Gravity.CENTER_VERTICAL);
         t.setLayoutParams(l);
@@ -104,7 +106,7 @@ public class ModalFincas {
                 cb = new CheckBox(context);
                 cb.setText(f.getNombre());
                 cb.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
-                cb.setButtonDrawable(R.drawable.boton_checkbox);
+                //cb.setButtonDrawable(R.drawable.boton_checkbox);
                 cb.setTextColor(Color.parseColor("#34495E"));
                 line.addView(cb);
 
@@ -166,9 +168,14 @@ public class ModalFincas {
             public void onClick(View view){
                 try {
                     iPlano ip = new iPlano(path);
+                    iFenologia iFen = new iFenologia(path);
+                    iCuadrosBloque iCB = new iCuadrosBloque(path);
+
                     if(fincas.size() > 0) {
                         consultandooFincas();
-                        ip.crearPlano(fincas);
+                        if (iCB.local()  && iFen.local() && ip.crearPlano(fincas)) {
+                            Toast.makeText(context, "Local actualizado exitosamente", Toast.LENGTH_LONG).show();
+                        }
                     }else{
                         Toast.makeText(context, "Debes seleccionar al menos un finca para la descarga", Toast.LENGTH_SHORT).show();
                     }

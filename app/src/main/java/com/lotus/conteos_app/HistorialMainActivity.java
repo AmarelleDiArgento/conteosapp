@@ -397,18 +397,6 @@ public class HistorialMainActivity extends AppCompatActivity {
     //ACTUALIZA LOS PLANOS
     public void actualizarBases(View v) {
         try {
-            iFincas iF = new iFincas(path);
-            /*int idFinca = sp.getInt("idFinca", 0);
-            Toast.makeText(this, ""+idFinca, Toast.LENGTH_SHORT).show();
-
-            iFenologia iF = new iFenologia(path);
-            iPlano iP = new iPlano(path);
-            iCuadrosBloque iCB = new iCuadrosBloque(path);
-
-
-            if (iCB.local() && iP.local(idFinca) && iF.local()) {
-                Toast.makeText(this, "Local actualizado exitosamente", Toast.LENGTH_LONG).show();
-            }*/
 
             new ModalFincas(this, path).crear();
 

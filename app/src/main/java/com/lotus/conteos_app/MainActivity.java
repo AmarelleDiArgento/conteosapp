@@ -369,6 +369,7 @@ public class MainActivity extends AppCompatActivity {
     //REALIZA EL FILTRO DE BUSQUEDA SIEMBRAS
     public void buscarSiembra(long bs) {
         try {
+            Log.i("SIEMBRA",""+bs);
             p = iP.OneforIdSiembra(bs);
 
             if (p.getIdSiembra()==null) {
@@ -386,7 +387,6 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                 ab = iCB.cuadroyvariedad((long) p.getIdBloque(), (long) p.getIdVariedad());
-                cargarImagenes(ab.getIdFenologia(),(long) p.getIdFinca());
 
                 finca.setText(p.getFinca());
                 variedad.setText(p.getVariedad());
@@ -396,6 +396,12 @@ public class MainActivity extends AppCompatActivity {
                 NoPlantas.setText(String.valueOf(p.getPlantas()));
                 NoCuadros.setText(String.valueOf(ab.getNumeroCuadros()));
 
+                if(ab.getIdFenologia() != null){
+                    cargarImagenes(ab.getIdFenologia(),(long) p.getIdFinca());
+                }else{
+                    Toast.makeText(this, "No hay fenologias relacionadas con la cama", Toast.LENGTH_SHORT).show();
+                }
+
             }
 
         } catch (Exception e) {
@@ -404,8 +410,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //REALIZA LA CARGAS DE IMAGEN SEGUN FENOLOFIA
-    public void cargarImagenes(long idVariedad, Long idFinca) throws Exception{
+    public void cargarImagenes(long idVariedad, long idFinca) throws Exception{
         try {
+
+            Log.i("IMAGENES","idVariedad : "+idVariedad+" idFinca : "+idFinca);
 
             imageAdmin iA = new imageAdmin();
             List<fenologiaTab> fi = forGradoloc(dia, gDia, idVariedad);
@@ -426,7 +434,7 @@ public class MainActivity extends AppCompatActivity {
             edit.apply();
 
         } catch (Exception e) {
-            Toast.makeText(getApplicationContext(), "Error \n" + e, Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "Error Imnagenes\n" + e, Toast.LENGTH_LONG).show();
         }
     }
 
