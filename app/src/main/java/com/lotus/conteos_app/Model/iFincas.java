@@ -19,7 +19,8 @@ public class iFincas extends sqlConect {
 
     String query = "SELECT  idFinca, finca\n" +
                     "FROM   Plano_Siembra\n" +
-                    "GROUP BY   idFinca, finca";
+                    "GROUP BY   idFinca, finca\n"+
+                    "ORDER BY finca ASC";
 
     List<fincasTab> Lf = new ArrayList<>();
 
