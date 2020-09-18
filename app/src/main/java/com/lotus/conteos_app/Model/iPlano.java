@@ -227,7 +227,7 @@ public class iPlano extends sqlConect implements plano {
             for (planoTab p : pl) {
                 if (p.getIdSiembra() == idSiembra) {
                     pr = p;
-                    Log.i("SIEMBRA", "llego a encontrar");
+                    Log.i("SIEMBRA", "llego a encontrar , "+p.getIdBloque());
                     break;
                 }else {
                     Log.i("SIEMBRA", "no llego a encontrar");

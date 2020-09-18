@@ -386,7 +386,7 @@ public class MainActivity extends AppCompatActivity {
                         s = valueOf(p.getCama());
                     }
 
-                ab = iCB.cuadroyvariedad((long) p.getIdBloque(), (long) p.getIdVariedad());
+                ab = iCB.cuadroyvariedad( p.getIdBloque(),  p.getIdVariedad());
 
                 finca.setText(p.getFinca());
                 variedad.setText(p.getVariedad());
@@ -397,7 +397,7 @@ public class MainActivity extends AppCompatActivity {
                 NoCuadros.setText(String.valueOf(ab.getNumeroCuadros()));
 
                 if(ab.getIdFenologia() != null){
-                    cargarImagenes(ab.getIdFenologia(),(long) p.getIdFinca());
+                    cargarImagenes(ab.getIdFenologia(), p.getIdFinca());
                 }else{
                     Toast.makeText(this, "No hay fenologias relacionadas con la cama", Toast.LENGTH_SHORT).show();
                 }
@@ -412,14 +412,11 @@ public class MainActivity extends AppCompatActivity {
     //REALIZA LA CARGAS DE IMAGEN SEGUN FENOLOFIA
     public void cargarImagenes(long idVariedad, long idFinca) throws Exception{
         try {
-
-            Log.i("IMAGENES","idVariedad : "+idVariedad+" idFinca : "+idFinca);
-
             imageAdmin iA = new imageAdmin();
             List<fenologiaTab> fi = forGradoloc(dia, gDia, idVariedad);
 
             String path2 = "/storage/emulated/0/Pictures/fenologias/"+idFinca+"/";
-
+            Log.i("CARPETAVARIEDAD",""+idVariedad);
             iA.getImage(path2,jpgView1, idVariedad, fi.get(0).getImagen());
             iA.getImage(path2,jpgView2, idVariedad, fi.get(1).getImagen());
             iA.getImage(path2,jpgView3, idVariedad, fi.get(2).getImagen());
