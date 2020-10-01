@@ -26,23 +26,9 @@ public class iFenologia extends sqlConect implements fenologia {
 
     final String nombre = "fenologias";
 
-    final String ins = "INSERT INTO [dbo].[Fenologia]\n" +
-            "           ([idVariedad] ,[variedad] ,[grados_dia] ,[diametro_boton] ,[largo_boton] ,[imagen])\n" +
-            "     VALUES\n" +
-            "           ( ?, ?, ?, ?, ?, ?, ?);";
-    final String upd = "UPDATE [dbo].[Fenologia]\n" +
-            "   SET [idVariedad] = ?, [variedad] = ?, ,[grados_dia] = ?, [diametro_boton] = ?, [largo_boton] = ?, [imagen] = ?\n" +
-            "  WHERE  [idFenologia] = ?;";
-    final String del = "DELETE FROM [dbo].[Fenologia]\n" +
-            "  WHERE  [idFenologia] = ?;";
     final String one = "SELECT [idFenologia] ,[idVariedad] ,[variedad] ,[grados_dia] ,[diametro_boton] ,[largo_boton] ,[imagen]\n" +
             "  FROM [dbo].[Fenologia]\n" +
             "  WHERE  [idFenologia] = ?;";
-    final String nam = "SELECT [idFenologia] ,[idVariedad] ,[variedad] ,[grados_dia] ,[diametro_boton] ,[largo_boton] ,[imagen]\n" +
-            "  FROM [dbo].[Fenologia]\n" +
-            "  WHERE  [variedad] = ?;";
-    final String all = "SELECT [idFenologia_gd] ,[idFenologia]  ,[grados_dia] ,[diametro_boton] ,[largo_boton] ,[imagen]\n" +
-            "  FROM [dbo].[Fenologia] order by [idFenologia];";
 
     final String allfin = "SELECT [idFenologia_gd]\n" +
             "      ,[idFenologia]\n" +
@@ -53,8 +39,8 @@ public class iFenologia extends sqlConect implements fenologia {
             "  FROM [Proyecciones].[dbo].[Fenologia]\n" +
             "  where idFenologia in(\n" +
             "SELECT distinct [id_fenologia]\n" +
-            "  FROM [Proyecciones].[dbo].[Cuadros_Bloque]\n )"+
-            "order by [id_fenologia_gd];";
+            "  FROM [Proyecciones].[dbo].[Cuadros_Bloque])" +
+            "ORDER BY IdFenologia, grados_dia";
 
 
     public iFenologia(String path) throws Exception {
@@ -116,7 +102,7 @@ public class iFenologia extends sqlConect implements fenologia {
 
 
         ResultSet rs;
-        PreparedStatement ps = cn.prepareStatement(all);
+        PreparedStatement ps = cn.prepareStatement(allfin);
         rs = ps.executeQuery();
         while (rs.next()) {
             fl.add(gift(rs));
@@ -131,8 +117,6 @@ public class iFenologia extends sqlConect implements fenologia {
 
     @Override
     public boolean local(int idFinca) throws Exception {
-
-
         ResultSet rs;
         PreparedStatement ps = cn.prepareStatement(allfin);
         ps.setInt(1, idFinca);

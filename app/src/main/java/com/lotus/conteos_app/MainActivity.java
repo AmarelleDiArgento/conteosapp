@@ -451,31 +451,34 @@ public class MainActivity extends AppCompatActivity {
         List<fenologiaTab> fi = new ArrayList<>();
         fenologiaTab fu = new fenologiaTab();
 
-        String data = "";
-
         while (i.hasNext()) {
             fenologiaTab f = i.next();
             if (f.getIdFenologia() == idVariedad) {
 
-                data += img[c] + " - " + f.getGrados_dia() + " " + (img[c] <= f.getGrados_dia()) + "\n";
                 if (img[c] <= f.getGrados_dia()) {
                     double pos = f.getGrados_dia() - img[c];
                     double pre = img[c] - fu.getGrados_dia();
 
+                    Log.i("CALCULO"," gdia fenologia : "+f.getGrados_dia()+" - IMAGEN : "+img[c]+" = pos : "+pos);
+                    Log.i("CALCULO"," IMAGEN : "+img[c]+"- gdia fenologia : "+fu.getGrados_dia()+" = pre : "+pre);
+
+                    Log.i("CERCANIA", "sem"+c+ " max : "+f.getGrados_dia()+" min : "+fu.getGrados_dia());
+
                     if (pre >= pos) {
+                        Log.i("CALCULO","pre : "+pre+" es mayor que pos"+pos);
                         fi.add(f);
                     } else {
+                        Log.i("CALCULO","pre : "+pre+" es menor que pos"+pos);
                         fi.add(fu);
                     }
                     c++;
-                    if (c >= 4) {
-                        break;
-                    }
+                    if (c >= 4) { break; }
                 }
                 fu = f;
+
             }
         }
-        if (c < 4) {
+        if (c <= 4) {
             fi.add(fu);
         }
         return fi;
@@ -553,6 +556,7 @@ public class MainActivity extends AppCompatActivity {
                     c.setConteo4(Integer.parseInt(c4.getText().toString()));
                     c.setTotal(Integer.parseInt(total.getText().toString()));
 
+                    c.setCuadros(Integer.parseInt(NoCuadros.getText().toString()));
                     c.setPlantas(p.getPlantas());
                     c.setArea(p.getArea());
 

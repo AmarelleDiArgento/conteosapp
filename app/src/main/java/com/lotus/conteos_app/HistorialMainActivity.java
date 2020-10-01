@@ -317,10 +317,6 @@ public class HistorialMainActivity extends AppCompatActivity {
                     clc.add(c);
                 }
             }
-
-            //tostada(text).show();
-
-
         } catch (Exception e) {
             Toast.makeText(this, "No existen registros actuales que coincidan con la fecha fecha", Toast.LENGTH_LONG).show();
             clc.clear();
@@ -342,7 +338,6 @@ public class HistorialMainActivity extends AppCompatActivity {
 
             final List<conteoTab> cl = calcular();
             for (final conteoTab c : cl) {
-                // {"Finca", "Bloque", "Variedad", "CC", "CT", "S1C", "S1P", "S4C", "S4P
 
                 rows.add(new String[]{
                                 c.getBloque(),
