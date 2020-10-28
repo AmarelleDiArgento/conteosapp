@@ -2,10 +2,12 @@ package com.lotus.conteos_app.Model;
 
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.lotus.conteos_app.Config.Util.Dialog;
 import com.lotus.conteos_app.Config.Util.jsonAdmin;
 import com.lotus.conteos_app.Config.sqlConect;
 import com.lotus.conteos_app.Model.interfaz.conteo;
@@ -28,15 +30,15 @@ public class iConteo extends sqlConect implements conteo {
     Connection cn = null;
     String path = null;
     jsonAdmin ja = null;
+    Context context;
 
 
     private List<conteoTab> cl = new ArrayList<>();
 
-    SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyy");
 
-
-    public iConteo(String path) throws Exception {
+    public iConteo(String path, Context context) throws Exception {
         this.cn = getConexion();
+        this.context = context;
         getPath(path);
     }
 
@@ -44,8 +46,7 @@ public class iConteo extends sqlConect implements conteo {
         ja = new jsonAdmin();
         this.path = path;
     }
-
-
+    
     @Override
     public String insert(conteoTab c) {
 
@@ -68,10 +69,23 @@ public class iConteo extends sqlConect implements conteo {
 
     @Override
     public String update(Long id,conteoTab c) {
+        try {
+            all();
+            int idparseo = id.intValue();
+            cl.set(idparseo, c);
+            local();
+            return "se actualizo correctamente";
+        } catch (Exception e) {
+            return "Error: " + e.toString();
+        }
+    }
+
+    public String updateEstado(Long id,conteoTab c) {
 
         try {
             all();
             int idparseo = id.intValue();
+            c.setEstado(1);
             cl.set(idparseo, c);
             local();
             return "se actualizo correctamente";
@@ -111,14 +125,13 @@ public class iConteo extends sqlConect implements conteo {
     }
 
     @Override
-    public boolean local() throws Exception {
+    public boolean local() {
         String contenido = cl.toString();
         return ja.CrearArchivo(path, nombre, contenido);
     }
 
     @Override
     public List<conteoTab> all() throws Exception {
-
         Gson gson = new Gson();
         cl = gson.fromJson(ja.ObtenerLista(path, nombre), new TypeToken<List<conteoTab>>() {
         }.getType());
@@ -129,66 +142,40 @@ public class iConteo extends sqlConect implements conteo {
 
     @Override
     public String send(List<conteoTab> ls) {
-
         String msj = "";
-        for (conteoTab c : cl) {
-            msj = msj + record(c) + "\n";
-        }
         return msj;
     }
 
-    public String record(conteoTab o) {
-        String msj = "";
-        try {
+    public void batch(String fechaBusqueda) throws Exception {
+        if(cn != null) {
             PreparedStatement ps = cn.prepareStatement(ins);
-            ps.setString(1, o.getFecha()+"T00:00:00");
-            ps.setLong(2, o.getIdSiembra());
-            ps.setInt(3, o.getCuadro());
-            ps.setInt(4, o.getConteo1());
-            ps.setInt(5, o.getConteo2());
-            ps.setInt(6, o.getConteo3());
-            ps.setInt(7, o.getConteo4());
-            ps.setInt(8,o.getTotal());
-            ps.setInt(9, o.getIdUsuario());
-            if (ps.executeUpdate() == 0) {
-                msj = "Ups, algo salio mal. No se registro conteo de la siembra #" + o.getIdSiembra();
-            } else {
-                //msj = "Conteo de la siembra #" + o.getIdSiembra() + " registrada exitosamente";
+            nombre = fechaBusqueda;
+
+            int cant = 0;
+            for (conteoTab c : all()) {
+                if (c.getEstado() == 0) {
+                    ps.setString(1, c.getFecha());
+                    ps.setLong(2, c.getIdSiembra());
+                    ps.setInt(3, c.getCuadro());
+                    ps.setInt(4, c.getConteo1());
+                    ps.setInt(5, c.getConteo2());
+                    ps.setInt(6, c.getConteo3());
+                    ps.setInt(7, c.getConteo4());
+                    ps.setInt(8, c.getTotal());
+                    ps.setLong(9, c.getIdUsuario());
+                    ps.addBatch();
+
+                    updateEstado((long) cant, c);
+                    cant ++;
+                }
             }
-            //closeConexion(cn);
-
-        } catch (Exception e) {
-            msj = e.toString();
-        }
-        return msj;
-    }
-
-    public String clear(){
-        String msj = "";
-        try{
-            cl.clear();
-            local();
-
-            msj = "ok";
-            return msj;
-        }catch (Exception ex){
-            msj = "Exception clearBeDelete \n \n"+ex;
-            return msj;
+            if(cant > 0){
+                ps.executeBatch();
+            }else{
+                Toast.makeText(context, "No existen registros por enviar el día de hoy", Toast.LENGTH_LONG).show();
+            }
+        }else{
+            Toast.makeText(context, "No hay conexion", Toast.LENGTH_SHORT).show();
         }
     }
-
-    public String insertBeDelete(int i,conteoTab o){
-        String msj = "";
-        try{
-            cl.set(i-1,o);
-            local();
-
-            msj = "ok";
-            return msj;
-        }catch (Exception ex){
-            msj = "Exception insertBeDelete \n \n"+ex;
-            return msj;
-        }
-    }
-
 }

@@ -110,7 +110,7 @@ public class ActivityDetalles extends AppCompatActivity {
     public void cargarRecursos(){
         SimpleDateFormat sdfn = new SimpleDateFormat("ddMMyyyy");
         try{
-            iC = new iConteo(path);
+            iC = new iConteo(path, this);
             fecha = sp.getString("date", "");
             iC.nombre = fecha;
         }catch (Exception ex){
@@ -139,30 +139,32 @@ public class ActivityDetalles extends AppCompatActivity {
 
     //OBTENER EL ID DEL REGISTRO SEGUN LA FILA
     public void clicTable(View v) {
-
         try {
             conteoTab ct = clc.get(tb.getIdTabla() - 1);
 
-            String variedad = ct.getVariedad();
-            String bloque = ct.getBloque();
-            Long idSiembra = ct.getIdSiembra();
-            String idSiempar = String.valueOf(idSiembra);
+            if(ct.getEstado() == 0) {
+                String variedad = ct.getVariedad();
+                String bloque = ct.getBloque();
+                Long idSiembra = ct.getIdSiembra();
+                String idSiempar = String.valueOf(idSiembra);
 
+                long idReg = ct.getIdConteo();
+                int cuadro = ct.getCuadro();
+                int conteo1 = ct.getConteo1();
+                int conteo4 = ct.getConteo4();
+                int total = ct.getTotal();
 
-            long idReg = ct.getIdConteo();
-            int cuadro = ct.getCuadro();
-            int conteo1 = ct.getConteo1();
-            int conteo4 = ct.getConteo4();
-            int total = ct.getTotal();
-
-            txtidReg.setText("idReg:" + idReg);
-            txtCuadro.setText("Cuadro: " + cuadro);
-            cap_1.setText(String.valueOf(conteo1));
-            cap_2.setText(String.valueOf(conteo4));
-            cap_ct.setText(String.valueOf(total));
-            txtId.setText("Siembra: " + idSiempar);
-            txtVariedad.setText("Variedad: " + variedad);
-            txtBloque.setText("Bloque: " + bloque);
+                txtidReg.setText("idReg:" + idReg);
+                txtCuadro.setText("Cuadro: " + cuadro);
+                cap_1.setText(String.valueOf(conteo1));
+                cap_2.setText(String.valueOf(conteo4));
+                cap_ct.setText(String.valueOf(total));
+                txtId.setText("Siembra: " + idSiempar);
+                txtVariedad.setText("Variedad: " + variedad);
+                txtBloque.setText("Bloque: " + bloque);
+            }else{
+                Toast.makeText(this, "No se puede cargar el registro por que ya ha sido enviado", Toast.LENGTH_SHORT).show();
+            }
 
         } catch (Exception E) {
             Toast.makeText(getApplicationContext(), "No has seleccionado aún una fila \n" + E, Toast.LENGTH_LONG).show();
@@ -171,7 +173,7 @@ public class ActivityDetalles extends AppCompatActivity {
 
     //FILTRO DE LA TABLA POR BLOQUE
     public List<conteoTab> filtro() throws Exception {
-        iConteo iC = new iConteo(path);
+        iConteo iC = new iConteo(path, this);
         try {
             fecha = sp.getString("date", "");
             iC.nombre = fecha;
@@ -278,8 +280,6 @@ public class ActivityDetalles extends AppCompatActivity {
         }
     }
 
-
-
     //MENSAJES DE CONFIRMACIÓN PARA EJECUTAR LOS METODO DEL CRUD
     public void DialogConfirm(String msj, String tipo) {
         try {
@@ -331,6 +331,7 @@ public class ActivityDetalles extends AppCompatActivity {
             conteoTab c = new conteoTab();
 
                 c.setFecha(cl.getFecha());
+                c.setEstado(cl.getEstado());
                 c.setIdConteo(cl.getIdConteo());
                 c.setIdSiembra(cl.getIdSiembra());
                 c.setCama(cl.getCama());
@@ -346,7 +347,11 @@ public class ActivityDetalles extends AppCompatActivity {
                 c.setArea(cl.getArea());
                 c.setCuadros(cl.getCuadros());
                 c.setIdUsuario(cl.getIdUsuario());
-                iC.update(id,c);
+                if(cl.getEstado() == 0) {
+                    iC.update(id, c);
+                }else{
+                    Toast.makeText(this, "El registro no se puede actualizar por que ya ha sido enviado", Toast.LENGTH_LONG).show();
+                }
 
                 Intent i = new Intent(this,ActivityDetalles.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(i);
@@ -368,6 +373,7 @@ public class ActivityDetalles extends AppCompatActivity {
             conteoTab ct2 = new conteoTab();
 
             for(conteoTab ctt : ct){
+                ct2.setEstado(ctt.getEstado());
                 ct2.setFecha(ctt.getFecha());
                 ct2.setIdConteo(idres++);
                 ct2.setIdSiembra(ctt.getIdSiembra());
@@ -386,11 +392,17 @@ public class ActivityDetalles extends AppCompatActivity {
                 ct2.setArea(ctt.getArea());
                 ct2.setCuadros(ctt.getCuadros());
                 ct2.setIdUsuario(ctt.getIdUsuario());
-                if(idres!=0) {
-                    iC.update((long) idres - 1, ct2);
+
+                if(ctt.getEstado() == 0) {
+                    if(idres!=0) {
+                        iC.update((long) idres - 1, ct2);
+                    }else{
+                        iC.update((long) idres + 1, ct2);
+                    }
                 }else{
-                    iC.update((long) idres + 1, ct2);
+                    Toast.makeText(this, "El registro no se puede borrar por que ya ha sido enviado", Toast.LENGTH_LONG).show();
                 }
+
             }
 
             Intent i = new Intent(this,ActivityDetalles.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -399,7 +411,6 @@ public class ActivityDetalles extends AppCompatActivity {
             Toast.makeText(this, "Exception al borrar el registro \n \n"+ex, Toast.LENGTH_SHORT).show();
         }
     }
-
 
     //TOSTADAS
     Toast tostada(String mjs) {

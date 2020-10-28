@@ -32,7 +32,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="252dp"
         android:layout_marginTop="124dp"
-        android:text="Busqueda"
+        android:text="Búsqueda"
         android:textColor="@color/colorPrimaryDark"
         android:textSize="18sp"
         android:textStyle="bold"
@@ -112,7 +112,7 @@
         android:layout_marginStart="392dp"
         android:layout_marginTop="144dp"
         android:background="@android:color/transparent"
-        android:text="Digita los grados dia"
+        android:text="Digita los grados día"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

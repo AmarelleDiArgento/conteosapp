@@ -1,6 +1,7 @@
 package com.lotus.conteos_app.Model.tab;
 
 public class conteoTab {
+    private int estado;
     private long idConteo;
     private String fecha;
     private long idSiembra;
@@ -23,6 +24,13 @@ public class conteoTab {
     public conteoTab() {
     }
 
+    public int getEstado() {
+        return estado;
+    }
+
+    public void setEstado(int estado) {
+        this.estado = estado;
+    }
 
     public long getIdConteo() {
         return idConteo;
@@ -172,6 +180,7 @@ public class conteoTab {
     public String toString() {
         return "{\n" +
                 "\"fecha\": \""+fecha+"\",\n" +
+                "\"estado\": \""+estado+"\",\n" +
                 "\"idConteo\":"+idConteo+",\n" +
                 "\"idSiembra\":"+idSiembra+",\n" +
                 "\"cama\":"+cama+",\n" +

@@ -56,7 +56,7 @@ public class TableDinamic {
 
     private TableRow.LayoutParams newLayoutParams() {
         TableRow.LayoutParams params = new TableRow.LayoutParams();
-        // params.setMargins(1, 1, 1, 1);
+        // params.setMargins(1, 1, 1, 1);|
         params.weight = 1;
         return params;
     }
@@ -73,7 +73,7 @@ public class TableDinamic {
         tableLayout.addView(tableRow);
     }
 
-    private void createDataTable() {
+    private TableLayout createDataTable() {
         String info;
 
         for (r = 1; r <= data.size(); r++) {
@@ -85,7 +85,6 @@ public class TableDinamic {
                 txtCell.setText(info);
                 tableRow.addView(txtCell, newLayoutParams());
                 tableRow.setId(r);
-                //txtCell.setBackgroundColor((multicolor) ? firt : second);
                 try {
                     tableRow.clearDisappearingChildren();
                     tableRow.setOnClickListener(new View.OnClickListener() {
@@ -93,7 +92,6 @@ public class TableDinamic {
                         public void onClick(final View view) {
                             id = view.getId();
                             setIdTabla(id);
-                            // Toast.makeText(context, "Fila " + id, Toast.LENGTH_SHORT).show();
                             view.setBackgroundColor(Color.parseColor("#92F0EDED"));
                             int dur = 1000;
                             new Handler().postDelayed(new Runnable() {
@@ -112,6 +110,8 @@ public class TableDinamic {
             tableRow.clearFocus();
             tableLayout.addView(tableRow);
         }
+
+        return tableLayout;
     }
 
 

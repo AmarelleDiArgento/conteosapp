@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
@@ -87,16 +88,20 @@ public class VisualFenoActivity extends AppCompatActivity {
             String path2 = "/storage/emulated/0/Pictures/fenologias/"+idFinca+"/";
 
             iA.getImage(path2,jpgView1, idVariedad, fi.get(0).getImagen());
-            datos(txt1, fi.get(0).getDiametro_boton(), fi.get(0).getLargo_boton(), fi.get(0).getGrados_dia());
+            String p = getPath(path2+"//"+idVariedad+"//"+fi.get(0).getImagen());
+            datos(txt1, fi.get(0).getDiametro_boton(), fi.get(0).getLargo_boton(), fi.get(0).getGrados_dia(), fi.get(0).getImagen());
 
             iA.getImage(path2,jpgView2, idVariedad, fi.get(1).getImagen());
-            datos(txt2, fi.get(1).getDiametro_boton(), fi.get(1).getLargo_boton(), fi.get(1).getGrados_dia());
+            String p1 = getPath(path2+"//"+idVariedad+"//"+fi.get(1).getImagen());
+            datos(txt2, fi.get(1).getDiametro_boton(), fi.get(1).getLargo_boton(), fi.get(1).getGrados_dia(), fi.get(1).getImagen());
 
             iA.getImage(path2,jpgView3, idVariedad, fi.get(2).getImagen());
-            datos(txt3, fi.get(2).getDiametro_boton(), fi.get(2).getLargo_boton(), fi.get(2).getGrados_dia());
+            String p2 = getPath(path2+"//"+idVariedad+"//"+fi.get(2).getImagen());
+            datos(txt3, fi.get(2).getDiametro_boton(), fi.get(2).getLargo_boton(), fi.get(2).getGrados_dia(), fi.get(2).getImagen());
 
             iA.getImage(path2,jpgView4, idVariedad, fi.get(3).getImagen());
-            datos(txt4, fi.get(3).getDiametro_boton(), fi.get(3).getLargo_boton(), fi.get(3).getGrados_dia());
+            String p3 = getPath(path2+"//"+idVariedad+"//"+fi.get(3).getImagen());
+            datos(txt4, fi.get(3).getDiametro_boton(), fi.get(3).getLargo_boton(), fi.get(3).getGrados_dia(), fi.get(3).getImagen());
 
 
         } catch (Exception e) {
@@ -104,6 +109,10 @@ public class VisualFenoActivity extends AppCompatActivity {
         }
     }
 
+    public String getPath(String path){
+        String[] res = path.split((char) 47+"");
+        return res[6]+"/"+res[7]+"/"+res[8]+"/";
+    }
 
     public List<fenologiaTab> forGradoloc(int dia, float gDia, long idVariedad) throws Exception {
 
@@ -153,9 +162,9 @@ public class VisualFenoActivity extends AppCompatActivity {
         return fi;
     }
 
-    public void datos(TextView tv, Double dia, Double lon, Double grados) {
+    public void datos(TextView tv, Double dia, Double lon, Double grados, String rutaFenologica) {
 
-        tv.setText("Diametro: " + dia + "    Longitud: " + lon + "\n Grados dia acomulados: " + grados);
+        tv.setText("Diametro: " + dia + "    Longitud: " + lon + "\n Grados día acumulados: " + grados);
         tv.setTextSize(16);
 
     }

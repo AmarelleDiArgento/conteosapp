@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
@@ -58,6 +59,8 @@ public class HistorialMainActivity extends AppCompatActivity {
     private int month;
     private int day;
 
+    iConteo iC;
+
     // Encabezados de la tabla
     private String[] header = {"Bloque", "Variedad", "CC", "CT", "CN1", "EST1", "CN4", "EST4", "CTA", "ESTT"};
     // Datos de la tabla
@@ -80,6 +83,7 @@ public class HistorialMainActivity extends AppCompatActivity {
             fechita = findViewById(R.id.fechita);
             fechaoculta = findViewById(R.id.fechaoculta);
 
+            iC = new iConteo(path, this);
             ja = new jsonAdmin();
 
             //gradosDiaTxt.setSelectAllOnFocus(true);
@@ -161,7 +165,6 @@ public class HistorialMainActivity extends AppCompatActivity {
         } catch (Exception E) {
             Toast.makeText(getApplicationContext(), "No has seleccionado aún una fila", Toast.LENGTH_LONG).show();
         }
-
     }
 
 
@@ -289,7 +292,6 @@ public class HistorialMainActivity extends AppCompatActivity {
 
     public List<conteoTab> calcular() {
         try {
-            iConteo iC = new iConteo(path);
             fecha = fechaoculta.getText().toString();
             iC.nombre = fecha;
             clc.clear();
@@ -298,7 +300,7 @@ public class HistorialMainActivity extends AppCompatActivity {
                 boolean val = true;
                 for (int i = 0; i <= clc.size() - 1; i++) {
 
-                    if (c.getIdVariedad() == clc.get(i).getIdVariedad() || c.getIdBloque() == clc.get(i).getIdBloque()) {
+                    if (c.getIdVariedad() == clc.get(i).getIdVariedad() && c.getIdBloque() == clc.get(i).getIdBloque()) {
 
                         int cu = clc.get(i).getCuadro() + 1;
                         int c1 = clc.get(i).getConteo1() + c.getConteo1();
@@ -332,7 +334,6 @@ public class HistorialMainActivity extends AppCompatActivity {
 
         try {
             rows.clear();
-            final iConteo iC = new iConteo(path);
             String fob = fechaoculta.getText().toString();
             iC.nombre = fob;
 
@@ -418,28 +419,9 @@ public class HistorialMainActivity extends AppCompatActivity {
 
     public void subirRegistro(View v){
         try{
-            iConteo iC = new iConteo(path);
+            iConteo iC = new iConteo(path, this);
             iC.nombre = fechaoculta.getText().toString();
-
-            for(conteoTab c : iC.all()){
-                c.setFecha(c.getFecha());
-                c.setIdSiembra(c.getIdSiembra());
-                c.setCuadro(c.getCuadro());
-                c.setConteo1(c.getConteo1());
-                c.setConteo2(c.getConteo2());
-                c.setConteo3(c.getConteo3());
-                c.setConteo4(c.getConteo4());
-                c.setTotal(c.getTotal());
-                c.setIdUsuario(c.getIdUsuario());
-
-                //Toast.makeText(this, ""+c, Toast.LENGTH_SHORT).show();
-
-                iC.record(c);
-            }
-
-            Dialog d = new Dialog(this);
-            d.progressBar("Se esta enviando los registros....","Se envio correctamente los registros",20);
-
+            iC.batch(fechaoculta.getText().toString());
         }catch (Exception ex){
             Toast.makeText(this, "Exception al subir el registro \n \n"+ex.toString(), Toast.LENGTH_SHORT).show();
         }

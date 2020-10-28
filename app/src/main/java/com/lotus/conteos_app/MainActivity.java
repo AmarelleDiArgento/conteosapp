@@ -252,7 +252,7 @@ public class MainActivity extends AppCompatActivity {
 
             iP = new iPlano(path);
             iF = new iFenologia(path);
-            iC = new iConteo(path);
+            iC = new iConteo(path, this);
             iC.nombre = sdfn.format(calendarDate.getTime());
             iCB = new iCuadrosBloque(path);
 
@@ -540,6 +540,7 @@ public class MainActivity extends AppCompatActivity {
 
                     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
+                    c.setEstado(0);
                     c.setIdConteo(c.getIdConteo());
                     c.setIdSiembra(p.getIdSiembra());
                     c.setCama(p.getCama());

@@ -113,7 +113,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="416dp"
         android:layout_marginTop="392dp"
-        android:text="Grados dia:"
+        android:text="Grados día:"
         android:textColor="#2980B9"
         android:textSize="20sp"
         android:textStyle="bold"
