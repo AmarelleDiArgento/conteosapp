@@ -145,7 +145,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
+    <!--<Button
         android:id="@+id/button4"
         android:layout_width="252dp"
         android:layout_height="70dp"
@@ -157,7 +157,7 @@
         android:textColor="@color/ColorPrimaryText"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent" />-->
 
     <TextView
         android:id="@+id/usulog"
@@ -198,14 +198,14 @@
         android:id="@+id/cap_ct"
         android:layout_width="133dp"
         android:layout_height="46dp"
-        android:layout_marginStart="424dp"
-        android:layout_marginTop="228dp"
+        android:layout_marginStart="420dp"
+        android:layout_marginTop="220dp"
         android:background="#FFFFFF"
         android:ems="10"
+        android:imeOptions="actionDone"
         android:inputType="textPersonName"
         android:textAlignment="center"
         android:textSize="24sp"
-        android:imeOptions="actionDone"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -241,8 +241,8 @@
         android:id="@+id/titulo_ct"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="472dp"
-        android:layout_marginTop="196dp"
+        android:layout_marginStart="476dp"
+        android:layout_marginTop="192dp"
         android:text="Total"
         android:textColor="#2980B9"
         android:textSize="18sp"
@@ -317,21 +317,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/button9"
-        android:layout_width="168dp"
-        android:layout_height="67dp"
-        android:layout_marginStart="416dp"
-        android:layout_marginTop="304dp"
-        android:background="#2980B9"
-        android:onClick="clicTable"
-        android:text="Cargar datos    "
-        android:textAlignment="center"
-        android:textColor="@color/ColorPrimaryText"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <TextView
         android:id="@+id/idReg"
         android:layout_width="wrap_content"
@@ -341,16 +326,6 @@
         android:text="idReg"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/textView44"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="36dp"
-        android:layout_marginTop="160dp"
-        android:text="TextView"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

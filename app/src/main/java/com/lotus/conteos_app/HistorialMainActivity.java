@@ -111,6 +111,8 @@ public class HistorialMainActivity extends AppCompatActivity {
             fecha = sdf.format(cal.getTime());
             fechaoculta.setText(fecha);
 
+            enviarFecha(fechaoculta.getText().toString());
+
             date.init(year, month, day, new DatePicker.OnDateChangedListener() {
                 @Override
                 public void onDateChanged(DatePicker datePicker, int year, int month, int day) {
@@ -147,14 +149,12 @@ public class HistorialMainActivity extends AppCompatActivity {
         try {
             conteoTab ct = clc.get(tb.getIdTabla() - 1);
             if (ct != null) {
-                String bloque = ct.getBloque();
-                String usuario = fechita.getText().toString();
 
                 SharedPreferences.Editor edit = sp.edit();
                 edit.putString("date", fecha);
                 edit.putInt("bloque", ct.getIdBloque());
                 edit.putInt("idvariedad", ct.getIdVariedad());
-                edit.putString("usulog", usuario);
+                edit.putString("fecha", fechita.getText().toString());
                 edit.apply();
 
                 Intent i = new Intent(this, ActivityDetalles.class);
@@ -167,6 +167,13 @@ public class HistorialMainActivity extends AppCompatActivity {
         }
     }
 
+    public void enviarFecha(String fechaBusqueda){
+        SharedPreferences.Editor edit = sp.edit();
+        Toast.makeText(this, ""+fechaBusqueda, Toast.LENGTH_SHORT).show();
+        edit.putString("fechaActual", fecha);
+        edit.putString("fechaBusqueda", fechaBusqueda);
+        edit.apply();
+    }
 
     @Override
     protected void onRestart() {
@@ -285,6 +292,8 @@ public class HistorialMainActivity extends AppCompatActivity {
             String dateInString = fechanew1;
 
             fechaoculta.setText(dateInString);
+            enviarFecha(fechaoculta.getText().toString());
+
         } catch (Exception e) {
             Toast.makeText(this, "no se pudo convertir \n" + e.toString(), Toast.LENGTH_SHORT).show();
         }
@@ -328,7 +337,6 @@ public class HistorialMainActivity extends AppCompatActivity {
 
     // Dibuja la tabla de calculos
     public ArrayList<String[]> cargarConteo() {
-
         DecimalFormat frt = new DecimalFormat("#,###");
         final ArrayList<String[]> rows = new ArrayList<>();
 
@@ -352,16 +360,13 @@ public class HistorialMainActivity extends AppCompatActivity {
                                 String.valueOf(frt.format(c.getTotal())),
                                 String.valueOf(frt.format(extrapolar(c.getCuadros(), c.getCuadro(), c.getTotal())))
                         }
-
                 );
-
             }
         } catch (Exception e) {
             Toast.makeText(this, "Error exception Cargar conteo: " + e.toString(), Toast.LENGTH_LONG).show();
         }
         return rows;
     }
-
 
     //CALCULO DE FONOLOGIAS (REGLA DE 3)
     public int extrapolar(int CT, int CC, int S) {
@@ -372,7 +377,7 @@ public class HistorialMainActivity extends AppCompatActivity {
     public void createTable() {
         try {
             tableLayout = findViewById(R.id.tabla);
-            tb = new TableDinamic(tableLayout, getApplicationContext());
+            tb = new TableDinamic(tableLayout, getApplicationContext(), "enviarDetalle", clc, null, null, null, null, null, null,null);
             tableLayout.removeAllViews();
             tb.addHeader(header);
             tb.addData(cargarConteo());
@@ -417,13 +422,13 @@ public class HistorialMainActivity extends AppCompatActivity {
         finish();
     }
 
-    public void subirRegistro(View v){
-        try{
+    public void subirRegistro(View v) {
+        try {
             iConteo iC = new iConteo(path, this);
             iC.nombre = fechaoculta.getText().toString();
             iC.batch(fechaoculta.getText().toString());
-        }catch (Exception ex){
-            Toast.makeText(this, "Exception al subir el registro \n \n"+ex.toString(), Toast.LENGTH_SHORT).show();
+        } catch (Exception ex) {
+            Toast.makeText(this, "Exception al subir el registro \n \n" + ex.toString(), Toast.LENGTH_SHORT).show();
         }
 
     }
@@ -431,5 +436,4 @@ public class HistorialMainActivity extends AppCompatActivity {
     //PARA VOLVER
     public void onBackPressed() {
     }
-
 }

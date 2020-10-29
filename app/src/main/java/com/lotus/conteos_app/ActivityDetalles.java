@@ -232,7 +232,7 @@ public class ActivityDetalles extends AppCompatActivity {
     public void createTable() {
         try {
             tableLayout = findViewById(R.id.tabla);
-            tb = new TableDinamic(tableLayout, getApplicationContext());
+            tb = new TableDinamic(tableLayout, getApplicationContext(), "cargarDetalle", clc, cap_1, cap_2, cap_ct, txtidReg, txtId, txtBloque, txtVariedad);
             tableLayout.removeAllViews();
             tb.addHeader(header);
             tb.addData(cargarTabla());

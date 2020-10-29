@@ -24,17 +24,15 @@ public class iConteo extends sqlConect implements conteo {
 
 
     public String nombre;
-    final String ins = "INSERT INTO Conteos (fecha, idSiembra, cuadro, conteo1, conteo2, conteo3, conteo4, total, idUsuario)\n" +
-            "     VALUES (?,?,?,?,?,?,?,?,?)";
+    final String ins = "INSERT INTO Conteos (fecha, idSiembra, cuadro, conteo1, conteo2, conteo3, conteo4, total, idUsuario) VALUES (?,?,?,?,?,?,?,?,?)";
 
-    Connection cn = null;
+    Connection cn;
     String path = null;
     jsonAdmin ja = null;
     Context context;
 
 
     private List<conteoTab> cl = new ArrayList<>();
-
 
     public iConteo(String path, Context context) throws Exception {
         this.cn = getConexion();
@@ -46,7 +44,7 @@ public class iConteo extends sqlConect implements conteo {
         ja = new jsonAdmin();
         this.path = path;
     }
-    
+
     @Override
     public String insert(conteoTab c) {
 
