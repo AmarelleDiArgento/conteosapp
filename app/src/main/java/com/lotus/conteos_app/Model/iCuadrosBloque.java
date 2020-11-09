@@ -1,6 +1,7 @@
 package com.lotus.conteos_app.Model;
 
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -28,6 +29,10 @@ public class iCuadrosBloque extends sqlConect implements DAO {
           "      ,[tot_cuadros]\n" +
           "      ,[id_fenologia]\n" +
           "  FROM [dbo].[Cuadros_Bloque]";
+
+  String query = "SELECT c.id_bloque, c.id_variedad, c.tot_cuadros, c.id_fenologia, p.idFinca\n" +
+          "FROM Cuadros_Bloque AS c INNER JOIN\n" +
+          "Plano_Siembra AS p ON c.id_bloque = p.idBloque AND c.id_variedad = p.idVariedad";
 
   public iCuadrosBloque(String path){
     this.cn = getConexion();
@@ -63,19 +68,24 @@ public class iCuadrosBloque extends sqlConect implements DAO {
 
   @Override
   public boolean local() throws Exception {
-    ResultSet rs;
-    PreparedStatement ps = cn.prepareStatement(sel);
-    rs = ps.executeQuery();
+    try {
+      ResultSet rs;
+      PreparedStatement ps = cn.prepareStatement(query);
+      rs = ps.executeQuery();
 
-    while (rs.next()){
-      cb.add(gift(rs));
+      while (rs.next()) {
+        cb.add(gift(rs));
+      }
+
+      closeConexion(cn, rs);
+
+      String contenido = cb.toString();
+
+      return ja.CrearArchivo(path, nombre, contenido);
+    }catch (Exception e){
+      Log.i("descarga", ""+e.toString());
+      return false;
     }
-
-    closeConexion(cn,rs);
-
-    String contenido = cb.toString();
-
-    return ja.CrearArchivo(path, nombre, contenido);
   }
 
   @Override
@@ -92,11 +102,14 @@ public class iCuadrosBloque extends sqlConect implements DAO {
     cbt.setIdVariedad(rs.getLong("id_variedad"));
     cbt.setNumeroCuadros(rs.getInt("tot_cuadros"));
     cbt.setIdFenologia(rs.getLong("id_fenologia"));
+    cbt.setIdFinca(rs.getLong("idFinca"));
     return cbt;
   }
 
   public cuadros_bloqueTab cuadroyvariedad(long idBloque, long idVariedad) throws Exception{
     cuadros_bloqueTab cbt = new cuadros_bloqueTab();
+
+    Log.i("SIEMBRA", "Entro : "+idBloque+"  "+idVariedad);
 
       for(cuadros_bloqueTab c : all()){
         if(c.getIdBloque() == idBloque && c.getIdVariedad() == idVariedad) {

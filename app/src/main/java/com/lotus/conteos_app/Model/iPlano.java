@@ -23,6 +23,8 @@ public class iPlano extends sqlConect implements plano {
     String path = null;
     jsonAdmin ja = null;
 
+    int idBloqueRest, idVariedadRest;
+
     String nombre = "plano";
 
     final String ins = "INSERT INTO Plano_Siembra\n" +
@@ -222,15 +224,17 @@ public class iPlano extends sqlConect implements plano {
     public planoTab OneforIdSiembra(long idSiembra) throws Exception {
         planoTab pr = new planoTab();
 
-        if (idSiembra != 0 && pl.size() > 0) {
+        Log.i("SIEMBRA", "Entro : "+idSiembra);
 
+        all();
+
+        if (idSiembra != 0 && pl.size() > 0) {
+            Log.i("SIEMBRA", "Entro : "+idSiembra);
             for (planoTab p : pl) {
                 if (p.getIdSiembra() == idSiembra) {
                     pr = p;
                     Log.i("SIEMBRA", "llego a encontrar , "+p.getIdBloque());
                     break;
-                }else {
-                    Log.i("SIEMBRA", "no llego a encontrar");
                 }
             }
 
@@ -289,5 +293,78 @@ public class iPlano extends sqlConect implements plano {
 
             Log.i("FINCAS","consulta : "+d);
         return d;
+    }
+
+    public planoTab busquedaFinca(int idBloque, int idVariedad) throws Exception{
+        planoTab plano = null;
+        planoTab pb = null;
+        planoTab pv = null;
+
+        idBloqueRest = idBloque;
+        idVariedadRest = idVariedad;
+
+        pb = validateBloque(idBloqueRest, "bloque");
+        Log.i("VALIDARBLOQUE",(pb != null ? "si " : "no ") + "exite el bloque "+pb.getIdBloque());
+
+        if(pb != null){
+            pv = validateBloque(idVariedadRest, "variedad");
+            Log.i("VALIDARBLOQUE",(pv != null ? "si " : "no ") + "exite la variedad "+ (pv != null ? pv.getIdVariedad() : ""));
+        }
+
+        if(plano == null){
+            //busquedaFinca(restaDigitos(idBloque), restaDigitos(idVariedad));
+        }
+        return plano;
+    }
+
+
+    public planoTab validateBloque(int n, String tipo) throws Exception {
+        planoTab b = null;
+        for (planoTab p : all()) {
+
+            switch (tipo){
+                case "variedad":
+                    if (p.getIdBloque() == n) {
+                        b = p;
+                        break;
+                    }
+                    break;
+                case "bloque":
+                    if (p.getIdVariedad() == n) {
+                        b = p;
+                        break;
+                    }
+                    break;
+            }
+        }
+
+        int len =  Integer.toString( tipo.equals("bloque") ? idBloqueRest : idVariedadRest).length();
+        if(b == null && len > 0){
+            if(tipo.equals("bloque")) {
+                idBloqueRest = restaDigitos(idBloqueRest);
+                validateBloque(idBloqueRest, "bloque");
+            }else{
+                idVariedadRest = restaDigitos(idVariedadRest);
+                validateBloque(idVariedadRest, "variedad");
+            }
+        }
+        return b;
+    }
+
+    public planoTab getFinca(int idBloque, int idVariedad) throws Exception{
+        planoTab b = null;
+        for (planoTab p : all()) {
+            Log.i("buscandoBloque","plano idBloque : "+p.getIdBloque()+" bloque llegada"+idBloqueRest);
+            if (p.getIdBloque() == idBloque && p.getIdVariedad() == idVariedad) {
+                b = p;
+                break;
+            }
+        }
+        return b;
+    }
+
+    public int restaDigitos( int nValue){
+        int data = Integer.parseInt( String.valueOf(nValue).substring(0, Integer.toString(nValue).length() -1 ) );
+        return data;
     }
 }

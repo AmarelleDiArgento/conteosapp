@@ -1,5 +1,6 @@
 package com.lotus.conteos_app;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -88,22 +89,16 @@ public class VisualFenoActivity extends AppCompatActivity {
             String path2 = "/storage/emulated/0/Pictures/fenologias/"+idFinca+"/";
 
             iA.getImage(path2,jpgView1, idVariedad, fi.get(0).getImagen());
-            String p = getPath(path2+"//"+idVariedad+"//"+fi.get(0).getImagen());
             datos(txt1, fi.get(0).getDiametro_boton(), fi.get(0).getLargo_boton(), fi.get(0).getGrados_dia(), fi.get(0).getImagen());
 
             iA.getImage(path2,jpgView2, idVariedad, fi.get(1).getImagen());
-            String p1 = getPath(path2+"//"+idVariedad+"//"+fi.get(1).getImagen());
             datos(txt2, fi.get(1).getDiametro_boton(), fi.get(1).getLargo_boton(), fi.get(1).getGrados_dia(), fi.get(1).getImagen());
 
             iA.getImage(path2,jpgView3, idVariedad, fi.get(2).getImagen());
-            String p2 = getPath(path2+"//"+idVariedad+"//"+fi.get(2).getImagen());
             datos(txt3, fi.get(2).getDiametro_boton(), fi.get(2).getLargo_boton(), fi.get(2).getGrados_dia(), fi.get(2).getImagen());
 
             iA.getImage(path2,jpgView4, idVariedad, fi.get(3).getImagen());
-            String p3 = getPath(path2+"//"+idVariedad+"//"+fi.get(3).getImagen());
             datos(txt4, fi.get(3).getDiametro_boton(), fi.get(3).getLargo_boton(), fi.get(3).getGrados_dia(), fi.get(3).getImagen());
-
-
         } catch (Exception e) {
             Toast.makeText(getApplicationContext(), "Error \n" + e, Toast.LENGTH_LONG).show();
         }
@@ -163,15 +158,18 @@ public class VisualFenoActivity extends AppCompatActivity {
     }
 
     public void datos(TextView tv, Double dia, Double lon, Double grados, String rutaFenologica) {
-
         tv.setText("Diametro: " + dia + "    Longitud: " + lon + "\n Grados día acumulados: " + grados);
         tv.setTextSize(16);
-
     }
 
    public BigDecimal pD(double dou) {
         BigDecimal dpar = new BigDecimal(dou);
         return dpar.setScale(2, RoundingMode.DOWN);
+    }
+
+    public void fenologiaCompleta(View v){
+        Intent i = new Intent(this, fenologiaCompletaVisual.class);
+        startActivity(i);
     }
 }
 

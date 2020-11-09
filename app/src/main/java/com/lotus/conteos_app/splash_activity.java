@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.WindowManager;
 import android.widget.Toast;
 
+import com.lotus.conteos_app.Model.iCuadrosBloque;
 import com.lotus.conteos_app.Model.iFincas;
 import com.lotus.conteos_app.Model.iMonitor;
 
@@ -38,6 +39,8 @@ public class splash_activity extends AppCompatActivity {
         try {
             iMonitor iM = new iMonitor(path);
             iFincas iF = new iFincas(path);
+            iCuadrosBloque iCB = new iCuadrosBloque(path);
+            iCB.local();
             iM.local();
             iF.local();
         } catch (Exception e) {

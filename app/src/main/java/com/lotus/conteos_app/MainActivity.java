@@ -161,7 +161,7 @@ public class MainActivity extends AppCompatActivity {
                 public boolean onKey(View v, int keyCode, KeyEvent event) {
 
                     if(!IdSiembra.getText().toString().isEmpty()){
-                    long id = Long.parseLong(IdSiembra.getText().toString());
+                        long id = Long.parseLong(IdSiembra.getText().toString());
 
                         if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
                             buscarSiembra(id);
@@ -379,12 +379,12 @@ public class MainActivity extends AppCompatActivity {
                 toast.show();
 
             } else {
-                    String s;
-                    if (p.getIdSiembra() != null) {
-                        s = p.getCama() + p.getSufijo();
-                    } else {
-                        s = valueOf(p.getCama());
-                    }
+                String s;
+                if (p.getIdSiembra() != null) {
+                    s = p.getCama() + p.getSufijo();
+                } else {
+                    s = valueOf(p.getCama());
+                }
 
                 ab = iCB.cuadroyvariedad( p.getIdBloque(),  p.getIdVariedad());
 
@@ -416,7 +416,7 @@ public class MainActivity extends AppCompatActivity {
             List<fenologiaTab> fi = forGradoloc(dia, gDia, idVariedad);
 
             String path2 = "/storage/emulated/0/Pictures/fenologias/"+idFinca+"/";
-            Log.i("CARPETAVARIEDAD",""+idVariedad);
+
             iA.getImage(path2,jpgView1, idVariedad, fi.get(0).getImagen());
             iA.getImage(path2,jpgView2, idVariedad, fi.get(1).getImagen());
             iA.getImage(path2,jpgView3, idVariedad, fi.get(2).getImagen());

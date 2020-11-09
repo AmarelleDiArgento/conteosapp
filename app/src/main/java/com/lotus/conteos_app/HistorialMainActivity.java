@@ -218,6 +218,11 @@ public class HistorialMainActivity extends AppCompatActivity {
         }
     }
 
+    public void nuevoRegistro(View v){
+        Intent intent = new Intent(HistorialMainActivity.this, MainActivity.class);
+        startActivity(intent);
+    }
+
     //METODO PARA EL ENVIO DE LOS GRADOS DIA CON SHARED PREFERENCES
     public void sharedGradoDia(View view) {
         SharedPreferences.Editor edit = sp.edit();

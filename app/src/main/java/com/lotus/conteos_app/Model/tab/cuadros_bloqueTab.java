@@ -5,15 +5,17 @@ public class cuadros_bloqueTab {
   private Long idVariedad;
   private int numeroCuadros;
   private Long idFenologia;
+  private Long idFinca;
 
   public cuadros_bloqueTab() {
   }
 
-  public cuadros_bloqueTab(Long idBloque, Long idVariedad, int numeroCuadros, Long idFenologia) {
+  public cuadros_bloqueTab(Long idBloque, Long idVariedad, int numeroCuadros, Long idFenologia,Long idFinca) {
     this.idBloque = idBloque;
     this.idVariedad = idVariedad;
     this.numeroCuadros = numeroCuadros;
     this.idFenologia = idFenologia;
+    this.idFinca = idFinca;
   }
 
   public Long getIdBloque() {
@@ -48,12 +50,21 @@ public class cuadros_bloqueTab {
     this.idFenologia = idFenologia;
   }
 
+  public Long getIdFinca() {
+    return idFinca;
+  }
+
+  public void setIdFinca(Long idFinca) {
+    this.idFinca = idFinca;
+  }
+
   public  String toString(){
     return "{ \n"+
             "\"idBloque\" : "+idBloque+",\n"+
             "\"idVariedad\" : "+idVariedad+",\n"+
             "\"numeroCuadros\" : "+numeroCuadros+",\n"+
-            " \"idFenologia\" : "+idFenologia+" \n"+
+            " \"idFenologia\" : "+idFenologia+", \n"+
+            " \"idFinca\" : "+idFinca+" \n"+
             "}";
   }
 }

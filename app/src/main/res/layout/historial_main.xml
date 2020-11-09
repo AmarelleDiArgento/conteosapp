@@ -211,7 +211,7 @@
         android:layout_marginStart="308dp"
         android:layout_marginTop="776dp"
         android:backgroundTint="#52BE80"
-        android:onClick="goMain"
+        android:onClick="nuevoRegistro"
         android:text="Nuevo registro"
         android:textColor="@color/ColorPrimaryText"
         android:textStyle="bold"
