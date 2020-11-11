@@ -169,6 +169,8 @@ public class VisualFenoActivity extends AppCompatActivity {
 
     public void fenologiaCompleta(View v){
         Intent i = new Intent(this, fenologiaCompletaVisual.class);
+        i.putExtra("idFinca", idFinca);
+        i.putExtra("idVariedad", idVariedad);
         startActivity(i);
     }
 }

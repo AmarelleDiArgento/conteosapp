@@ -1,7 +1,7 @@
 package com.lotus.conteos_app;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -11,12 +11,15 @@ import android.widget.Toast;
 import com.lotus.conteos_app.Config.Util.imageAdmin;
 import com.lotus.conteos_app.Model.iCuadrosBloque;
 import com.lotus.conteos_app.Model.iFenologia;
-import com.lotus.conteos_app.Model.iPlano;
 import com.lotus.conteos_app.Model.tab.cuadros_bloqueTab;
 import com.lotus.conteos_app.Model.tab.fenologiaTab;
+import com.lotus.conteos_app.Model.tab.planoTab;
 
 import java.io.File;
-import java.util.ListIterator;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 public class fenologiaCompletaVisual extends AppCompatActivity {
 
@@ -26,6 +29,11 @@ public class fenologiaCompletaVisual extends AppCompatActivity {
     int position = 0,index = 0, indexR = 0;
     TextView txt1, txt2, txt3, txt4;
     ImageView image1, image2, image3, image4;
+    Long idVariedad, idFinca;
+
+    Bundle bundle;
+
+    List<fenologiaTab> fenologiaResumido = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,9 +54,31 @@ public class fenologiaCompletaVisual extends AppCompatActivity {
             image3 = findViewById(R.id.image3);
             image4 = findViewById(R.id.image4);
 
+            bundle = getIntent().getExtras();
+
+            if(bundle != null){
+                idFinca = bundle.getLong("idFinca");
+                idVariedad = bundle.getLong("idVariedad");
+                Log.i("getIntent", ""+idFinca+"  "+idVariedad);
+
+                filtrarFenologias();
+            }else{
+                Log.i("getIntent", "Bundle vacio");
+            }
+
+
+
             cambio();
         }catch (Exception e){
             Log.i("Fenologia: ", "ERROR: "+e.toString());
+        }
+    }
+
+    public void filtrarFenologias() throws Exception{
+        for (fenologiaTab fen : iF.all()){
+            if(fen.getIdFenologia() == idVariedad){
+                fenologiaResumido.add(fen);
+            }
         }
     }
 
@@ -62,15 +92,19 @@ public class fenologiaCompletaVisual extends AppCompatActivity {
 
     public void cambio(){
         try {
-            while (position < iF.all().size()) {
+            while (position < fenologiaResumido.size()) {
                 position++;
                 index++;
-                fenologiaTab f = iF.all().get(position);
+                fenologiaTab f = fenologiaResumido.get(position);
                 datos(f, index);
                 if (position % 4 == 0) {
                     index = 0;
                     break;
                 }
+            }
+
+            if(position == fenologiaResumido.size()){
+                Toast.makeText(this, "No se encontraron fenologias", Toast.LENGTH_SHORT).show();
             }
         }catch (Exception e){
             Toast.makeText(this, ""+e.toString(), Toast.LENGTH_SHORT).show();
@@ -84,7 +118,7 @@ public class fenologiaCompletaVisual extends AppCompatActivity {
                 while (positionAnterior < (position-4)){
                     positionAnterior++;
                     indexR++;
-                    datos(iF.all().get(positionAnterior), indexR);
+                    datos(fenologiaResumido.get(positionAnterior), indexR);
                     if(positionAnterior == (position-4)){
                         indexR = 0;
                         break;
@@ -92,7 +126,7 @@ public class fenologiaCompletaVisual extends AppCompatActivity {
                 }
                 position = positionAnterior;
             }else{
-                Log.i("FENOLOGIASRECORRIDAS", "NOPE");
+                Toast.makeText(this, "No se encontraron fenologias", Toast.LENGTH_SHORT).show();
             }
         }catch (Exception e){
             Log.i("FENOLOGIASRECORRIDAS", ""+e.toString());
@@ -100,7 +134,6 @@ public class fenologiaCompletaVisual extends AppCompatActivity {
     }
 
     public void datos(fenologiaTab f, int index) throws Exception{
-        String datos = "Diametro: " + f.getDiametro_boton() + "    Longitud: " + f.getLargo_boton() + "\n Grados día acumulados: " + f.getGrados_dia();
 
         long finca = 0000;
         iCuadrosBloque iCB = new iCuadrosBloque(path);
@@ -112,6 +145,12 @@ public class fenologiaCompletaVisual extends AppCompatActivity {
         }
 
         String path2 = "/storage/emulated/0/Pictures/fenologias/"+finca+"/";
+
+        String datos = "Diametro: " + f.getDiametro_boton() +
+                ", Longitud: " + f.getLargo_boton() +
+                "\n Grados día acumulados: " + f.getGrados_dia()+
+                "\n Ruta img : "+path2+f.getIdFenologia()+"/"+f.getImagen();
+
         switch (index){
             case 1:
                 txt1.setText(datos);
@@ -130,6 +169,5 @@ public class fenologiaCompletaVisual extends AppCompatActivity {
                 new imageAdmin().getImage(path2, image4, f.getIdFenologia(), f.getImagen());
                 break;
         }
-
     }
 }
