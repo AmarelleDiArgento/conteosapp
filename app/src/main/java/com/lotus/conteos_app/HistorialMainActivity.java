@@ -62,7 +62,7 @@ public class HistorialMainActivity extends AppCompatActivity {
     iConteo iC;
 
     // Encabezados de la tabla
-    private String[] header = {"Bloque", "Variedad", "CC", "CT", "CN1", "EST1", "CN4", "EST4", "CTA", "ESTT"};
+    private String[] header = {"Bloque", "Variedad", "CC", "CT", "CS1", "CS4", "CTT", "EST1", "EST2", "EST3", "EST4", "ESTT"};
     // Datos de la tabla
 
     @Override
@@ -74,7 +74,6 @@ public class HistorialMainActivity extends AppCompatActivity {
 
             sp = getBaseContext().getSharedPreferences("share", MODE_PRIVATE);
             path = getExternalFilesDir(null) + File.separator;
-            // path = "/storage/extSdCard/";
             gradosDiaTxt = findViewById(R.id.gradosDia);
 
             date = findViewById(R.id.date_picker);
@@ -86,7 +85,6 @@ public class HistorialMainActivity extends AppCompatActivity {
             iC = new iConteo(path, this);
             ja = new jsonAdmin();
 
-            //gradosDiaTxt.setSelectAllOnFocus(true);
             gradosDiaTxt.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -353,18 +351,28 @@ public class HistorialMainActivity extends AppCompatActivity {
             final List<conteoTab> cl = calcular();
             for (final conteoTab c : cl) {
 
+
+                int estimado_Sem1 = extrapolar(c.getCuadros(), c.getCuadro(), c.getConteo1());
+                int estimado_Sem4 = extrapolar(c.getCuadros(), c.getCuadro(), c.getConteo4());
+                int estimado_total = extrapolar(c.getCuadros(), c.getCuadro(), c.getTotal());
+
+                int resultadoEstimado2 = extrapolarFaltante(estimado_total, estimado_Sem4, estimado_Sem1);
+                int resultadoEstimado3 = (estimado_total - estimado_Sem4 - estimado_Sem1 - resultadoEstimado2);
+
                 rows.add(new String[]{
-                                c.getBloque(),
-                                c.getVariedad(),
-                                String.valueOf(c.getCuadro()),
-                                String.valueOf(c.getCuadros()),
-                                String.valueOf(frt.format(c.getConteo1())),
-                                String.valueOf(frt.format(extrapolar(c.getCuadros(), c.getCuadro(), c.getConteo1()))),
-                                String.valueOf(frt.format(c.getConteo4())),
-                                String.valueOf(frt.format(extrapolar(c.getCuadros(), c.getCuadro(), c.getConteo4()))),
-                                String.valueOf(frt.format(c.getTotal())),
-                                String.valueOf(frt.format(extrapolar(c.getCuadros(), c.getCuadro(), c.getTotal())))
-                        }
+                        c.getBloque(),
+                        c.getVariedad(),
+                        String.valueOf(c.getCuadro()),
+                        String.valueOf(c.getCuadros()),
+                        String.valueOf(frt.format(c.getConteo1())),
+                        String.valueOf(frt.format(c.getConteo4())),
+                        String.valueOf(frt.format(c.getTotal())),
+                        String.valueOf(frt.format(estimado_Sem1)),
+                        String.valueOf(frt.format(resultadoEstimado2)),
+                        String.valueOf(frt.format(resultadoEstimado3)),
+                        String.valueOf(frt.format(estimado_Sem4)),
+                        String.valueOf(frt.format(estimado_total))
+                    }
                 );
             }
         } catch (Exception e) {
@@ -376,6 +384,16 @@ public class HistorialMainActivity extends AppCompatActivity {
     //CALCULO DE FONOLOGIAS (REGLA DE 3)
     public int extrapolar(int CT, int CC, int S) {
         return (S * CT) / CC;
+    }
+
+    public int extrapolarFaltante(int estTotal, int estSem4, int estSem1){
+        int diferencia = estTotal - ( estSem1 + estSem4 );
+
+        int pendiente1 = ( ( estSem4 - estSem1 ) / 3 ) + estSem1;
+
+        int pendiente2 = ( ( ( estSem4 - estSem1) / 3 ) * 2 ) + estSem1;
+
+        return (diferencia * pendiente1 ) / (pendiente1 + pendiente2);
     }
 
     //CREACION DE LA TABLA
