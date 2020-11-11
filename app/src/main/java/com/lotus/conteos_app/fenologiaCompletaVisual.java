@@ -13,12 +13,9 @@ import com.lotus.conteos_app.Model.iCuadrosBloque;
 import com.lotus.conteos_app.Model.iFenologia;
 import com.lotus.conteos_app.Model.tab.cuadros_bloqueTab;
 import com.lotus.conteos_app.Model.tab.fenologiaTab;
-import com.lotus.conteos_app.Model.tab.planoTab;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 public class fenologiaCompletaVisual extends AppCompatActivity {
@@ -66,8 +63,6 @@ public class fenologiaCompletaVisual extends AppCompatActivity {
                 Log.i("getIntent", "Bundle vacio");
             }
 
-
-
             cambio();
         }catch (Exception e){
             Log.i("Fenologia: ", "ERROR: "+e.toString());
@@ -75,11 +70,23 @@ public class fenologiaCompletaVisual extends AppCompatActivity {
     }
 
     public void filtrarFenologias() throws Exception{
-        for (fenologiaTab fen : iF.all()){
-            if(fen.getIdFenologia() == idVariedad){
-                fenologiaResumido.add(fen);
+        //recorre toda la fenologia y agrega en una lista la fenologia segun si idFenologico
+        for (fenologiaTab fenologia : iF.all()) {
+            if (fenologia.getIdFenologia() == idVariedad) {
+                fenologiaResumido.add(fenologia);
             }
         }
+
+        //organiza la fenologia de mayor o menor
+        List<fenologiaTab> fenOrder = new ArrayList<>();
+        int iteración = 0;
+        while (iteración < fenologiaResumido.size()) {
+            iteración++;
+            fenologiaTab f = fenologiaResumido.get(fenologiaResumido.size() - iteración);
+            fenOrder.add(f);
+        }
+        fenologiaResumido.clear();
+        fenologiaResumido = fenOrder;
     }
 
     public void next(View v){
