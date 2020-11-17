@@ -17,6 +17,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 
@@ -49,15 +50,12 @@ public class iConteo extends sqlConect implements conteo {
     public String insert(conteoTab c) {
 
         try {
-            if(cl.size()==0){
-                c.setIdConteo(cl.size());
-                cl.add(c);
-                local();
-            }else {
-                c.setIdConteo(cl.size());
-                cl.add(c);
-                local();
-            }
+            c.setEstado(0);
+            c.setFecha(new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime()));
+
+            c.setIdConteo(cl.size());
+            cl.add(c);
+            local();
 
             return "Registro realizado exitosamente";
         } catch (Exception e) {
@@ -163,12 +161,21 @@ public class iConteo extends sqlConect implements conteo {
                     ps.setLong(9, c.getIdUsuario());
                     ps.addBatch();
 
-                    updateEstado((long) cant, c);
                     cant ++;
                 }
             }
             if(cant > 0){
-                ps.executeBatch();
+                int enviados = 0;
+                int noenviados = 0;
+                for(int i : ps.executeBatch()){
+                    if(i == 1){
+                        enviados++;
+                    }else{
+                        noenviados++;
+                    }
+                }
+                Log.i("ENVIADOS", "enviados : "+enviados+", no enviados : "+noenviados);
+                Toast.makeText(context, enviados == cant ? "Se enviaron todos los registros con exito" : "Algunos registros no se pudieron enviar", Toast.LENGTH_SHORT).show();
             }else{
                 Toast.makeText(context, "No existen registros por enviar el día de hoy", Toast.LENGTH_LONG).show();
             }

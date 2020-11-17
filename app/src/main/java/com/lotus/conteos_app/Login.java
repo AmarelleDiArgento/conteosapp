@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
@@ -52,7 +53,7 @@ public class Login extends AppCompatActivity {
         try {
             iM = new iMonitor(path);
             ml = iM.all();
-            //Toast.makeText(this, ml.toString(), Toast.LENGTH_LONG).show();
+            recibirUsuario();
         } catch (Exception e) {
             Toast.makeText(this, e.toString(), Toast.LENGTH_LONG).show();
         }
@@ -61,7 +62,6 @@ public class Login extends AppCompatActivity {
         class MyKeyListerner implements View.OnKeyListener {
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                    //Toast.makeText(Login.this,"se oprimio el boton",Toast.LENGTH_SHORT).show();
                     validacion_user();
                     return true;
                 }
@@ -83,7 +83,7 @@ public class Login extends AppCompatActivity {
             }
         });
 
-        recibirUsuario();
+
     }
 
     //REDIRECCIONAR A LA INFORMACION DE LA APP
@@ -105,47 +105,39 @@ public class Login extends AppCompatActivity {
             monitorTab m = iM.login(txt_user, txt_pass);
 
             if (m != null) {
-                if (m.isEstado()) {
+                guardarUsuario(m);
 
-                    guardarUsuario(m);
-
-                    Toast.makeText(this, "Bienvenido", Toast.LENGTH_LONG).show();
-                    Intent intent = new Intent(this, HistorialMainActivity.class);
-                    startActivity(intent);
-
-                    finish();
-                } else {
-                    Toast.makeText(this, "Usuario inactivo", Toast.LENGTH_SHORT).show();
-                }
-
+                Toast.makeText(this, "Bienvenido", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(this, HistorialMainActivity.class);
+                startActivity(intent);
             } else {
                 Toast.makeText(this, "Usuario o clave incorrectas", Toast.LENGTH_SHORT).show();
             }
+
+
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-
     public void guardarUsuario(monitorTab u) {
-
         try {
+
+            Log.i("INGRESO", "user : "+u.getNombres());
+
             SharedPreferences.Editor edit = sp.edit();
-            if (u != null) {
-                edit.putString("codigo", u.getCodigo());
-                edit.putString("nombre", u.getFullName());
-                edit.putString("pass", u.getPassword());
-                edit.putInt("idFinca", u.getIdFinca());
-                edit.commit();
-                edit.apply();
-            }
+            edit.putString("codigo", u.getCodigo());
+            edit.putString("nombre", u.getNombres()+" "+u.getApellidos());
+            edit.putString("pass", u.getPassword());
+            edit.putInt("idFinca", u.getIdFinca());
+            edit.commit();
+            edit.apply();
         } catch (Exception e) {
             Toast.makeText(getApplicationContext(), "Error \n" + e, Toast.LENGTH_LONG).show();
         }
     }
 
     public void recibirUsuario() {
-
         try {
             if (sp != null) {
                 txtu.setText(sp.getString("codigo", ""));
@@ -154,8 +146,6 @@ public class Login extends AppCompatActivity {
         } catch (Exception e) {
             Toast.makeText(this, "Error \n" + e.toString(), Toast.LENGTH_LONG).show();
         }
-
-
     }
 
     //CERRAR APP

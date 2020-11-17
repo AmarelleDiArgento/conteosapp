@@ -19,6 +19,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.lotus.conteos_app.Config.Util.extrapolacion;
 import com.lotus.conteos_app.Config.Util.imageAdmin;
 import com.lotus.conteos_app.Config.Util.jsonAdmin;
 import com.lotus.conteos_app.Model.iCuadrosBloque;
@@ -46,10 +47,10 @@ public class MainActivity extends AppCompatActivity {
     cuadros_bloqueTab ab = null;
 
     float gDia;
-    EditText c1, c4, IdSiembra, codebar, total;
+    EditText c1, c4, total;
     Spinner cuadro;
     ImageView jpgView1, jpgView2, jpgView3, jpgView4;
-    TextView gradoDia, finca, variedad, bloque, cama, fechaAct, usuario, NoArea, NoPlantas, NoCuadros, idusuario;
+    TextView gradoDia, finca, variedad, bloque, cama, fechaAct, usuario, NoArea, NoPlantas, NoCuadros, idusuario, IdSiembra, codebar;
 
     List<planoTab> lp = new ArrayList<>();
     List<fenologiaTab> lf = new ArrayList<>();
@@ -524,6 +525,9 @@ public class MainActivity extends AppCompatActivity {
     //BOTON PARA REALIZAR RESTRO DE LOS CONTEOS SEGUN ID SIEMBRA
     public void registrarConteo(View v) {
         try {
+
+             extrapolacion exP = new extrapolacion();
+
             if (IdSiembra.getText().toString().isEmpty()) {
                 Toast toast = Toast.makeText(getApplicationContext(), "Lo sentimos, no es posible realizar un registro \n por favor realiza una búsqueda", Toast.LENGTH_LONG);
                 toast.setGravity(Gravity.TOP, 0, 100);
@@ -537,25 +541,27 @@ public class MainActivity extends AppCompatActivity {
                 if (!IdSiembra.getText().toString().isEmpty() || Integer.parseInt(IdSiembra.getText().toString())>0) {
 
                     conteoTab c = new conteoTab();
+                    int ntotal = parseNum(total.getText().toString());
+                    int nSem1 = parseNum(c1.getText().toString());
+                    int nSem4 = parseNum(c4.getText().toString());
+                    int nSem2 = exP.extrapolarFaltante(ntotal, nSem1, nSem4);
+                    int nSem3 = ntotal - nSem1 - nSem4 - nSem2;
 
-                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
-                    c.setEstado(0);
-                    c.setIdConteo(c.getIdConteo());
                     c.setIdSiembra(p.getIdSiembra());
                     c.setCama(p.getCama());
-                    c.setFecha(sdf.format(calendarDate.getTime()));
+
                     c.setIdBloque(p.getIdBloque());
                     c.setBloque(p.getBloque());
                     c.setIdVariedad(p.getIdVariedad());
                     c.setVariedad(p.getVariedad());
                     c.setCuadro(Integer.parseInt(cuadro.getSelectedItem().toString()));
 
-                    c.setConteo1(Integer.parseInt(c1.getText().toString()));
-                    c.setConteo2(0);
-                    c.setConteo3(0);
-                    c.setConteo4(Integer.parseInt(c4.getText().toString()));
-                    c.setTotal(Integer.parseInt(total.getText().toString()));
+                    c.setConteo1(nSem1);
+                    c.setConteo2(nSem2);
+                    c.setConteo3(nSem3);
+                    c.setConteo4(nSem4);
+                    c.setTotal(ntotal);
 
                     c.setCuadros(Integer.parseInt(NoCuadros.getText().toString()));
                     c.setPlantas(p.getPlantas());
@@ -592,6 +598,10 @@ public class MainActivity extends AppCompatActivity {
         } catch (Exception e) {
             Toast.makeText(this, "Exception al momento de registrar \n \n" + e.toString(), Toast.LENGTH_LONG).show();
         }
+    }
+
+    public int parseNum(String data){
+        return  Integer.parseInt(data);
     }
 
     /*

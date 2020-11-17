@@ -260,23 +260,22 @@ public class iPlano extends sqlConect implements plano {
         return ja.CrearArchivo(path, nombre, contenido);
     }
 
-    public boolean crearPlano(List<Integer> fincas) throws Exception{
+    public boolean crearPlano(String fincas) throws Exception{
         List<planoTab> po = new ArrayList<>();
 
         ResultSet rs;
-        for(Integer idF : fincas) {
-            PreparedStatement ps = cn.prepareStatement(q(idF));
+            PreparedStatement ps = cn.prepareStatement(q(fincas));
             rs = ps.executeQuery();
             while (rs.next()) {
                 po.add(gift(rs));
             }
-        }
+
         String contenido = new Gson().toJson(po);
         Log.i("FINCAS", "llego a crear");
         return ja.CrearArchivo(path, nombre, contenido);
     }
 
-    public String q(Integer fincas){
+    public String q(String fincas){
         String d = "SELECT [idSiembra]\n" +
                 "      ,[idFinca]\n" +
                 "      ,[finca]\n" +
@@ -289,7 +288,7 @@ public class iPlano extends sqlConect implements plano {
                 "      ,[plantas]\n" +
                 "      ,[area]\n" +
                 "  FROM [Proyecciones].[dbo].[Plano_Siembra]"+
-                "  WHERE idFinca in ('"+fincas+"') ";
+                "  WHERE idFinca in ( "+fincas+" ) ";
 
             Log.i("FINCAS","consulta : "+d);
         return d;

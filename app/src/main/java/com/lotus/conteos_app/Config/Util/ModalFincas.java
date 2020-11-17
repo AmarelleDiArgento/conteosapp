@@ -173,12 +173,19 @@ public class ModalFincas {
 
                     if(fincas.size() > 0) {
                         consultandooFincas();
-                        if (iCB.local()  && iFen.local() && ip.crearPlano(fincas)) {
+
+
+                        String fincasSinCorchetes = fincas.toString().substring(1,fincas.toString().length()-1);
+
+                        Log.i("FINCAS","sin corchetes : "+fincasSinCorchetes);
+
+                        if (iCB.local()  && iFen.local() && ip.crearPlano(fincasSinCorchetes)) {
                             Toast.makeText(context, "Local actualizado exitosamente", Toast.LENGTH_LONG).show();
                         }
                     }else{
                         Toast.makeText(context, "Debes seleccionar al menos un finca para la descarga", Toast.LENGTH_SHORT).show();
                     }
+
                 }catch (Exception e){
                     Log.i("FINCAS",""+e);
                     Toast.makeText(context, "Ocurrio un error al cargar el plano de siembra \n"+e.toString(), Toast.LENGTH_LONG).show();
@@ -203,8 +210,9 @@ public class ModalFincas {
                     fincas.add(f.getId());
                 }else{
                     List<Integer> newFincas = new ArrayList<>();
-                    for(int id : fincas)
-                        if(id != f.getId()) newFincas.add(id);
+                    for(int id : fincas) {
+                        if (id != f.getId()){ newFincas.add(id);}
+                    }
                     fincas.clear();
                     fincas = newFincas;
                 }
@@ -214,7 +222,7 @@ public class ModalFincas {
     }
 
     public void consultandooFincas(){
-        Toast.makeText(context, "CONSULTANDO", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(context, "CONSULTANDO", Toast.LENGTH_SHORT).show();
         Log.i("FINCAS","==================iterando ids======================");
         for(int id : fincas){
             Log.i("FINCAS",""+id);

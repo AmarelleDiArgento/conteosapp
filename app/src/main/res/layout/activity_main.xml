@@ -277,14 +277,14 @@
         android:id="@+id/scanner-bt"
         android:layout_width="78dp"
         android:layout_height="66dp"
-        android:layout_marginStart="404dp"
-        android:layout_marginTop="128dp"
+        android:layout_marginStart="340dp"
+        android:layout_marginTop="124dp"
         android:onClick="barcode"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/barcode" />
 
-    <EditText
+    <TextView
         android:id="@+id/resulcode"
         android:layout_width="215dp"
         android:layout_height="52dp"
@@ -300,7 +300,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
+    <!--<ImageView
         android:id="@+id/imageView2"
         android:layout_width="65dp"
         android:layout_height="80dp"
@@ -309,7 +309,7 @@
         android:onClick="btnBuscar"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/lupa" />
+        app:srcCompat="@drawable/lupa" />-->
 
     <TextView
         android:id="@+id/info-tv"

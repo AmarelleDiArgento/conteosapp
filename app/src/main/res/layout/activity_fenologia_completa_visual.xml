@@ -35,7 +35,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="TextView"
-                android:textSize="30px"/>
+                android:textSize="15px"/>
 
             <ImageView
                 android:id="@+id/image1"
@@ -57,7 +57,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="TextView"
-                android:textSize="30px"/>
+                android:textSize="15px"/>
 
             <ImageView
                 android:id="@+id/image2"
@@ -87,7 +87,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="TextView"
-                android:textSize="30px"/>
+                android:textSize="15px"/>
 
             <ImageView
                 android:id="@+id/image3"
@@ -109,7 +109,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="TextView"
-                android:textSize="30px"/>
+                android:textSize="15px"/>
 
             <ImageView
                 android:id="@+id/image4"

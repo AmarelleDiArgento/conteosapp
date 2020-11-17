@@ -23,6 +23,7 @@ import android.widget.Toast;
 import com.lotus.conteos_app.Config.Util.Dialog;
 import com.lotus.conteos_app.Config.Util.ModalFincas;
 import com.lotus.conteos_app.Config.Util.TableDinamic;
+import com.lotus.conteos_app.Config.Util.extrapolacion;
 import com.lotus.conteos_app.Config.Util.jsonAdmin;
 import com.lotus.conteos_app.Model.iConteo;
 import com.lotus.conteos_app.Model.iCuadrosBloque;
@@ -190,8 +191,12 @@ public class HistorialMainActivity extends AppCompatActivity {
             fech.setText(fecha);
             fech.setTextSize(30);
 
+            String usuario = "Sin user";
+
             //obteniendo el usuario
-            String usuario = sp.getString("nombre", "");
+            if(sp != null) {
+                usuario = sp.getString("nombre", "");
+            }
             fechita.setText("Fecha: " + fecha + "\nUsuario: " + usuario);
 
         } catch (Exception e) {
@@ -348,15 +353,17 @@ public class HistorialMainActivity extends AppCompatActivity {
             String fob = fechaoculta.getText().toString();
             iC.nombre = fob;
 
+            extrapolacion exP = new extrapolacion();
+
             final List<conteoTab> cl = calcular();
             for (final conteoTab c : cl) {
 
 
-                int estimado_Sem1 = extrapolar(c.getCuadros(), c.getCuadro(), c.getConteo1());
-                int estimado_Sem4 = extrapolar(c.getCuadros(), c.getCuadro(), c.getConteo4());
-                int estimado_total = extrapolar(c.getCuadros(), c.getCuadro(), c.getTotal());
+                int estimado_Sem1 = exP.extrapolar(c.getCuadros(), c.getCuadro(), c.getConteo1());
+                int estimado_Sem4 = exP.extrapolar(c.getCuadros(), c.getCuadro(), c.getConteo4());
+                int estimado_total = exP.extrapolar(c.getCuadros(), c.getCuadro(), c.getTotal());
 
-                int resultadoEstimado2 = extrapolarFaltante(estimado_total, estimado_Sem4, estimado_Sem1);
+                int resultadoEstimado2 = exP.extrapolarFaltante(estimado_total, estimado_Sem4, estimado_Sem1);
                 int resultadoEstimado3 = (estimado_total - estimado_Sem4 - estimado_Sem1 - resultadoEstimado2);
 
                 rows.add(new String[]{
@@ -386,15 +393,6 @@ public class HistorialMainActivity extends AppCompatActivity {
         return (S * CT) / CC;
     }
 
-    public int extrapolarFaltante(int estTotal, int estSem4, int estSem1){
-        int diferencia = estTotal - ( estSem1 + estSem4 );
-
-        int pendiente1 = ( ( estSem4 - estSem1 ) / 3 ) + estSem1;
-
-        int pendiente2 = ( ( ( estSem4 - estSem1) / 3 ) * 2 ) + estSem1;
-
-        return (diferencia * pendiente1 ) / (pendiente1 + pendiente2);
-    }
 
     //CREACION DE LA TABLA
     public void createTable() {

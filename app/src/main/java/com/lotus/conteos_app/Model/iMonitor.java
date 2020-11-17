@@ -61,12 +61,15 @@ public class iMonitor extends sqlConect implements monitor {
     @Override
     public monitorTab login(String user, String pass) {
 
+        monitorTab mret = null;
+
         for (monitorTab m : ml) {
-            if (m.getCodigo() == user || m.getPassword().equals(pass)) {
-                return m;
+            if (m.getCodigo().equals(user) && m.getPassword().equals(pass)) {
+                mret = m;
+                break;
             }
         }
-        return null;
+        return mret;
     }
 
     @Override
