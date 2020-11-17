@@ -70,7 +70,6 @@ public class iPlano extends sqlConect implements plano {
             //"  WHERE [idFinca] = ?";
 
     public iPlano(String path) throws Exception {
-        this.cn = getConexion();
         getPath(path);
     }
 
@@ -87,6 +86,7 @@ public class iPlano extends sqlConect implements plano {
     public String insert(planoTab o) {
         String msj = "";
         try {
+            this.cn = getConexion();
             PreparedStatement ps = cn.prepareStatement(ins);
             ps.setLong(1, o.getIdSiembra());
             ps.setInt(2, o.getIdFinca());

@@ -49,7 +49,6 @@ public class iMonitor extends sqlConect implements monitor {
             "  FROM [Proyecciones].[dbo].[Monitor]";
 
     public iMonitor(String path) throws Exception {
-        this.cn = getConexion();
         getPath(path);
     }
 
@@ -112,6 +111,7 @@ public class iMonitor extends sqlConect implements monitor {
 
     @Override
     public boolean local() throws Exception {
+        this.cn = getConexion();
         if (cn != null) {
             List<monitorTab> po = new ArrayList<>();
 

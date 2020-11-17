@@ -70,6 +70,8 @@ public class MainActivity extends AppCompatActivity {
     int dia = 0;
     int hora = 0;
 
+    long idVariedad, idFinca;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -398,6 +400,8 @@ public class MainActivity extends AppCompatActivity {
                 NoCuadros.setText(String.valueOf(ab.getNumeroCuadros()));
 
                 if(ab.getIdFenologia() != null){
+                    idFinca = p.getIdFinca();
+                    idVariedad = ab.getIdFenologia();
                     cargarImagenes(ab.getIdFenologia(), p.getIdFinca());
                 }else{
                     Toast.makeText(this, "No hay fenologias relacionadas con la cama", Toast.LENGTH_SHORT).show();
@@ -422,14 +426,6 @@ public class MainActivity extends AppCompatActivity {
             iA.getImage(path2,jpgView2, idVariedad, fi.get(1).getImagen());
             iA.getImage(path2,jpgView3, idVariedad, fi.get(2).getImagen());
             iA.getImage(path2,jpgView4, idVariedad, fi.get(3).getImagen());
-
-            SharedPreferences.Editor edit = sp.edit();
-            edit.putFloat("gDia", gDia);
-            edit.putInt("dia", dia);
-            edit.putLong("IdVariedad", idVariedad);
-            edit.putLong("IdFinca", idFinca);
-            edit.commit();
-            edit.apply();
 
         } catch (Exception e) {
             Toast.makeText(getApplicationContext(), "Error Imnagenes\n" + e, Toast.LENGTH_LONG).show();
@@ -634,6 +630,15 @@ public class MainActivity extends AppCompatActivity {
             toast.setGravity(Gravity.TOP, 0, 100);
             toast.show();
         } else {
+
+            SharedPreferences.Editor edit = sp.edit();
+            edit.putFloat("gDia", gDia);
+            edit.putInt("dia", dia);
+            edit.putLong("IdVariedad", idVariedad);
+            edit.putLong("IdFinca", idFinca);
+            edit.commit();
+            edit.apply();
+
             Intent i = new Intent(MainActivity.this, VisualFenoActivity.class);
             startActivity(i);
         }

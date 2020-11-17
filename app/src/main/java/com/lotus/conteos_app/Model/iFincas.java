@@ -28,10 +28,10 @@ public class iFincas extends sqlConect {
 
     public iFincas(String path) {
         this.path = path;
-        this.cn = getConexion();
     }
 
     public boolean local() throws Exception{
+        this.cn = getConexion();
         if(cn != null){
             ResultSet rs;
             PreparedStatement ps = cn.prepareStatement(query);

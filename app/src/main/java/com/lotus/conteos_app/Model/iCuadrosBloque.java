@@ -35,7 +35,6 @@ public class iCuadrosBloque extends sqlConect implements DAO {
           "Plano_Siembra AS p ON c.id_bloque = p.idBloque AND c.id_variedad = p.idVariedad";
 
   public iCuadrosBloque(String path){
-    this.cn = getConexion();
     getPath(path);
   }
 
@@ -69,6 +68,7 @@ public class iCuadrosBloque extends sqlConect implements DAO {
   @Override
   public boolean local() throws Exception {
     try {
+      this.cn = getConexion();
       ResultSet rs;
       PreparedStatement ps = cn.prepareStatement(query);
       rs = ps.executeQuery();

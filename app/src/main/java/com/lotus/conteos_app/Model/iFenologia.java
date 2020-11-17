@@ -44,7 +44,6 @@ public class iFenologia extends sqlConect implements fenologia {
 
 
     public iFenologia(String path) throws Exception {
-        this.cn = getConexion();
         getPath(path);
     }
 
@@ -101,6 +100,7 @@ public class iFenologia extends sqlConect implements fenologia {
     public boolean local() throws Exception {
 
 
+        this.cn = getConexion();
         ResultSet rs;
         PreparedStatement ps = cn.prepareStatement(allfin);
         rs = ps.executeQuery();
@@ -117,6 +117,7 @@ public class iFenologia extends sqlConect implements fenologia {
 
     @Override
     public boolean local(int idFinca) throws Exception {
+        this.cn = getConexion();
         ResultSet rs;
         PreparedStatement ps = cn.prepareStatement(allfin);
         ps.setInt(1, idFinca);

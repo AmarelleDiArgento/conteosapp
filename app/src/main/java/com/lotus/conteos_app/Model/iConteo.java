@@ -36,7 +36,6 @@ public class iConteo extends sqlConect implements conteo {
     private List<conteoTab> cl = new ArrayList<>();
 
     public iConteo(String path, Context context) throws Exception {
-        this.cn = getConexion();
         this.context = context;
         getPath(path);
     }
@@ -143,6 +142,7 @@ public class iConteo extends sqlConect implements conteo {
     }
 
     public void batch(String fechaBusqueda) throws Exception {
+        this.cn = getConexion();
         if(cn != null) {
             PreparedStatement ps = cn.prepareStatement(ins);
             nombre = fechaBusqueda;
