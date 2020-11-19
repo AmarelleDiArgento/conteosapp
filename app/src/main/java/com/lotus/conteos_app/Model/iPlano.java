@@ -13,6 +13,7 @@ import com.lotus.conteos_app.Model.tab.planoTab;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -160,15 +161,27 @@ public class iPlano extends sqlConect implements plano {
         planoTab p = new planoTab();
         p.setIdSiembra(rs.getLong("idSiembra"));
         p.setIdFinca(rs.getInt("idFinca"));
-        p.setFinca(rs.getString("finca"));
+        p.setFinca(rs.getString("finca")+"");
         p.setIdBloque(rs.getInt("idbloque"));
-        p.setBloque(rs.getString("bloque"));
+        p.setBloque(rs.getString("bloque")+"");
         p.setIdVariedad(rs.getInt("idVariedad"));
-        p.setVariedad(rs.getString("variedad"));
+        p.setVariedad(rs.getString("variedad")+"");
         p.setCama(rs.getInt("cama"));
-        p.setSufijo(rs.getString("sufijo"));
+        p.setSufijo(rs.getString("sufijo")+"");
         p.setPlantas(rs.getInt("plantas"));
         p.setArea(rs.getInt("area"));
+
+        //Log.i("CONSULTA", rs.getLong("idSiembra")+"|"+
+                //rs.getInt("idFinca")+"|"+
+                //rs.getString("finca")+"|"+
+                //rs.getInt("idbloque")+"|"+
+                //rs.getString("bloque")+"|"+
+                //rs.getInt("idVariedad")+"|"+
+                //rs.getString("variedad")+"|"+
+                //rs.getInt("cama")+"|"+
+                //rs.getString("sufijo")+"|"+
+                //rs.getInt("plantas")+"|"+
+                //rs.getInt("area"));
         return p;
     }
 
@@ -261,18 +274,26 @@ public class iPlano extends sqlConect implements plano {
     }
 
     public boolean crearPlano(String fincas) throws Exception{
-        List<planoTab> po = new ArrayList<>();
+        try {
+            this.cn = getConexion();
+            List<planoTab> po = new ArrayList<>();
 
-        ResultSet rs;
+            ResultSet rs;
             PreparedStatement ps = cn.prepareStatement(q(fincas));
             rs = ps.executeQuery();
             while (rs.next()) {
                 po.add(gift(rs));
+
+                Log.i("download", rs.getInt("idSiembra")+"");
             }
 
-        String contenido = new Gson().toJson(po);
-        Log.i("FINCAS", "llego a crear");
-        return ja.CrearArchivo(path, nombre, contenido);
+            String contenido = new Gson().toJson(po);
+            Log.i("FINCAS", "llego a crear");
+            return ja.CrearArchivo(path, nombre, contenido);
+        }catch (SQLException ex){
+            Log.i("ERROR_SQL",ex.toString());
+            return false;
+        }
     }
 
     public String q(String fincas){

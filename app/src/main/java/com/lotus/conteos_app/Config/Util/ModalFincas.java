@@ -179,7 +179,7 @@ public class ModalFincas {
 
                         Log.i("FINCAS","sin corchetes : "+fincasSinCorchetes);
 
-                        if (iCB.local()  && iFen.local() && ip.crearPlano(fincasSinCorchetes)) {
+                        if (iCB.local() && iFen.local() && ip.crearPlano(fincasSinCorchetes)) {
                             Toast.makeText(context, "Local actualizado exitosamente", Toast.LENGTH_LONG).show();
                         }
                     }else{

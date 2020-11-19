@@ -74,7 +74,7 @@ public class iFenologia extends sqlConect implements fenologia {
         f.setGrados_dia(rs.getDouble("grados_dia"));
         f.setDiametro_boton(rs.getDouble("diametro_boton"));
         f.setLargo_boton(rs.getDouble("largo_boton"));
-        f.setImagen(rs.getString("imagen"));
+        f.setImagen(rs.getString("imagen")+"");
         return f;
     }
 
