@@ -12,6 +12,7 @@ import com.lotus.conteos_app.Config.Util.jsonAdmin;
 import com.lotus.conteos_app.Config.sqlConect;
 import com.lotus.conteos_app.Model.interfaz.conteo;
 import com.lotus.conteos_app.Model.tab.conteoTab;
+import com.lotus.conteos_app.Model.tab.planoTab;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

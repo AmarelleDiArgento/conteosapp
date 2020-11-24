@@ -5,6 +5,8 @@ import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -47,10 +49,10 @@ public class MainActivity extends AppCompatActivity {
     cuadros_bloqueTab ab = null;
 
     float gDia;
-    EditText c1, c4, total;
+    EditText c1, c4, total, codebar;
     Spinner cuadro;
     ImageView jpgView1, jpgView2, jpgView3, jpgView4;
-    TextView gradoDia, finca, variedad, bloque, cama, fechaAct, usuario, NoArea, NoPlantas, NoCuadros, idusuario, IdSiembra, codebar;
+    TextView gradoDia, finca, variedad, bloque, cama, fechaAct, usuario, NoArea, NoPlantas, NoCuadros, idusuario, IdSiembra;
 
     List<planoTab> lp = new ArrayList<>();
     List<fenologiaTab> lf = new ArrayList<>();
@@ -80,6 +82,8 @@ public class MainActivity extends AppCompatActivity {
         try {
             sp = getBaseContext().getSharedPreferences("share", MODE_PRIVATE);
             codebar = findViewById(R.id.resulcode);
+
+            codebar.setEnabled(false);
 
             gradoDia = findViewById(R.id.gradodia);
             gradoDia.setText(valueOf(getGradoDia()));
@@ -187,6 +191,8 @@ public class MainActivity extends AppCompatActivity {
             requestConteoTotal();
 
             boolean camaraActivada = false;
+
+            validarConteoTotal();
 
 
         } catch (Exception e) {
@@ -521,28 +527,21 @@ public class MainActivity extends AppCompatActivity {
     //BOTON PARA REALIZAR RESTRO DE LOS CONTEOS SEGUN ID SIEMBRA
     public void registrarConteo(View v) {
         try {
-
              extrapolacion exP = new extrapolacion();
 
-            if (IdSiembra.getText().toString().isEmpty()) {
-                Toast toast = Toast.makeText(getApplicationContext(), "Lo sentimos, no es posible realizar un registro \n por favor realiza una búsqueda", Toast.LENGTH_LONG);
-                toast.setGravity(Gravity.TOP, 0, 100);
-                toast.show();
-            } else if (total.getText().toString().isEmpty()) {
-                Toast toast = Toast.makeText(getApplicationContext(), "Lo sentimos, no es posible realizar un registro\n por favor llena el campo total", Toast.LENGTH_LONG);
+            if (IdSiembra.getText().toString().isEmpty() || total.getText().toString().isEmpty())  {
+                Toast toast = Toast.makeText(getApplicationContext(),"Lo sentimos, no es posible realizar un registro" + (IdSiembra.getText().toString().isEmpty() ? "\n por favor realiza una búsqueda" : "\n por favor agrega un total"), Toast.LENGTH_LONG);
                 toast.setGravity(Gravity.TOP, 0, 100);
                 toast.show();
             } else {
-
-                if (!IdSiembra.getText().toString().isEmpty() || Integer.parseInt(IdSiembra.getText().toString())>0) {
+                if (!IdSiembra.getText().toString().isEmpty() || Integer.parseInt(IdSiembra.getText().toString()) > 0) {
 
                     conteoTab c = new conteoTab();
-                    int ntotal = parseNum(total.getText().toString());
-                    int nSem1 = parseNum(c1.getText().toString());
-                    int nSem4 = parseNum(c4.getText().toString());
-                    int nSem2 = exP.extrapolarFaltante(ntotal, nSem1, nSem4);
-                    int nSem3 = ntotal - nSem1 - nSem4 - nSem2;
-
+                    int ntotal = parseNum(total.getText().toString()),
+                        nSem1 = parseNum(c1.getText().toString()),
+                        nSem4 = parseNum(c4.getText().toString()),
+                        nSem2 = exP.extrapolarFaltante(ntotal, nSem1, nSem4),
+                        nSem3 = ntotal - nSem1 - nSem4 - nSem2;
 
                     c.setIdSiembra(p.getIdSiembra());
                     c.setCama(p.getCama());
@@ -567,25 +566,7 @@ public class MainActivity extends AppCompatActivity {
                     c.setIdUsuario(usu);
 
                     Toast.makeText(this, iC.insert(c), Toast.LENGTH_LONG).show();
-                    //obteniendo posicion del spinner(Cuadro)
-                    int size = Integer.parseInt(cuadro.getSelectedItem().toString());
-
-                    //validacion de la posicion del cuadro
-                    if (size == 8) {
-                        cuadro.setSelection(0);
-                        cuadro.setEnabled(true);
-                        c1.setText(valueOf(0));
-                        c4.setText(valueOf(0));
-                        total.setText(valueOf(0));
-                    } else {
-                        int posNext = size++;
-                        Toast.makeText(this, "En este momento estas sobre el cuadro " + size, Toast.LENGTH_LONG).show();
-                        cuadro.setSelection(posNext);
-                        c1.setText(valueOf(0));
-                        c4.setText(valueOf(0));
-                        total.setText(valueOf(0));
-                    }
-
+                    reposicionamientoCuadro();
                 } else {
                     Toast.makeText(this, "hola", Toast.LENGTH_SHORT).show();
                 }
@@ -596,8 +577,44 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public void reposicionamientoCuadro(){//reposiciona el valor del cuadro a un valor superior o a 0 si es llega a 8
+        int size = Integer.parseInt(cuadro.getSelectedItem().toString());
+        cuadro.setSelection(size == 8 ? 0 : size++);
+        Toast.makeText(this, "En este momento estas sobre el cuadro " + size, Toast.LENGTH_LONG).show();
+        c1.setText(valueOf(0));
+        c4.setText(valueOf(0));
+    }
+
     public int parseNum(String data){
         return  Integer.parseInt(data);
+    }
+
+    public void validarConteoTotal(){
+
+        total.addTextChangedListener(new TextWatcher() {
+            @Override public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                try {
+                    c1.setText( c1.getText().toString().isEmpty() ? "0" : c1.getText().toString());
+                    c4.setText( c4.getText().toString().isEmpty() ? "0" : c4.getText().toString());
+
+                    float conteo1 = Float.parseFloat(c1.getText().toString());
+                    float conteo4 = Float.parseFloat(c4.getText().toString());
+                    float conteoTotal = Float.parseFloat(total.getText().toString());
+
+                    if (conteo1 != 0.0 && conteo4 != 0.0) {
+                        float resultado = (conteo1 + conteo4) / conteoTotal;
+                        Log.i("RESULTADOTOTAL", "RESULTADOTOTAL : " + ((resultado > 0.40 && resultado < 0.60 ?  "se encuentra dentro del rango requerido ---> " : "No esta dentro del rango ---> ")+resultado));
+                    } else {
+                        Toast.makeText(MainActivity.this, "Por favor completa las casillas para las semanas 1 y 4", Toast.LENGTH_SHORT).show();
+                        total.setText("");
+                    }
+                }catch (Exception e){
+                }
+            }
+            @Override public void afterTextChanged(Editable editable) { }
+        });
     }
 
     /*

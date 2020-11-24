@@ -284,7 +284,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/barcode" />
 
-    <TextView
+    <EditText
         android:id="@+id/resulcode"
         android:layout_width="215dp"
         android:layout_height="52dp"

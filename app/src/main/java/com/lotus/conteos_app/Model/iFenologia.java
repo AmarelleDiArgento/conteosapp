@@ -98,8 +98,6 @@ public class iFenologia extends sqlConect implements fenologia {
 
     @Override
     public boolean local() throws Exception {
-
-
         this.cn = getConexion();
         ResultSet rs;
         PreparedStatement ps = cn.prepareStatement(allfin);
