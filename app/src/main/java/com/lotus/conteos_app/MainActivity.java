@@ -2,8 +2,10 @@ package com.lotus.conteos_app;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -17,6 +19,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -50,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
 
     float gDia, resultadoLimiteTotal;
     EditText c1, c4, total, codebar;
+    LinearLayout notification;
     Spinner cuadro;
     ImageView jpgView1, jpgView2, jpgView3, jpgView4;
     TextView gradoDia, finca, variedad, bloque, cama, fechaAct, usuario, NoArea, NoPlantas, NoCuadros, idusuario, IdSiembra;
@@ -85,6 +89,7 @@ public class MainActivity extends AppCompatActivity {
 
             codebar.setEnabled(false);
 
+            notification = findViewById(R.id.notification);
             gradoDia = findViewById(R.id.gradodia);
             gradoDia.setText(valueOf(getGradoDia()));
             IdSiembra = findViewById(R.id.resulcode);
@@ -567,9 +572,10 @@ public class MainActivity extends AppCompatActivity {
 
                     int usu = Integer.parseInt(idusuario.getText().toString());
                     c.setIdUsuario(usu);
-
                     Toast.makeText(this, iC.insert(c), Toast.LENGTH_LONG).show();
                     reposicionamientoCuadro();
+                    validacionTotal();
+
                 } else {
                     Toast.makeText(this, "hola", Toast.LENGTH_SHORT).show();
                 }
@@ -579,6 +585,38 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, "Exception al momento de registrar \n \n" + e.toString(), Toast.LENGTH_LONG).show();
         }
     }
+
+    public void validacionTotal(){
+        if(resultadoLimiteTotal <= 0.39 || resultadoLimiteTotal  >= 0.61) {
+            notification.addView(text());
+        }
+
+        new Handler().postDelayed(new Runnable() {
+            public void run() {
+                notification.removeAllViews();
+            }
+        }, 7000);
+    }
+
+
+    public View text(){
+
+        LinearLayout line = new LinearLayout(this);
+        line.setBackgroundColor(Color.parseColor("#F39C12"));
+        line.setPadding(0,20,0,20);
+        line.setGravity(Gravity.CENTER);
+
+        String data = "El valor del total no concuerdan con la semana 1 y semana 4 \n pero se guardo el registro con exito";
+        TextView txt = new TextView(this);
+        txt.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+        line.setGravity(Gravity.CENTER);
+        txt.setText(data);
+        txt.setTextColor(Color.parseColor("#FDFEFE"));
+        txt.setTextSize(20);
+
+        line.addView(txt);
+        return line;
+    };
 
     public void reposicionamientoCuadro(){//reposiciona el valor del cuadro a un valor superior o a 0 si es llega a 8
         int size = Integer.parseInt(cuadro.getSelectedItem().toString());

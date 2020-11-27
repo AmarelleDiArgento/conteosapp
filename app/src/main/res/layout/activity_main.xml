@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
@@ -274,7 +274,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/scanner-bt"
+        android:id="@+id/scannerbt"
         android:layout_width="78dp"
         android:layout_height="66dp"
         android:layout_marginStart="340dp"
@@ -312,7 +312,7 @@
         app:srcCompat="@drawable/lupa" />-->
 
     <TextView
-        android:id="@+id/info-tv"
+        android:id="@+id/infotv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_span="4"
@@ -625,5 +625,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <LinearLayout
+        android:id="@+id/notification"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="450dp"
+        android:orientation="vertical"
+        android:paddingHorizontal="50dp"/>
 
-</android.support.constraint.ConstraintLayout>
+
+</RelativeLayout>
