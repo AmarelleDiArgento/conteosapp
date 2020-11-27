@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
     planoTab p = null;
     cuadros_bloqueTab ab = null;
 
-    float gDia;
+    float gDia, resultadoLimiteTotal;
     EditText c1, c4, total, codebar;
     Spinner cuadro;
     ImageView jpgView1, jpgView2, jpgView3, jpgView4;
@@ -158,7 +158,6 @@ public class MainActivity extends AppCompatActivity {
 
             getDate();
             cargarRecursos();
-            //codebar.setText("0");
             c4.setText("0");
             c1.setText("0");
             total.setText("0");
@@ -440,7 +439,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     public List<fenologiaTab> forGradoloc(int dia, float gDia, long idVariedad) throws Exception {
-
+        Log.i("calculo", "Llego al metodo");
         int d = (8 - dia);
 
         float[] img = new float[4];
@@ -462,16 +461,16 @@ public class MainActivity extends AppCompatActivity {
                     double pos = f.getGrados_dia() - img[c];
                     double pre = img[c] - fu.getGrados_dia();
 
-                    Log.i("CALCULO"," gdia fenologia : "+f.getGrados_dia()+" - IMAGEN : "+img[c]+" = pos : "+pos);
-                    Log.i("CALCULO"," IMAGEN : "+img[c]+"- gdia fenologia : "+fu.getGrados_dia()+" = pre : "+pre);
+                    Log.i("calculo"," gdia fenologia : "+f.getGrados_dia()+" - IMAGEN : "+img[c]+" = pos : "+pos);
+                    Log.i("calculo"," IMAGEN : "+img[c]+"- gdia fenologia : "+fu.getGrados_dia()+" = pre : "+pre);
 
-                    Log.i("CERCANIA", "sem"+c+ " max : "+f.getGrados_dia()+" min : "+fu.getGrados_dia());
+                    Log.i("cercania", "sem"+c+ " max : "+f.getGrados_dia()+" min : "+fu.getGrados_dia());
 
                     if (pre >= pos) {
-                        Log.i("CALCULO","pre : "+pre+" es mayor que pos"+pos);
+                        Log.i("calculo","pre : "+pre+" es mayor que pos"+pos);
                         fi.add(f);
                     } else {
-                        Log.i("CALCULO","pre : "+pre+" es menor que pos"+pos);
+                        Log.i("calculo","pre : "+pre+" es menor que pos"+pos);
                         fi.add(fu);
                     }
                     c++;
@@ -479,6 +478,8 @@ public class MainActivity extends AppCompatActivity {
                 }
                 fu = f;
 
+            }else{
+                Log.i("calculo", "ID fenologia no se encontro : "+idVariedad);
             }
         }
         if (c <= 4) {
@@ -539,9 +540,11 @@ public class MainActivity extends AppCompatActivity {
                     conteoTab c = new conteoTab();
                     int ntotal = parseNum(total.getText().toString()),
                         nSem1 = parseNum(c1.getText().toString()),
-                        nSem4 = parseNum(c4.getText().toString()),
-                        nSem2 = exP.extrapolarFaltante(ntotal, nSem1, nSem4),
-                        nSem3 = ntotal - nSem1 - nSem4 - nSem2;
+                        nSem4 = parseNum(c4.getText().toString());
+                    int nSem2 = exP.extrapolarConteo(ntotal, nSem1, nSem4),
+                        nSem3 = ntotal - nSem1 - nSem2- nSem4;
+
+                    Log.i("ENVIO", "SEM2 : "+nSem2+" SEM3 : " +nSem3);
 
                     c.setIdSiembra(p.getIdSiembra());
                     c.setCama(p.getCama());
@@ -583,6 +586,7 @@ public class MainActivity extends AppCompatActivity {
         Toast.makeText(this, "En este momento estas sobre el cuadro " + size, Toast.LENGTH_LONG).show();
         c1.setText(valueOf(0));
         c4.setText(valueOf(0));
+        total.setText(valueOf(0));
     }
 
     public int parseNum(String data){
@@ -604,8 +608,8 @@ public class MainActivity extends AppCompatActivity {
                     float conteoTotal = Float.parseFloat(total.getText().toString());
 
                     if (conteo1 != 0.0 && conteo4 != 0.0) {
-                        float resultado = (conteo1 + conteo4) / conteoTotal;
-                        Log.i("RESULTADOTOTAL", "RESULTADOTOTAL : " + ((resultado > 0.40 && resultado < 0.60 ?  "se encuentra dentro del rango requerido ---> " : "No esta dentro del rango ---> ")+resultado));
+                        resultadoLimiteTotal = (conteo1 + conteo4) / conteoTotal;
+                        Log.i("RESULTADOTOTAL", "RESULTADOTOTAL : " + (((resultadoLimiteTotal > 0.39) && (resultadoLimiteTotal  < 0.61) ?  "se encuentra dentro del rango requerido ---> " : "No esta dentro del rango ---> ")+resultadoLimiteTotal));
                     } else {
                         Toast.makeText(MainActivity.this, "Por favor completa las casillas para las semanas 1 y 4", Toast.LENGTH_SHORT).show();
                         total.setText("");

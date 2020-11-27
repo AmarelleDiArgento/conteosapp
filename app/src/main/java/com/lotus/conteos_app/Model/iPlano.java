@@ -283,8 +283,6 @@ public class iPlano extends sqlConect implements plano {
             rs = ps.executeQuery();
             while (rs.next()) {
                 po.add(gift(rs));
-
-                Log.i("download", rs.getInt("idSiembra")+"");
             }
 
             String contenido = new Gson().toJson(po);

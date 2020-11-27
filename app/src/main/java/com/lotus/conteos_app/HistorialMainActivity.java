@@ -363,8 +363,8 @@ public class HistorialMainActivity extends AppCompatActivity {
                 int estimado_Sem4 = exP.extrapolar(c.getCuadros(), c.getCuadro(), c.getConteo4());
                 int estimado_total = exP.extrapolar(c.getCuadros(), c.getCuadro(), c.getTotal());
 
-                int resultadoEstimado2 = exP.extrapolarFaltante(estimado_total, estimado_Sem4, estimado_Sem1);
-                int resultadoEstimado3 = (estimado_total - estimado_Sem4 - estimado_Sem1 - resultadoEstimado2);
+                float resultadoEstimado2 = exP.extrapolarFaltante(estimado_total, estimado_Sem1, estimado_Sem4).get(0);
+                float resultadoEstimado3 = exP.extrapolarFaltante(estimado_total, estimado_Sem1, estimado_Sem4).get(1);
 
                 rows.add(new String[]{
                         c.getBloque(),

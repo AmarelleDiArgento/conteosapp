@@ -1,5 +1,6 @@
 package com.lotus.conteos_app.Model;
 
+import android.util.Log;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -104,6 +105,7 @@ public class iFenologia extends sqlConect implements fenologia {
         rs = ps.executeQuery();
         while (rs.next()) {
             fl.add(gift(rs));
+            Log.i("fenoloadescargada", ""+rs.getString("idFenologia"));
         }
 
         closeConexion(cn, rs);
