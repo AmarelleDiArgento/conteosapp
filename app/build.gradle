@@ -6,8 +6,8 @@ android {
         applicationId "com.example.conteos_app"
         minSdkVersion 17
         targetSdkVersion 28
-        versionCode 4
-        versionName "4"
+        versionCode 5
+        versionName "5"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
