@@ -15,11 +15,12 @@
         android:roundIcon="@drawable/asd"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".fenologiaCompletaVisual"></activity>
+        <activity android:name=".pdfViewer"></activity>
+        <activity android:name=".fenologiaCompletaVisual" />
         <activity
             android:name=".ActivityDetalles"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden"></activity>
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".VisualFenoActivity"
             android:screenOrientation="portrait" />

@@ -36,7 +36,7 @@ public class VisualFenoActivity extends AppCompatActivity {
     iFenologia iF = null;
     int dia = 0;
     long idVariedad, idFinca;
-    String variedad, imagen, imagen2, imagen3, imagen4;
+    String variedad, pathPdf;
     Float gDia;
 
     ImageView jpgView1, jpgView2, jpgView3, jpgView4;
@@ -172,6 +172,26 @@ public class VisualFenoActivity extends AppCompatActivity {
         i.putExtra("idFinca", idFinca);
         i.putExtra("idVariedad", idVariedad);
         startActivity(i);
+    }
+
+    public void viewPdf(View v){
+        if(getPdf().exists()) {
+            Intent i = new Intent(this, pdfViewer.class);
+            i.putExtra("filepdf", getPdf());
+            startActivity(i);
+        }else{
+            Toast.makeText(this, "Esta fenologia no tiene cargado PDF", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    public File getPdf() {
+        pathPdf = "/storage/emulated/0/Pictures/fenologias/" + idFinca + "/" + idVariedad+ "/";
+        File file = new File(pathPdf + "/" + idVariedad + ".pdf");
+        Log.i("pahtpdf", file.getAbsolutePath());
+        if (!file.exists()) {
+            Toast.makeText(getApplicationContext(), "File path is incorrect.", Toast.LENGTH_LONG).show();
+        }
+        return file;
     }
 }
 
