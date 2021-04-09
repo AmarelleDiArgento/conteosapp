@@ -36,7 +36,7 @@ public class extrapolacion {
         respuesta.add(estimado2);
         respuesta.add(estimado3);
 
-        Log.i("Estimados", "pendienteRecta : "+pendienteRecta+" punto2 : "+punto2+" pubot3 : "+punto3+" porcentaje2 : "+porcentaje2+" reparticion : "+reparticion+" estimado2 : "+estimado2+" estimado3 : "+estimado3);
+        //Log.i("Estimados", "pendienteRecta : "+pendienteRecta+" punto2 : "+punto2+" pubot3 : "+punto3+" porcentaje2 : "+porcentaje2+" reparticion : "+reparticion+" estimado2 : "+estimado2+" estimado3 : "+estimado3);
         return respuesta;
 
     }
