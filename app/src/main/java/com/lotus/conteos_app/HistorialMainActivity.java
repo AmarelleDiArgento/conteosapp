@@ -11,6 +11,7 @@ import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -52,6 +53,8 @@ public class HistorialMainActivity extends AppCompatActivity {
     TextView fech, fechita, fechaoculta, usuLog;
     Calendar calendarDate;
 
+    Button btnSubir;
+
     float gDia;
     List<conteoTab> clc = new ArrayList<>();
     private TableLayout tableLayout;
@@ -82,6 +85,7 @@ public class HistorialMainActivity extends AppCompatActivity {
             fech = findViewById(R.id.txt_fecha);
             fechita = findViewById(R.id.fechita);
             fechaoculta = findViewById(R.id.fechaoculta);
+            btnSubir = findViewById(R.id.btnSubir);
 
             iC = new iConteo(path, this);
             ja = new jsonAdmin();
@@ -139,9 +143,37 @@ public class HistorialMainActivity extends AppCompatActivity {
             View.OnKeyListener listener = new MyKeyListerner();
             gradosDiaTxt.setOnKeyListener(listener);
 
+            countRecords();
+
         } catch (Exception e) {
             Toast.makeText(this, "Error en el create " + e.toString(), Toast.LENGTH_LONG).show();
         }
+    }
+
+    public void countRecords() throws Exception{
+        fecha = fechaoculta.getText().toString();
+        iC.nombre = fecha;
+
+        List<conteoTab> lstConteos = iC.all();
+
+        //int cantidadRegistros = iC.all() != null ?  iC.all().size() : 0;
+
+        int cantidadRegistros = 0;
+
+        if(iC.all() != null){
+            for(conteoTab c : lstConteos){
+
+                Log.i("conteosRegister", "id conteo ; "+c.getIdConteo()+", estado : "+c.getEstado());
+
+                if(c.getEstado().equals("0")){
+                    cantidadRegistros++;
+                }
+            }
+        }else{
+            Log.i("conteosRegister", "Esta vacio fecha : "+fecha);
+        }
+
+        btnSubir.setText(cantidadRegistros == 0 ? "Sin registros" : "Enviar ("+cantidadRegistros+")");
     }
 
     public void clicTable(View v) {
@@ -420,7 +452,10 @@ public class HistorialMainActivity extends AppCompatActivity {
     public void actualizarBases(View v) {
         try {
 
-            new ModalFincas(this, path).crear();
+            //new ModalFincas(this, path).crear();
+
+            Intent i = new Intent(this, download_farm_screen.class);
+            startActivity(i);
 
         } catch (Exception e) {
             Toast.makeText(this, "No se dispone de conexion:\n"
@@ -429,11 +464,12 @@ public class HistorialMainActivity extends AppCompatActivity {
         }
     }
 
-    public void buscarxfecha(View v) {
+    public void buscarxfecha(View v) throws Exception{
         calcular();
         createTable();
         //PROCEDIMIENTO PICKER
         date.setVisibility(View.INVISIBLE);
+        countRecords();
     }
 
     public void cerrarsesion(View v) {
@@ -448,6 +484,7 @@ public class HistorialMainActivity extends AppCompatActivity {
             iConteo iC = new iConteo(path, this);
             iC.nombre = fechaoculta.getText().toString();
             iC.batch(fechaoculta.getText().toString());
+            countRecords();
         } catch (Exception ex) {
             Toast.makeText(this, "Exception al subir el registro \n \n" + ex.toString(), Toast.LENGTH_SHORT).show();
         }

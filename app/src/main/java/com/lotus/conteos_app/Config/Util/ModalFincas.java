@@ -163,61 +163,50 @@ public class ModalFincas {
     }
 
     public void btnFun(Button btna, Button btnc){
-        btna.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view){
-                try {
-                    iPlano ip = new iPlano(path);
-                    iFenologia iFen = new iFenologia(path);
-                    iCuadrosBloque iCB = new iCuadrosBloque(path);
+        btna.setOnClickListener(view -> {
+            try {
+                iPlano ip = new iPlano(path);
+                iFenologia iFen = new iFenologia(path);
+                iCuadrosBloque iCB = new iCuadrosBloque(path);
 
-                    if(fincas.size() > 0) {
-                        consultandooFincas();
+                if(fincas.size() > 0) {
+                    consultandooFincas();
 
 
-                        String fincasSinCorchetes = fincas.toString().substring(1,fincas.toString().length()-1);
+                    String fincasSinCorchetes = fincas.toString().substring(1,fincas.toString().length()-1);
 
-                        Log.i("FINCAS","sin corchetes : "+fincasSinCorchetes);
+                    Log.i("FINCAS","sin corchetes : "+fincasSinCorchetes);
 
-                        if (iCB.local() && iFen.local() && ip.crearPlano(fincasSinCorchetes)) {
-                            Toast.makeText(context, "Local actualizado exitosamente", Toast.LENGTH_LONG).show();
-                        }
-                    }else{
-                        Toast.makeText(context, "Debes seleccionar al menos un finca para la descarga", Toast.LENGTH_SHORT).show();
+                    if (iCB.local() && iFen.local() && ip.crearPlano(fincasSinCorchetes)) {
+                        Toast.makeText(context, "Local actualizado exitosamente", Toast.LENGTH_LONG).show();
                     }
-
-                }catch (Exception e){
-                    Log.i("FINCAS",""+e);
-                    Toast.makeText(context, "Ocurrio un error al cargar el plano de siembra \n"+e.toString(), Toast.LENGTH_LONG).show();
+                }else{
+                    Toast.makeText(context, "Debes seleccionar al menos un finca para la descarga", Toast.LENGTH_SHORT).show();
                 }
 
+            }catch (Exception e){
+                Log.i("FINCAS",""+e);
+                Toast.makeText(context, "Ocurrio un error al cargar el plano de siembra \n"+e.toString(), Toast.LENGTH_LONG).show();
             }
+
         });
 
-        btnc.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                cerrar();
-            }
-        });
+        btnc.setOnClickListener(view -> cerrar());
     }
 
     public void funCheck(final CheckBox cb,final fincasTab f){
-        cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if(cb.isChecked()){
-                    fincas.add(f.getId());
-                }else{
-                    List<Integer> newFincas = new ArrayList<>();
-                    for(int id : fincas) {
-                        if (id != f.getId()){ newFincas.add(id);}
-                    }
-                    fincas.clear();
-                    fincas = newFincas;
+        cb.setOnCheckedChangeListener((compoundButton, b) -> {
+            if(cb.isChecked()){
+                fincas.add(f.getId());
+            }else{
+                List<Integer> newFincas = new ArrayList<>();
+                for(int id : fincas) {
+                    if (id != f.getId()){ newFincas.add(id);}
                 }
-                consultandooFincas();
+                fincas.clear();
+                fincas = newFincas;
             }
+            consultandooFincas();
         });
     }
 

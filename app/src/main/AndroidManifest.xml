@@ -15,7 +15,10 @@
         android:roundIcon="@drawable/asd"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".pdfViewer"></activity>
+        <activity
+            android:name=".download_farm_screen"
+            android:exported="true" />
+        <activity android:name=".pdfViewer" />
         <activity android:name=".fenologiaCompletaVisual" />
         <activity
             android:name=".ActivityDetalles"

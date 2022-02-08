@@ -142,7 +142,7 @@ public class ActivityDetalles extends AppCompatActivity {
         try {
             conteoTab ct = clc.get(tb.getIdTabla() - 1);
 
-            if(ct.getEstado() == 0) {
+            if(ct.getEstado().equals("0")) {
                 String variedad = ct.getVariedad();
                 String bloque = ct.getBloque();
                 Long idSiembra = ct.getIdSiembra();
@@ -347,7 +347,7 @@ public class ActivityDetalles extends AppCompatActivity {
                 c.setArea(cl.getArea());
                 c.setCuadros(cl.getCuadros());
                 c.setIdUsuario(cl.getIdUsuario());
-                if(cl.getEstado() == 0) {
+                if(cl.getEstado().equals("0")) {
                     iC.update(id, c);
                 }else{
                     Toast.makeText(this, "El registro no se puede actualizar por que ya ha sido enviado", Toast.LENGTH_LONG).show();
@@ -393,7 +393,7 @@ public class ActivityDetalles extends AppCompatActivity {
                 ct2.setCuadros(ctt.getCuadros());
                 ct2.setIdUsuario(ctt.getIdUsuario());
 
-                if(ctt.getEstado() == 0) {
+                if(ctt.getEstado().equals("0")) {
                     if(idres!=0) {
                         iC.update((long) idres - 1, ct2);
                     }else{

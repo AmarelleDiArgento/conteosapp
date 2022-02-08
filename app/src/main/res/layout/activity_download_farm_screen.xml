@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".download_farm_screen">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:weightSum="10"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/lineHeader"
+            android:layout_width="match_parent"
+            android:layout_height="0sp"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:background="#393F43">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="ADMINISTRACIÒN DE FINCAS"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:textColor="#ffffff"
+                android:textSize="20sp"/>
+
+            <TextView
+                android:id="@+id/txtCantidadGeneral"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Cantidad de fincas"
+                android:gravity="left"
+                android:textStyle="bold"
+                android:textColor="#ffffff"
+                android:textSize="15sp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="10sp"/>
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/lineBody"
+            android:layout_width="match_parent"
+            android:layout_height="0sp"
+            android:layout_weight="9"
+            android:orientation="vertical"
+            android:background="#F8F6F6"
+            android:gravity="right">
+
+            <CheckBox
+                android:id="@+id/cbxSelectedAllFarm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Seleccionar todas la fincas "
+                android:layoutDirection="rtl"
+                android:background="#ffffff"/>
+
+            <ScrollView
+                android:id="@+id/srollView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/linearDownload"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="10sp"
+        android:background="#393F43" />
+</RelativeLayout>

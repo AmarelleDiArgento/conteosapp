@@ -87,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
             sp = getBaseContext().getSharedPreferences("share", MODE_PRIVATE);
             codebar = findViewById(R.id.resulcode);
 
-            codebar.setEnabled(false);
+            //codebar.setEnabled(false);
 
             notification = findViewById(R.id.notification);
             gradoDia = findViewById(R.id.gradodia);
@@ -569,6 +569,7 @@ public class MainActivity extends AppCompatActivity {
                     c.setCuadros(Integer.parseInt(NoCuadros.getText().toString()));
                     c.setPlantas(p.getPlantas());
                     c.setArea(p.getArea());
+                    c.setEstado("0");
 
                     int usu = Integer.parseInt(idusuario.getText().toString());
                     c.setIdUsuario(usu);

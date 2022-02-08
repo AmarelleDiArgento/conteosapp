@@ -36,6 +36,8 @@ public class iConteo extends sqlConect implements conteo {
 
     private List<conteoTab> cl = new ArrayList<>();
 
+    List<conteoTab> cl2 = new ArrayList<>();
+
     public iConteo(String path, Context context) throws Exception {
         this.context = context;
         getPath(path);
@@ -50,7 +52,7 @@ public class iConteo extends sqlConect implements conteo {
     public String insert(conteoTab c) {
 
         try {
-            c.setEstado(0);
+            c.setEstado("0");
             c.setFecha(new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime()));
 
             c.setIdConteo(cl.size());
@@ -81,7 +83,7 @@ public class iConteo extends sqlConect implements conteo {
         try {
             all();
             int idparseo = id.intValue();
-            c.setEstado(1);
+            c.setEstado("1");
             cl.set(idparseo, c);
             local();
             return "se actualizo correctamente";
@@ -129,6 +131,9 @@ public class iConteo extends sqlConect implements conteo {
     @Override
     public List<conteoTab> all() throws Exception {
         Gson gson = new Gson();
+
+        cl.clear();
+
         cl = gson.fromJson(ja.ObtenerLista(path, nombre), new TypeToken<List<conteoTab>>() {
         }.getType());
 
@@ -148,9 +153,11 @@ public class iConteo extends sqlConect implements conteo {
             PreparedStatement ps = cn.prepareStatement(ins);
             nombre = fechaBusqueda;
 
+
+
             int cant = 0;
             for (conteoTab c : all()) {
-                if (c.getEstado() == 0) {
+                if (c.getEstado().equals("0")) {
                     ps.setString(1, c.getFecha());
                     ps.setLong(2, c.getIdSiembra());
                     ps.setInt(3, c.getCuadro());
@@ -163,9 +170,20 @@ public class iConteo extends sqlConect implements conteo {
                     ps.addBatch();
 
                     cant ++;
+
+                    c.setEstado("1");
                 }
+                cl2.add(c);
             }
+
+            cl.clear();
+            local();
+
+
             if(cant > 0){
+                cl = cl2;
+                local();
+
                 int enviados = 0;
                 int noenviados = 0;
                 for(int i : ps.executeBatch()){

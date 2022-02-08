@@ -206,21 +206,26 @@ public class iPlano extends sqlConect implements plano {
 
     @Override
     public boolean local() throws Exception {
+        try {
 
-        List<planoTab> po = new ArrayList<>();
+            List<planoTab> po = new ArrayList<>();
 
-        ResultSet rs;
-        PreparedStatement ps = cn.prepareStatement(all);
-        rs = ps.executeQuery();
-        while (rs.next()) {
-            po.add(gift(rs));
+            ResultSet rs;
+            PreparedStatement ps = cn.prepareStatement(all);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                po.add(gift(rs));
+            }
+
+            closeConexion(cn, rs);
+
+            String contenido = po.toString();
+
+            return ja.CrearArchivo(path, nombre, contenido);
+        }catch (Exception e){
+            Log.i("ErrorQuery", "Error : "+e.toString());
+            return false;
         }
-
-        closeConexion(cn, rs);
-
-        String contenido = po.toString();
-
-        return ja.CrearArchivo(path, nombre, contenido);
     }
 
     @Override
@@ -275,6 +280,8 @@ public class iPlano extends sqlConect implements plano {
 
     public boolean crearPlano(String fincas) throws Exception{
         try {
+            Log.i("farmsSelected", fincas);
+
             this.cn = getConexion();
             List<planoTab> po = new ArrayList<>();
 
@@ -307,7 +314,8 @@ public class iPlano extends sqlConect implements plano {
                 "      ,[plantas]\n" +
                 "      ,[area]\n" +
                 "  FROM [Proyecciones].[dbo].[Plano_Siembra]"+
-                "  WHERE idFinca in ( "+fincas+" ) ";
+                "  WHERE idFinca in ( "+fincas+" ) " +
+                "  ORDER BY finca";
 
             Log.i("FINCAS","consulta : "+d);
         return d;

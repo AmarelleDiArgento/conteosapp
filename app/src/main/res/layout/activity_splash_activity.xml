@@ -27,9 +27,9 @@
         android:layout_below="@+id/logo"
         android:layout_centerInParent="true"
         android:layout_marginTop="10sp"
-        android:layout_x="257dp"
+        android:layout_x="202dp"
         android:layout_y="722dp"
-        android:text="Version 1.0"
+        android:text="@string/varsion"
         android:textSize="25sp"
         android:textStyle="bold" />
 

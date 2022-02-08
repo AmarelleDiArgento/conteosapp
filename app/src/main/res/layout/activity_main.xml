@@ -284,6 +284,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/barcode" />
 
+    <!--android:clickable="true"-->
     <EditText
         android:id="@+id/resulcode"
         android:layout_width="215dp"
@@ -291,7 +292,6 @@
         android:layout_marginStart="108dp"
         android:layout_marginTop="140dp"
         android:background="#92F0EDED"
-        android:clickable="true"
         android:ems="10"
         android:imeOptions="actionSearch"
         android:inputType="number"
@@ -300,16 +300,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!--<ImageView
+    <ImageView
         android:id="@+id/imageView2"
         android:layout_width="65dp"
         android:layout_height="80dp"
-        android:layout_marginStart="336dp"
+        android:layout_marginStart="450dp"
         android:layout_marginTop="120dp"
         android:onClick="btnBuscar"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/lupa" />-->
+        app:srcCompat="@drawable/lupa" />
 
     <TextView
         android:id="@+id/infotv"

@@ -6,8 +6,8 @@ android {
         applicationId "com.example.conteos_app"
         minSdkVersion 17
         targetSdkVersion 28
-        versionCode 5
-        versionName "5"
+        versionCode 6
+        versionName "6"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -15,6 +15,10 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 }
 
