@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.WindowManager;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.lotus.conteos_app.Model.iCuadrosBloque;
@@ -21,6 +22,7 @@ public class splash_activity extends AppCompatActivity {
     long ini, fin;
 
     String path = null;
+    TextView txtStatus;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +31,9 @@ public class splash_activity extends AppCompatActivity {
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_splash_activity);
 
+        txtStatus = findViewById(R.id.idStatus2);
+
+
         delayed = 5000;
         path = getExternalFilesDir(null) + File.separator;
 
@@ -36,6 +41,28 @@ public class splash_activity extends AppCompatActivity {
 
 
         ini = Calendar.getInstance().getTimeInMillis();
+        fin = Calendar.getInstance().getTimeInMillis();
+
+
+        if((fin - ini)>5000){
+            delayed = 0;
+        }else{
+            delayed = delayed - (fin - ini);
+        }
+
+        if(screen() != 0){
+            txtStatus.setText("Descargando datos por favor espere un momento...");
+            ins();
+        }
+
+        new Handler().postDelayed(() -> {
+                Intent i = new Intent(splash_activity.this,Login.class);
+                startActivity(i);
+                finish();
+        },delayed);
+    }
+
+    public void ins(){
         try {
             iMonitor iM = new iMonitor(path);
             iFincas iF = new iFincas(path);
@@ -46,23 +73,12 @@ public class splash_activity extends AppCompatActivity {
         } catch (Exception e) {
             Toast.makeText(this, "Error: " + e.toString(), Toast.LENGTH_LONG).show();;
         }
+    }
 
-        fin = Calendar.getInstance().getTimeInMillis();
-        if((fin - ini)>5000){
-            delayed = 0;
-        }else{
-            delayed = delayed - (fin - ini);
-                    }
-        // Toast.makeText(this, "Time: " + delayed, Toast.LENGTH_LONG).show();
-
-
-        new Handler().postDelayed(new Runnable() {
-            public void run() {
-                Intent i = new Intent(splash_activity.this,Login.class);
-                startActivity(i);
-                finish();
-            };
-        },delayed);
+    public int screen(){
+        Bundle b = getIntent().getExtras();
+        int s = b != null ? b.getInt("redireccion",0) : 0;
+        return s;
     }
 
 }

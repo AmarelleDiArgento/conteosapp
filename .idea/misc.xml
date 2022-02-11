@@ -3,10 +3,13 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/assierra/AndroidStudioProjects/conteosapp/app/src/main/res/drawable/my_progressbar.xml" value="0.1" />
         <entry key="..\:/Users/assierra/AndroidStudioProjects/conteosapp/app/src/main/res/layout/activity_download_farm_screen.xml" value="0.18" />
         <entry key="..\:/Users/assierra/AndroidStudioProjects/conteosapp/app/src/main/res/layout/activity_login.xml" value="0.25" />
+        <entry key="..\:/Users/assierra/AndroidStudioProjects/conteosapp/app/src/main/res/layout/activity_main.xml" value="0.22" />
         <entry key="..\:/Users/assierra/AndroidStudioProjects/conteosapp/app/src/main/res/layout/activity_splash_activity.xml" value="0.246875" />
         <entry key="..\:/Users/assierra/AndroidStudioProjects/conteosapp/app/src/main/res/layout/historial_main.xml" value="0.238671875" />
+        <entry key="..\:/Users/assierra/AndroidStudioProjects/conteosapp/app/src/main/res/layout/modalinfo.xml" value="0.124609375" />
       </map>
     </option>
   </component>

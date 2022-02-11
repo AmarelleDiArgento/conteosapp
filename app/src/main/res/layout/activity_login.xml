@@ -22,6 +22,21 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+
+    <Button
+        android:id="@+id/btn_download"
+        android:layout_width="424dp"
+        android:layout_height="92dp"
+        android:layout_marginStart="88dp"
+        android:layout_marginTop="690dp"
+        android:background="#2980B9"
+        android:onClick="btn_download"
+        android:text="Descargar datos"
+        android:textColor="@color/ColorPrimaryText"
+        android:textSize="30sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
         android:id="@+id/textView4"
         android:layout_width="423dp"
@@ -140,12 +155,12 @@
         android:id="@+id/switch1"
         android:layout_width="240dp"
         android:layout_height="56dp"
-        android:layout_marginStart="196dp"
-        android:layout_marginTop="684dp"
+        android:layout_marginStart="192dp"
+        android:layout_marginTop="836dp"
         android:text="Recuerdame"
         android:textColor="#2980B9"
-        android:theme="@style/SCBSwitch"
         android:textSize="30sp"
+        android:theme="@style/SCBSwitch"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

@@ -382,12 +382,24 @@
 
     <TextView
         android:id="@+id/textView36"
-        android:layout_width="262dp"
-        android:layout_height="274dp"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="316dp"
         android:layout_marginTop="520dp"
-        android:background="#92F0EDED"
-        android:text="Semana 4"
+        android:text="Sem 3"
+        android:textAlignment="center"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView25"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="420dp"
+        android:layout_marginTop="520dp"
+        android:text="Sem 4"
         android:textAlignment="center"
         android:textSize="18sp"
         android:textStyle="bold"
@@ -428,12 +440,24 @@
 
     <TextView
         android:id="@+id/textView35"
-        android:layout_width="265dp"
-        android:layout_height="272dp"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="28dp"
         android:layout_marginTop="520dp"
-        android:background="#92F0EDED"
-        android:text="Semana 1"
+        android:text="Sem 1"
+        android:textAlignment="center"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="155dp"
+        android:layout_marginTop="520dp"
+        android:text="Sem 2"
         android:textAlignment="center"
         android:textSize="18sp"
         android:textStyle="bold"
@@ -484,9 +508,9 @@
 
     <EditText
         android:id="@+id/c1et"
-        android:layout_width="161dp"
+        android:layout_width="100dp"
         android:layout_height="52dp"
-        android:layout_marginStart="80dp"
+        android:layout_marginStart="40dp"
         android:layout_marginTop="544dp"
         android:background="#52BE80"
         android:ems="10"
@@ -500,10 +524,44 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/c4et"
-        android:layout_width="162dp"
+        android:id="@+id/c2et"
+        android:layout_width="100dp"
         android:layout_height="52dp"
-        android:layout_marginStart="368dp"
+        android:layout_marginStart="180dp"
+        android:layout_marginTop="544dp"
+        android:background="#52BE80"
+        android:ems="10"
+        android:imeOptions="actionNext"
+        android:inputType="number"
+        android:padding="5dip"
+        android:textAlignment="center"
+        android:textColor="@color/ColorPrimaryText"
+        android:textSize="30dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/c3et"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="330dp"
+        android:layout_marginTop="544dp"
+        android:background="#52BE80"
+        android:ems="10"
+        android:imeOptions="actionGo"
+        android:inputType="number"
+        android:padding="5dip"
+        android:textAlignment="center"
+        android:textColor="@color/ColorPrimaryText"
+        android:textSize="30dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/c4et"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="440dp"
         android:layout_marginTop="544dp"
         android:background="#52BE80"
         android:ems="10"
@@ -629,12 +687,12 @@
         android:id="@+id/notification"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="450dp"
         android:orientation="vertical"
-        android:paddingHorizontal="50dp"/>
+        android:paddingHorizontal="50dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </RelativeLayout>

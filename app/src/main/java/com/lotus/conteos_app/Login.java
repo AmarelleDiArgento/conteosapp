@@ -97,6 +97,12 @@ public class Login extends AppCompatActivity {
         validacion_user();
     }
 
+    public void btn_download(View v){
+        Intent i = new Intent(this, splash_activity.class);
+        i.putExtra("redireccion", 1);
+        startActivity(i);
+    }
+
     public void validacion_user() {
         String txt_user = txtu.getText().toString();
         String txt_pass = txtp.getText().toString();

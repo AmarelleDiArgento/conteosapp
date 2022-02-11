@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
     LinearLayout notification;
     Spinner cuadro;
     ImageView jpgView1, jpgView2, jpgView3, jpgView4;
-    TextView gradoDia, finca, variedad, bloque, cama, fechaAct, usuario, NoArea, NoPlantas, NoCuadros, idusuario, IdSiembra;
+    TextView c2, c3, gradoDia, finca, variedad, bloque, cama, fechaAct, usuario, NoArea, NoPlantas, NoCuadros, idusuario, IdSiembra;
 
     List<planoTab> lp = new ArrayList<>();
     List<fenologiaTab> lf = new ArrayList<>();
@@ -94,7 +94,10 @@ public class MainActivity extends AppCompatActivity {
             gradoDia.setText(valueOf(getGradoDia()));
             IdSiembra = findViewById(R.id.resulcode);
             c1 = findViewById(R.id.c1et);
+            c2 = findViewById(R.id.c2et);
+            c3 = findViewById(R.id.c3et);
             c4 = findViewById(R.id.c4et);
+
             total = findViewById(R.id.total);
 
             idusuario = findViewById(R.id.idusuario);
@@ -167,6 +170,9 @@ public class MainActivity extends AppCompatActivity {
             c1.setText("0");
             total.setText("0");
 
+            validarConteoExtrapolacion(total);
+            validarConteoExtrapolacion(c1);
+            validarConteoExtrapolacion(c4);
 
             class MyKeyListerner implements View.OnKeyListener {
                 public boolean onKey(View v, int keyCode, KeyEvent event) {
@@ -653,6 +659,32 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText(MainActivity.this, "Por favor completa las casillas para las semanas 1 y 4", Toast.LENGTH_SHORT).show();
                         total.setText("");
                     }
+                }catch (Exception e){
+                }
+            }
+            @Override public void afterTextChanged(Editable editable) { }
+        });
+    }
+
+    public void validarConteoExtrapolacion(EditText edt){
+
+        edt.addTextChangedListener(new TextWatcher() {
+            @Override public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                try {
+
+                    int t = Integer.parseInt(total.getText().toString());
+                    int cc1 = Integer.parseInt(c1.getText().toString().isEmpty() ? "0" : c1.getText().toString());
+                    int cc4 = Integer.parseInt(c4.getText().toString().isEmpty() ? "0" : c4.getText().toString());
+
+                    extrapolacion ext = new extrapolacion();
+
+                    float res2 = ext.extrapolarFaltante(t, cc1, cc4).get(0);
+                    float res3 = ext.extrapolarFaltante(t, cc1, cc4).get(1);
+
+                    c2.setText(res2+"");
+                    c3.setText(res3+"");
                 }catch (Exception e){
                 }
             }

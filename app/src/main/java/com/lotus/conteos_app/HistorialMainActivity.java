@@ -295,6 +295,7 @@ public class HistorialMainActivity extends AppCompatActivity {
     //OCULTA EL PICKER CUANDO COMIENZA LA ACTIVIDAD Y LO HACE VISIBLE POR MEDIO DEL BOTON
     public void showpicker(View v) {
         if (btn_show_picker.isClickable() && date.getVisibility() == View.INVISIBLE) {
+
             date.setVisibility(View.VISIBLE);
         } else if (btn_show_picker.isClickable() && date.getVisibility() == View.VISIBLE) {
             date.setVisibility(View.INVISIBLE);
