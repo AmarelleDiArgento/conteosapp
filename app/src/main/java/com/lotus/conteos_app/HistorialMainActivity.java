@@ -26,6 +26,7 @@ import com.lotus.conteos_app.Config.Util.ModalFincas;
 import com.lotus.conteos_app.Config.Util.TableDinamic;
 import com.lotus.conteos_app.Config.Util.extrapolacion;
 import com.lotus.conteos_app.Config.Util.jsonAdmin;
+import com.lotus.conteos_app.Config.Util.storageFarmWorking;
 import com.lotus.conteos_app.Model.iConteo;
 import com.lotus.conteos_app.Model.iCuadrosBloque;
 import com.lotus.conteos_app.Model.iFenologia;
@@ -69,6 +70,10 @@ public class HistorialMainActivity extends AppCompatActivity {
     private String[] header = {"Bloque", "Variedad", "CC", "CT", "CS1", "CS4", "CTT", "EST1", "EST2", "EST3", "EST4", "ESTT"};
     // Datos de la tabla
 
+    int idFarmWorking;
+    String nameFarmWorking, pathFarmWorking;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -99,6 +104,7 @@ public class HistorialMainActivity extends AppCompatActivity {
                 }
             });
 
+            getFarmWorking();
             getDate();
 
             //PROCEDIMIENTO PICKER
@@ -145,8 +151,36 @@ public class HistorialMainActivity extends AppCompatActivity {
 
             countRecords();
 
+
+
         } catch (Exception e) {
             Toast.makeText(this, "Error en el create " + e.toString(), Toast.LENGTH_LONG).show();
+        }
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+
+        getFarmWorking();
+        getDate();
+    }
+
+    public void getFarmWorking(){
+        try {
+            storageFarmWorking sfw = new storageFarmWorking(this);
+            sfw.storageIdFarmWorking(0, "", "", false);
+
+            for (int i = 0; i < sfw.getLstStoragefarms().size(); i++) {
+
+                Log.i("workingFarm", "Encontro : "+sfw.getLstStoragefarms().get(i).getNameFarm());
+
+                idFarmWorking = sfw.getLstStoragefarms().get(i).getIdFarm();
+                nameFarmWorking = sfw.getLstStoragefarms().get(i).getNameFarm();
+                pathFarmWorking = sfw.getLstStoragefarms().get(i).getPath();
+            }
+        }catch (Exception e){
+            Log.i("workingFarm", "Error : "+e.toString());
         }
     }
 
@@ -229,7 +263,7 @@ public class HistorialMainActivity extends AppCompatActivity {
             if(sp != null) {
                 usuario = sp.getString("nombre", "");
             }
-            fechita.setText("Fecha: " + fecha + "\nUsuario: " + usuario);
+            fechita.setText("Fecha: " + fecha + "\nUsuario: " + usuario + "\nFinca "+nameFarmWorking);
 
         } catch (Exception e) {
             Toast.makeText(this, "Exception getDate" + e, Toast.LENGTH_LONG).show();

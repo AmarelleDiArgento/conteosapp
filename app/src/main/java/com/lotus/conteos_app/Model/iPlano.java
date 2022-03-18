@@ -294,7 +294,7 @@ public class iPlano extends sqlConect implements plano {
 
             String contenido = new Gson().toJson(po);
             Log.i("FINCAS", "llego a crear");
-            return ja.CrearArchivo(path, nombre, contenido);
+            return ja.CrearArchivo(path, nombre+"_"+fincas, contenido);
         }catch (SQLException ex){
             Log.i("ERROR_SQL",ex.toString());
             return false;

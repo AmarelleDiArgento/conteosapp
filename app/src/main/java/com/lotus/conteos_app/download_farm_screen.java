@@ -1,61 +1,56 @@
  package com.lotus.conteos_app;
 
  import android.app.Activity;
- import android.content.Context;
+ import android.content.SharedPreferences;
  import android.graphics.Color;
- import android.graphics.drawable.Drawable;
- import android.graphics.drawable.GradientDrawable;
  import android.os.Build;
  import android.os.Bundle;
  import android.support.annotation.RequiresApi;
- import android.support.v7.app.AlertDialog;
  import android.support.v7.app.AppCompatActivity;
- import android.support.v7.recyclerview.extensions.ListAdapter;
  import android.util.Log;
  import android.view.Gravity;
  import android.view.View;
- import android.view.ViewGroup;
- import android.view.Window;
  import android.widget.Button;
  import android.widget.CheckBox;
  import android.widget.LinearLayout;
- import android.widget.ProgressBar;
  import android.widget.ScrollView;
  import android.widget.TextView;
  import android.widget.Toast;
 
- import com.lotus.conteos_app.Config.Util.Dialog;
+ import com.lotus.conteos_app.Config.Util.storageFarmWorking;
+ import com.lotus.conteos_app.Config.Util.tasks.downloadFarms;
  import com.lotus.conteos_app.Model.iCuadrosBloque;
  import com.lotus.conteos_app.Model.iFenologia;
  import com.lotus.conteos_app.Model.iFincas;
  import com.lotus.conteos_app.Model.iPlano;
+ import com.lotus.conteos_app.Model.tab._getItemsFarms;
  import com.lotus.conteos_app.Model.tab.fincasTab;
  import com.lotus.conteos_app.Model.tab.planoTab;
 
- import org.w3c.dom.Text;
-
  import java.io.File;
  import java.util.ArrayList;
- import java.util.HashMap;
  import java.util.List;
- import java.util.Map;
 
  @RequiresApi(api = Build.VERSION_CODES.N)
  public class download_farm_screen extends AppCompatActivity {
 
-     ScrollView scrollView;
-     CheckBox cbxSelectedAllFarm;
-     LinearLayout linearDownload;
-     TextView txtCountFamr, txtCantidadGeneral;
+    ScrollView scrollView;
+    CheckBox cbxSelectedAllFarm;
+    LinearLayout linearDownload;
+    TextView txtCountFamr, txtCantidadGeneral, txtStatusC_B;
 
     iFincas ifincas = null;
     iPlano iplano = null;
 
     List<_getItemsFarms> lstItemsSelected = new ArrayList<>();
+    List<Integer> lstFarmDownloader = new ArrayList<>();
 
     String path;
+    int idFincaWork;
+    String nameFarmWorking;
     long countSelectedFarms = 0;
-     android.app.Dialog  dialogProgressD;
+    android.app.Dialog  dialogProgressD;
+    SharedPreferences sp;
 
 
 
@@ -68,16 +63,41 @@
             getSupportActionBar().hide();
 
             path = getExternalFilesDir(null) + File.separator;
+            sp = getBaseContext().getSharedPreferences("share", MODE_PRIVATE);
 
             insEntity();
             insView();
             getListAllFamrItems();
             _getPaintDownloadsFarm();
-            updateStateItemFarm();
+
+            new storageFarmWorking(this).storageIdFarmWorking(0, "", "", false);
+            getFarmWorking();
+            new downloadFarms(this, path, lstItemsSelected, txtStatusC_B, idFincaWork);
+
+            Log.i("workingFarm", "idFinca para trabajar : "+idFincaWork);
+
+
         }catch (Exception e){
             Toast.makeText(this, "Exception download : "+e.toString(), Toast.LENGTH_SHORT).show();
         }
     }
+
+     public void getFarmWorking(){
+         try {
+             storageFarmWorking sfw = new storageFarmWorking(this);
+             sfw.storageIdFarmWorking(0, "", "", false);
+
+             for (int i = 0; i < sfw.getLstStoragefarms().size(); i++) {
+
+                 Log.i("workingFarm", "Encontro : "+sfw.getLstStoragefarms().get(i).getNameFarm());
+
+                 idFincaWork = sfw.getLstStoragefarms().get(i).getIdFarm();
+                 nameFarmWorking = sfw.getLstStoragefarms().get(i).getNameFarm();
+             }
+         }catch (Exception e){
+             Log.i("workingFarm", "Error : "+e.toString());
+         }
+     }
 
     public void insEntity(){
         try{
@@ -111,6 +131,9 @@
             lineItem.setOrientation(LinearLayout.VERTICAL);
 
             List<fincasTab> lstFincas = ifincas.all();
+
+            lineItem.addView(_getItemCuadrosBloque());
+
             if(lstFincas != null){
 
                 int indexCreated = 0;
@@ -124,6 +147,43 @@
         }catch (Exception e){
             Toast.makeText(this, "Exception getListAllFamrItems : "+e.toString(), Toast.LENGTH_SHORT).show();
         }
+    }
+
+    public View _getItemCuadrosBloque(){
+        /** Linear principal */
+
+        LinearLayout.LayoutParams p = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+        p.setMargins(10,10,10,10);
+
+        LinearLayout lineParent = new LinearLayout(this);
+        lineParent.setGravity(View.TEXT_ALIGNMENT_CENTER);
+        lineParent.setBackgroundColor(Color.parseColor("#ffffff"));
+        lineParent.setPadding(1,25,0,25);
+        lineParent.setOrientation(LinearLayout.HORIZONTAL);
+        lineParent.setLayoutParams(p);
+        lineParent.setWeightSum(2);
+
+
+        /** Linear status y nombre */
+        LinearLayout lineNameStatus = new LinearLayout(this);
+        lineNameStatus.setOrientation(LinearLayout.VERTICAL);
+        lineNameStatus.setLayoutParams(paramLine("HORIZONTAL"));
+        lineNameStatus.setWeightSum(2);
+
+
+        TextView txtNameFarm = new TextView(this);
+        txtNameFarm.setText("Cuadros bloque y fenologias");
+
+
+        txtStatusC_B = new TextView(this);
+        txtStatusC_B.setText("status");
+
+        lineNameStatus.addView(txtNameFarm);
+        lineNameStatus.addView(txtStatusC_B);
+
+        lineParent.addView(lineNameStatus);
+
+        return lineParent;
     }
 
     public View _getItemFarm(int indexCreated, fincasTab f){
@@ -168,18 +228,36 @@
 
         CheckBox cb = new CheckBox(this);
 
-        lstItemsSelected.add(new _getItemsFarms(indexCreated, f.getId(), cb, false, txtStatusFarm));
-        _funCheckSelection(indexCreated, cb, new _getItemsFarms(indexCreated, f.getId(), cb, false, txtStatusFarm), txtStatusFarm);
+        Button btn = new Button(this);
+        btn.setText("Trabajar con la finca");
+        btn.setOnClickListener((View v) -> {
 
+            new storageFarmWorking(this).storageIdFarmWorking(
+                    f.getId(),
+                    path+"plano_"+f.getId()+".json",
+                    f.getNombre(),
+                    true
+            );
+
+            getFarmWorking();
+
+            new downloadFarms(this, path,  lstItemsSelected,  txtStatusC_B, idFincaWork);
+        });
+
+
+        lstItemsSelected.add(new _getItemsFarms(indexCreated, f.getId(), f.getNombre(), cb, false, idFincaWork == f.getId(),  txtStatusFarm, btn));
+        _funCheckSelection(indexCreated, cb, new _getItemsFarms(indexCreated, f.getId(), f.getNombre(), cb, false, idFincaWork == f.getId(), txtStatusFarm, btn), txtStatusFarm);
+
+        lineWorkCheck.addView(btn);
         lineWorkCheck.addView(cb);
-
-
 
         lineParent.addView(lineNameStatus);
         lineParent.addView(lineWorkCheck);
 
         return lineParent;
     }
+
+
 
     public LinearLayout.LayoutParams paramLine(String orientation){
         LinearLayout.LayoutParams p;
@@ -202,15 +280,18 @@
                     indexCreated,
                     new _getItemsFarms(
                             indexCreated,
-                            itemTab.idFarm,
-                            itemTab.cb,
+                            itemTab.getIdFarm(),
+                            itemTab.getNameFarm(),
+                            itemTab.getCb(),
                             cb.isChecked(),
-                            txtStatus
+                            itemTab.getIdFarm() == idFincaWork,
+                            txtStatus,
+                            itemTab.getBtnWorkingFarm()
                     )
             );
             countSelectedFarms = 0;
             for(_getItemsFarms t : lstItemsSelected){
-                if(t.selected) {
+                if(t.isSelected()) {
                     countSelectedFarms = countSelectedFarms + 1;
                 }
             }
@@ -248,7 +329,7 @@
     public void _funAllSelectionFarm(CheckBox cbx){
         cbx.setOnCheckedChangeListener((compoundButton, b) -> {
             for(_getItemsFarms i : lstItemsSelected){
-                i.cb.setChecked(cbx.isChecked());
+                i.getCb().setChecked(cbx.isChecked());
             }
         });
     }
@@ -257,19 +338,15 @@
         btn.setOnClickListener((view) -> {
             try {
 
-                dialogProgressD.setContentView(R.layout.modalinfo);
+                if (countSelectedFarms > 0) {
 
-                Window windowfinca = dialogProgressD.getWindow();
-                windowfinca.setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                    new downloadFarms(this, path, new iFenologia(path), new iCuadrosBloque(path), txtStatusC_B);
 
-                LinearLayout lineD = dialogProgressD.findViewById(R.id.linearMod);
-                lineD.addView(dialogProgress());
+                    new downloadFarms(this, path, new iPlano(path), lstFarmDownloader, lstItemsSelected);
 
-                dialogProgressD.setCancelable(false);
-
-                dialogProgressD.show();
-
-                new getDialogProcess(dialogProgressD, this).start();
+                } else {
+                    Log.i("theadDownload", "Debes seleccionar al menos un finca para la descarga");
+                }
 
             }catch (Exception e){
                 Log.i("FINCAS",""+e);
@@ -277,136 +354,8 @@
             }
         });
     }
-
-    public View dialogProgress(){
-        try{
-
-            LinearLayout line = new LinearLayout(this);
-            LinearLayout.LayoutParams lay = new LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT
-            );
-
-            line.setLayoutParams(lay);
-
-            TextView txt = new TextView(this);
-            txt.setTextSize(15);
-            txt.setText("Decargando fincas, por favoe espere un momento");
-            txt.setTextColor(Color.parseColor("#000000"));
-
-            line.addView(txt);
-            line.addView(getProgress());
-
-            return line;
-        }catch (Exception e){
-            return null;
-        }
-    }
-
-     public ProgressBar getProgress() {
-         LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(
-                 ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT
-         );
-         param.setMargins(-10,-10,-10,-10);
-
-         ProgressBar pb = new ProgressBar(this);
-         Drawable draw = this.getResources().getDrawable(R.drawable.my_progressbar);
-         pb.setProgressDrawable(draw);
-         pb.setPadding(-8,-8,-8,-8);
-         pb.setScaleX(0.5f);
-         pb.setScaleY(0.5f);
-         pb.setLayoutParams(param);
-         return pb;
-     }
-
-    public void updateStateItemFarm(){
-        try {
-            for(int i = 0; i < lstItemsSelected.size(); i++){
-                boolean finded = false;
-                for(planoTab t : iplano.all()){
-                    if(t.getIdFinca() == lstItemsSelected.get(i).idFarm){
-
-                        finded = true;
-                        break;
-                    }
-
-                }
-
-                lstItemsSelected.get(i).txtStatus.setText(finded ? "Descargada" : "Sin descargar");
-                lstItemsSelected.get(i).txtStatus.setTextColor(Color.parseColor(finded ? "#52BE80" : "#F1948A"));
-                lstItemsSelected.get(i).cb.setChecked(false);
-            }
-
-        }catch (Exception e){
-            Log.i("updateStateItemFamr", "Exception updateStateItemFarm : "+e.toString());
-        }
-    }
-
-     public class getDialogProcess extends Thread {
-
-         android.app.Dialog d;
-         Activity c;
-
-         public getDialogProcess(android.app.Dialog d, Activity c) {
-             this.d = d;
-             this.c = c;
-         }
-
-         @Override
-         public void run() {
-             super.run();
-             ins();
-         }
-
-         public void ins(){
-            try {
-                iPlano ip = new iPlano(path);
-                iFenologia iFen = new iFenologia(path);
-                iCuadrosBloque iCB = new iCuadrosBloque(path);
-
-                String ids = "";
-
-                if (countSelectedFarms > 0) {
-
-                    for (_getItemsFarms i : lstItemsSelected) {
-                        if (i.selected) {
-                            ids = ids.isEmpty() ? "" + i.idFarm : ids + "," + i.idFarm;
-                        }
-                    }
-
-                    Log.i("theadDownload", "sin corchetes : " + ids);
-
-                    if (iCB.local() && iFen.local() && ip.crearPlano(ids)) {
-                        Log.i("theadDownload", "Local actualizado exitosamente");
-                    }
-
-                    c.runOnUiThread(() -> {
-                        updateStateItemFarm();
-                        dialogProgressD.dismiss();
-                    });
-
-                } else {
-                    Log.i("theadDownload", "Debes seleccionar al menos un finca para la descarga");
-                }
-            }catch (Exception e){
-                Log.i("theadDownload", "Exception : "+e.toString());
-            }
-         }
-     }
 }
 
-class _getItemsFarms{
-    int index;
-    int idFarm;
-    CheckBox cb;
-    boolean selected;
-    TextView txtStatus;
 
-    public _getItemsFarms(int index, int idFarm, CheckBox cb, boolean selected, TextView txtStatus) {
-        this.index = index;
-        this.idFarm = idFarm;
-        this.cb = cb;
-        this.selected = selected;
-        this.txtStatus = txtStatus;
-    }
-}
+
 
